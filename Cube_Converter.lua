@@ -327,4 +327,3 @@ cc_scrap_converter:RegisterComponent("cc_red_cube_refinery", {
 
 	},
 })
-

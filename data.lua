@@ -7,6 +7,7 @@ package.includes = {
 	"Cube_Fabricator.lua",
 	"Cube_Items.lua",
 	"Cube_Farming.lua",
+	"Cube_Farming_V2.lua",
 	
 	"Cube_Components.lua",
 	"Cube_Converter.lua",

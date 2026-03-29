@@ -1,6 +1,18 @@
 ---
-data.techs = {t_robots_blight_discovery = {}}
+-- data.techs = {t_robots_blight_discovery = {}}
+data.techs.tc_blank ={
+	name = 'blank',
+	texture = {"The_Cube_WIP/textures/soul1.png",},
+	desc = 'SHOULD NOT APPEAR',
+}
 
+data.techs.t_robots_ai.require_tech = {'tc_blank'}
+data.techs.t_signals1.require_tech = {'tc_blank'}
+data.techs.t_structures1.require_tech = {'tc_blank'}
+data.techs.t_power0.require_tech = {'tc_blank'}
+
+
+------------
 
 data.tech_categories = {
 	{
@@ -200,6 +212,8 @@ data.techs.tc_cube_green_discovery= {
 		"ic_cube_green",
 		-- phase farming 
 		"cc_plant_seed2","wire",
+
+		"cc_planter"
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 50,

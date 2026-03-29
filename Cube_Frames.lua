@@ -13,7 +13,7 @@
 data.frames.f_building1x1d.construction_recipe = CreateConstructionRecipe({ metalplate = 4, crystal = 1 }, 20)
 data.frames.f_building1x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 8 }, 20)
 data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4 }, 20)
-data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 16, steelblock = 12, crystal = 4 }, 20)
+data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 16, circuit_board = 4 }, 20)
 data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, circuit_board = 1 }, { c_robotics_factory = 50, c_carrier_factory = 100 })
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 
@@ -34,7 +34,7 @@ data.frames.f_building1x1a.construction_recipe = CreateConstructionRecipe({ meta
 data.frames.f_bot_2s.production_recipe = CreateProductionRecipe({ steelblock = 6, circuit_board = 2, wire = 4 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1s_b.production_recipe = CreateProductionRecipe({ metalplate = 2, circuit_board = 1, steelblock = 4 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ steelblock = 10, circuit_board = 1, metalplate = 5 }, { c_robotics_factory = 80 })
-data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 8, circuit_board = 2 }, 30)
+data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 8, circuit_board = 2 }, 30)
 data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, circuit_board = 5 }, 40)
 data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, }, 40)
 
