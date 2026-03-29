@@ -1,0 +1,32 @@
+
+Known Bugs 
+    - Fixing Cube items slot will cause it to dissapear
+    - ruins should have random rotation eneabled
+
+
+- changes 
+- rework early game to only use steel and concrete + elec circs  and crystals 
+- only add 1 new resource per tech 
+- progression will be 
+- concrete and steel to make buildings, crystals for electronics
+- unlock aluminium for flying units and lightweight units.
+- unlock elec circs for more advanced components 
+- unlock crystal refining to crystal powder 
+
+- make scrap an explorable call instead, that way it can place city like terrain instead of calling others
+
+-- slow plant growth in winter?
+
+
+----TODO
+- make volcano spawn naturally 
+
+- adjust production UI to show multiple outputs 
+
+- The converter UI widget goes ontop of each other. So you can only see 1 if multiple comps are equipped.
+
+- Transmission component for pipes can be placed on bots.
+
+--- stuff i cant do because there isnt a method 
+biome probabilites 
+change visual of a component, SetVisual exist for an entity but not comp

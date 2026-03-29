@@ -1,0 +1,530 @@
+--[[
+data.components.samplecomponent = {
+	name = "<NAME>",
+	texture = "<PATH/TO/IMAGE.png>",
+
+	-- Optional
+	visual = "<VISUAL-ID>",
+	slot_type = "storage|liquid|radioactive|...", -- default 'storage'
+	attachment_size = "Hidden|Internal|Small|Medium|Large", -- default 'Hidden'
+	activation = "None|Always|Manual|OnFirstRegisterChange|OnComponentRegisterChange|OnFirstItemSlotChange|OnComponentItemSlotChange|OnAnyItemSlotChange|OnLowPower|OnPowerStoredEmpty|OnTrustChange|OnOtherCompFinish", -- default 'None'
+	-- note: OnAnyItemSlotChange can not be set with other change flags
+	slots = { <SLOT_TYPE> = <NUM>, ... },
+	registers = { ... },
+	power = -0.1,
+	power_storage = 1000,
+	drain_rate = 1,
+	charge_rate = 5,
+	bandwidth = 2,
+	transfer_radius = 10,
+	adjust_extra_power = true,
+	dumping_ground = true,
+	effect = "fx_power_core", -- automatically spawned when this components visual is placed on the map
+	effect_socket = "fx",
+	trigger_radius = 8,
+	trigger_channels = "bot|building|bug",
+	production_recipe = CreateProductionRecipe(
+		{ <INGREDIENT_ITEM_ID> = <INGREDIENT_NUM>, ... },
+		{ <PRODUCTION_COMPONENT_ID> = <PRODUCTION_TICKS>, }
+		-- Optional
+		<AMOUNT_NUM>, --default: 1
+	),
+	on_add = function(self, comp) ... end,
+	on_remove = function(self, comp) ... end,
+	on_placed = function(self, comp) ... end,
+	on_update = function(self, comp, cause) ... end,
+	on_trigger = function(self, comp, other_entity) ... end,
+	on_take_damage = function(self, comp, amount) ... end,
+	on_faction_change = function(self, comp, old_faction) ... end,
+	extra_stat = { { img, value, name } } -- for displaying extra stats for a component
+}
+]]
+
+-- adjustements --------------------------------------
+
+
+-- refinery 
+-- for key,_ in pairs(data) do 
+-- 	print(key)
+-- end
+-- data.components.c_refinery.name = "Cube Refinery"
+-- data.components.c_refinery.power = -1000
+-- data.components.c_refinery.production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["circuit_board"]=2}, {["c_assembler"] = 150}, 1)
+-------------------
+
+data.components.c_fabricator.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 3}, {['c_fabricator'] = 50, c_assembler = 25},1 )
+
+---lvl0
+data.components.c_uplink.production_recipe = CreateProductionRecipe({["metalplate"]=20,["circuit_board"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_small_relay.production_recipe = CreateProductionRecipe({["metalplate"]=6,["crystal"]=4}, {["c_assembler"] = 40}, 1)
+data.components.c_assembler.production_recipe = CreateProductionRecipe({["metalplate"] = 10, ["crystal"] = 5}, {['c_fabricator'] = 50, c_assembler = 25},1 )
+data.components.c_behavior.production_recipe = CreateProductionRecipe({["circuit_board"] = 1}, {['c_assembler'] = 5},1 )
+data.components.c_shared_storage.production_recipe = CreateProductionRecipe({["circuit_board"] = 1}, {['c_assembler'] = 5},1 )
+data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
+
+data.components.c_signal_reader.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["circuit_board"] = 2, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["circuit_board"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["circuit_board"] = 1}, {['c_assembler'] = 5},1 )
+data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["circuit_board"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
+data.components.c_portable_turret.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
+data.components.c_melee_pulse.production_recipe = CreateProductionRecipe({["steelblock"] = 6, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
+data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4, ['circuit_board']=1}, {['c_assembler'] = 25},1 )
+data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({["metalplate"] = 6, ["crystal"] = 4, ['circuit_board']=1}, {['c_assembler'] = 25},1 )
+
+
+
+
+
+---lvl1
+---non cube 
+data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["crystal_powder"]=1}, {["c_assembler"] = 60}, 1)
+data.components.c_adv_portable_turret.production_recipe = CreateProductionRecipe({["steelblock"]=8,["wire"]=6,["crystal"]=4}, {["c_assembler"] = 60}, 1)
+data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
+-- batteries and capacitors 
+data.components.c_small_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=4,["crystal_powder"]=10,["crystal"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_large_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({["steelblock"]=8,["ic_soul_angry"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
+
+
+---lvl2
+data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe({["metalplate"]=8,["crystal_powder"]=4,["blight_plasma"]=1}, {["c_assembler"] = 150}, 1)
+data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["metalplate"]=8,["crystal_powder"]=4,["phase_leaf"]=1}, {["c_assembler"] = 150}, 1)
+data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
+data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
+data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
+
+-- Improved Weapons 1 
+data.components.c_repairkit.production_recipe = CreateProductionRecipe({["circuit_board"]=1,["metalplate"]=1}, {["c_assembler"] = 30}, 1)
+data.components.c_repairer.production_recipe = CreateProductionRecipe({["circuit_board"]=1,["steelblock"]=2}, {["c_assembler"] = 30}, 1)
+data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe({["ic_soul_angry"]=1,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
+data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["phase_leaf"]=4,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
+-- storages 
+data.components.c_internal_storage.production_recipe = CreateProductionRecipe({["metalplate"]=1, wire = 2}, {["c_assembler"] = 50}, 1)
+data.components.c_small_storage.production_recipe = CreateProductionRecipe({["metalplate"]=4,["steelblock"]=4}, {["c_assembler"] = 50}, 1)
+data.components.c_medium_storage.production_recipe = CreateProductionRecipe({["aluminiumrod"]=16, reinforced_plate = 16, wire = 4}, {["c_assembler"] = 50}, 1)
+data.components.c_large_storage.production_recipe = CreateProductionRecipe({["reinforced_plate"]=40,["fused_electrodes"]=8, aluminiumrod = 12}, {["c_assembler"] = 50}, 1)
+-- netowkring 
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_power_transmitter.production_recipe = CreateProductionRecipe({["steelblock"]=10,["wire"]=10, phase_leaf = 5}, {["c_assembler"] = 100}, 1)
+data.components.c_power_transmitter.bandwidth = 100
+data.components.c_large_power_transmitter.bandwidth = 500
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+
+
+-- shields  
+data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['phase_leaf'] = 10, ['wire'] = 4}, {c_assembler = 50})
+
+
+
+--cube 
+data.components.c_advanced_refinery.name = "Soul Forge"
+data.components.c_advanced_refinery.desc = "Melt Away Until Only The Essentials Remain"
+data.components.c_advanced_refinery.slots = {anomaly = 1}
+
+
+
+
+
+
+--data.components.c_terraformer.range = 2
+-- define and register a custom component, the ID needs to be unique
+local cc_adv_alien_factory = Comp:RegisterComponent("cc_adv_alien_factory", {
+	name = "Advanced Alien Factory2",
+	texture = "Main/textures/icons/components/Component_AdvancedAlienFactory_01_M.png",
+	desc = "Alien and Robot technology, capable of producing Alien constructs and devices",
+	attachment_size = "Large",
+	race = "alien",
+	visual = "vc_cube_blue",
+	production_effect = "fx_assembler",
+	power = -400,
+	production_recipe = CreateProductionRecipe({  cpu = 10, energized_artifact = 10 }, { c_alien_factory_robots = 200 }),
+	-- production_recipe = CreateProductionRecipe({ hdframe = 20, blight_plasma = 10, blight_bar = 10 }, { c_assembler = 150 }),
+})
+
+
+
+
+local function BoostModuleOnAdd(self, comp) self:on_update_boosts(comp, nil, 0) end
+local function BoostModuleOnRemove(self, comp) self:on_update_boosts(comp, comp, 0) end
+local function Update_Cube_Effects(self, comp, cause)
+	--print(comp,cause,comp.owner)
+	--print(comp.CauseToString(comp,cause))
+	
+	--will have passed cube only if all change
+	if cause & CC_CHANGED_ITEMSLOT_AMOUNT then-- traded cube 
+
+		local owner = comp.owner
+		--self.boost = -90
+		--self:on_update_boosts(comp,{} ,self.boost)
+		--BoostModuleOnAdd(self, comp.id)
+
+		if owner:CountItem("ic_cube_red") == 1 then
+			comp:PlayEffect("fx_refinery","fx")
+			self:on_update_boosts(comp,{} ,self.boost)
+			comp.extra_power = 400
+			return 
+			--comp.light_color = { 0.6,0.1,0,1 }
+		elseif owner:CountItem("ic_cube_blue") == 1 or owner:CountItem("ic_cube_empty") == 1 or owner:CountItem("ic_cube_green") == 1 then
+			--comp.extra_power = 500
+			--comp:PlayEffect("fx_power_core")
+			--comp.light_color = { 0,0,1,1 }
+		elseif owner:CountItem("ic_cube_pink") == 1 then
+			comp:PlayEffect("fx_alien_liquid")
+		else
+			comp:StopEffects()
+			comp.extra_power = 0
+			self:on_update_boosts(comp,{} ,0)
+			return
+			--comp.light_color = { 0,0,1,0 }
+		end
+		comp.extra_power = 200
+		self:on_update_boosts(comp,{} ,self.boost)
+		-- fx_reforming_pool good has small plasma and a whilwind above cube
+		-- fx_alien_teleporter - creates a ring but is in the air :(
+		-- fx_unit_teleport - good for a different purpose
+		-- fx_pulse - emp like pulse , fx_viral_pulse
+		-- fx_power_core - strong light 
+		-- fx_alien_core pink light 
+		--fx_deconstructor like bullets raining from the sky 
+		--fx_assembler - smaller fire
+		--fx_EMP - huge emp blast  
+	else
+		comp:StopEffects() 
+		--self.boost = 0
+		--print(self, comp, comp.id)
+		--comp.extra_power = 0
+		self:on_update_boosts(comp,{} ,0)
+		--comp.light_color = { 0,0,0,0 }
+	end
+	--if cause == 3073 -- cube left 
+
+end
+-- Storage Comp for Cube 
+local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
+	name = "Cube Pedastal",
+	attachment_size = "Medium",
+	texture = "Main/textures/icons/components/Component_Storage_01_S.png",
+	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>500</> power while holding a CUBE",
+	visual = "vc_cube_storage",
+	race = "robot",
+	boost = -90,
+	power = -1,
+	slots = { cube = 1, },
+	production_recipe = CreateProductionRecipe({ steelblock = 16, metalplate = 4 }, { c_assembler = 20 }),
+	activation = "OnComponentItemSlotChange",
+	-- on_add = BoostModuleOnAdd,
+	-- on_remove = BoostModuleOnRemove,
+	on_update = Update_Cube_Effects,
+	--effect = "cube_floating_blue",
+	--dumping_ground = true,
+})
+
+function cc_cube_storage:on_update_boosts(comp, remove_comp, holding_cube)
+	local owner = comp.owner
+	
+	if holding_cube == 0 then comp.extra_power = 0 else comp.extra_power = 101 end
+
+	--self.PlayEffect("cube_floating_blue")
+	owner.move_boost = 100 + SumModuleBoosts(owner, "c_modulespeed", remove_comp) + holding_cube
+end
+
+local function battery_get_ui(self, comp)
+	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color=ui_light bgcolor=ui_dark/></Box>]], {
+		compicon = comp.def.texture,
+		update = function(w)
+			local comp_def, comp_details = comp.def, comp.power_details
+			if comp_details then
+				w.progress = comp_details.stored / comp_def.power_storage
+				if w.tt then
+					w.tt.text = L((comp_details.change ~= 0 and "%s: %.0f/%.0f (%+.0f)" or "%s: %.0f/%.0f"), "Stored", comp_details.stored, comp_def.power_storage, comp_details.change*TICKS_PER_SECOND)
+				end
+			end
+		end,
+		tooltip = function(w)
+			w.tt = UI.New("<Box bg=popup_box_bg padding=12><Text/></Box>", { destruct = function() if w:IsValid() then w.tt = nil end end })[1]
+			w:update()
+			return w.tt.parent
+		end,
+	})
+end
+
+local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
+	name = "Crystal Power", --"Crystal Power Extractor",
+	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",
+	desc = [[Produces a small amount of power with the cube and crystals
+		<img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/>x20 --><img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	]],
+	attachment_size = "Small",
+	visual = "v_crystalpower_01_s",
+	race = "robot",
+	production_recipe = CreateProductionRecipe({ steelblock = 5, crystal = 10 }, { c_assembler = 20 }),
+	activation = "OnPowerStoredEmpty",
+	get_ui = battery_get_ui,
+	consume_item = "crystal",
+	consume_amount = 1,
+	cube_in = "ic_cube_blue",
+	cube_out = "ic_cube_blue",
+	wait_ticks = 30,
+	-- battery
+	power_storage = 10000,
+	drain_rate = 200,
+})
+
+function cc_crystal_power:on_update(comp, cause)
+	-- on_update is also called when work has finished, only refill stored power when actually on low power
+	if comp.stored_power > 0.5 then
+		if comp.has_prepared_process then
+			-- keep 1 ordered/reserved for once power runs out
+			--comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount}, 1)
+			--comp:FulfillProcess()
+			--comp.owner:AddItem(self.cube_out)
+			return comp:SetStateSleep()
+		end
+		return
+	end
+
+	-- If still working from before but gotten activated again just continue work
+	if cause & CC_FINISH_WORK == 0 and comp.is_working then
+		return comp:SetStateContinueWork()
+	end
+
+	-- reserve or order 2 crystal so 1 can be consumed immediately and 1 is kept reserved
+	local can_make = comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount*2, [self.cube_in] = 1}, 2)
+	if not can_make then
+		return comp:SetStateSleep()
+	end
+
+	comp:FulfillProcess()
+	comp.owner:AddItem(self.cube_out)
+
+	-- refill stored power
+	if self.requires_blight and Map.GetBlightnessDelta(comp.owner, -1) < 0 then
+		comp.stored_power = self.power_storage // 3
+	else
+		comp.stored_power = self.power_storage
+	end
+
+	-- Start a 20 tick work until we can consume another crystal
+	return comp:SetStateStartWork(self.wait_ticks)
+end
+
+cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
+	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
+	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
+	desc = [[Requires extreme heat to vaporize crystal powders
+		<img width="50" height="50" image="Main/textures/icons/items/alien_datacube.png"/><img width="50" height="50" image="Main/textures/icons/items/crystalpowder.png"/>x100 --><img width="50" height="50" image="The_Cube_WIP/textures/cube_blue_drained.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	]],
+	visual = 'v_blightcrystalpower_01_m',
+	power_storage = 500000,
+	drain_rate = 2000,
+	consume_item = "phase_leaf",
+	consume_amount = 100,
+	cube_in = "ic_cube_red",
+	attachment_size = "Small",
+	wait_ticks = 100,
+	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60})
+})
+
+cc_crystal_power:RegisterComponent("cc_power_souls",{
+	name = "Soul Consumption", --"Crystal Power Extractor",
+	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+	desc = [[Consumes Soul Plasma for energy 
+		<img width="50" height="50" image="Main/textures/icons/items/anomaly_particle.png"/>x1 --><img width="50" height="50" image="The_Cube_WIP/textures/cube_blue_drained.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	]],
+	visual = "v_power_cell_01_s",
+	power_storage = 200000,
+	drain_rate = 2000,
+	consume_item = "ic_soul_plasma",
+	consume_amount = 1,
+	cube_in = "ic_cube_blue",
+	attachment_size = "Medium",
+	wait_ticks = 100,
+	production_recipe = CreateProductionRecipe({concreteslab = 4, reinforced_plate = 8},{c_assembler = 60}, 1)
+})
+
+---TIME TRAVEL MACHINE ----------------------------------------------------------
+
+local function spawn_enemy(owner)
+	--spawn enemies 
+	local enemy = Map:CreateEntity("f_trilobyte1")
+	enemy:Place(owner.location,owner)
+	print("spawn enemy")
+end
+
+local function time_travel_on_update(self, comp, cause)
+
+	if comp.is_working then
+		print("keep working")
+		-- If still working from before but gotten activated again just continue work
+		return comp:SetStateContinueWork()
+	elseif (comp.extra_data.consume_item_amt or 0) > 0 then 
+
+
+		-- check for blue cube to end process. 
+		local owner = comp.owner
+		if owner:CountItem("ic_cube_blue") >= 1 and (comp.extra_data.yield or 0) > 0 then 
+			-- has cube 
+			Map.Delay("Spawn_Time_Travel_Attack", 5, {owner = owner, yield = comp.extra_data.yield})
+			owner:AddItem(self.output_item,comp.extra_data.yield)
+			comp.extra_data.yield = 0
+			comp:SetRegisterNum(1,comp.extra_data.yield)
+			comp:SetRegisterId(1,self.output_item)
+			comp:PlayEffect("fx_unit_teleport",'fx')
+			comp:SetStateStartWork(self.wait_ticks)
+			return
+		end
+
+		--Already decided on a process.  Just needs to start/continue it
+		local can_make, missing = comp:PrepareConsumeProcess({[comp.extra_data.consume_item] = comp.extra_data.consume_item_amt}, 1)
+		if not can_make then
+			--return to sleep until items arrive
+			
+			comp:SetRegister(2,missing)
+			if comp.extra_data.yield or 0 > 5 then 
+				comp:FlagRegisterError(2)
+			end
+			return comp:SetStateSleep(10)
+		else
+			-- begin process 
+			comp:FulfillProcess()
+			comp.extra_data.yield = (comp.extra_data.yield or 0) + 5
+			comp.extra_data.consume_item_amt = 0
+			comp:SetRegisterNum(1,comp.extra_data.yield)
+			comp:SetRegisterId(1,self.output_item)
+			comp:SetRegister(2,nil)
+			comp:PlayEffect("fx_unit_teleport",'fx')
+			-- flag for register 
+			if comp.extra_data.yield > 5 then 
+				comp:FlagRegisterError(2)
+			end
+
+
+			return comp:SetStateStartWork(self.wait_ticks)
+		end
+	else
+
+
+		local owner = comp.owner
+		if not owner:HaveFreeSpace(self.output_item,comp.extra_data.yield or 0) then 
+			comp:FlagRegisterError(1)
+			comp:StopEffects()
+			return comp:SetStateSleep(10)
+		end
+		-- start new step
+		--print("pick new process")
+		--get number of possible inputs 
+		local keys = {}
+		for k in pairs(self.consume_items) do
+			table.insert(keys, k)
+		end
+		local random_key = keys[math.random(#keys)]
+
+		-- set current production
+		comp.extra_data.consume_item = random_key
+		comp.extra_data.consume_item_amt = self.consume_items[random_key]
+		-- local can_make = comp:PrepareConsumeProcess({[comp.extra_data.consume_item] = comp.extra_data.consume_item_amt}, 1)
+		-- comp:SetStateSleep(10)
+		-- if can_make then 
+		-- 	comp:SetStateStartWork(self.wait_ticks)
+		-- else
+		-- 	comp:SetStateSleep(10)
+		-- end
+
+	end
+end
+
+--f_bot_1s_b
+local function time_machine_register_errors(self, comp)
+	local reg1 = comp:GetRegister(1)
+	local reg2 = comp:GetRegister(2)
+	if reg1.is_error then 
+		return "No Space for More Output\n Supply the blue cube to collapse the timelines"
+		--"Dangerous Response from Parrallel Timelines Detected\nPrepare before collapsing time loop"
+	end 
+	if reg2.is_error then 
+		return "Dangerous Response from Parrallel Timelines Detected\nPrepare Defenses before collapsing time loop"
+	end
+end
+
+cc_crystal_power:RegisterComponent("cc_time_travel_machine", {
+	name = "Time Travel Machine",
+	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to increase the yield\n\nPrepare for a proportional respoinse of the defending timline\n\nEnd the expedition by providing the blue cube once the teleporter is no longer working",
+	race = "robot",
+	attachment_size = "Large",
+	texture = "Main/textures/icons/components/Component_UnitTeleporter_01_L.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
+	visual = "v_teleporter_01_l",  --"v_scienceanalyzer_l",
+	effect = "fx_unit_teleport",
+	slots = { garage = 3 },
+	power = 0,---1000,
+	power_storage = 0,
+	drain_rate = 0,
+	production_recipe = CreateProductionRecipe({["steelblock"]=100,["concreteslab"]=100,["phase_leaf"]=50,["wire"] = 50}, {["c_assembler"] = 150}, 1),
+	on_update = time_travel_on_update,
+	activation = "Always",
+	--power = -500,
+	consume_items = {metalore= 1, crystal = 1},
+	registers = {
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Years Travelled</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Resupply Required</>\n\nItems/bots required to resupply the party"},
+	},
+	get_ui = false,
+
+	output_item = "fused_electrodes",
+	get_reg_error = time_machine_register_errors,
+	--extra_data = {["robot"] = "wow"},
+})
+
+function Delay.Spawn_Time_Travel_Attack(arg) 
+
+	-- spawn bug 
+	-- local enemy = Map.CreateEntity("bugs","f_trilobyte1")
+	-- enemy:Place(arg.owner.location,arg.owner)
+
+	--spawn robot 
+	local enemy = Map.CreateEntity("time_bots","f_bot_1m1s")
+	enemy:AddComponent("c_integrated_power_cell")
+	enemy:AddComponent("c_turret")
+	enemy:AddItem("blight_plasma",1)-- item rewards
+	enemy:Place(arg.owner.location,arg.owner)
+	enemy:PlayEffect("fx_digital_in")
+
+	if arg.yield > 5 then 
+		Map.Delay("Spawn_Time_Travel_Attack", 5, {owner = arg.owner, yield = arg.yield - 25})
+	end
+end
+
+------------------ Explorables 
+local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix", {
+	name = "Repair Required",
+	texture = "Main/textures/icons/components/int.png",
+	--effect = "fx_leaves",
+	activation = "OnAnyItemSlotChange",
+	type = "Puzzle",
+	on_solved = function(comp, explorable_race, faction)
+		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		Map.Defer(function ()
+			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
+			comp.owner:AddItem(comp.extra_data.explorable_fix)
+			comp.owner:AddComponent("cc_cube_melter")
+			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
+			if comp_puzzle then comp_puzzle:Destroy() end
+			if not faction:IsUnlocked("tc_cube_red_refining") then faction:Unlock("tc_cube_red_refining") end
+			comp:Destroy()
+		end)
+	end,
+	explorable_fix = "ic_cube_empty",
+})
+function cc_explorable_fix:on_update(comp, cause)
+	local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
+	local slot = comp.owner:FindSlot(fix_item, 1)
+	if slot then
+		Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
+	end
+end

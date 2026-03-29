@@ -1,0 +1,83 @@
+The Cube hypothesis 
+
+
+New Challenges 
+    The Cube
+    - only 1 cube for many production chains
+    - changes colour when used /depleted 
+    - needs to be recharged by worship / sacrificing souls
+        - free and slow or costly and quick 
+    - manifest dreams to create bots directly 
+
+    - recepies need to be in different biomes 
+    - need to visit different explorables 
+
+    - cube might need a M/L slot holder 
+    - makes units very slow when carrying cube 
+
+Split the cube up and reassemble it
+    cube and anti cube 
+        metal bar and obsidian brick texture 
+
+- break encryption on explorables.  
+    crack the codes
+    key might need to be entity or component instead of item to hold codes.
+
+- coloured cube 
+    circular chain of recepies that changes the color of the cube each time. 
+    cant just go back and forth 
+
+- Exploding Cube Recepie 
+    massive AOE explosion
+    creates blight and blight crystals 
+    reforming cube and anti cube 
+
+- Need to farm enemies for souls 
+    must fiugre out a way to make enemies sustainable. 
+    can recharge cube quickly 
+
+- POWER 
+    using/charging cube takes enormous amounts of power. 
+    will cause massive grid ineffciencies early on 
+    Need lots of crystal minning earlier
+    No free power 
+
+- Find Cube Button 
+    maybe on the map?
+
+
+- Liquids? 
+    Pipe component that can only pass to other pipes?
+    - like wires on the ground holding anomaly particles 
+        kinda like heat pipes 
+
+- start with regenerating resources? Only works outside of the blight 
+
+- time cube 
+    - causes parralel universe invaders to appear 
+
+- resim
+    - lots of new hidden recepies 
+    - needs to show how many are missing 
+
+- new beacons?  Have 1x8 area or something instead of square 
+
+- New biomes 
+    - space biome, flying units only. no buildings. 
+    - ruins, craters wrecked buildings 
+    - cube, flat with concrete floor. some infastructure and cube explroables.
+    - meteor storms?
+    
+
+- tech tree 
+    - Cube Worship 
+        - all cube related things (main line)
+    - Independant Thought 
+        - non cube limited recpies 
+    - Cube Heresey 
+        - Sphere Recepies 
+    - Nature Rehabilitation 
+        some kind of stability mechanic that provides bonuses for a greener world?
+
+
+

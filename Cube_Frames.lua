@@ -1,0 +1,223 @@
+
+
+
+-- Mark V [M] bot
+--data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ aluminiumsheet = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+--cub
+
+-- [s] bots
+
+
+----------- buildings rewrite 
+--- lvl0
+data.frames.f_building1x1d.construction_recipe = CreateConstructionRecipe({ metalplate = 4, crystal = 1 }, 20)
+data.frames.f_building1x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 8 }, 20)
+data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4 }, 20)
+data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 16, steelblock = 12, crystal = 4 }, 20)
+data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, circuit_board = 1 }, { c_robotics_factory = 50, c_carrier_factory = 100 })
+data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
+
+data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 12, circuit_board = 2 }, 20)
+data.frames.f_resourcenode_metal.name = "Ruins"
+
+-- concrete resources 
+--Frame:RegisterFrame("f_resourcenode_ruins",        CreateResourceDef(10, "Ruins",          "concreteslab",         { 1.0, 1.0, 1.0 }, "Main/textures/icons/frame/concreteslab.png"))
+
+
+
+
+--- lvl1 
+data.frames.f_building1x1c.construction_recipe = CreateConstructionRecipe({ metalplate = 8,  crystal = 4 }, 20)
+data.frames.f_building1x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 16,  crystal = 8  }, 20)
+
+
+data.frames.f_bot_2s.production_recipe = CreateProductionRecipe({ steelblock = 6, circuit_board = 2, wire = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1s_b.production_recipe = CreateProductionRecipe({ metalplate = 2, circuit_board = 1, steelblock = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ steelblock = 10, circuit_board = 1, metalplate = 5 }, { c_robotics_factory = 80 })
+data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 8, circuit_board = 2 }, 30)
+data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, circuit_board = 5 }, 40)
+data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, }, 40)
+
+data.frames.f_wall.construction_recipe = CreateConstructionRecipe({ metalplate = 1, concreteslab = 4 }, 20)
+data.frames.f_gate.construction_recipe = CreateConstructionRecipe({ metalplate = 2, concreteslab = 4, crystal = 2 }, 20)
+
+-- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+-- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+-- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+
+data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 6, metalplate = 8 }, { c_robotics_factory = 80 })
+
+
+
+--- lvl2
+
+data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, circuit_board = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
+data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, circuit_board = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
+
+
+
+
+-- foundations 
+-- bugs drops
+data.frames.f_trilobyte1.resource_drop = {"ic_souls", "vc_souls"}
+data.frames.f_tetrapuss1.resource_drop = {"ic_souls", "vc_souls"}
+data.frames.f_tripodonte1.resource_drop = {"ic_souls", "vc_souls"}
+
+
+-- scrap recycler 
+Frame:RegisterFrame("fc_scrap_recycler", {
+	name = "Scrap recycler",
+	desc = "Sorts Scrap into useful resources",
+	race = "human",
+	minimap_color = { 0.8, 0.8, 0.8 },
+	visibility_range = 10,
+	health_points = 600,
+	power = -5, -- -20
+	slots = { storage = 8 },
+	construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
+	texture = "Main/textures/icons/human/Human_Building_2x2_Refinery.png",
+	trigger_channels = "building",
+	visual = "v_human_refinery",
+	components = {
+		{ "cc_scrap_fabricator", "hidden" },
+	},
+	size = "Human",
+})
+
+
+-- Starting Bots 
+
+Frame:RegisterFrame("f_flyer_m", {
+	texture = "Main/textures/icons/frame/flyer_medium.png",
+	name = "Flyer",
+	desc = "A fast flying unit that can perform construction based logistics operations outside of the logistics network when docked in a landing pad",
+	minimap_color = { 0.9, 0.9, 0.8 },
+	slot_type = "flyer",
+	health_points = 80,
+	trigger_channels = "bot",
+	race = "human",
+	visibility_range = 20,
+	slots = { storage = 2 },
+	movement_speed = 7,
+	cost_modifier = 0,
+	power = -5,
+	size = "Drone",
+	flags = "AnimateRoot|Flyer",
+	is_tethered = true,
+	--convert_to = "flyer_package_m",
+	visual = "v_flyer_m",
+	production_recipe = CreateProductionRecipe({ aluminiumrod = 4, aluminiumsheet = 3, circuit_board = 2 }, { c_robotics_factory = 100 }),
+	components = {
+		{ "c_higrade_capacitor", "hidden" },
+		{ "c_blight_shield", "hidden" },
+	},
+})
+
+
+
+
+data.frames.f_explorable:RegisterFrame("fc_volcano", {
+	name = "Volcano",
+	desc = "A door to the heart of the world",
+	race = "alien",
+	minimap_color = data.values.v_color_crimson.color,
+	visibility_range = 10,
+	health_points = 60000,
+	--power = -5, -- -20a
+	slots = {cube = 1 },
+	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
+	texture = "Main/textures/icons/values/plateau.png",
+	trigger_channels = "building",
+	visual = "blight_set_03",
+    components = {
+		--{ "cc_explorable_fix", 'hidden' },
+		--{"c_explorable_netwalk", 'hidden'}
+	},
+	is_explorable = true,
+})
+
+Frame:RegisterFrame("fc_crystal_power_red", {
+	name = "Fury Cube Power Plant",
+	desc = "Uses Extreme heat to vaporize crystals into enormous amounts of power",
+	race = "robot",
+	--minimap_color = data.values.v_color_crimson.color,
+    visibility_range = 10,
+	health_points = 500,
+	--power = 0,
+	slots = {storage = 11,cube = 1 },
+	construction_recipe = CreateConstructionRecipe({ concreteslab = 250, steelblock = 150, circuit_board = 20 }, 120),
+	texture = "Main/textures/icons/values/plateau.png",
+	trigger_channels = "building",
+	visual = "v_human_powerplant",
+    components = {
+        { "cc_crystal_power_red", "hidden" },
+		{ "c_internal_transmitter", "hidden" },
+		{ "c_internal_transmitter", "hidden" },
+		{ "c_internal_transmitter", "hidden" },
+		{ "c_internal_transmitter", "hidden" },
+	},
+})
+--data.visuals.v_starterturret_red_s.scale = {2,2,2.5}
+Frame:RegisterFrame("fc_pipe", {
+	name = "Plasma Relay Tower",
+	desc = "Channels Electroplamsa to other towers and receiveing Points",
+	race = "robot",
+    visibility_range = 9,
+	health_points = 500,
+	power = -1,
+	--slots = {anomaly = 1 },
+	construction_recipe = CreateConstructionRecipe({steelblock = 6, concreteslab = 4, crystal_powder = 1},1),
+	--construction_recipe = CreateConstructionRecipe({ concreteslab = 9, steelblock = 20, phase_leaf = 10 }, 40),
+	texture = "Main/textures/icons/components/Component_Blight1.png",
+	trigger_channels = "building",
+	visual = "vc_tower1",--'v_blight_stabilizer',--"v_blight_stabilizer",
+    components = {
+        { "cc_pipe_crane", "hidden" },
+	},
+	size = "Other",
+	no_foundations = true,
+})
+--"v_energystorage"
+
+Frame:RegisterFrame("fc_mug",{
+	name = "mug",
+	health_points = 5,
+	race = "robot",
+	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
+	texture = "Main/textures/icons/components/Component_Blight1.png",
+	trigger_channels = "building",
+	visual = 'vc_mug',--"v_blight_stabilizer",
+	size = "Large",
+	no_foundations = true,
+	is_explorable = true,
+})
+
+
+
+local fc_wire_plant = Frame:RegisterFrame("fc_wire_plant", {
+	name = "Neurotic Reed Plant",
+	desc = "Flora that has conductive tendrils for zapping local insects",
+	size = "Other",
+	--minimap_color = false, 
+	health_points = 25, 
+	visual = "v_succulent_04",
+	texture = "Main/textures/icons/frame/powerflower_frame.png",
+	--construction_recipe = CreateConstructionRecipe({ anomaly_cluster = 1, power_petal = 10 }, 1),
+	race = "alien",
+	no_foundations = true,
+	is_flower = true,
+})
+
+function fc_wire_plant:on_destroy(entity, damager)
+	if not damager or entity.faction.is_player_controlled then return end
+	Map.DropItemAt(entity.location, "wire", math.random(20) + 10 , "f_dropped_resource")
+	Map.DropItemAt(entity.location, "cc_plant_seed2", 1, "f_dropped_resource")
+end
+
+
+Frame:RegisterFrame("f_resourcenode_pixel",  {
+		type = "Resource", index = 1, name = "Voxel Deposit",
+		texture = "Main/textures/icons/values/resource.png",
+		harvest_id = 'metalore',
+		minimap_color = { 0.3, 0.3, 0.3 },
+})
