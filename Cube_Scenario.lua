@@ -6,7 +6,7 @@ local package = ...
 -- called when starting a new game (skipped when loading a save or joining a multiplayer game)
 function package:setup_scenario(settings)
 	--settings.skip_explorables = true
-	
+	--BuildDefinitionTooltip('metalore')
 end
 
 -- called when mod is initializing

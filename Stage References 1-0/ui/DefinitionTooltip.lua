@@ -178,7 +178,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if mod_boost > 0 or faction_boost > 0 then
 				if AddStat("icon_tiny_speed", string.format("%d%% <gl>(%d%%)</>", 100 + base_boost, 100 + base_boost + mod_boost + faction_boost), "Component Efficiency") then goto full end
 			else
-				if AddStat("icon_tiny_speed", string.format("%d%%", 100 + base_boost), "Component Efficiency") then goto full end
+				if AddStat("icon_tiny_speed", string.format("<gl>%d%%</>", 100 + base_boost), "Component Efficiency") then goto full end
 			end
 		end
 		if def.power and def.power > 0 then
@@ -207,13 +207,7 @@ end
 local function ProductionBreakdownGraph(list, def_id, bp, ingredients, amount)
 	local function add_ingredient(id, num, lvl, parent, ingredients, amount, bp_components)
 		local vl = parent:Add("<VerticalList valign=bottom/>")
-		-- MY MODIFICATION IN THE NEXT LINE
-		print(def_id)
-		if lvl > 10 then 
-			print("MAX LEVEL")
-			return 
-		end
-		if ingredients and data.items[def_id].tag ~= 'cube' then
+		if ingredients then
 			local hl = vl:Add("<HorizontalList halign=center valign=bottom child_padding=4/>")
 			for sub_id, sub_num in pairs(ingredients) do
 				local recipe = data.all[sub_id].production_recipe
@@ -247,15 +241,6 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 		elseif def.construction_recipe then ingredients, producer, ticks = def.construction_recipe.ingredients, "v_construction", def.construction_recipe.ticks
 		elseif def.uplink_recipe       then ingredients, producer, ticks = def.uplink_recipe.ingredients, "c_uplink", def.uplink_recipe.ticks
 		else return lvl end
-
-		print(def)
-		-- CUBE MODIFICATION HERE 
-		if data.items[def].slot == "cube" then 
-			return
-		end 
-
-		----
-
 
 		if defproducers then
 			local seenpid, anypid, seenticks, anyticks
@@ -327,10 +312,11 @@ local function ShowProducers(list, options, faction, seen_unlocks, producer_txt,
 			local producer_def = data.all[producer_id]
 			if comp_boost and comp_boost ~= 100 then
 				local tick_boost = ((ticks * 100 + comp_boost - 1) // comp_boost) / TICKS_PER_SECOND
+				local boost_color = comp_boost > 100 and "gl" or "rl"
 				list:Add("<HorizontalList child_align=center child_padding=10><Reg bg=card_box_bg def={def} on_click={onclickreg}/><Text size=12 text={txt}/></HorizontalList>", {
 					def = producer_def,
 					txt = show_per_minute
-						and L("<bl>%s</>\n<gl>%.1f</>/min (<hl>%.1fs</>→<gl>%.1fs</>)", (producer_def.name or "Unknown"), (amount or 1)*60.0/tick_boost, ttime, tick_boost)
+						and L("<bl>%s</>\n<%s>%.1f</>/min (<hl>%.1fs</>→<%s>%.1fs</>)", (producer_def.name or "Unknown"), boost_color, (amount or 1)*60.0/tick_boost, ttime, boost_color, tick_boost)
 						or L("<bl>%s</>\n<hl>%.1fs</> (<gl>%.1fs</>)", (producer_def.name or "Unknown"), ttime, tick_boost)
 				})
 			else
@@ -729,33 +715,52 @@ local function UpdateDefinitionTooltip(deftooltip)
 		end
 	end
 
-	local can_alt = (ingredients and not have_locks)
-	if not can_alt and mode == "summed" then mode = false end
-	local show_no_stats = (mode == "summed")
-	local show_sockets_and_slots = (not entity or entity.is_construction)
+	-- Add frame socket and inventory slot stats
+	local show_sockets_and_slots = (not entity or entity.is_construction) and is_seen
 	local show_sockets = show_sockets_and_slots and visual_def and visual_def.sockets
 	local show_slots = show_sockets_and_slots and def.slots
-	if show_all_stats then
-		-- Add frame socket and inventory slot stats
+	if show_sockets or show_slots then
+		list:Add("<Image height=2 color=ui_light margin=8/>")
+		local wrap = list:Add('<Wrap halign=center wrapsize=320 child_padding=8/>')
 		if show_sockets then
-			list:Add("<Image height=2 color=ui_light margin=8/>")
-			local socklist = list:Add('<HorizontalList halign=center margin_top=8 child_align=center/>')
 			for i,sz in ipairs(socket_sizes) do
 				local n = 0
 				for _,v in ipairs(show_sockets) do if v[2] == sz then n = n + 1 end end
 				if n > 0 then
-					socklist:Add("<Image margin_left=4 margin_right=3 width=32 height=32 color=ui_light/>").image = socket_icons[i]
-					socklist:Add("<Text margin_right=4/>").text = string.format("×%d", n)
+					local hl = wrap:Add([[<HorizontalList child_align=center child_padding=3>
+							<Image width=32 height=32 color=ui_light/>
+							<Text/>
+						</HorizontalList>]])
+					hl.order = #wrap
+					hl.tooltip = L("%s Socket", sz)
+					hl[1].image = socket_icons[i]
+					hl[2].text = string.format("×%d", n)
 				end
 			end
 		end
 		if show_slots then
-			for k,v in pairs(def.slots) do
-				list:Add(stat_layout, { icon = "icon_tiny_inventory", value = tostring(v), name = k:gsub("^%l", string.upper) })
+			local order_add = #wrap + 1
+			for k,v in pairs(show_slots) do
+				local hl = wrap:Add([[<HorizontalList child_align=center child_padding=3>
+						<Canvas>
+							<Image width=32 height=32 image=item_default/>
+							<Image width=32 height=32 image={icon} color="#B6EEFC"/>
+							<Image width=32 height=32 image={icon} color="ui_light" x=1/>
+						</Canvas>
+						<Text/>
+					</HorizontalList>]])
+				hl.order = order_add + (data.item_slot_order[k] or 999)
+				hl.tooltip = L("%s\n%s: %s", "Item Slots", "Type", k)
+				hl.icon = data.item_slot_icons[k] or "icon_inventory"
+				hl[2].text = string.format("×%d", v)
 			end
 		end
+		wrap:SortChildren(function(a,b) return a.order < b.order end)
 	end
 
+	local can_alt = (ingredients and not have_locks)
+	if not can_alt and mode == "summed" then mode = false end
+	local show_no_stats = (mode == "summed")
 	local remain_stat_lines = (show_all_stats and 10002) or (show_no_stats and -1) or 3
 	remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_MAIN', def, options and comp, entity, faction)
 
@@ -784,9 +789,13 @@ local function UpdateDefinitionTooltip(deftooltip)
 	if remain_stat_lines >= 0 and additional_stats then
 		remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_ADDITIONAL', additional_stats, nil, nil, faction)
 	elseif remain_stat_lines >= 0 and def.components then
+		local hidden_count = 1
 		for i,v in ipairs(def.components) do
 			local comp_def = data.all[v[1]]
-			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, nil, entity, faction) or remain_stat_lines
+			local stat_comp = entity and entity:GetHiddenComponent(hidden_count)
+			stat_comp = stat_comp and stat_comp.id == v[1] and stat_comp
+			if stat_comp then hidden_count = hidden_count + 1 end
+			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, stat_comp, entity, faction) or remain_stat_lines
 			if remain_stat_lines < 0 then break end
 		end
 	end
@@ -795,7 +804,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 		list:Add('<Text text="・ ・ ・ ・ ・" color=light_gray size=8 textalign=center/>')
 	end
 
-	local can_shift = (remain_stat_lines < 0 or show_sockets or show_slots or (show_all_stats and remain_stat_lines < 10000) or producer_lists > 1)
+	local can_shift = (remain_stat_lines < 0 or (show_all_stats and remain_stat_lines < 10000) or producer_lists > 1)
 	if not can_shift and mode == "stats" then mode = nil end
 
 	if not mode then
@@ -978,7 +987,7 @@ local SystemIndexItem_layout<const> =
 
 local SystemIndex = {}
 
-UI.Register("SystemIndex", SystemIndex_layout, SystemIndex, true)
+UI.Register("SystemIndex", SystemIndex_layout, SystemIndex)
 
 function SystemIndex:construct()
 	system_index = self
@@ -1081,12 +1090,12 @@ function SystemIndex:refreshlist(filter)
 	local list, wrapwidth, regs, lastcat, catwrap = self.defs, self.listbox.width, {}
 	self.regs, self.last_reg = regs, nil
 	list:Clear()
-	ProcessUnlockedDefinitions(function(id, def, category)
+	local function add(id, def, category)
 		local found = not filter or MatchLocalizedRichText(def.name or "", filter) -- filter by text
 		if not found then return end
 		if lastcat ~= category then
 			lastcat = category
-			list:Add("<Text height=24/>").text = category.name
+			list:Add("<Text height=24/>").text = type(category) == "table" and category.name or category
 			catwrap = list:Add("<Wrap child_padding=4 margin_bottom=8/>")
 			catwrap.width = wrapwidth
 		end
@@ -1095,7 +1104,19 @@ function SystemIndex:refreshlist(filter)
 			racebg = def.race and GetComponentRaceBG(def.race),
 			sortkey = string.format("%05d%s", def.index or 99999, id)
 		})
-	end, nil, nil, nil, true)
+	end
+	ProcessUnlockedDefinitions(add, nil, nil, nil, true)
+	-- Add tech definitions
+	local seen_tech, tech_categories = Tech_GetSeenTech(), data.tech_categories
+	for i=1,#tech_categories+1 do
+		local tech_category = tech_categories[i]
+		local tech_category_name = tech_category and L("%s Research", tech_category.name) or "Research"
+		for tech_id,tech_category_num in pairs(seen_tech) do
+			if tech_categories[tech_category_num] == tech_category then -- match generic "Research" undefined category with nil == nil
+				add(tech_id, data.techs[tech_id], tech_category_name)
+			end
+		end
+	end
 	for _,w in ipairs(list) do
 		if not w.text then w:SortChildren(function(a, b) return a.sortkey < b.sortkey end) end
 	end
@@ -1103,7 +1124,7 @@ function SystemIndex:refreshlist(filter)
 end
 
 function SystemIndex:on_search(w, txt)
-	self:refreshlist(txt)
+	self:refreshlist(txt) 
 end
 
 function SystemIndex:close()

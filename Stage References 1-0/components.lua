@@ -1737,7 +1737,7 @@ end
 function c_deployer:on_update(comp, cause)
 	local ed = comp.extra_data
 	local temp, bp = ed.temp, ed.bp
-	--print("[" .. comp.id .. ":on_update] cause: " .. comp:CauseToString(cause) .. " - comp.is_working: " .. tostring(comp.is_working) .. " - has_power: " .. tostring(comp.owner.has_power) .. " - temp: " .. tostring(temp))
+	--print("[" .. comp.id .. ":on_update] cause: " .. comp:tring(cause) .. " - comp.is_working: " .. tostring(comp.is_working) .. " - has_power: " .. tostring(comp.owner.has_power) .. " - temp: " .. tostring(temp))
 
 	-- Stop any work effects
 	comp:StopEffects()

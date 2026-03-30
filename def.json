@@ -21,8 +21,8 @@
             "type": "Addon"
         },
         "UI": {
-            "name": "Modified CUBE UI",
-            "entry": "CubeDefinitionToolTip.lua"
+            "name": "UI",
+            "entry": "Cube_UI.lua"
         }
     }
 }

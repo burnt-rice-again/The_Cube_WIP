@@ -14,11 +14,53 @@
 --- no resource input?
 --- 
 --- 
-local cc_crop_grow = Comp:RegisterComponent('cc_crop_grow',{
+
+
+local cc_crop_grow = Comp:RegisterComponent('cc_crop',{
     -- wait a set amount of time 
     -- grow the crop at the end 
     -- keep plant data. d
+    name = "plant growth",
+    desc = "Will grow the plant once the work completes",
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    
+    next_frame = "fc_crop",
+    base_id = "cc_crop",
+    
+    on_add = function(self, comp) comp:SetStateStartWork(100)  end,
+
+	registers = {
+        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
+        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
+    },
+    -- will have extra_data.key to find planter
 })
+
+local function wake_up_planter(self, entity)
+    -- get component 
+    local comp = entity:FindComponent("cc_crop", true)
+    if comp ~= nil and comp.has_extra_data and comp.extra_data.planter_key then
+        -- drop yield if it has a drop property
+        if self.drop then 
+            Map.DropItemAt(entity.location, self.drop, ((1 * self.extra_data.yield) or 1), "f_dropped_resource")
+            -- TODO drop seedling
+        
+        end
+
+
+
+        -- get planter key from extra data
+        local planter_frame = Map.GetEntityFromKey(comp.extra_data.planter_key)
+        if planter_frame then
+            -- retrieve planter componet
+            local plant_comp = planter_frame:FindComponent("cc_planter", true)
+            if plant_comp then 
+                print("WAKE UP!")
+                plant_comp:Activate()
+            end
+        end
+    end
+end
 
 local fc_crop = Frame:RegisterFrame('fc_crop',{
     name = 'Planted Crop',
@@ -27,18 +69,43 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     race = "alien",
 	is_flower = true,
     minimap_color = { 0, 1, 0 },
-    visual = "v_damage_plant",
-    texture = "Main/textures/icons/frame/powerflower_frame.png",
+    visual = "v_succulent_01",
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+
     drop = 'phase_leaf',
+    next_frame = 'fc_crop_wire_plant',
+
+    on_destroy = wake_up_planter,
+    on_remove = wake_up_planter,
+    
+})
+
+fc_crop:RegisterFrame('fc_crop_wire_seed0',{
+    name = 'Wire Weed Seedling',
+    desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
+    drop = nil,
 })
 
 
 
 
-function fc_crop:on_destroy(entity, damager)
-	if not damager or entity.faction.is_player_controlled then return end
-	Map.DropItemAt(entity.location, fc_crop.drop, ((1 * fc_crop.extra_data.yield) or 1), "f_dropped_resource")
-end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- PLANTER 
 
                 -- Map.Defer( function()
                 --     print('placing plant')
@@ -91,6 +158,8 @@ local cc_planter = Comp:RegisterComponent('cc_planter',{
     registers = {
 		{ read_only = true, type = "Target", tip = "Planting seed at", ui_icon = "icon_target", },
 		{ read_only = true, tip = "Requires",},
+        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
+        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
 	},
 })
 
@@ -122,6 +191,12 @@ function cc_planter:get_reg_error(comp)
     end
 end 
 
+local function clear_planter_position(comp) 
+    comp:SetRegisterCoord(1, nil)
+    comp:FlagRegisterError(1)
+    comp:CancelProcess()
+    comp:SetRegister(2)
+end
 
 
 function cc_planter:on_update(comp, cause)
@@ -160,25 +235,39 @@ function cc_planter:on_update(comp, cause)
         --print("back to work")
         comp:SetStateContinueWork()
     else
+
+        -- is a spot already choosen 
+        local cord = comp:GetRegisterCoord(1)
+        local check = false
+        if cord == nil then
+            local x, y = find_plantable_position(self, comp)
+            
+            if x == nil then 
+                --- could not find pos
+                clear_planter_position(comp)
+                comp:SetStateSleep(2000)
+                print("NO cord found")
+                return
+            else 
+                cord = {x = x, y = y}
+                comp:SetRegisterCoord(1, cord)
+                check = true 
+            end
+        end
         local can_make, missing, has_slot = comp:PrepareConsumeProcess(self.ingriedents,1)
         -- start working 
         print( can_make, missing, has_slot)
         if can_make then 
-            -- check for free space 
-            local x, y = find_plantable_position(self, comp)
-            if x == nil then 
-                -- no space in range 
-                comp:SetRegisterCoord(1, nil)
-                comp:FlagRegisterError(1)
-                comp:CancelProcess()
-                comp:SetStateSleep(200)
 
-            else 
-                -- start working
+            if check or is_pos_plantable(comp,cord.x ,cord.y ,self.range) then
+            -- start working
                 comp:SetStateStartWork(self.wait_ticks) 
-                comp:SetRegisterCoord(1, {x = x, y = y})
+                comp:SetRegisterCoord(1, cord)
                 comp:SetRegister(2)
-            end 
+            else
+                clear_planter_position(comp)
+                comp:SetStateSleep()
+            end
         else
             -- wait for items to arrive
             comp:SetRegister(2,missing)
@@ -187,7 +276,7 @@ function cc_planter:on_update(comp, cause)
             else 
                 comp:FlagRegisterError(2)
             end
-            comp:SetStateSleep(50)
+            comp:SetStateSleep(500)
         end
     end
 end
