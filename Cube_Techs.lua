@@ -213,7 +213,7 @@ data.techs.tc_cube_green_discovery= {
 		-- phase farming 
 		"wire",
 
-		"cc_planter_wire"
+		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 50,
@@ -228,7 +228,7 @@ data.techs.tc_cube_green_2= {
 	unlocks = {
 		-- new resources
 		-- phase farming 
-		"cc_plant_seed","phase_leaf","c_shield_generator"
+		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
 	},
 	require_tech = { "tc_cube_green_discovery" },
 	progress_count = 100,

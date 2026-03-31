@@ -38,7 +38,7 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     --visual = "v_generic_i",
 
 	registers = {
-        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
     },
     production_recipe = false,
@@ -48,6 +48,15 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     get_ui = true, -- needs this to show hidden components
     -- will have extra_data.key to find planter
 })
+
+function cc_crop:get_reg_error(comp)
+   
+    if comp:RegisterIsError(1) then 
+        return "Cannot Grow - ERROR"
+    elseif comp:RegisterIsError(2) then 
+        return 'Ready to harvest!\nDismantle or Destroy this crop\nCan use flower filter to find fully grown crops'
+    end
+end 
 
 function cc_crop:on_update(comp, cause) 
 
@@ -63,11 +72,12 @@ function cc_crop:on_update(comp, cause)
         local next_frame = owner.def.next_frame
         if next_frame == nil then return end 
 
+        -- place next frame
         Map.Defer( function()
         local plant = Map.CreateEntity(comp.faction,next_frame )
         local crop = plant:AddComponent('cc_crop','hidden',comp.extra_data)
         local cord = owner.location
-        owner:Unplace()
+        --owner:Unplace()
         owner:Destroy()
         plant:Place(cord,plant,false)
         end)
@@ -76,9 +86,10 @@ function cc_crop:on_update(comp, cause)
         -- go back to sleep
         comp:SetStateContinueWork()
     elseif comp.owner.def.next_frame ~= nil then
+        -- start growing
         comp:SetStateStartWork(comp.extra_data.growth_time or 100)
     else 
-        print("Stop growing")
+        --print("Stop growing")
     end
 end
 
@@ -92,6 +103,9 @@ function cc_crop:on_add(comp)
     comp:SetRegisterNum(2, comp.extra_data.yield)
     comp:SetRegisterId(2,comp.owner.def.drop)
     -- start working
+    if comp.owner.def.next_frame == nil then
+        comp:FlagRegisterError(2)
+    end
     comp:Activate()
 end
 
@@ -148,7 +162,6 @@ fc_crop:RegisterFrame('fc_crop_wire_seed0',{
     next_frame = 'fc_crop_wire_plant',
     
 })
-
 fc_crop:RegisterFrame('fc_crop_wire_plant',{
     name = 'Wire Weed',
     desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
@@ -157,28 +170,30 @@ fc_crop:RegisterFrame('fc_crop_wire_plant',{
     is_flower = true,
     on_remove = wake_up_planter,
 })
-
 fc_crop:RegisterFrame('fc_crop_phase_seed0',{
     name = 'Wire Weed Seedling',
     desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
-    visual = "vc_crop_wire_seed0",
+    visual = "vc_crop_phase_seed0",
     texture = "The_Cube_WIP/textures/phase_seed.png",
     next_frame = 'fc_crop_phase_plant',
     drop = 'phase_leaf',
     
 })
-
 fc_crop:RegisterFrame('fc_crop_phase_plant',{
     name = 'Wire Weed',
     desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
-    visual = 'vc_crop_wire',
+    visual = 'vc_crop_phase',
     texture = "The_Cube_WIP/textures/phase_seed.png",
     is_flower = true,
     on_remove = wake_up_planter,
     drop = 'phase_leaf',
 
-	components = {{ "c_phase_plant", "hidden" },},
+	components = {{ "cc_phase_plant_all", "hidden" },},
 })
+
+-- modify phase component to hit own units 
+
+
 
 -- add method for recycling planters
 data.items.wire.production_recipe = CreateProductionRecipe({cc_planter_wire = 1},{c_assembler = 15})
@@ -256,7 +271,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     registers = {
 		{ read_only = true, type = "Target", tip = "Planting seed at", ui_icon = "icon_target", },
 		{ read_only = true, tip = "Requires",},
-        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
 	},
 
@@ -273,6 +288,7 @@ cc_planter:RegisterComponent('cc_planter_phase_leaf',{
     seed_id = 'fc_crop_phase_seed0',
     drop = 'phase_leaf',
     default_grow_time = 1000,
+    ingriedents = { ic_cube_green = 1, crystal_powder = 1},
 })
 
 
@@ -282,7 +298,6 @@ function cc_planter:on_add(comp)
         comp.extra_data.yield = 1
         comp.extra_data.growth_time = self.default_grow_time
     end
-    print(comp.def.base_id)
     comp:SetRegister(3,comp.extra_data.growth_time)
     comp:SetRegisterNum(4, comp.extra_data.yield)
     comp:SetRegisterId(4,self.drop)
@@ -370,7 +385,7 @@ function cc_planter:on_update(comp, cause)
                 --- could not find pos
                 clear_planter_position(comp)
                 comp:SetStateSleep(2000)
-                print("NO cord found")
+                --print("NO cord found")
                 return
             else 
                 cord = {x = x, y = y}
@@ -405,8 +420,31 @@ function cc_planter:on_update(comp, cause)
     end
 end
 
+data.components.c_phase_plant:RegisterComponent("cc_phase_plant_all",{
+    effect = nil,
+	on_trigger = function (_, comp, other_entity)
+		--if comp.faction == other_entity.faction then return end -- don't phase own units
+		local eloc = other_entity.location
+		local loc = comp.owner.location
+		other_entity:PlayEffect("fx_digital")
+		other_entity:Place(loc.x + 3*(eloc.x- loc.x), loc.y + 3*(eloc.y-loc.y))
+		local peaceful = Map.GetSettings().peaceful or 2
+		if peaceful < 1 then return end
+		other_entity:RemoveHealth(1, "full")
 
-
+		-- if its not player controlled faction then make it disappear after a few times
+		if not comp.faction.is_player_controlled then
+			local times = comp.extra_data.times or 0
+			times = times + 1
+			local owner = comp.owner
+			if times > 5 then
+				Map.Defer(function() if owner.exists then owner:Destroy() end end)
+			else
+				comp.extra_data.times = times
+			end
+		end
+	end,
+})
 
 
 
