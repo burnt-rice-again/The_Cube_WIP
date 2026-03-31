@@ -1181,11 +1181,11 @@ local SystemIndexItem_layout<const> =
 
 -- print('Overide SystemIndex Success')
 
-local ResourceBar = UI.GetRegisteredLayoutClass("ResourceBar")
+-- local ResourceBar = UI.GetRegisteredLayoutClass("ResourceBar")
 
-local old_on_click_systemindex = ResourceBar.on_click_systemindex
-ResourceBar.on_click_systemindex = function (self, btn) OpenSystemIndex() end 
+-- local old_on_click_systemindex = ResourceBar.on_click_systemindex
+-- ResourceBar.on_click_systemindex = function (self, btn) OpenSystemIndex() end 
 
-UI.SetRegisteredLayoutClass('ResourceBar', ResourceBar)
+-- UI.SetRegisteredLayoutClass('ResourceBar', ResourceBar)
 
 
