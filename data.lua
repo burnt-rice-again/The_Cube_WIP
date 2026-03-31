@@ -18,6 +18,7 @@ package.includes = {
 	"Cube_Explorables.lua",
 	"Cube_Biomes.lua",
 	'Cube_Instructions.lua',
+	"Cube_Attack_Waves.lua",
 
 	"Cube_V2_DefinitionTooltip.lua",
 }
