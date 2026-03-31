@@ -1,262 +1,450 @@
 
-local flower_png = "Main/textures/icons/values/flower.png"
-local icon_seed = "<Image image=icon_small_seed color=ui_light margin_right=8/>"
+
+
+--- each seed will have some properties 
+---     speed
+---     yield 
+---     growth speed 
+
+--- as a component will use the green cube to plant flowers on surrounding tiles
+--- tiles must have no foundations 
+--- 
+--- planted seeds will change into harvestable flowers after some time
+--- 
+--- no resource input?
+--- 
+--- extra data table inlcudes
+---  
+-- {
+--     key = entity key
+--     yield = comp.extra_data.yield or 1,
+--     growth_time = comp.extra_data.growth_time or 100,
+-- }
 
 
 
-local function plant_get_ui(self, comp)
-	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color=virus bgcolor=ui_dark/></Box>]], {
-		compicon = comp.def.texture,
-		update = function(w)
-			local growth = comp.extra_data.growth
-			if growth then
-				w.progress = growth / (self.growth_max + comp.extra_data.yield * 10)
-				if w.tt then
-					w.tt.text = L(("%s: %.0f/%.0f"), "Growth", growth, self.growth_max + comp.extra_data.yield * 10)
-				end
-			end
-		end,
-		tooltip = function(w)
-			w.tt = UI.New("<Box bg=popup_box_bg padding=12><Text/></Box>", { destruct = function() if w:IsValid() then w.tt = nil end end })[1]
-			w:update()
-			return w.tt.parent
-		end,
-	})
-end
-local function plant_on_add_extra_data(self, comp)
-    --print("add comp plant", self, comp.extra_data)
-    --if not comp.has_extra_data then comp.
-    if (not comp.has_extra_data) or comp.extra_data.growth == nil then comp.extra_data = {growth = 0, growth_speed = 1, yield = 1} end
-    -- if  then
-    --     comp.extra_data = {growth = 0, growth_speed = 1, yield = 1}
-    -- end 
-    comp:SetRegisterNum(1, comp.extra_data.growth_speed)
-    comp:SetRegisterNum(2, self.consume_amount)
-    comp:SetRegisterId(2, self.consume_item)
-    comp:SetRegisterId(3, self.future_yield ,comp.extra_data.yield)
-    --print(comp.extra_data)
-    comp:Activate()
-    --comp:on_update(comp, cause)
-end
 
-local function calc_true_yield(self, comp)
-    if self.base_prod_out then return self.base_prod_out
-        -- local full_yield = self.base_prod_out
-        -- --print(pairs(full_yield))
-        -- for k,v in pairs(full_yield) do
-        --     full_yield[k] = v * comp.extra_data.yield
-        -- end
-        -- return full_yield
-    else 
-        return {}
-    end
-end
+local cc_crop = Comp:RegisterComponent('cc_crop',{
+    -- wait a set amount of time 
+    -- grow the crop at the end 
+    -- keep plant data. d
+    name = "plant growth",
+    desc = "Will grow the plant once the work completes",
+    texture = "The_Cube_WIP/textures/wire_seed.png",
+    activation = 'Manual',
 
+    attachment_size = "Hidden",
+    race = 'robot',
+    --visual = "v_generic_i",
 
--- occasionaly increases/decreases plant stats, will improve slightly more frequently
-local function randomize_plant_stats(current)
-
-    local increase_chance = 0.15
-    local decrease_chance = 0.05
-    local random = math.random()
-    if random < decrease_chance and current > 1 then return -1
-    elseif random < increase_chance then return 1 end
-    return 0
-end 
-local function create_seed_copy(owner, e_data, seed_id)
-    if math.random() > 0.9 or true then
-        Map.Defer(function()
-            owner:AddItem(seed_id,1,false,Tool.Copy(e_data))
-        end) 
-    end
-end 
-
-local function appl_reg_links(ent, tbl)
-    for i,v in ipairs(tbl) do 
-        ent:LinkRegisterFromRegister(v.index, v.source_index)
-    end
-end 
--- at this stage it consumes fertilizer to progress
-local cc_plant_seed = Comp:RegisterComponent("cc_plant_seed", {
-    name = "Phase Flower Bud",
-	attachment_size = "Small",
-	texture = "The_Cube_WIP/textures/phase_seed.png",
-	desc = "",
-	visual = "v_succulent_01",--"",v_phase_plant
-	race = "virus",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1,crystal_powder = 16, phase_leaf = 5 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
-    --power_storage = 1,
-    -- UI
-    get_ui = plant_get_ui,
-    activation = "OnAnyItemSlotChange",
-    effect = "fx_greensplat_2",
-    on_add = plant_on_add_extra_data,
-    --on_placed = plant_on_add_comp,
-    --plant stats 
-    wait_ticks = 60,
-    growth_max = 10,
-    -- plant consumption
-    consume_item = "crystal",
-    consume_amount = 1,
-    --plant output
-    next_comp = "cc_plant_harvest",
-    future_yield = "phase_leaf",
-	--dumping_ground = true,
 	registers = {
-        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Effciency</>\n\nGrowth provided per input step\n\nReduces Amount of resources and time to grow the plant"},
-        { read_only = true, ui_icon = "icon_small_seed", tip = "Plant Requires"},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
+        { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
+    },
+    production_recipe = false,
+    index = 9999,
+    slots = {anomaly = 1},
+
+    get_ui = true, -- needs this to show hidden components
+    -- will have extra_data.key to find planter
+})
+
+function cc_crop:get_reg_error(comp)
+   
+    if comp:RegisterIsError(1) then 
+        return "Cannot Grow - ERROR"
+    elseif comp:RegisterIsError(2) then 
+        return 'Ready to harvest!\nDismantle or Destroy this crop\nCan use flower filter to find fully grown crops'
+    end
+end 
+
+function cc_crop:on_update(comp, cause) 
+
+    -- set registers on placed
+    if comp:RegisterIsEmpty(1) then 
+        comp:SetRegister(1,{Id = comp.owner.def.drop, Num = comp.extra_data.yield or 1})
+        comp:SetRegister(2,{ Num = comp.extra_data.growth_time or 100})
+    end
+
+    if cause & CC_FINISH_WORK ~= 0 then 
+        -- finished growing 
+        local owner = comp.owner
+        local next_frame = owner.def.next_frame
+        if next_frame == nil then return end 
+
+        -- place next frame
+        Map.Defer( function()
+        local plant = Map.CreateEntity(comp.faction,next_frame )
+        local crop = plant:AddComponent('cc_crop','hidden',comp.extra_data)
+        local cord = owner.location
+        --owner:Unplace()
+        owner:Destroy()
+        plant:Place(cord,plant,false)
+        end)
+
+    elseif comp.is_working then 
+        -- go back to sleep
+        comp:SetStateContinueWork()
+    elseif comp.owner.def.next_frame ~= nil then
+        -- start growing
+        comp:SetStateStartWork(comp.extra_data.growth_time or 100)
+    else 
+        --print("Stop growing")
+    end
+end
+
+function cc_crop:on_add(comp)
+    -- set extra data 
+    if comp.has_extra_data == false then 
+        comp.extra_data.yield = 1
+        comp.extra_data.growth_time = 300
+    end
+    comp:SetRegister(1,comp.extra_data.growth_time)
+    comp:SetRegisterNum(2, comp.extra_data.yield)
+    comp:SetRegisterId(2,comp.owner.def.drop)
+    -- start working
+    if comp.owner.def.next_frame == nil then
+        comp:FlagRegisterError(2)
+    end
+    comp:Activate()
+end
+
+
+local function wake_up_planter(self, entity)
+    -- get component 
+    local comp = entity:FindComponent("cc_crop", true)
+    if comp ~= nil and comp.has_extra_data and comp.extra_data.key then
+        -- drop yield if it has a drop property
+        if self.next_frame == nil then
+            Map.DropItemAt(entity.location, self.drop, (comp.extra_data.yield or 1))
+            -- TODO drop seedling
+            if math.random() > 0.7 then 
+                Map.DropItemAt(entity.location, 'cc_planter_' .. self.drop  , 1, comp.extra_data)
+            end
+        end
+
+        -- need to wake up planter if its still exists
+        -- get planter key from extra data
+        local planter_frame = Map.GetEntityFromKey(comp.extra_data.key)
+        print(planter_frame)
+        if planter_frame then
+            -- retrieve planter componet
+            local plant_comp = planter_frame:FindComponent("cc_planter", true)
+            print(plant_comp)
+            if plant_comp then 
+                print("WAKE UP!")
+                plant_comp:Activate()
+            end
+        end
+    end
+end
+
+local fc_crop = Frame:RegisterFrame('fc_crop',{
+    name = 'Planted Crop',
+    desc = 'Budding Growth',
+    size = 'Other',
+    race = "alien",
+    minimap_color = { 0, 1, 0 },
+    visual = "v_succulent_01",
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    --next_frame = 'fc_crop_wire_plant',
+
+    drop = 'wire',
+    --on_destroy = wake_up_planter,
+    
+})
+
+fc_crop:RegisterFrame('fc_crop_wire_seed0',{
+    name = 'Wire Weed Seedling',
+    desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
+    visual = "vc_crop_wire_seed0",
+    texture = "The_Cube_WIP/textures/wire_seed.png",
+    next_frame = 'fc_crop_wire_plant',
+    
+})
+fc_crop:RegisterFrame('fc_crop_wire_plant',{
+    name = 'Wire Weed',
+    desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
+    visual = 'vc_crop_wire',
+    texture = "The_Cube_WIP/textures/wire_seed.png",
+    is_flower = true,
+    on_remove = wake_up_planter,
+})
+fc_crop:RegisterFrame('fc_crop_phase_seed0',{
+    name = 'Wire Weed Seedling',
+    desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
+    visual = "vc_crop_phase_seed0",
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    next_frame = 'fc_crop_phase_plant',
+    drop = 'phase_leaf',
+    
+})
+fc_crop:RegisterFrame('fc_crop_phase_plant',{
+    name = 'Wire Weed',
+    desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
+    visual = 'vc_crop_phase',
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    is_flower = true,
+    on_remove = wake_up_planter,
+    drop = 'phase_leaf',
+
+	components = {{ "cc_phase_plant_all", "hidden" },},
+})
+
+-- modify phase component to hit own units 
+
+
+
+-- add method for recycling planters
+data.items.wire.production_recipe = CreateProductionRecipe({cc_planter_wire = 1},{c_assembler = 15})
+data.items.phase_leaf.production_recipe = CreateProductionRecipe({cc_planter_phase_leaf = 1},{c_assembler = 15})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- PLANTER 
+
+                -- Map.Defer( function()
+                --     print('placing plant')
+                --     local plant = Map.CreateEntity('world', 'fc_wire_plant')
+                --     plant:Place(dx,dy)
+                -- end)
+-- wire seeds
+
+local function is_pos_plantable(comp, x,y, range)
+    local owner = comp.owner
+    return (owner:IsInRangeOf({x, y}, range) 
+    and Map.GetEntityAt(x,y, FF_OWNFACTION | FF_ENEMYFACTION | FF_NEUTRALFACTION | FF_ALLYFACTION, comp.faction ) == nil 
+    and Map.GetEntityAt(x,y,FF_RESOURCE) == nil
+    -- todo check for frames as well?)
+    )
+end
+
+local function find_plantable_position(self, comp)
+    local owner = comp.owner
+    local area = owner.area
+    local x, y, w, h = area[1], area[2], area[3]-1, area[4]-1
+    local range = self.range
+    for dx = x-w-range, x+w+range, 1 do
+        for dy = y-h-range, y+h+range, 1 do
+            -- check in range and no foundation and 
+            --print( is_pos_plantable(comp,dx,dy,range), dx, dy)
+            if is_pos_plantable(comp,dx,dy,range) then 
+                -- place see 
+                return dx,dy
+            end
+        end
+    end
+    return nil, nil
+end
+
+
+
+local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
+    name = 'Wire Weed Planter',
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    desc = "DO NOT SHOW",
+    visual = "v_succulent_01",
+    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1 }, { cc_manifest = 30 },1, {ic_cube_blue = 1}),
+    range = 2,
+    attachment_size = 'Small',
+    activation = 'OnAnyItemSlotChange',
+    wait_ticks = 15,
+    power = -10000,
+    --recipe
+    ingriedents = { ic_cube_green = 1}, -- can add additional inputs here
+    output = {}, -- can add additional outputs here
+    output_cube = 'ic_cube_green', -- replace cube with
+    
+    registers = {
+		{ read_only = true, type = "Target", tip = "Planting seed at", ui_icon = "icon_target", },
+		{ read_only = true, tip = "Requires",},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
 	},
+
+    -- change these with each new plant
+    seed_id = "fc_crop_wire_seed0",
+    default_grow_time = 300,
+    drop = 'wire',
+})
+cc_planter.base_id = 'cc_planter'
+
+cc_planter:RegisterComponent('cc_planter_phase_leaf',{
+    name = 'Phase Flower Planter',
+    desc = 'Plants the contained phase flower leaf',
+    seed_id = 'fc_crop_phase_seed0',
+    drop = 'phase_leaf',
+    default_grow_time = 1000,
+    ingriedents = { ic_cube_green = 1, crystal_powder = 1},
 })
 
-cc_plant_seed:RegisterComponent("cc_plant_harvest",{
-    name = "PhaseFlower",
-	attachment_size = "Small",
-	texture = "Main/textures/icons/frame/powerflower_frame.png",
-	desc = "Concentrated crystals push this flower to new vibrant colours",
-	visual = "v_damage_plant",
-    production_recipe = false,
-    --plant stats 
-    growth_max = 1,
-    -- plant consumption
-    consume_item = "ic_cube_green",
-    consume_amount = 1,
-    --plant output
-    next_comp = "cc_plant_seed",
-    cube_out = "ic_cube_green",
-    base_prod_out = {["phase_leaf"] = 1},
-})
 
-----crystal leaf 
-cc_plant_seed:RegisterComponent("cc_plant_seed2",{
-    name = "Conductive Fibre Seed",
-	texture = "The_Cube_WIP/textures/plant_seed_reed.png",
-	desc = "Spins Souls Into Wire Perfect for Higher Though Processes",
-	visual = "v_succulent_05_A",
-    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1,ic_souls = 10, phase_leaf = 5 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
-    --plant stats 
-    growth_max = 90,
-    -- plant consumption
-    consume_item = "crystal",
-    consume_amount = 1,
-    --plant output
-    next_comp = "cc_plant_harvest2",
-    future_yield = "wire",
-})
-
-cc_plant_seed:RegisterComponent("cc_plant_harvest2",{
-    name = "Neurotic Fibre Flower",
-	attachment_size = "Small",
-	texture = "Main/textures/icons/frame/powerflower_frame.png",
-	desc = "The wailing has ceased",
-	visual = "vc_sea_grass",
-    production_recipe = false,
-    --plant stats 
-    growth_max = 1,
-    -- plant consumption
-    consume_item = "ic_cube_green",
-    consume_amount = 1,
-    --plant output
-    next_comp = "cc_plant_seed2",
-    cube_out = "ic_cube_green",
-    base_prod_out = {["wire"] = 1},
-    future_yield = "wire",
-})
-
-function cc_plant_seed:on_update(comp, cause)
-
-	-- If still working from before but gotten activated again just continue work
-	if cause & CC_FINISH_WORK == 0 and comp.is_working then
-		return comp:SetStateContinueWork()
-	end
-
-	-- on_update is also called when work has finished, only refill stored power when actually on low power
-    if comp.extra_data.growth == nil then plant_on_add_extra_data(self, comp) return end
-
-	if comp.extra_data.growth >= self.growth_max + comp.extra_data.yield * 10 then  
-        -- growth completed
-        if comp.has_prepared_process then comp:FulfillProcess() end
-        local random_range
-        local owner = comp.owner
-        -- randomize stats  
-        comp.extra_data.growth_speed = comp.extra_data.growth_speed + randomize_plant_stats(comp.extra_data.growth_speed)
-        comp.extra_data.yield = comp.extra_data.yield + randomize_plant_stats(comp.extra_data.yield)
-        --print(comp.extra_data, math.max(comp.extra_data.growth_speed + math.random(3) - math.random(2), 1))
-        
-        Map.Defer(function() 
-            local next_comp = self.next_comp
-            local e_data = comp.extra_data
-            local socket_num = comp.socket_index
-            e_data.growth = 0 
-            local links = comp.owner:GetRegisterLinks()
-            if self.cube_out then 
-                --create extra seed
-                create_seed_copy(owner, e_data, next_comp)
-            end
-            --local seed_id = comp.id
-            comp:Destroy()
-            --print(e_data)
-            -- go to next growth stage 
-            owner:AddComponent(next_comp, socket_num, e_data) 
-            appl_reg_links(owner,links)
-
-            --Delay.Spawn_Crystal_Wave({yield = 30})
-        end
-        )
-
+function cc_planter:on_add(comp)
+    -- set extra data 
+    if comp.has_extra_data == false then 
+        comp.extra_data.yield = 1
+        comp.extra_data.growth_time = self.default_grow_time
     end
-    -- check if timer completed 
-    if cause & CC_FINISH_WORK == 2 and comp.has_prepared_process then 
-        -- complete process
-        comp:FulfillProcess()
-        comp.extra_data.growth = comp.extra_data.growth + comp.extra_data.growth_speed
-        -- rebuild cube if necesary
-        if self.cube_out then comp.owner:AddItem(self.cube_out, 1) end
-
-        return 
-    end 
-
-
-    local can_make, flag_missing, flag_space = comp:PrepareProduceProcess({[self.consume_item] = self.consume_amount }, calc_true_yield(self, comp))
-	if not can_make then
-        if flag_missing then comp:FlagRegisterError(2) end
-        if flag_space then comp:FlagRegisterError(3) end 
-		return comp:SetStateSleep(25)
-    else 
-        comp:FlagRegisterError(2, false)
-        comp:FlagRegisterError(3, false)
-    end
-	-- Start a 20 tick work until we can consume another crystal
-	return comp:SetStateStartWork(self.wait_ticks)
+    comp:SetRegister(3,comp.extra_data.growth_time)
+    comp:SetRegisterNum(4, comp.extra_data.yield)
+    comp:SetRegisterId(4,self.drop)
+    -- start working
+    comp:Activate()
 end
 
-function cc_plant_seed:get_reg_error(comp)
-	--local reg1 = comp:GetRegister(1)
-	local reg2 = comp:GetRegister(2)
-    local reg3 = comp:GetRegister(3)
-	-- if reg1.is_error then 
-	-- 	return ""
-	-- end 
-    if reg2.is_error then 
-		return "Missing Input"
-	end
-	if reg3.is_error then 
-		return "No Space for More Output"
-	end
+function cc_planter:get_reg_error(comp)
+   
+    if comp:RegisterIsError(1) then 
+        return "No Free Space In Range\nMust have no foundations to plant"
+    elseif comp:RegisterIsError(2) then 
+        if comp.owner:FindComponent("cc_cube_storage") == nil then 
+            return "No CUBE pedastal"
+        else
+            return "Missing Items"
+        end
+    end
 end 
 
--- function Delay.Spawn_Crystal_Wave(arg) 
+local function clear_planter_position(comp) 
+    comp:SetRegisterCoord(1, nil)
+    comp:FlagRegisterError(1)
+    comp:CancelProcess()
+    comp:SetRegister(2)
+end
 
--- 	-- spawn bug 
--- 	-- local enemy = Map.CreateEntity("bugs","f_trilobyte1")
--- 	-- enemy:Place(arg.owner.location,arg.owner)
+function cc_planter:on_update(comp, cause)
+    -- activated 
+    --print(cause, cause & CC_FINISH_WORK == true)
+    if cause & CC_FINISH_WORK > 0  then 
+        local cord = comp:GetRegisterCoord(1)
+        if not cord then 
+            -- no coordinate
+            
+            return 
+        end
+        -- place crop 
+        -- TODO change this 
+        if is_pos_plantable(comp,cord.x ,cord.y ,self.range) then 
+            -- Fufill Process 
+            comp:FulfillProcess()
+            comp.owner:AddItem(self.output_cube)
+            
+        
+            --place crop 
+            Map.Defer( function()
+            --print('placing plant')
+            local plant = Map.CreateEntity(comp.faction, self.seed_id)
+            local crop = plant:AddComponent('cc_crop','hidden',{
+                key = comp.owner.key,
+                yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1),
+                growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5),
+            })
+            -- if crop then 
+            --     crop.extra_data.key = comp.owner.key
+            --     crop.extra_data.yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1)
+            --     crop.extra_data.growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5)
+            --     print(crop.extra_data)
+            -- else print("co crop comp") end
 
--- 	--spawn robot 
--- 	local enemy = Map.CreateEntity("anomaly","f_resourcenode_crystal")
--- 	enemy:Place(arg.owner.location,arg.owner)
--- 	enemy:PlayEffect("fx_digital_in")
+            plant:Place(cord,comp.owner,false)
+            comp:SetRegisterCoord(1, nil)
+        -- TODO add turn and throw effect 
+    end)
+        else 
+            comp:FlagRegisterError(2,"Can no longer Plant At Target")
+            comp:CancelProcess()
+            comp:Activate()
 
--- 	if arg.yield > 5 then 
--- 		Map.Delay("Spawn_Time_Travel_Attack", 5, {owner = arg.owner, yield = arg.yield - 25})
--- 	end
--- end
+        end
+    elseif comp.is_working == true then 
+        -- continue working 
+        --print("back to work")
+        comp:SetStateContinueWork()
+    else
+
+        -- is a spot already choosen 
+        local cord = comp:GetRegisterCoord(1)
+        local check = false
+        if cord == nil then
+            local x, y = find_plantable_position(self, comp)
+            
+            if x == nil then 
+                --- could not find pos
+                clear_planter_position(comp)
+                comp:SetStateSleep(2000)
+                --print("NO cord found")
+                return
+            else 
+                cord = {x = x, y = y}
+                comp:SetRegisterCoord(1, cord)
+                check = true 
+            end
+        end
+        local can_make, missing, has_slot = comp:PrepareConsumeProcess(self.ingriedents,1)
+        -- start working 
+        --print( can_make, missing, has_slot)
+        if can_make then 
+
+            if check or is_pos_plantable(comp,cord.x ,cord.y ,self.range) then
+            -- start working
+                comp:SetStateStartWork(self.wait_ticks) 
+                comp:SetRegisterCoord(1, cord)
+                comp:SetRegister(2)
+            else
+                clear_planter_position(comp)
+                comp:SetStateSleep()
+            end
+        else
+            -- wait for items to arrive
+            comp:SetRegister(2,missing)
+            if has_slot ~= false then 
+                comp:FlagRegisterError(2)
+            else 
+                comp:FlagRegisterError(2)
+            end
+            comp:SetStateSleep(500)
+        end
+    end
+end
+
+data.components.c_phase_plant:RegisterComponent("cc_phase_plant_all",{
+    effect = nil,
+	on_trigger = function (_, comp, other_entity)
+		--if comp.faction == other_entity.faction then return end -- don't phase own units
+		local eloc = other_entity.location
+		local loc = comp.owner.location
+		other_entity:PlayEffect("fx_digital")
+		other_entity:Place(loc.x + 3*(eloc.x- loc.x), loc.y + 3*(eloc.y-loc.y))
+		local peaceful = Map.GetSettings().peaceful or 2
+		if peaceful < 1 then return end
+		other_entity:RemoveHealth(1, "full")
+
+		-- if its not player controlled faction then make it disappear after a few times
+		if not comp.faction.is_player_controlled then
+			local times = comp.extra_data.times or 0
+			times = times + 1
+			local owner = comp.owner
+			if times > 5 then
+				Map.Defer(function() if owner.exists then owner:Destroy() end end)
+			else
+				comp.extra_data.times = times
+			end
+		end
+	end,
+})
+
+
+
