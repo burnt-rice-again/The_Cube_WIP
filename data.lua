@@ -4,6 +4,7 @@ local package = ...
 package.includes = {
 	"Cube_Utilities.lua",
 	"Cube_Visuals.lua",
+	
 	"Cube_Fabricator.lua",
 	"Cube_Items.lua",
 	"Cube_Farming.lua",
@@ -16,7 +17,7 @@ package.includes = {
 	--"Cube_Land_Features.lua",
 	"Cube_Explorables.lua",
 	"Cube_Biomes.lua",
-
+	'Cube_Instructions.lua',
 
 	"Cube_V2_DefinitionTooltip.lua",
 }

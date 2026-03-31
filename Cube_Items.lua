@@ -37,7 +37,7 @@ data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_mine
 
 data.items.steelblock.name = "Steel Beams"
 data.items.steelblock.desc = "The Trusty I beam. A Pylon of Civilization"
-data.items.steelblock.production_recipe = CreateProductionRecipe({metalplate = 4, crystal = 1  }, {c_fabricator = 5}, 2)
+data.items.steelblock.production_recipe = CreateProductionRecipe({metalplate = 4, crystal = 1  }, {c_fabricator = 30}, 2)
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = 'robot'
 data.items.steelblock.tag = "simple_material"

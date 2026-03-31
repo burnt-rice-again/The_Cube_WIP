@@ -18,8 +18,8 @@ data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate =
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 
 data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4, datakey_robot = 1 }, 20)
-data.frames.f_resourcenode_metal.name = "Ruins"
-
+data.frames.f_building2x1e.construction_recipe = CreateConstructionRecipe({ steelblock = 16, concreteslab = 25, datakey_robot = 4 }, 20)
+data.frames.f_building2x1e.component_boost = 0
 -- concrete resources 
 --Frame:RegisterFrame("f_resourcenode_ruins",        CreateResourceDef(10, "Ruins",          "concreteslab",         { 1.0, 1.0, 1.0 }, "Main/textures/icons/frame/concreteslab.png"))
 
@@ -145,7 +145,7 @@ Frame:RegisterFrame("fc_pipe", {
 	name = "Plasma Relay Tower",
 	desc = "Channels Electroplamsa to other towers and receiveing Points",
 	race = "robot",
-    visibility_range = 9,
+    visibility_range = 10,
 	health_points = 500,
 	power = -1,
 	--slots = {anomaly = 1 },

@@ -100,6 +100,15 @@ function cc_cube_fabrication:on_update(comp, cause)
 	if reg1_entity then reg1_id = reg1_entity.id end
 	local product_def, blueprint_def = GetProduction(reg1_id, comp)
 
+	-- pipe inpute check 
+	print(self.pipe_input, self.on_update, comp.id)
+	if self.pipe_input ~= nil and comp.owner:CountItem("ic_soul_plasma") > 0 then 
+		self:pipe_input(comp, cause)
+	end
+
+
+
+
 	if not product_def then
 		-- Production cancel requested
 		return self:end_production(comp, nil, count > 0, true)
@@ -298,11 +307,15 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	desc = "With Fractional Distillation souls can be seperated into thier various emotions",
 	race = "robot",
 	attachment_size = "Large",
+	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	texture = "Main/textures/icons/components/component_adv_refinery_01_l.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
 	visual = "v_adv_refinery_01_m",  --"v_scienceanalyzer_l",
 	production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
 	power = -250,
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_fabricator"] = 150}, 1),
+	slots = {anomaly = 1},
+	range = 3,
+	--pipe_input = data.components.cc_pipe_input.on_update
 })
 
 cc_cube_fabrication:RegisterComponent("cc_red_furnace",{

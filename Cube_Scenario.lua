@@ -47,11 +47,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	-- for key, val in pairs(data.techs) do 
-	-- 	if "tc_" == string.sub(key, 1, 3) then 
-	-- 		faction:Unlock(key)
-	-- 	end
-	-- end
+	for key, val in pairs(data.techs) do 
+		if "tc_" == string.sub(key, 1, 3) then 
+			faction:Unlock(key)
+		end
+	end
 	
 	-- blightness
 	faction.extra_data.blight_fog = 1
@@ -93,6 +93,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:AddComponent("cc_cube_storage")
 	home_entity:AddComponent("cc_manifest")
 	home_entity:AddComponent("c_higrade_capacitor")
+	home_entity:AddComponent("cc_pipe_output_i")
 	--home_entity:AddComponent("c_modulevisibility_m")
 	--home_entity:AddComponent("c_modulevisibility_m")
 	home_entity:AddItem("ic_cube_blue")
@@ -206,15 +207,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	-- testing buildings 
 
-	-- check surroundings
-	-- print(Map.SpawnChunks(loc.x,loc.y,200,200))
-	-- Map.Defer(function()	
-	-- for num = 1,2000 do
-	-- 	local x, y = Map.GetUndiscoveredLocation(num)
-	-- 	faction:RevealArea(x,y,200,200,10)
-	-- end
-	-- end)
-
 	-- local volcano = Map.CreateEntity(faction, "fc_volcano")
 	-- volcano:Place(loc.x+3,loc.y+6)
 
@@ -275,14 +267,14 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	pipe:AddItem("ic_soul_plasma",1)
 	pipe:Place(loc.x-8,loc.y+4)
 
-	-- testing soul refinery 
-	-- pipe = Map.CreateEntity(faction, "f_building2x2c")
-	-- pipe:AddComponent("cc_soul_refinery")
-	-- pipe:AddComponent("cc_pipe_input")
-	-- pipe:AddComponent("c_power_cell")
-	-- pipe:AddComponent("cc_pipe_output")
-	-- pipe:AddItem("concreteslab",180)
-	-- pipe:Place(loc.x-8,loc.y)
+	--testing soul refinery 
+	pipe = Map.CreateEntity(faction, "f_building2x2c")
+	pipe:AddComponent("cc_soul_refinery")
+	pipe:AddComponent("cc_pipe_input")
+	pipe:AddComponent("c_power_cell")
+	--pipe:AddComponent("cc_pipe_output")
+	pipe:AddItem("ic_souls",200)
+	pipe:Place(loc.x-8,loc.y)
 
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")

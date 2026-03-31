@@ -14,13 +14,14 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
     --attachment_size = "Hidden",
     race = "robot",
     power = -100,
-    range = 6,
+    range = 10,
     trigger_radius = 6,
     trigger_channels = "building",
     activation = "OnComponentItemSlotChange",
     effect_send = "fx_alien_monolith_lightning",
     --activation = "Always"
-    
+    get_ui = true,
+    on_remove = function(self, comp) comp.owner.move_boost = 100 end 
 })
 
 
@@ -45,7 +46,7 @@ local function send_plasma(ent_from, ent_to, amt,comp)
         --     ent_from:PlayEffect("fx_alien_monolith_lightning","fx",comp)
         --     return 
         -- end
-        return 
+        return
     end
     --regular pipe transfer
     ent_from:PlayEffect("fx_alien_monolith_lightning","fx",ent_to)
@@ -79,6 +80,7 @@ function cc_pipe_crane:on_trigger(comp, other_entity)
     comp:Activate()
 end
 function cc_pipe_crane:on_add(comp, cause)
+    comp.owner.move_boost = 0
     comp:Activate()
 end
 
@@ -88,6 +90,7 @@ local function send_only_plasma(self, comp, cause)
         local holding = slot.stack
         if holding <= 1 then 
             --no need to continue
+            comp:SetStateSleep(500)
             return  
         end
 
@@ -142,7 +145,10 @@ local function recieve_only_plasma(self, comp, cause)
     end
 end
 
-
+local refinery = data.components.cc_soul_refinery
+function refinery:pipe_input(comp, cause)
+    send_only_plasma(self,comp,cause)
+end
 
 cc_pipe_crane:RegisterComponent("cc_pipe_input",{
 
@@ -154,7 +160,7 @@ cc_pipe_crane:RegisterComponent("cc_pipe_input",{
     send_only = true,
     visual = "v_hacking_tool_s",--'v_blight_control',
     on_update = send_only_plasma,
-    production_recipe = CreateProductionRecipe({steelblock = 8, concreteslab = 4, wire = 1},{c_fabricator = 40})
+    production_recipe = CreateProductionRecipe({steelblock = 8, crystal_powder = 4, wire = 1},{c_fabricator = 40})
 })
 cc_pipe_crane:RegisterComponent("cc_pipe_output",{
 
@@ -179,4 +185,28 @@ cc_pipe_crane:RegisterComponent("cc_pipe_output_h",{
     attachment_size = "Hidden",
     recieve_only = true,
     on_update = recieve_only_plasma,
+})
+
+cc_pipe_crane:RegisterComponent("cc_pipe_output_i",{
+
+    name = "Ectoplasma Reciever",
+    desc = "Takes Ectoplasma In",
+    power = -50,
+    texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
+    attachment_size = "Internal",
+    recieve_only = true,
+    on_update = recieve_only_plasma,
+    visual = "v_generic_i"
+})
+cc_pipe_crane:RegisterComponent("cc_pipe_input_i",{
+
+    name = "Ectoplasma Transmitter",
+    desc = "Sends Ectoplasma Into nearby relays",
+    power = -50,
+    texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
+    attachment_size = "Small",
+    send_only = true,
+    visual = "v_hacking_tool_s",--'v_blight_control',
+    on_update = send_only_plasma,
+    production_recipe = CreateProductionRecipe({steelblock = 8, crystal_powder = 4, wire = 1},{c_fabricator = 40})
 })

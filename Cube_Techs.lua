@@ -244,7 +244,7 @@ data.techs.tc_cube_soul_refining= {
 	unlocks = {
 		-- new resources
 		"ic_soul_plasma",
-		"cc_soul_refinery","fc_pipe","cc_power_souls"
+		"cc_soul_refinery","fc_pipe","cc_power_souls",'cc_pipe_output_i',
 	},
 	require_tech = { "tc_cube_refining" },
 	progress_count = 50,
@@ -470,7 +470,7 @@ data.techs.tc_building3= {
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
-		"f_building1x1b",
+		"f_building1x1b","f_building2x1e",
 		"f_wall","f_gate",
 	},
 	require_tech = {  "tc_building2", "tc_robot_metallurgy_2", },
