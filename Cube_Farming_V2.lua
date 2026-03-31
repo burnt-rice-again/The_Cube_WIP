@@ -98,7 +98,6 @@ end
 
 local function wake_up_planter(self, entity)
     -- get component 
-    print("attempt wake up")
     local comp = entity:FindComponent("cc_crop", true)
     if comp ~= nil and comp.has_extra_data and comp.extra_data.key then
         -- drop yield if it has a drop property
@@ -138,7 +137,7 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
 
     drop = 'wire',
     --on_destroy = wake_up_planter,
-    on_remove = wake_up_planter,
+    
 })
 
 fc_crop:RegisterFrame('fc_crop_wire_seed0',{
@@ -156,6 +155,7 @@ fc_crop:RegisterFrame('fc_crop_wire_plant',{
     visual = 'vc_crop_wire',
     texture = "The_Cube_WIP/textures/wire_seed.png",
     is_flower = true,
+    on_remove = wake_up_planter,
 })
 
 fc_crop:RegisterFrame('fc_crop_phase_seed0',{
@@ -174,9 +174,41 @@ fc_crop:RegisterFrame('fc_crop_phase_plant',{
     visual = 'vc_crop_wire',
     texture = "The_Cube_WIP/textures/phase_seed.png",
     is_flower = true,
+    on_remove = wake_up_planter,
     drop = 'phase_leaf',
+
+    -- copy of phase plant effect 
+    trigger_radius = 2,
+	trigger_channels = "bot",
+	effect = "fx_glitch",
+	on_trigger = function (_, comp, other_entity)
+		if comp.faction == other_entity.faction then return end -- don't phase own units
+		local eloc = other_entity.location
+		local loc = comp.owner.location
+		other_entity:PlayEffect("fx_digital")
+		other_entity:Place(loc.x + 3*(eloc.x- loc.x), loc.y + 3*(eloc.y-loc.y))
+		local peaceful = Map.GetSettings().peaceful or 2
+		if peaceful < 1 then return end
+		other_entity:RemoveHealth(1, "full")
+
+		-- if its not player controlled faction then make it disappear after a few times
+		if not comp.faction.is_player_controlled then
+			local times = comp.extra_data.times or 0
+			times = times + 1
+			local owner = comp.owner
+			if times > 5 then
+				Map.Defer(function() if owner.exists then owner:Destroy() end end)
+			else
+				comp.extra_data.times = times
+			end
+		end
+	end,
+
 })
 
+-- add method for recycling planters
+data.items.wire.production_recipe = CreateProductionRecipe({cc_planter_wire = 1},{c_assembler = 15})
+data.items.phase_leaf.production_recipe = CreateProductionRecipe({cc_planter_phase_leaf = 1},{c_assembler = 15})
 
 
 
