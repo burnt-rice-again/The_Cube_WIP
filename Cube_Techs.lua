@@ -162,7 +162,7 @@ data.techs.tc_cube_refining = {
 data.techs.tc_cube_red_refining = {
 	order = 1,
 	name = "Hidden Fury", -- recovered database etc.
-	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.",
+	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\nUnlock this technology by finding a place to melt the Cube",
 	texture = data.items.ic_cube_red.texture,
 	unlocks = {
 		-- new resources
@@ -171,7 +171,7 @@ data.techs.tc_cube_red_refining = {
 	require_tech = { "tc_cube_basic" },
 	tooltip = 'Find a molten explorable to unlock this tech for free',
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 300),
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
 	category = "Cube_Curiosity",
 }
 -- data.techs.tc_cube_red_power = {
@@ -309,9 +309,6 @@ data.techs.tc_engine= {
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
 	category = "Cube_Obsession",
 }
-
-
-
 ---------- ROBOT ---------------
 data.techs.tc_robot_metallurgy_1 = {
 	order = 2,
@@ -320,9 +317,7 @@ data.techs.tc_robot_metallurgy_1 = {
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
-		"steelblock",
-
-		
+		"steelblock",	
 	},
 	require_tech = { "tc_robot_basic" },
 	progress_count = 100,

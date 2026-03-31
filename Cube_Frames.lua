@@ -204,7 +204,12 @@ Frame:RegisterFrame("f_resourcenode_pixel",  {
 		harvest_id = 'metalore',
 		minimap_color = { 0.3, 0.3, 0.3 },
 })
-
+Frame:RegisterFrame("f_resourcenode_concrete",  {
+		type = "Resource", index = 1, name = "Ruins",
+		texture = "Main/textures/icons/values/resource.png",
+		harvest_id = 'concreteslab',
+		minimap_color = { 0.3, 0.3, 0.3 },
+})
 -------------------------------------------
 ------------- Explorables -----------------
 

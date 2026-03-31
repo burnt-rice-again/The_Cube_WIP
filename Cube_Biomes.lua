@@ -123,6 +123,8 @@ while remove_item_from_array_by_frame("f_resourcenode_blightcrystal")== true do 
 -- 	end
 -- end
 
+
+
 local desert_level = -0.5
 local grass_level = -0.15
 local blight_threshold = Map.GetSettings().blight_threshold - 0.02
@@ -151,6 +153,25 @@ table.insert(data.land_features,{
 		{
 			visuals = { "vc_pixel_ore_1", "vc_pixel_ore_2" },
 			resource = { ic_pixel = resource_inf and {REG_INFINITE ,REG_INFINITE } or { metal_richness_min*200, metal_richness_max*400 } },
+		},
+	}
+})
+-- does not work?
+table.insert(data.land_features,{
+	--exclusive = true,
+	frame = "f_resourcenode_concrete",
+	min_spawn_distance = 50,
+	functions = {
+		{ func = "Threshold", param = "Blightness", range = { -1, blight_threshold } },
+		{ func = "Threshold", param = "Elevation", range = { desert_level, grass_level }, falloff = 0.05 },
+		{ func = "Threshold", param = "Variation", range = { metal_edge-metal_coverage, metal_edge }, falloff = metal_dist_falloff -5, }, --high falloff here increase metal spread
+		{ func = "Threshold", param = "Richness", falloff = 0.1, range = { -1, -1+metal_patch_size }, chance = 0.3},
+	},
+	nodes = {
+		{
+			visuals = {"v_2x2_a_ruined"},
+			--visuals = { "v_simulator_ruined", "v_2x2_a_ruined","v_crashedship_2x2_moss","v_crashedship_2x2_desert","v_explorable_building_4","v_explorable_building_6","v_explorable_building_3", "v_battery_01_l_ruined", "v_missile_launcher_m_ruined","v_transporter_01_m_ruined","v_crashedship_2x1_moss","v_crashedship_2x1_desert","v_explorable_glitchbuilding","v_explorable_brokenship_1" },
+			resource = { concreteslab = resource_inf and {REG_INFINITE ,REG_INFINITE } or { metal_richness_min*45, metal_richness_max*90 } },
 		},
 	}
 })
