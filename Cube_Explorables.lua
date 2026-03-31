@@ -61,7 +61,14 @@ local ec_wire_weed = {
 }
 
 function ec_wire_weed:GetRelevancy(x, y, info)
-    return (info.blightness_delta < 0 and info.elevation > -0.3 and info.elevation < 0.1 and 0.3) or 0.0
+    --return (info.blightness_delta < 0 and info.elevation > -0.3 and info.elevation < 0.1 and 0.3) or 0.0
+	if info.elevation < -0.15 then return 0.0 end -- we want it on grass
+	if info.elevation_delta > -0.02 then return 0.0 end
+	if info.blightness_delta > 0 then return 0.0 end
+
+	return 0.2
+
+
 end
 
 function ec_wire_weed:SpawnExplorable(x, y)

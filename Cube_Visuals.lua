@@ -200,7 +200,7 @@ data.visuals.vc_cube_blue = {
 }
 
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
-data.visuals.vc_sea_grass.scale = {2,2,2}
+data.visuals.vc_sea_grass.scale = {3,3,3}
 data.visuals.vc_sea_grass.flags = "RandomRotation|RandomScale|RandomTranslation"
 
 ------------------ plans 

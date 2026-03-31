@@ -27,10 +27,18 @@ function CreateFoundationsAtArea(x, y, dx, dy, foundation_id, faction)
 end
 function CreateFoundationsFromCentre(x, y, dx, dy, foundation_id, faction)
 	--local l, r = x - 1, x + dx
-	for mew_y = y - dy, y + dy do
+	for new_y = y - dy, y + dy do
 		for new_x = x - dx, x + dx do
-			if not Map.GetFoundationEntityAt(new_x, mew_y) then
-				Map.CreateEntity(faction, foundation_id):Place(new_x, mew_y)
+			if not Map.GetFoundationEntityAt(new_x, new_y) then
+
+				-- remove any exisiting entities 
+				local entities = Map.GetEntitiesAt(new_x,new_y, FF_WALL | FF_GATE | FF_RESOURCE)
+				for i, v in ipairs(entities) do
+					v:Destroy()
+				end
+
+
+				Map.CreateEntity(faction, foundation_id):Place(new_x, new_y)
 			end
 		end
 	end

@@ -292,7 +292,7 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	attachment_size = "Small",
 	visual = "v_crystalpower_01_s",
 	race = "robot",
-	production_recipe = CreateProductionRecipe({ steelblock = 5, crystal = 10 }, { c_assembler = 20 }),
+	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 10 }, { c_assembler = 20 }),
 	activation = "OnPowerStoredEmpty",
 	get_ui = battery_get_ui,
 	consume_item = "crystal",
@@ -302,7 +302,7 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	wait_ticks = 30,
 	-- battery
 	power_storage = 10000,
-	drain_rate = 200,
+	drain_rate = 400,
 })
 
 function cc_crystal_power:on_update(comp, cause)

@@ -44,7 +44,7 @@ data.items.steelblock.tag = "simple_material"
 
 
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
-data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 1, laterite = 20  }, {c_fabricator = 30}, 10)
+data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 4)
 data.items.concreteslab.tag = "simple_material"
 
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40}, 1)

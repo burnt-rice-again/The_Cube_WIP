@@ -337,7 +337,7 @@ data.techs.tc_robot_metallurgy_2 = {
 	texture = data.items.laterite.texture,
 	unlocks = {
 		-- new resources
-		"laterite","aluminiumrod","concreteslab","f_human_foundation_basic",
+		"laterite","concreteslab","f_human_foundation_basic",
 		
 
 		--"f_flyer_m","f_flyer_bot","c_landing_pad","c_small_storage",
