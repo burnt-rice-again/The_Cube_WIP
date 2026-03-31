@@ -158,6 +158,24 @@ fc_crop:RegisterFrame('fc_crop_wire_plant',{
     is_flower = true,
 })
 
+fc_crop:RegisterFrame('fc_crop_phase_seed0',{
+    name = 'Wire Weed Seedling',
+    desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
+    visual = "vc_crop_wire_seed0",
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    next_frame = 'fc_crop_phase_plant',
+    drop = 'phase_leaf',
+    
+})
+
+fc_crop:RegisterFrame('fc_crop_phase_plant',{
+    name = 'Wire Weed',
+    desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
+    visual = 'vc_crop_wire',
+    texture = "The_Cube_WIP/textures/phase_seed.png",
+    is_flower = true,
+    drop = 'phase_leaf',
+})
 
 
 
@@ -214,7 +232,7 @@ end
 
 
 local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
-    name = 'Seed Planter',
+    name = 'Wire Weed Planter',
     texture = "The_Cube_WIP/textures/phase_seed.png",
     desc = "DO NOT SHOW",
     visual = "v_succulent_01",
@@ -223,6 +241,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',
     wait_ticks = 15,
+    power = -100,
     --recipe
     ingriedents = { ic_cube_green = 1}, -- can add additional inputs here
     output = {}, -- can add additional outputs here
@@ -241,6 +260,15 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     drop = 'wire',
 })
 cc_planter.base_id = 'cc_planter'
+
+cc_planter:RegisterComponent('cc_planter_phase_leaf',{
+    name = 'Phase Flower Planter',
+    desc = 'Plants the contained phase flower leaf',
+    seed_id = 'fc_crop_phase_seed0',
+    drop = 'phase_leaf',
+    default_grow_time = 1000,
+})
+
 
 function cc_planter:on_add(comp)
     -- set extra data 

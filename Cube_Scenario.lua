@@ -149,7 +149,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	--spawn landing pad
 	new_entity = Map.CreateEntity(faction, "f_building2x2c")
-	new_entity:AddComponent("cc_planter_wire")
+	new_entity:AddComponent("cc_planter_phase_leaf")
 	new_entity:AddComponent("cc_cube_storage")
 	new_entity:AddComponent("c_adv_portable_turret")
 	new_entity:AddItem("ic_cube_green", 1)
