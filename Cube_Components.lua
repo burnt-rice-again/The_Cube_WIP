@@ -337,7 +337,7 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
-	if comp.stored_power > 0.5 then
+	if comp.stored_power > 0.5 * self.power_storage then
 		if comp.has_prepared_process then
 			-- keep 1 ordered/reserved for once power runs out
 			--comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount}, 1)
@@ -354,7 +354,7 @@ function cc_crystal_power:on_update(comp, cause)
 	end
 
 	-- reserve or order 2 crystal so 1 can be consumed immediately and 1 is kept reserved
-	local can_make = comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount*2, [self.cube_in] = 1}, 2)
+	local can_make = comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount, [self.cube_in] = 1}, 2)
 	if not can_make then
 		return comp:SetStateSleep()
 	end
@@ -390,22 +390,22 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60})
 })
 
-cc_crystal_power:RegisterComponent("cc_power_souls",{
+data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 	name = "Soul Consumption", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
 	desc = [[Consumes Soul Plasma for energy 
-		<img width="50" height="50" image="Main/textures/icons/items/anomaly_particle.png"/>x1 --><img width="50" height="50" image="The_Cube_WIP/textures/cube_blue_drained.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+		<img width="50" height="50" image="Main/textures/icons/items/anomaly_particle.png"/>x1 --><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+		Requires drastically less Cube time compared to crystal power 
 	]],
 	visual = "v_power_cell_01_s",
-	power_storage = 200000,
-	drain_rate = 2000,
+	power_storage = 5000,
+	drain_rate = 50,
 	consume_item = "ic_soul_plasma",
-	consume_amount = 1,
-	cube_in = "ic_cube_blue",
-	attachment_size = "Medium",
-	wait_ticks = 100,
-	production_recipe = CreateProductionRecipe({concreteslab = 4, reinforced_plate = 8},{c_assembler = 60}, 1)
+	wait_ticks = 11,
+	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
 })
+
+
 
 ---TIME TRAVEL MACHINE ----------------------------------------------------------
 

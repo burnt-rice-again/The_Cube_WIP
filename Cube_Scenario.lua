@@ -269,11 +269,16 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	pipe = Map.CreateEntity(faction, "f_building2x2c")
 	pipe:AddComponent("cc_soul_refinery")
 	pipe:AddComponent("cc_cube_storage")
-	pipe:AddComponent("c_power_cell")
 	--pipe:AddComponent("cc_pipe_output")
 	pipe:AddItem("ic_souls",200)
 	pipe:AddItem("ic_cube_blue",1)
 	pipe:Place(loc.x-8,loc.y)
+
+	pipe = Map.CreateEntity(faction, "f_building2x1f")
+	pipe:AddComponent("cc_power_souls")
+	pipe:AddComponent("cc_pipe_output")
+	--pipe:AddComponent("cc_pipe_output")
+	pipe:Place(loc.x-11,loc.y+8)
 
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
