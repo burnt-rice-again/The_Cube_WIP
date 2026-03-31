@@ -278,7 +278,7 @@ cc_cube_fabrication:RegisterComponent("cc_refinery",{
 	visual = "v_refinery_01_m",
 	production_effect = "fx_refinery",
 	power = -1000,
-	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["circuit_board"]=2}, {["c_fabricator"] = 150}, 1),
+	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_fabricator"] = 150}, 1),
 })	
 
 cc_cube_fabrication:RegisterComponent("cc_manifest",{

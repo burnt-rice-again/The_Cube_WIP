@@ -82,7 +82,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	--home_entity:AddComponent("c_modulevisibility_m")
 	  
 	home_entity:AddItem("ic_cube_blue")
-	home_entity:AddItem("circuit_board", 20)
+	home_entity:AddItem("datakey_robot", 20)
 	home_entity:AddItem("metalplate", 40)
 	home_entity:AddItem("cc_cube_storage", 1)
 	home_entity:AddItem("cc_crystal_power", 1)

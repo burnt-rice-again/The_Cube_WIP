@@ -49,29 +49,29 @@ data.components.samplecomponent = {
 -- end
 -- data.components.c_refinery.name = "Cube Refinery"
 -- data.components.c_refinery.power = -1000
--- data.components.c_refinery.production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["circuit_board"]=2}, {["c_assembler"] = 150}, 1)
+-- data.components.c_refinery.production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_assembler"] = 150}, 1)
 -------------------
 
 data.components.c_fabricator.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 3}, {['c_fabricator'] = 50, c_assembler = 25},1 )
 
 ---lvl0
-data.components.c_uplink.production_recipe = CreateProductionRecipe({["metalplate"]=20,["circuit_board"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_uplink.production_recipe = CreateProductionRecipe({["metalplate"]=20,["datakey_robot"]=10}, {["c_assembler"] = 150}, 1)
 data.components.c_small_relay.production_recipe = CreateProductionRecipe({["metalplate"]=6,["crystal"]=4}, {["c_assembler"] = 40}, 1)
 data.components.c_assembler.production_recipe = CreateProductionRecipe({["metalplate"] = 10, ["crystal"] = 5}, {['c_fabricator'] = 50, c_assembler = 25},1 )
-data.components.c_behavior.production_recipe = CreateProductionRecipe({["circuit_board"] = 1}, {['c_assembler'] = 5},1 )
-data.components.c_shared_storage.production_recipe = CreateProductionRecipe({["circuit_board"] = 1}, {['c_assembler'] = 5},1 )
+data.components.c_behavior.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
+data.components.c_shared_storage.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
 
 data.components.c_signal_reader.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
-data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["circuit_board"] = 2, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
-data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["circuit_board"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
-data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["circuit_board"] = 1}, {['c_assembler'] = 5},1 )
-data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["circuit_board"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 2, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
+data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["datakey_robot"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
 data.components.c_portable_turret.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
 data.components.c_melee_pulse.production_recipe = CreateProductionRecipe({["steelblock"] = 6, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
-data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4, ['circuit_board']=1}, {['c_assembler'] = 25},1 )
-data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({["metalplate"] = 6, ["crystal"] = 4, ['circuit_board']=1}, {['c_assembler'] = 25},1 )
+data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
+data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({["metalplate"] = 6, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
 
 
 
@@ -97,8 +97,8 @@ data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["meta
 data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
 
 -- Improved Weapons 1 
-data.components.c_repairkit.production_recipe = CreateProductionRecipe({["circuit_board"]=1,["metalplate"]=1}, {["c_assembler"] = 30}, 1)
-data.components.c_repairer.production_recipe = CreateProductionRecipe({["circuit_board"]=1,["steelblock"]=2}, {["c_assembler"] = 30}, 1)
+data.components.c_repairkit.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["metalplate"]=1}, {["c_assembler"] = 30}, 1)
+data.components.c_repairer.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["steelblock"]=2}, {["c_assembler"] = 30}, 1)
 data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe({["ic_soul_angry"]=1,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
 data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["phase_leaf"]=4,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
 -- storages 

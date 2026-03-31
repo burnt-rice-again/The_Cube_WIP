@@ -8,11 +8,11 @@ local cc_scrap_converter = Comp:RegisterComponent("cc_scrap_converter", {
 	attachment_size = "Medium",
 	power = -20, 
 	visual = "v_blight_converter",
-	--production_recipe = CreateProductionRecipe({ metalbar = 10, circuit_board = 2, metalplate = 5 }, { c_fabricator = 60 }),
+	--production_recipe = CreateProductionRecipe({ metalbar = 10, datakey_robot = 2, metalplate = 5 }, { c_fabricator = 60 }),
 	activation = "OnAnyItemSlotChange",
 	registers = { { read_only = true, tip = "Converting" }  },
 	requires_blight = false,
-	production_recipe = CreateProductionRecipe({ metalbar = 10, circuit_board = 2, metalplate = 5 }, { c_fabricator = 60 })
+	production_recipe = CreateProductionRecipe({ metalbar = 10, datakey_robot = 2, metalplate = 5 }, { c_fabricator = 60 })
 })
 
 cc_scrap_converter.recipes = {
@@ -24,7 +24,7 @@ cc_scrap_converter.recipes = {
 	},
 	{ 	id = "aluminiumrod", 
 		desc = "Search For More Valuable Materials",
-		amt = {["metalore"] = 20, ["circuit_board"] = 1} , 
+		amt = {["metalore"] = 20, ["datakey_robot"] = 1} , 
 		t = 50,
 		to = {["aluminiumrod"] = 5},
 		tech = "tc_cube_aluminium",
@@ -218,7 +218,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 	attachment_size = "Small",
 	visual = "v_blightpowergenerator_01_m",
 	power = -500,
-	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 20, circuit_board = 1 }, { c_fabricator = 30, }),
+	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 20, datakey_robot = 1 }, { c_fabricator = 30, }),
 	recipes = {
 		{ 	id = "ic_cube_green", 
 		amt = {["ic_cube_empty"] = 1} , 

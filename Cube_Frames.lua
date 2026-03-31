@@ -2,7 +2,7 @@
 
 
 -- Mark V [M] bot
---data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ aluminiumsheet = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+--data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ aluminiumsheet = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
 --cub
 
 -- [s] bots
@@ -13,11 +13,11 @@
 data.frames.f_building1x1d.construction_recipe = CreateConstructionRecipe({ metalplate = 4, crystal = 1 }, 20)
 data.frames.f_building1x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 8 }, 20)
 data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4 }, 20)
-data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 16, circuit_board = 4 }, 20)
-data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, circuit_board = 1 }, { c_robotics_factory = 50, c_carrier_factory = 100 })
+data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 16, datakey_robot = 4 }, 20)
+data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, datakey_robot = 1 }, { c_robotics_factory = 50, c_carrier_factory = 100 })
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 
-data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 12, circuit_board = 2 }, 20)
+data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 12, datakey_robot = 2 }, 20)
 data.frames.f_resourcenode_metal.name = "Ruins"
 
 -- concrete resources 
@@ -31,19 +31,19 @@ data.frames.f_building1x1c.construction_recipe = CreateConstructionRecipe({ meta
 data.frames.f_building1x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 16,  crystal = 8  }, 20)
 
 
-data.frames.f_bot_2s.production_recipe = CreateProductionRecipe({ steelblock = 6, circuit_board = 2, wire = 4 }, { c_robotics_factory = 80 })
-data.frames.f_bot_1s_b.production_recipe = CreateProductionRecipe({ metalplate = 2, circuit_board = 1, steelblock = 4 }, { c_robotics_factory = 80 })
-data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ steelblock = 10, circuit_board = 1, metalplate = 5 }, { c_robotics_factory = 80 })
-data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 8, circuit_board = 2 }, 30)
-data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, circuit_board = 5 }, 40)
+data.frames.f_bot_2s.production_recipe = CreateProductionRecipe({ steelblock = 6, datakey_robot = 2, wire = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1s_b.production_recipe = CreateProductionRecipe({ metalplate = 2, datakey_robot = 1, steelblock = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ steelblock = 10, datakey_robot = 1, metalplate = 5 }, { c_robotics_factory = 80 })
+data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 8, datakey_robot = 2 }, 30)
+data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, }, 40)
 
 data.frames.f_wall.construction_recipe = CreateConstructionRecipe({ metalplate = 1, concreteslab = 4 }, 20)
 data.frames.f_gate.construction_recipe = CreateConstructionRecipe({ metalplate = 2, concreteslab = 4, crystal = 2 }, 20)
 
--- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
--- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
--- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, circuit_board = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+-- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+-- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
+-- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
 
 data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 6, metalplate = 8 }, { c_robotics_factory = 80 })
 
@@ -51,8 +51,8 @@ data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul
 
 --- lvl2
 
-data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, circuit_board = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
-data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, circuit_board = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
+data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, datakey_robot = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
+data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, datakey_robot = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
 
 
 
@@ -106,7 +106,7 @@ Frame:RegisterFrame("f_flyer_m", {
 	is_tethered = true,
 	--convert_to = "flyer_package_m",
 	visual = "v_flyer_m",
-	production_recipe = CreateProductionRecipe({ aluminiumrod = 4, aluminiumsheet = 3, circuit_board = 2 }, { c_robotics_factory = 100 }),
+	production_recipe = CreateProductionRecipe({ aluminiumrod = 4, aluminiumsheet = 3, datakey_robot = 2 }, { c_robotics_factory = 100 }),
 	components = {
 		{ "c_higrade_capacitor", "hidden" },
 		{ "c_blight_shield", "hidden" },
@@ -145,7 +145,7 @@ Frame:RegisterFrame("fc_crystal_power_red", {
 	health_points = 500,
 	--power = 0,
 	slots = {storage = 11,cube = 1 },
-	construction_recipe = CreateConstructionRecipe({ concreteslab = 250, steelblock = 150, circuit_board = 20 }, 120),
+	construction_recipe = CreateConstructionRecipe({ concreteslab = 250, steelblock = 150, datakey_robot = 20 }, 120),
 	texture = "Main/textures/icons/values/plateau.png",
 	trigger_channels = "building",
 	visual = "v_human_powerplant",

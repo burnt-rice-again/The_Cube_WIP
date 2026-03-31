@@ -69,7 +69,7 @@ data.techs.tc_cube_basic = {
 		--"cc_pipe_crane",""
 
 		-- starting resources		
-		"ic_cube_blue","ic_cube_empty","datakey_robot","circuit_board","ic_souls",
+		"ic_cube_blue","ic_cube_empty","datakey_robot","ic_souls",
 		-- starting buildings
 		-- starting bots 
 		-- starting componenets
@@ -362,7 +362,7 @@ data.techs.tc_robot_beacons1 = {
 	},
 	require_tech = { "tc_robot_metallurgy_2" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, circuit_board = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, datakey_robot = 1 }, 50),
 	category = "Independance",
 }
 
@@ -381,7 +381,7 @@ data.techs.tc_robot_frames_1 = {
 	},
 	require_tech = { "tc_upgrades_basic" },
 	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({ circuit_board = 1}, 25),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1}, 25),
 	category = "Independance",
 }
 data.techs.tc_robot_frames_2 = {
@@ -396,7 +396,7 @@ data.techs.tc_robot_frames_2 = {
 	},
 	require_tech = { "tc_robot_frames_1" },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ circuit_board = 1, steelblock = 1}, 25),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1}, 25),
 	category = "Independance",
 }
 data.techs.tc_robot_frames_3 = {
@@ -413,7 +413,7 @@ data.techs.tc_robot_frames_3 = {
 	},
 	require_tech = { "tc_robot_frames_2" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ circuit_board = 1, steelblock = 1, wire = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1, wire = 1}, 50),
 	category = "Independance",
 }
 data.techs.tc_robot_frames_4 = {
@@ -430,7 +430,7 @@ data.techs.tc_robot_frames_4 = {
 	},
 	require_tech = { "tc_robot_frames_3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ circuit_board = 1, steelblock = 1, wire = 1, ic_soul_happy = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1, wire = 1, ic_soul_happy = 1}, 50),
 	category = "Independance",
 }
 

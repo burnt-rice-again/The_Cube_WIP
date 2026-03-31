@@ -47,14 +47,7 @@ data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. 
 data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 1, laterite = 20  }, {c_fabricator = 30}, 10)
 data.items.concreteslab.tag = "simple_material"
 
-data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, circuit_board = 1}, {c_fabricator = 40}, 1)
-
-data.items.circuit_board.production_recipe = CreateProductionRecipe({crystal = 4, metalplate = 1}, {c_fabricator = 60, cc_green_brain = 20}, 1)
-data.items.circuit_board.name = "Primitive Cortex"
-data.items.circuit_board.desc = "A 2D Slice of a cube\nIt has been imprinted with a primitive cognition pattern"
-
-
-
+data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40}, 1)
 
 
 data.items.crystal.name = "Resonance Crystal"
@@ -218,7 +211,7 @@ data.items.datakey_robot = {
 	visual = "v_gears",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, circuit_board = 2 }, { cc_manifest = 30, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, datakey_robot = 2 }, { cc_manifest = 30, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
 }
 data.items.ic_souls = {
 	name = "Lingering Souls",
