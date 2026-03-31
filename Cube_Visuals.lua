@@ -126,9 +126,7 @@ data.visuals.vc_souls ={
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/Impostors/MI_Resource_Blight_Small_01_Impostor.MI_Resource_Blight_Small_01_Impostor'",}
 }
 
-data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
-data.visuals.vc_sea_grass.scale = {2,2,2}
-data.visuals.vc_sea_grass.flags = "RandomRotation"
+
 
 data.visuals.vc_mug_anim = {
 	animesh = "The_Cube_WIP/textures/In Progress Blender/Cube_test_2.glb",
@@ -199,4 +197,28 @@ data.visuals.vc_cube_blue = {
 	scale = {0.03,0.03,0.03},
 	--mesh_sockets = { ["fx"] = {50,50,100}, },
 	--placement = "AtCenter",
+}
+
+data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
+data.visuals.vc_sea_grass.scale = {2,2,2}
+data.visuals.vc_sea_grass.flags = "RandomRotation|RandomScale|RandomTranslation"
+data.visuals.vc_sea_grass.sockets = {
+		{ "",       "Internal" },
+		{ "",       "Internal" },
+}
+------------------ plans 
+---
+data.visuals.vc_crop_wire = Tool.Copy(data.visuals.v_succulent_04)
+data.visuals.vc_crop_wire.scale = {2,2,2}
+data.visuals.vc_crop_wire.flags = "RandomRotation|RandomScale|RandomTranslation"
+data.visuals.vc_crop_wire.sockets = {
+		{ "",       "Internal" },
+		{ "",       "Internal" },
+}
+data.visuals.vc_crop_wire_seed0 = Tool.Copy(data.visuals.v_succulent_01)
+data.visuals.vc_crop_wire_seed0.scale = {2,2,2}
+data.visuals.vc_crop_wire_seed0.flags = "RandomRotation|RandomScale|RandomTranslation"
+data.visuals.vc_crop_wire_seed0.sockets = {
+		{ "",       "Internal" },
+		{ "",       "Internal" },
 }

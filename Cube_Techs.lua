@@ -211,9 +211,9 @@ data.techs.tc_cube_green_discovery= {
 		-- new resources
 		"ic_cube_green",
 		-- phase farming 
-		"cc_plant_seed2","wire",
+		"wire",
 
-		"cc_planter"
+		"cc_planter_wire"
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 50,

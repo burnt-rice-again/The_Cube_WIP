@@ -13,41 +13,60 @@
 --- 
 --- no resource input?
 --- 
---- 
+--- extra data table inlcudes
+---  
+-- {
+--     key = entity key
+--     yield = comp.extra_data.yield or 1,
+--     growth_time = comp.extra_data.growth_time or 100,
+-- }
 
 
-local cc_crop_grow = Comp:RegisterComponent('cc_crop',{
+
+
+local cc_crop = Comp:RegisterComponent('cc_crop',{
     -- wait a set amount of time 
     -- grow the crop at the end 
     -- keep plant data. d
     name = "plant growth",
     desc = "Will grow the plant once the work completes",
-    texture = "The_Cube_WIP/textures/phase_seed.png",
+    texture = "Main/textures/icons/hidden/higrade_capacitor.png",
+    activation = 'Manual',
+
+    attachment_size = "Hidden",
+    race = 'robot',
+    visual = "v_generic_i",
     
     next_frame = "fc_crop",
     base_id = "cc_crop",
     
-    on_add = function(self, comp) comp:SetStateStartWork(100)  end,
+    on_add = function(self, comp) comp:Activate() end,
+    on_update = function(self, comp) 
+        print("update crop")
+        comp:SetRegister(1,{Id = comp.owner.def.drop, Num = comp.extra_data.yield or 1})
+        comp:SetRegister(2,{ Num = comp.extra_data.growth_time or 100})
+        comp:SetStateStartWork(comp.extra_data.growth_time or 100)  end,
 
 	registers = {
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
     },
+    production_recipe = false,
+    index = 9999
     -- will have extra_data.key to find planter
 })
+
+
 
 local function wake_up_planter(self, entity)
     -- get component 
     local comp = entity:FindComponent("cc_crop", true)
     if comp ~= nil and comp.has_extra_data and comp.extra_data.planter_key then
         -- drop yield if it has a drop property
-        if self.drop then 
+        if self.next_frame == nil then
             Map.DropItemAt(entity.location, self.drop, ((1 * self.extra_data.yield) or 1), "f_dropped_resource")
             -- TODO drop seedling
-        
         end
-
-
 
         -- get planter key from extra data
         local planter_frame = Map.GetEntityFromKey(comp.extra_data.planter_key)
@@ -71,22 +90,36 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     minimap_color = { 0, 1, 0 },
     visual = "v_succulent_01",
     texture = "The_Cube_WIP/textures/phase_seed.png",
+	components = {
+		{ "cc_crop", "hidden" },
+        { "c_higrade_capacitor", "hidden" },
+	},
 
-    drop = 'phase_leaf',
-    next_frame = 'fc_crop_wire_plant',
+    slots = {storage = 1},
 
+    --next_frame = 'fc_crop_wire_plant',
+
+    drop = 'wire',
     on_destroy = wake_up_planter,
     on_remove = wake_up_planter,
-    
 })
 
 fc_crop:RegisterFrame('fc_crop_wire_seed0',{
     name = 'Wire Weed Seedling',
     desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
-    drop = nil,
+    visual = "vc_crop_wire_seed0",
+    texture = "The_Cube_WIP/textures/wire_seed.png",
+
+    next_frame = 'fc_crop_wire_plant',
+    
 })
 
-
+fc_crop:RegisterFrame('fc_crop_wire_plant',{
+    name = 'Wire Weed',
+    desc = 'Conductive Reeds ready for winding onto a spool',
+    visual = 'vc_crop_wire',
+    texture = "The_Cube_WIP/textures/wire_seed.png",
+})
 
 
 
@@ -140,7 +173,7 @@ end
 
 
 
-local cc_planter = Comp:RegisterComponent('cc_planter',{
+local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     name = 'Seed Planter',
     texture = "The_Cube_WIP/textures/phase_seed.png",
     desc = "DO NOT SHOW",
@@ -150,10 +183,11 @@ local cc_planter = Comp:RegisterComponent('cc_planter',{
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',
     wait_ticks = 100,
+    base_id = 'cc_planter',
     --recipe
     ingriedents = { ic_cube_green = 1}, -- can add additional inputs here
     output = {}, -- can add additional outputs here
-    output_cube = 'ic_cube_green',
+    output_cube = 'ic_cube_green', -- replace cube with
     
     registers = {
 		{ read_only = true, type = "Target", tip = "Planting seed at", ui_icon = "icon_target", },
@@ -161,22 +195,22 @@ local cc_planter = Comp:RegisterComponent('cc_planter',{
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
 	},
+
+    -- change these with each new plant
+    seed_id = "fc_crop_wire_seed0",
+    drop = 'wire',
 })
 
 function cc_planter:on_add(comp)
     -- set extra data 
     if comp.has_extra_data == false then 
         comp.extra_data.yield = 1
+        comp.extra_data.growth_time = 100
+        comp:SetRegister(3,{Id = self.drop, })
     end
-    -- start working 
-
-    -- request green cube 
-
+    -- start working
     comp:Activate()
 end
-
-
-
 
 function cc_planter:get_reg_error(comp)
    
@@ -198,7 +232,6 @@ local function clear_planter_position(comp)
     comp:SetRegister(2)
 end
 
-
 function cc_planter:on_update(comp, cause)
     -- activated 
     --print(cause, cause & CC_FINISH_WORK == true)
@@ -215,15 +248,20 @@ function cc_planter:on_update(comp, cause)
             -- Fufill Process 
             comp:FulfillProcess()
             comp.owner:AddItem(self.output_cube)
-            
-
+        
             --place crop 
             Map.Defer( function()
             --print('placing plant')
-            local plant = Map.CreateEntity(comp.faction, 'fc_wire_plant')
-            plant:Place(cord.x,cord.y)
-                -- add turn and throw effect 
-            end)
+            local plant = Map.CreateEntity(comp.faction, self.seed_id)
+            local crop = plant:GetHiddenComponent(1)
+            if crop then 
+                crop.extra_data.key = comp.owner.key
+                crop.extra_data.yield = comp.extra_data.yield or 1
+                crop.extra_data.growth_time = comp.extra_data.growth_time or 100
+            else print("co crop comp") end
+            plant:Place(cord,comp.owner,false)
+        -- TODO add turn and throw effect 
+    end)
         else 
             comp:FlagRegisterError(2,"Can no longer Plant At Target")
             comp:CancelProcess()
@@ -280,50 +318,6 @@ function cc_planter:on_update(comp, cause)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
------ planter not based on cc_crystal_power
-
-
-
-
---- entity:area and size 
---- entity:inRangeTo
 
 
 

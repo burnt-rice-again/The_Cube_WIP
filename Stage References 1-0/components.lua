@@ -7460,7 +7460,6 @@ c_fabricator:RegisterComponent("c_mission_human_aicenter", {
 	power = -100,
 })
 
-
 c_fabricator:RegisterComponent("c_alien_factory_robots", {
 	attachment_size = "Large", race = "alien", index = 5001, name = "Alien Factory",
 	texture = "Main/textures/icons/components/Component_Alien_Factory_01_L.png",
