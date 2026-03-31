@@ -183,7 +183,6 @@ local function update_cube_location(comp, item)
 	if comp.owner:CountItem(item) > 0 then 
 		local faction = comp.faction
 		faction.extra_data.cube_key = comp.owner.key
-		print(comp.owner.key)
 		faction.extra_data.cube_type = item
 		faction.extra_data.cube_cord = comp.owner.location
 	end

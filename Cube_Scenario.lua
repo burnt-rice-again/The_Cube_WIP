@@ -20,6 +20,7 @@ function package:on_world_spawn()
 	local bug_faction = GetBugsFaction()
 
 	local faction_time_bots = Map.CreateFaction("time_bots")
+	faction_time_bots.default_trust = "ENEMY"
 
 end
 

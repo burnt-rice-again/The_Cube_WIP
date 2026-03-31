@@ -72,14 +72,12 @@ data.instructions.get_cube_entity = {
         
         if not faction.has_extra_data or faction.extra_data.cube_type == nil then 
             --no cube data
-            print("no extra data")
             Set(comp, state, out_result)
             state.counter = out_no_result
             return 
         end
         local key = faction.extra_data.cube_key
         if key == nil then 
-            print("not valid key", key)
             Set(comp, state, out_result)
             state.counter = out_no_result
             return 
@@ -87,7 +85,6 @@ data.instructions.get_cube_entity = {
         local entity = Map.GetEntityFromKey(key)
         if entity == nil then 
             -- entity could not be found 
-            print("not valid entity", key)
             Set(comp, state, out_result)
             state.counter = out_no_result
             return 
@@ -96,23 +93,63 @@ data.instructions.get_cube_entity = {
         local cube_id = faction.extra_data.cube_type
         if entity:CountItem(cube_id) == 0 then
             -- not holding cube
-            print("not holding cube")
             Set(comp, state, out_result)
             state.counter = out_no_result
             return 
         end
         -- successfully found id 
-        print("return cube id", entity)
         Set(comp, state, out_result, {entity = entity })
 	end,
 	args = {
-		{ 'out', "Unit", "Returns the Unit Currently Holding the Cube" },
+		{ 'out', "Unit", "Returns the Unit currently holding the Cube" },
+        { 'exec', "No Unit", "No Unit is currently holding the Cube\nTry Get Cube Location Instead" },
 	},
-	name = "Get Cube Holder",
+	name = "Get Cube Bearer",
 	desc = "Returns the entity currently holding the Cube",
 	category = "Global",
 	icon = "Main/skin/Icons/Common/56x56/Distance.png",
 	explain = [[Returns the Entity Currently Holding The Cube]],
 }
 
+data.instructions.get_cube_location = {
+    func = function(comp, state, cause, out_result, out_no_result)
+
+        -- begins the same as get entity 
+		local faction = comp.faction
+        
+        if not faction.has_extra_data or faction.extra_data.cube_type == nil then 
+            --no cube data
+            Set(comp, state, out_result,faction.extra_data.cube_cord )
+            return 
+        end
+        local key = faction.extra_data.cube_key
+        if key == nil then 
+            Set(comp, state, out_result,faction.extra_data.cube_cord )
+            return 
+        end
+        local entity = Map.GetEntityFromKey(key)
+        if entity == nil then 
+            -- entity could not be found 
+            Set(comp, state, out_result,faction.extra_data.cube_cord )
+            return 
+        end
+        -- check has cube 
+        local cube_id = faction.extra_data.cube_type
+        if entity:CountItem(cube_id) == 0 then
+            -- not holding cube
+            Set(comp, state, out_result,faction.extra_data.cube_cord )
+            return 
+        end
+        -- successfully found id 
+        Set(comp, state, out_result, {coord = entity.location })
+	end,
+	args = {
+		{ 'out', "Coordinate", "The last known location of the Cube" },
+	},
+	name = "Get Cube Location",
+	desc = "Returns the last known location of the Cube",
+	category = "Global",
+	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	explain = [[Returns the last known location of the Cube]],
+}
 
