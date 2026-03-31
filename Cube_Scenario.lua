@@ -158,7 +158,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- new_entity:AddItem("c_portable_radar", 2)
 	-- new_entity:AddItem("c_deconstructor", 1)
 	--home_entity:AddItem("cc_manifest")
-	new_entity:Place(loc.x+7, loc.y)
+	new_entity:Place(loc.x+13, loc.y)
 
 	new_entity = Map.CreateEntity(faction, "fc_crop_wire_seed0")
 	new_entity:Place(loc.x+10, loc.y-6)
