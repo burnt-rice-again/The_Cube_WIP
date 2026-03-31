@@ -68,17 +68,10 @@ function ec_wire_weed:SpawnExplorable(x, y)
     local ruin_comp = Map.CreateEntity("world", "f_explorable", 'vc_sea_grass', true)
     ruin_comp.extra_data.rewards = {cc_planter_wire = 1}
     ruin_comp:Place(x, y, math.random(4)-1)
-    -- add fixx item 
+    -- add fixx item lvl1 
     local fix = ruin_comp:AddComponent("c_explorable_fix", "hidden")
     fix.extra_data.explorable_fix = "datakey_robot"
     ruin_comp:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
-    
-
-	-- entity.extra_data.rewards = {cc_planter_wire = 1}
-    -- local fix = entity:AddComponent("cc_explorable_fix_wire_weed", "hidden")
-	-- fix.extra_data.explorable_fix = "datakey_robot"
-	-- entity:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
-	-- entity:Place(x,y,math.random(4)-1)
 
 end
 
