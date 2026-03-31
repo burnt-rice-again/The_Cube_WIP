@@ -126,13 +126,13 @@ local function wake_up_planter(self, entity)
         -- need to wake up planter if its still exists
         -- get planter key from extra data
         local planter_frame = Map.GetEntityFromKey(comp.extra_data.key)
-        print(planter_frame)
+        --print(planter_frame)
         if planter_frame then
             -- retrieve planter componet
             local plant_comp = planter_frame:FindComponent("cc_planter", true)
-            print(plant_comp)
+            --print(plant_comp)
             if plant_comp then 
-                print("WAKE UP!")
+                --print("WAKE UP!")
                 plant_comp:Activate()
             end
         end
@@ -255,7 +255,7 @@ end
 local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     name = 'Wire Weed Planter',
     texture = "The_Cube_WIP/textures/phase_seed.png",
-    desc = "DO NOT SHOW",
+    desc = "Plants the contained seed at nearby unobstructed tiles, Select for seeds with higher yields",
     visual = "v_succulent_01",
     production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1 }, { cc_manifest = 30 },1, {ic_cube_blue = 1}),
     range = 2,
@@ -284,7 +284,6 @@ cc_planter.base_id = 'cc_planter'
 
 cc_planter:RegisterComponent('cc_planter_phase_leaf',{
     name = 'Phase Flower Planter',
-    desc = 'Plants the contained phase flower leaf',
     seed_id = 'fc_crop_phase_seed0',
     drop = 'phase_leaf',
     default_grow_time = 1000,

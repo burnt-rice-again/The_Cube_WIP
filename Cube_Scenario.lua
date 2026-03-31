@@ -23,6 +23,20 @@ function package:on_world_spawn()
 
 end
 
+local function tester_spawn_observers(faction, x,y)
+
+	local size = 100
+	local tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower:Place(x+size,y+size)
+	tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower:Place(x+size,y-size)
+	tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower:Place(x-size,y+size)
+	tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower:Place(x-size,y-size)
+
+end
+
 
 -- called when a new player faction is spawned or respawned
 --- Start with an adv base + cube 
@@ -39,7 +53,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- 	end
 	-- end
 	
-	-- blight
+	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
 
@@ -78,6 +92,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	local home_entity = Map.CreateEntity(faction, "f_landingpod")
 	home_entity:AddComponent("c_assembler")
 	home_entity:AddComponent("cc_cube_storage")
+	home_entity:AddComponent("c_higrade_capacitor")
 	--home_entity:AddComponent("c_modulevisibility_m")
 	--home_entity:AddComponent("c_modulevisibility_m")
 	  
@@ -264,6 +279,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
 
-	
+	tester_spawn_observers(faction, loc.x,loc.y)
 end
 

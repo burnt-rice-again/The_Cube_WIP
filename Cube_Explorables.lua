@@ -80,54 +80,54 @@ data.explorables.ec_wire_weed = ec_wire_weed
 ---
 
 
-local ruins_array = {"v_battery_01_l_ruined", "v_missile_launcher_m_ruined","v_transporter_01_m_ruined","v_explorable_glitchbuilding","v_simulator_ruined", "v_2x2_a_ruined","v_explorable_building_6","v_explorable_building_3" } 
-local ruins_count = #ruins_array
+-- local ruins_array = {"v_battery_01_l_ruined", "v_missile_launcher_m_ruined","v_transporter_01_m_ruined","v_explorable_glitchbuilding","v_simulator_ruined", "v_2x2_a_ruined","v_explorable_building_6","v_explorable_building_3" } 
+-- local ruins_count = #ruins_array
 
 
-local ec_city1 = {
-    name = "volcano",
-}
+-- local ec_city1 = {
+--     name = "volcano",
+-- }
 
-local function PlaceRandomRuin(x,y)  
-    local visual = ruins_array[math.random(ruins_count)]
-	local new_entity = Map.CreateEntity("world", "f_resourcenode_metal", visual)
-    print(visual)
-	new_entity:SetRegister(FRAMEREG_GOTO, {id="metalore",num=math.random(1000, 25000)})
-	new_entity:Place(x, y, math.random(4))
-end
+-- local function PlaceRandomRuin(x,y)  
+--     local visual = ruins_array[math.random(ruins_count)]
+-- 	local new_entity = Map.CreateEntity("world", "f_resourcenode_metal", visual)
+--     print(visual)
+-- 	new_entity:SetRegister(FRAMEREG_GOTO, {id="metalore",num=math.random(1000, 25000)})
+-- 	new_entity:Place(x, y, math.random(4))
+-- end
 
 
-function ec_city1:GetRelevancy(x, y, info)
-    local faction = Map.GetPlayerFactions()[0]
-    if faction then 
-        --faction exisits
-        if faction.home_entity and faction.home_entity:GetRangeTo(x,y) < 100 then return 0 end 
-    elseif x < 200 and y < 200 then 
-        --only on intial world load before faction spawned
-        return 0
-    end
-    return CheckFreeSpace(x,y) and 1 or 0
-end
+-- function ec_city1:GetRelevancy(x, y, info)
+--     local faction = Map.GetPlayerFactions()[0]
+--     if faction then 
+--         --faction exisits
+--         if faction.home_entity and faction.home_entity:GetRangeTo(x,y) < 100 then return 0 end 
+--     elseif x < 200 and y < 200 then 
+--         --only on intial world load before faction spawned
+--         return 0
+--     end
+--     return CheckFreeSpace(x,y) and 1 or 0
+-- end
 
-function ec_city1:SpawnExplorable(x, y)
-    local mug = Map.CreateEntity("world", "fc_mug")
-    local size = CheckFreeAreaFromCentre(x,y,10)
-    mug:Place(x,y)
-    --print(size)
-    if size < 3 then print("too small") return
+-- function ec_city1:SpawnExplorable(x, y)
+--     local mug = Map.CreateEntity("world", "fc_mug")
+--     local size = CheckFreeAreaFromCentre(x,y,10)
+--     mug:Place(x,y)
+--     --print(size)
+--     if size < 3 then print("too small") return
         
-    elseif size > 3 then 
-        for k,v in pairs({{-2,-2},{2,-2},{-2,2},{2,2}}) do 
-            PlaceRandomRuin(v[1]+x,v[2]+y)
-        end
-        size = 4
-        CreateFoundationsFromCentre(x,y,size,size,"f_human_foundation_basic","world")
-    else
-        --CreateFoundationsFromCentre(x,y,size,size,"f_human_foundation_basic","world")
-    end
-end
+--     elseif size > 3 then 
+--         for k,v in pairs({{-2,-2},{2,-2},{-2,2},{2,2}}) do 
+--             PlaceRandomRuin(v[1]+x,v[2]+y)
+--         end
+--         size = 4
+--         CreateFoundationsFromCentre(x,y,size,size,"f_human_foundation_basic","world")
+--     else
+--         --CreateFoundationsFromCentre(x,y,size,size,"f_human_foundation_basic","world")
+--     end
+-- end
 
-data.explorables.ec_city1 = ec_city1
+-- data.explorables.ec_city1 = ec_city1
 
 
 --------------- Flower Explorables 

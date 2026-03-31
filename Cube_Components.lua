@@ -128,8 +128,36 @@ data.components.c_advanced_refinery.name = "Soul Forge"
 data.components.c_advanced_refinery.desc = "Melt Away Until Only The Essentials Remain"
 data.components.c_advanced_refinery.slots = {anomaly = 1}
 
-
-
+--- Buff Batteries and capacitors
+local battery_modifier <const> = 2
+local battery = data.components.c_small_battery
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
+local battery = data.components.c_battery
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
+local battery = data.components.c_large_battery
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
+local battery = data.components.c_capacitor
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
+local battery = data.components.c_integrated_capacitor
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
+local battery = data.components.c_higrade_capacitor
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
+local battery = data.components.c_medium_capacitor
+battery.power_storage = battery.power_storage * battery_modifier
+battery.drain_rate = battery.drain_rate * battery_modifier
+battery.charge_rate = battery.charge_rate * battery_modifier 
 
 
 

@@ -245,3 +245,9 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 	},
 	is_explorable = true,
 })
+
+Frame:RegisterFrame("cc_testing_observer",{
+	visual = "v_beacon_l",
+	name = "obeserving tower",
+	visibility_range = 100,
+})
