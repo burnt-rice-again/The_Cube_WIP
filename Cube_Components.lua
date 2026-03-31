@@ -74,17 +74,14 @@ data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate
 data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({["metalplate"] = 6, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
 
 
-
-
-
 ---lvl1
 ---non cube 
-data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["crystal_powder"]=1}, {["c_assembler"] = 60}, 1)
+data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["wire"]=9}, {["c_assembler"] = 60}, 1)
 data.components.c_adv_portable_turret.production_recipe = CreateProductionRecipe({["steelblock"]=8,["wire"]=6,["crystal"]=4}, {["c_assembler"] = 60}, 1)
 data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
 -- batteries and capacitors 
 data.components.c_small_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
-data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=4,["crystal_powder"]=10,["crystal"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=4,["crystal_powder"]=10,["ic_soul_angry"]=1}, {["c_assembler"] = 150}, 1)
 data.components.c_large_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
 data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({["steelblock"]=8,["ic_soul_angry"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
 
@@ -108,9 +105,9 @@ data.components.c_medium_storage.production_recipe = CreateProductionRecipe({["a
 data.components.c_large_storage.production_recipe = CreateProductionRecipe({["reinforced_plate"]=40,["fused_electrodes"]=8, aluminiumrod = 12}, {["c_assembler"] = 50}, 1)
 -- netowkring 
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_power_transmitter.production_recipe = CreateProductionRecipe({["steelblock"]=10,["wire"]=10, phase_leaf = 5}, {["c_assembler"] = 100}, 1)
-data.components.c_power_transmitter.bandwidth = 100
-data.components.c_large_power_transmitter.bandwidth = 500
+data.components.c_power_transmitter.production_recipe = CreateProductionRecipe({["steelblock"]=16,["wire"]=9, crystal_powder = 9}, {["c_assembler"] = 100}, 1)
+data.components.c_power_transmitter.bandwidth = 5 * data.components.c_power_transmitter.bandwidth
+data.components.c_large_power_transmitter.bandwidth = 5 * data.components.c_large_power_transmitter.bandwidth
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)

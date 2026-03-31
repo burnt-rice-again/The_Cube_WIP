@@ -273,7 +273,7 @@ data.techs.tc_cube_green_brain = {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"cc_green_brain","ic_soul_happy","micropro"
+		"cc_green_brain","ic_soul_happy",
 	},
 	require_tech = { "tc_cube_green_2", },
 	progress_count = 50,
@@ -508,7 +508,7 @@ data.techs.tc_network1 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_portable_relay"
+		"c_portable_relay","c_power_relay"
 	},
 	require_tech = { "tc_upgrades_basic" },
 	progress_count = 100,
@@ -522,7 +522,7 @@ data.techs.tc_network2 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_power_relay","c_small_battery",
+		"c_small_battery","c_power_transmitter"
 	},
 	require_tech = { "tc_network1" },
 	progress_count = 100,
@@ -536,11 +536,11 @@ data.techs.tc_network3 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_power_transmitter"
+		"c_medium_capacitor","c_battery",
 	},
 	require_tech = { "tc_network2" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, phase_leaf = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_network4 = {
@@ -550,27 +550,14 @@ data.techs.tc_network4 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_medium_capacitor","c_battery",
+		"c_large_power_relay","c_large_battery","c_large_power_transmitter"
 	},
 	require_tech = { "tc_network3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, phase_leaf = 1, ic_soul_angry = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, fused_electrodes = 1}, 50),
 	category = "tc_upgrades_1",
 }
-data.techs.tc_network5 = {
-	order = 9,
-	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
-	texture = data.components.c_power_relay.texture,
-	unlocks = {
-		-- new resources
-		"c_large_power_relay","c_large_battery","c_large_power_transmitter"
-	},
-	require_tech = { "tc_network4" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, phase_leaf = 1, ic_soul_angry = 1, fused_electrodes = 1}, 50),
-	category = "tc_upgrades_1",
-}
+
 --- weapons 
 data.techs.tc_weapons1 = {
 	order = 9,
