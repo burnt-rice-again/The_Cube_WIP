@@ -177,33 +177,7 @@ fc_crop:RegisterFrame('fc_crop_phase_plant',{
     on_remove = wake_up_planter,
     drop = 'phase_leaf',
 
-    -- copy of phase plant effect 
-    trigger_radius = 2,
-	trigger_channels = "bot",
-	effect = "fx_glitch",
-	on_trigger = function (_, comp, other_entity)
-		if comp.faction == other_entity.faction then return end -- don't phase own units
-		local eloc = other_entity.location
-		local loc = comp.owner.location
-		other_entity:PlayEffect("fx_digital")
-		other_entity:Place(loc.x + 3*(eloc.x- loc.x), loc.y + 3*(eloc.y-loc.y))
-		local peaceful = Map.GetSettings().peaceful or 2
-		if peaceful < 1 then return end
-		other_entity:RemoveHealth(1, "full")
-
-		-- if its not player controlled faction then make it disappear after a few times
-		if not comp.faction.is_player_controlled then
-			local times = comp.extra_data.times or 0
-			times = times + 1
-			local owner = comp.owner
-			if times > 5 then
-				Map.Defer(function() if owner.exists then owner:Destroy() end end)
-			else
-				comp.extra_data.times = times
-			end
-		end
-	end,
-
+	components = {{ "c_phase_plant", "hidden" },},
 })
 
 -- add method for recycling planters
