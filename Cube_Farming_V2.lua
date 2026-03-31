@@ -51,16 +51,34 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
 
 function cc_crop:on_update(comp, cause) 
 
+    -- set registers on placed
+    if comp:RegisterIsEmpty(1) then 
+        comp:SetRegister(1,{Id = comp.owner.def.drop, Num = comp.extra_data.yield or 1})
+        comp:SetRegister(2,{ Num = comp.extra_data.growth_time or 100})
+    end
+
     if cause & CC_FINISH_WORK ~= 0 then 
         -- finished growing 
+        local owner = comp.owner
+        local next_frame = owner.def.next_frame
+        if next_frame == nil then return end 
+
+        Map.Defer( function()
+        local plant = Map.CreateEntity(comp.faction,next_frame )
+        local crop = plant:AddComponent('cc_crop','hidden',comp.extra_data)
+        local cord = owner.location
+        owner:Unplace()
+        owner:Destroy()
+        plant:Place(cord,plant,false)
+        end)
+
     elseif comp.is_working then 
         -- go back to sleep
         comp:SetStateContinueWork()
-    elseif cause & CC_CHANGED_ITEMSLOT_AMOUNT ~= 0 then
-        print("update crop")
-        comp:SetRegister(1,{Id = comp.owner.def.drop, Num = comp.extra_data.yield or 1})
-        comp:SetRegister(2,{ Num = comp.extra_data.growth_time or 100})
+    elseif comp.owner.def.next_frame ~= nil then
         comp:SetStateStartWork(comp.extra_data.growth_time or 100)
+    else 
+        print("Stop growing")
     end
 end
 
@@ -69,7 +87,6 @@ function cc_crop:on_add(comp)
     if comp.has_extra_data == false then 
         comp.extra_data.yield = 1
         comp.extra_data.growth_time = 100
-        print("no extra data")
     end
     comp:SetRegister(1,comp.extra_data.growth_time)
     comp:SetRegisterNum(2, comp.extra_data.yield)
@@ -79,21 +96,25 @@ function cc_crop:on_add(comp)
 end
 
 
-local function wake_up_planter(self, entity)
+local function wake_up_planter(definition, entity)
     -- get component 
+    print("attempt wake up")
     local comp = entity:FindComponent("cc_crop", true)
-    if comp ~= nil and comp.has_extra_data and comp.extra_data.planter_key then
+    if comp ~= nil and comp.has_extra_data and comp.extra_data.key then
         -- drop yield if it has a drop property
-        if self.next_frame == nil then
-            Map.DropItemAt(entity.location, self.drop, ((1 * self.extra_data.yield) or 1), "f_dropped_resource")
+        if definition.next_frame == nil then
+            Map.DropItemAt(entity.location, definition.drop, (comp.extra_data.yield or 1))
             -- TODO drop seedling
         end
 
+        -- need to wake up planter if its still exists
         -- get planter key from extra data
-        local planter_frame = Map.GetEntityFromKey(comp.extra_data.planter_key)
+        local planter_frame = Map.GetEntityFromKey(comp.extra_data.key)
+        print(planter_frame)
         if planter_frame then
             -- retrieve planter componet
             local plant_comp = planter_frame:FindComponent("cc_planter", true)
+            print(plant_comp)
             if plant_comp then 
                 print("WAKE UP!")
                 plant_comp:Activate()
@@ -120,7 +141,7 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     --next_frame = 'fc_crop_wire_plant',
 
     drop = 'wire',
-    on_destroy = wake_up_planter,
+    --on_destroy = wake_up_planter,
     on_remove = wake_up_planter,
 })
 
@@ -203,7 +224,6 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',
     wait_ticks = 100,
-    base_id = 'cc_planter',
     --recipe
     ingriedents = { ic_cube_green = 1}, -- can add additional inputs here
     output = {}, -- can add additional outputs here
@@ -220,6 +240,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     seed_id = "fc_crop_wire_seed0",
     drop = 'wire',
 })
+cc_planter.base_id = 'cc_planter'
 
 function cc_planter:on_add(comp)
     -- set extra data 
@@ -227,6 +248,7 @@ function cc_planter:on_add(comp)
         comp.extra_data.yield = 1
         comp.extra_data.growth_time = 100
     end
+    print(comp.def.base_id)
     comp:SetRegister(3,comp.extra_data.growth_time)
     comp:SetRegisterNum(4, comp.extra_data.yield)
     comp:SetRegisterId(4,self.drop)
@@ -287,8 +309,6 @@ function cc_planter:on_update(comp, cause)
             --     print(crop.extra_data)
             -- else print("co crop comp") end
 
-
-
             plant:Place(cord,comp.owner,false)
         -- TODO add turn and throw effect 
     end)
@@ -324,7 +344,7 @@ function cc_planter:on_update(comp, cause)
         end
         local can_make, missing, has_slot = comp:PrepareConsumeProcess(self.ingriedents,1)
         -- start working 
-        print( can_make, missing, has_slot)
+        --print( can_make, missing, has_slot)
         if can_make then 
 
             if check or is_pos_plantable(comp,cord.x ,cord.y ,self.range) then
