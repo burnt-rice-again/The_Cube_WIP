@@ -211,7 +211,7 @@ data.items.datakey_robot = {
 	visual = "v_gears",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, datakey_robot = 2 }, { cc_manifest = 30, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1 }, { cc_manifest = 30, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
 }
 data.items.ic_souls = {
 	name = "Lingering Souls",
