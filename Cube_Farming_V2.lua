@@ -69,6 +69,7 @@ function cc_crop:on_add(comp)
     if comp.has_extra_data == false then 
         comp.extra_data.yield = 1
         comp.extra_data.growth_time = 100
+        print("no extra data")
     end
     comp:SetRegister(1,comp.extra_data.growth_time)
     comp:SetRegisterNum(2, comp.extra_data.yield)
@@ -110,9 +111,9 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     minimap_color = { 0, 1, 0 },
     visual = "v_succulent_01",
     texture = "The_Cube_WIP/textures/phase_seed.png",
-	components = {
-        { "cc_crop", "hidden" },
-	},
+	-- components = {
+    --     { "cc_crop", "hidden" },
+	-- },
 
     
 
@@ -274,12 +275,17 @@ function cc_planter:on_update(comp, cause)
             Map.Defer( function()
             --print('placing plant')
             local plant = Map.CreateEntity(comp.faction, self.seed_id)
-            local crop = plant:GetHiddenComponent(1)
-            if crop then 
-                crop.extra_data.key = comp.owner.key
-                crop.extra_data.yield = comp.extra_data.yield or 1
-                crop.extra_data.growth_time = comp.extra_data.growth_time or 100
-            else print("co crop comp") end
+            local crop = plant:AddComponent('cc_crop','hidden',{
+                key = comp.owner.key,
+                yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1),
+                growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5),
+            })
+            -- if crop then 
+            --     crop.extra_data.key = comp.owner.key
+            --     crop.extra_data.yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1)
+            --     crop.extra_data.growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5)
+            --     print(crop.extra_data)
+            -- else print("co crop comp") end
 
 
 
