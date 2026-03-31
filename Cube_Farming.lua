@@ -228,6 +228,7 @@ local function is_pos_plantable(comp, x,y, range)
     return (owner:IsInRangeOf({x, y}, range) 
     and Map.GetEntityAt(x,y, FF_OWNFACTION | FF_ENEMYFACTION | FF_NEUTRALFACTION | FF_ALLYFACTION, comp.faction ) == nil 
     and Map.GetEntityAt(x,y,FF_RESOURCE) == nil
+    and Map.GetBlightnessDelta(x, y, -1) <= 0 -- check not in blight
     -- todo check for frames as well?)
     )
 end
@@ -307,7 +308,7 @@ end
 function cc_planter:get_reg_error(comp)
    
     if comp:RegisterIsError(1) then 
-        return "No Free Space In Range\nMust have no foundations to plant"
+        return "No Free Space In Range\nMust have no foundations to plant\nMust not be in blight"
     elseif comp:RegisterIsError(2) then 
         if comp.owner:FindComponent("cc_cube_storage") == nil then 
             return "No CUBE pedastal"

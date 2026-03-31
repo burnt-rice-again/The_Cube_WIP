@@ -173,19 +173,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	new_entity:SetRegister(FRAMEREG_GOTO, {id="crystal",num=math.random(500, 2500)})
 	new_entity:Place(loc.x+7, loc.y+6,2)
 
-	--spawn Farming Tester
-	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
-	-- new_entity:AddComponent("cc_planter_wire")
-	-- new_entity:AddComponent("cc_cube_storage")
-	-- new_entity:AddComponent("c_adv_portable_turret")
-	-- new_entity:AddItem("ic_cube_green", 1)
-	-- new_entity:AddItem("crystal_powder", 10)
-	-- new_entity:AddItem("c_deconstructor", 1)
-	-- new_entity:AddItem("steelblock", 40)
-	-- new_entity:AddItem("c_portable_radar", 2)
-	-- new_entity:AddItem("c_deconstructor", 1)
-	--home_entity:AddItem("cc_manifest")
-	--new_entity:Place(loc.x+13, loc.y)
+
 
 
 	-- spawn consturction fliers 
@@ -206,7 +194,27 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 
 
+
+
+
+
+
+
 	-- testing buildings 
+
+	--spawn Farming Tester
+	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
+	-- new_entity:AddComponent("cc_planter_wire")
+	-- new_entity:AddComponent("cc_cube_storage")
+	-- new_entity:AddComponent("c_adv_portable_turret")
+	-- new_entity:AddItem("ic_cube_green", 1)
+	-- new_entity:AddItem("crystal_powder", 10)
+	-- new_entity:AddItem("c_deconstructor", 1)
+	-- new_entity:AddItem("steelblock", 40)
+	-- new_entity:AddItem("c_portable_radar", 2)
+	-- new_entity:AddItem("c_deconstructor", 1)
+	-- home_entity:AddItem("cc_manifest")
+	-- new_entity:Place(loc.x+13, loc.y)
 
 	-- local volcano = Map.CreateEntity(faction, "fc_volcano")
 	-- volcano:Place(loc.x+3,loc.y+6)
@@ -224,14 +232,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_empty", num = 1 })
 	-- volcano:Place(loc.x+3,loc.y+6)
 
-	-- --- Farming Tester
-	-- local farm = Map.CreateEntity(faction, "f_building2x2b")
-	-- farm:AddComponent("cc_plant_seed2")
-	-- --recharger:AddComponent("c_power_cell")
-	-- --recharger:AddComponent("cc_manifest")
-	-- farm:AddComponent("cc_cube_storage")
-	-- farm:AddItem("ic_cube_red",1)
-	-- farm:Place(loc.x+5,loc.y)
+
 
 	-- recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- recharger:AddComponent("cc_red_furnace")
@@ -248,10 +249,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- recharger:AddItem("concreteslab",180)
 	-- recharger:Place(loc.x-6,loc.y-6)
 
-
-
-
-	--faction:RevealArea(0,0,200,200,1)
 
 	-- local test_enemy = Map.CreateEntity(GetBugsFaction(), "f_scaramar2")
 	-- test_enemy:Place(loc.x-6,loc.y-12)
@@ -271,10 +268,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	--testing soul refinery 
 	pipe = Map.CreateEntity(faction, "f_building2x2c")
 	pipe:AddComponent("cc_soul_refinery")
-	pipe:AddComponent("cc_pipe_input")
+	pipe:AddComponent("cc_cube_storage")
 	pipe:AddComponent("c_power_cell")
 	--pipe:AddComponent("cc_pipe_output")
 	pipe:AddItem("ic_souls",200)
+	pipe:AddItem("ic_cube_blue",1)
 	pipe:Place(loc.x-8,loc.y)
 
 	-- testing visuals 
