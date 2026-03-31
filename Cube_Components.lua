@@ -176,19 +176,38 @@ local cc_adv_alien_factory = Comp:RegisterComponent("cc_adv_alien_factory", {
 	-- production_recipe = CreateProductionRecipe({ hdframe = 20, blight_plasma = 10, blight_bar = 10 }, { c_assembler = 150 }),
 })
 
+local function update_cube_location(comp, item)
 
+	if item == nil then return end 
 
+	if comp.owner:CountItem(item) > 0 then 
+		local faction = comp.faction
+		faction.extra_data.cube_key = comp.owner.key
+		print(comp.owner.key)
+		faction.extra_data.cube_type = item
+		faction.extra_data.cube_cord = comp.owner.location
+	end
+end
 
 local function BoostModuleOnAdd(self, comp) self:on_update_boosts(comp, nil, 0) end
 local function BoostModuleOnRemove(self, comp) self:on_update_boosts(comp, comp, 0) end
 local function Update_Cube_Effects(self, comp, cause)
 	--print(comp,cause,comp.owner)
 	--print(comp.CauseToString(comp,cause))
+
+
+
+
 	
 	--will have passed cube only if all change
 	if cause & CC_CHANGED_ITEMSLOT_AMOUNT then-- traded cube 
 
 		local owner = comp.owner
+
+		
+
+
+
 		--self.boost = -90
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
@@ -196,24 +215,36 @@ local function Update_Cube_Effects(self, comp, cause)
 		if owner:CountItem("ic_cube_red") == 1 then
 			comp:PlayEffect("fx_refinery","fx")
 			self:on_update_boosts(comp,{} ,self.boost)
+			update_cube_location(comp,"ic_cube_blue" )
 			comp.extra_power = 400
 			return 
 			--comp.light_color = { 0.6,0.1,0,1 }
-		elseif owner:CountItem("ic_cube_blue") == 1 or owner:CountItem("ic_cube_empty") == 1 or owner:CountItem("ic_cube_green") == 1 then
-			--comp.extra_power = 500
-			--comp:PlayEffect("fx_power_core")
-			--comp.light_color = { 0,0,1,1 }
+		elseif owner:CountItem("ic_cube_blue") == 1 then 
+			update_cube_location(comp,"ic_cube_blue" )
+		elseif owner:CountItem("ic_cube_empty") == 1 then 
+			update_cube_location(comp,"ic_cube_empty" )
+		elseif owner:CountItem("ic_cube_green") == 1 then 
+			update_cube_location(comp,"ic_cube_green" )
 		elseif owner:CountItem("ic_cube_pink") == 1 then
 			comp:PlayEffect("fx_alien_liquid")
+			update_cube_location(comp,"ic_cube_pink" )
 		else
 			comp:StopEffects()
 			comp.extra_power = 0
 			self:on_update_boosts(comp,{} ,0)
+			if comp.faction.extra_data.cube_key == owner.key then 
+				-- lost cube but key hasnt updated
+				-- save cord encase it was thrown on the ground 
+				comp.faction.extra_data.cube_key = nil
+				comp.faction.extra_data.cube_cord = owner.location
+			end
 			return
 			--comp.light_color = { 0,0,1,0 }
 		end
 		comp.extra_power = 200
 		self:on_update_boosts(comp,{} ,self.boost)
+
+
 		-- fx_reforming_pool good has small plasma and a whilwind above cube
 		-- fx_alien_teleporter - creates a ring but is in the air :(
 		-- fx_unit_teleport - good for a different purpose
@@ -225,6 +256,8 @@ local function Update_Cube_Effects(self, comp, cause)
 		--fx_EMP - huge emp blast  
 	else
 		comp:StopEffects() 
+		print("stop effects")
+
 		--self.boost = 0
 		--print(self, comp, comp.id)
 		--comp.extra_power = 0
@@ -253,6 +286,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	--effect = "cube_floating_blue",
 	--dumping_ground = true,
 })
+
 
 function cc_cube_storage:on_update_boosts(comp, remove_comp, holding_cube)
 	local owner = comp.owner
