@@ -63,7 +63,8 @@ data.frames.f_trilobyte1.resource_drop = {"ic_souls", "vc_souls"}
 data.frames.f_tetrapuss1.resource_drop = {"ic_souls", "vc_souls"}
 data.frames.f_tripodonte1.resource_drop = {"ic_souls", "vc_souls"}
 
-
+-------------------------------------------
+------------- Robot Frames -----------------
 -- scrap recycler 
 Frame:RegisterFrame("fc_scrap_recycler", {
 	name = "Scrap recycler",
@@ -115,26 +116,8 @@ Frame:RegisterFrame("f_flyer_m", {
 
 
 
-
-data.frames.f_explorable:RegisterFrame("fc_volcano", {
-	name = "Volcano",
-	desc = "A door to the heart of the world",
-	race = "alien",
-	minimap_color = data.values.v_color_crimson.color,
-	visibility_range = 10,
-	health_points = 60000,
-	--power = -5, -- -20a
-	slots = {cube = 1 },
-	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
-	texture = "Main/textures/icons/values/plateau.png",
-	trigger_channels = "building",
-	visual = "blight_set_03",
-    components = {
-		--{ "cc_explorable_fix", 'hidden' },
-		--{"c_explorable_netwalk", 'hidden'}
-	},
-	is_explorable = true,
-})
+-------------------------------------------
+------------- Custom Frames -----------------
 
 Frame:RegisterFrame("fc_crystal_power_red", {
 	name = "Fury Cube Power Plant",
@@ -220,4 +203,45 @@ Frame:RegisterFrame("f_resourcenode_pixel",  {
 		texture = "Main/textures/icons/values/resource.png",
 		harvest_id = 'metalore',
 		minimap_color = { 0.3, 0.3, 0.3 },
+})
+
+-------------------------------------------
+------------- Explorables -----------------
+
+data.frames.f_explorable:RegisterFrame("fc_volcano", {
+	name = "Volcano",
+	desc = "A door to the heart of the world",
+	race = "alien",
+	minimap_color = data.values.v_color_crimson.color,
+	visibility_range = 10,
+	health_points = 60000,
+	--power = -5, -- -20a
+	slots = {cube = 1 },
+	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
+	texture = "Main/textures/icons/values/plateau.png",
+	trigger_channels = "building",
+	visual = "blight_set_03",
+    components = {
+		--{ "cc_explorable_fix", 'hidden' },
+		--{"c_explorable_netwalk", 'hidden'}
+	},
+	is_explorable = true,
+})
+data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
+	name = "Wire Weed Plant",
+	desc = "A Fast Growing weed that flowers with conductive fibres",
+	race = "alien",
+	minimap_color = data.values.v_color_green.color,
+	visibility_range = 1,
+	health_points = 500,
+	--power = -5, -- -20a
+	slots = {storage = 4, cube = 1 },
+	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
+	texture = "Main/textures/icons/values/plateau.png",
+	visual = "vc_sea_grass",
+    components = {
+		--{ "cc_explorable_fix", 'hidden' },
+		--{"c_explorable_netwalk", 'hidden'}
+	},
+	is_explorable = true,
 })

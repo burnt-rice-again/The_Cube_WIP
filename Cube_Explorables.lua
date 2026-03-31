@@ -34,12 +34,11 @@ local function add_volcano(x,y)
 
 	volcano.extra_data.rewards = {ic_cube_red = 1}
 
-	local fix = volcano:AddComponent("cc_explorable_fix", "hidden")
+	local fix = volcano:AddComponent("cc_explorable_fix_volcano", "hidden")
 	fix.extra_data.explorable_fix = "ic_cube_empty"
 	volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_empty", num = 1 })
 	volcano:Place(x,y,math.random(4)-1)
 end
-
 
 function ec_volcano:SpawnExplorable(x, y)
 
@@ -55,11 +54,35 @@ function ec_volcano:SpawnExplorable(x, y)
 
 end
 
-
-
 data.explorables.ec_volcano = ec_volcano
 
+local ec_wire_weed = {
+    name = "Wire Weed",
+}
 
+function ec_wire_weed:GetRelevancy(x, y, info)
+    return (info.blightness_delta < 0 and info.elevation > -0.3 and info.elevation < 0.1 and 0.3) or 0.0
+end
+
+function ec_wire_weed:SpawnExplorable(x, y)
+    local ruin_comp = Map.CreateEntity("world", "f_explorable", 'vc_sea_grass', true)
+    ruin_comp.extra_data.rewards = {cc_planter_wire = 1}
+    ruin_comp:Place(x, y, math.random(4)-1)
+    -- add fixx item 
+    local fix = ruin_comp:AddComponent("c_explorable_fix", "hidden")
+    fix.extra_data.explorable_fix = "datakey_robot"
+    ruin_comp:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
+    
+
+	-- entity.extra_data.rewards = {cc_planter_wire = 1}
+    -- local fix = entity:AddComponent("cc_explorable_fix_wire_weed", "hidden")
+	-- fix.extra_data.explorable_fix = "datakey_robot"
+	-- entity:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
+	-- entity:Place(x,y,math.random(4)-1)
+
+end
+
+data.explorables.ec_wire_weed = ec_wire_weed
 --------------  Ruined Cities 
 ---
 

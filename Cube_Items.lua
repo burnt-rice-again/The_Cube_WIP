@@ -132,7 +132,7 @@ data.items.ic_cube_green = {
 	race = "alien",
 	texture = "Main/textures/icons/items/virus_research_data.png",
 	visual = "v_virus_data",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1,  }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, wire = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
 data.items.ic_cube_yellow = {
 	name = "TEMPERED CUBE",

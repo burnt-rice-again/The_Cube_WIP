@@ -262,7 +262,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',
     wait_ticks = 15,
-    power = -10000,
+    power = -2000,
     --recipe
     ingriedents = { ic_cube_green = 1}, -- can add additional inputs here
     output = {}, -- can add additional outputs here

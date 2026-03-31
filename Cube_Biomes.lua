@@ -75,7 +75,7 @@ local function remove_item_from_array_by_frame(frame)
 			return true
 		end
 		if obj.frame == 'f_dropped_resource' and obj.nodes and obj.nodes[1].inventory then 
-			if not obj.nodes[1].inventory.crystal then 
+			if not obj.nodes[1].inventory.crystal and not obj.nodes[1].inventory.metal then 
 				table.remove(data.land_features, i)
 				--print("Removing Land Feature")
 				--print(obj.frame)
@@ -90,23 +90,24 @@ while remove_item_from_array_by_frame("f_resourcenode_silica") == true do end
 while remove_item_from_array_by_frame("f_resourcenode_obsidian")== true do end
 while remove_item_from_array_by_frame("f_resourcenode_tree")== true do end
 while remove_item_from_array_by_frame("f_resourcenode_blightcrystal")== true do end
-while remove_item_from_array_by_frame("f_resourcenode_metal")== true do end
+--while remove_item_from_array_by_frame("f_resourcenode_metal")== true do end
 
 
 -- add features to the table 
 
-table.insert(data.land_features,	{
-	frame = "fc_wire_plant",
-	min_spawn_distance = 30,
-	functions = {
-		{ func = "Threshold", param = "Elevation", range = { 0, plateau_level+0.15 }, falloff = 0.05 },
-	},
-	nodes = {
-		{
-			visuals = { "vc_sea_grass", },
-		},
-	}
-})
+-- CHANGED TO EXPLOREABLE 
+-- table.insert(data.land_features,	{
+-- 	frame = "fc_wire_plant",
+-- 	min_spawn_distance = 30,
+-- 	functions = {
+-- 		{ func = "Threshold", param = "Elevation", range = { 0, plateau_level+0.15 }, falloff = 0.05 },
+-- 	},
+-- 	nodes = {
+-- 		{
+-- 			visuals = { "vc_sea_grass", },
+-- 		},
+-- 	}
+-- })
 
 -- for i,obj in ipairs(data.land_features) do 
 -- 	if obj.frame == 'f_resourcenode_metal' then 

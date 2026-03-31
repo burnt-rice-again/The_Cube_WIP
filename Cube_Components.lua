@@ -501,7 +501,7 @@ function Delay.Spawn_Time_Travel_Attack(arg)
 end
 
 ------------------ Explorables 
-local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix", {
+local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 	name = "Repair Required",
 	texture = "Main/textures/icons/components/int.png",
 	--effect = "fx_leaves",
@@ -528,3 +528,17 @@ function cc_explorable_fix:on_update(comp, cause)
 		Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
 	end
 end
+
+cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
+	explorable_fix = "datakey_robot",
+	on_solved = function(comp, explorable_race, faction)
+		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		Map.Defer(function ()
+			comp.owner:AddItem("cc_planter_wire")
+			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
+			if comp_puzzle then comp_puzzle:Destroy() end
+			if not faction:IsUnlocked("tc_cube_green_discovery") then faction:Unlock("tc_cube_green_discovery") end
+			comp:Destroy()
+		end)
+	end,
+})
