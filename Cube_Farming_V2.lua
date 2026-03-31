@@ -30,32 +30,52 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     -- keep plant data. d
     name = "plant growth",
     desc = "Will grow the plant once the work completes",
-    texture = "Main/textures/icons/hidden/higrade_capacitor.png",
+    texture = "The_Cube_WIP/textures/wire_seed.png",
     activation = 'Manual',
 
     attachment_size = "Hidden",
     race = 'robot',
-    visual = "v_generic_i",
-    
-    next_frame = "fc_crop",
-    base_id = "cc_crop",
-    
-    on_add = function(self, comp) comp:Activate() end,
-    on_update = function(self, comp) 
-        print("update crop")
-        comp:SetRegister(1,{Id = comp.owner.def.drop, Num = comp.extra_data.yield or 1})
-        comp:SetRegister(2,{ Num = comp.extra_data.growth_time or 100})
-        comp:SetStateStartWork(comp.extra_data.growth_time or 100)  end,
+    --visual = "v_generic_i",
 
 	registers = {
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
     },
     production_recipe = false,
-    index = 9999
+    index = 9999,
+    slots = {anomaly = 1},
+
+    get_ui = true, -- needs this to show hidden components
     -- will have extra_data.key to find planter
 })
 
+function cc_crop:on_update(comp, cause) 
+
+    if cause & CC_FINISH_WORK ~= 0 then 
+        -- finished growing 
+    elseif comp.is_working then 
+        -- go back to sleep
+        comp:SetStateContinueWork()
+    elseif cause & CC_CHANGED_ITEMSLOT_AMOUNT ~= 0 then
+        print("update crop")
+        comp:SetRegister(1,{Id = comp.owner.def.drop, Num = comp.extra_data.yield or 1})
+        comp:SetRegister(2,{ Num = comp.extra_data.growth_time or 100})
+        comp:SetStateStartWork(comp.extra_data.growth_time or 100)
+    end
+end
+
+function cc_crop:on_add(comp)
+    -- set extra data 
+    if comp.has_extra_data == false then 
+        comp.extra_data.yield = 1
+        comp.extra_data.growth_time = 100
+    end
+    comp:SetRegister(1,comp.extra_data.growth_time)
+    comp:SetRegisterNum(2, comp.extra_data.yield)
+    comp:SetRegisterId(2,comp.owner.def.drop)
+    -- start working
+    comp:Activate()
+end
 
 
 local function wake_up_planter(self, entity)
@@ -91,11 +111,10 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     visual = "v_succulent_01",
     texture = "The_Cube_WIP/textures/phase_seed.png",
 	components = {
-		{ "cc_crop", "hidden" },
-        { "c_higrade_capacitor", "hidden" },
+        { "cc_crop", "hidden" },
 	},
 
-    slots = {storage = 1},
+    
 
     --next_frame = 'fc_crop_wire_plant',
 
@@ -206,8 +225,10 @@ function cc_planter:on_add(comp)
     if comp.has_extra_data == false then 
         comp.extra_data.yield = 1
         comp.extra_data.growth_time = 100
-        comp:SetRegister(3,{Id = self.drop, })
     end
+    comp:SetRegister(3,comp.extra_data.growth_time)
+    comp:SetRegisterNum(4, comp.extra_data.yield)
+    comp:SetRegisterId(4,self.drop)
     -- start working
     comp:Activate()
 end
@@ -259,6 +280,9 @@ function cc_planter:on_update(comp, cause)
                 crop.extra_data.yield = comp.extra_data.yield or 1
                 crop.extra_data.growth_time = comp.extra_data.growth_time or 100
             else print("co crop comp") end
+
+
+
             plant:Place(cord,comp.owner,false)
         -- TODO add turn and throw effect 
     end)

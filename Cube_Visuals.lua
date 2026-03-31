@@ -202,23 +202,13 @@ data.visuals.vc_cube_blue = {
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_sea_grass.scale = {2,2,2}
 data.visuals.vc_sea_grass.flags = "RandomRotation|RandomScale|RandomTranslation"
-data.visuals.vc_sea_grass.sockets = {
-		{ "",       "Internal" },
-		{ "",       "Internal" },
-}
+
 ------------------ plans 
 ---
 data.visuals.vc_crop_wire = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_crop_wire.scale = {2,2,2}
 data.visuals.vc_crop_wire.flags = "RandomRotation|RandomScale|RandomTranslation"
-data.visuals.vc_crop_wire.sockets = {
-		{ "",       "Internal" },
-		{ "",       "Internal" },
-}
+
 data.visuals.vc_crop_wire_seed0 = Tool.Copy(data.visuals.v_succulent_01)
 data.visuals.vc_crop_wire_seed0.scale = {2,2,2}
 data.visuals.vc_crop_wire_seed0.flags = "RandomRotation|RandomScale|RandomTranslation"
-data.visuals.vc_crop_wire_seed0.sockets = {
-		{ "",       "Internal" },
-		{ "",       "Internal" },
-}

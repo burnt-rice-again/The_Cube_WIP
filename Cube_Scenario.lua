@@ -161,6 +161,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	new_entity = Map.CreateEntity(faction, "fc_crop_wire_seed0")
 	new_entity:Place(loc.x+10, loc.y-6)
 
+	new_entity = Map.CreateEntity(faction, "f_human_powerplant")
+	new_entity:Place(loc.x-10, loc.y-6)
 
 	-- spawn consturction fliers 
 	local flier = Map.CreateEntity(faction, "f_flyer_bot")
