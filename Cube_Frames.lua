@@ -270,11 +270,10 @@ function Place_Anti_Cube(entity)
 	-- look for frame with space 
 	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 10, 10, 1, FF_OWNFACTION, entity.faction)
 	for key, val in pairs(list_nearby) do 
-		print(val)
 		if val:HaveFreeSpace("ic_cube_sphere") == true then
 			val:AddItem("ic_cube_sphere")
 			val:PlayEffect("fx_ping")
-			return
+			return 
 		end
 	end
 	-- place as frame 
@@ -294,11 +293,12 @@ local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
 })
-function fc_cube_sphere:on_destroy(frame, cause, attacker)
-	Place_Anti_Cube(frame)
-	--Place_Anti_Cube(frame)
-end 
+-- using both will double up.
+-- function fc_cube_sphere:on_destroy(frame, cause, attacker)
+-- 	Place_Anti_Cube(frame)
+-- 	--Place_Anti_Cube(frame)
+-- end 
 function fc_cube_sphere:on_remove(frame, cause)
 	Place_Anti_Cube(frame)
-	--Place_Anti_Cube(frame)
+	Place_Anti_Cube(frame)
 end 

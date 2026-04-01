@@ -224,11 +224,13 @@ local function Update_Cube_Effects(self, comp, cause)
 			update_cube_location(comp,"ic_cube_empty" )
 		elseif owner:CountItem("ic_cube_green") == 1 then 
 			update_cube_location(comp,"ic_cube_green" )
-		elseif owner:CountItem("ic_cube_pink") == 1 then
-			comp:PlayEffect("fx_alien_liquid")
-			update_cube_location(comp,"ic_cube_pink" )
+		elseif owner:CountItem("ic_cube_sphere") == 1 then
+			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
+			--comp:PlayEffect("fx_alien_liquid")
+			update_cube_location(comp,"ic_cube_sphere" )
 		else
 			comp:StopEffects()
+			comp.light_color = { 0,0,1,0 }
 			comp.extra_power = 0
 			self:on_update_boosts(comp,{} ,0)
 			if comp.faction.extra_data.cube_key == owner.key then 
@@ -238,7 +240,7 @@ local function Update_Cube_Effects(self, comp, cause)
 				comp.faction.extra_data.cube_cord = owner.location
 			end
 			return
-			--comp.light_color = { 0,0,1,0 }
+			
 		end
 		comp.extra_power = 200
 		self:on_update_boosts(comp,{} ,self.boost)
@@ -282,6 +284,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	-- on_add = BoostModuleOnAdd,
 	-- on_remove = BoostModuleOnRemove,
 	on_update = Update_Cube_Effects,
+	adjust_light_color = true,
 	--effect = "cube_floating_blue",
 	--dumping_ground = true,
 })

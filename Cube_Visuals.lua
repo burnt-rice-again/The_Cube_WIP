@@ -99,9 +99,9 @@ data.visuals.vc_cube_storage = {
     mesh = meshes.storage_single, 
     scale = { 4.5, 4.5, 4.5 },
 	mesh_sockets = { ["fx"] = {50,50,-100}, },
-	-- light_radius = 4,
-	-- light_color = {0,0,1,1},
-	-- light_offset = { 0.0, 0.0, 2 },
+	light_radius = 2,
+	light_color = {0,0,0,1},
+	light_offset = { 0.0, 0.0, 2 },
 	--specular_scale = 0
 	-- materials = {
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/MI_Resource_Blight_Pickup_01.MI_Resource_Blight_Pickup_01'",
