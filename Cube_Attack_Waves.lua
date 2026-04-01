@@ -156,10 +156,10 @@ local function spawn_robot_attack(owner, cost, options)
 
     local range = options.range or 20
     local cord = owner.location
-    local i = 0
+    local i = 5
     while cost > 0 do 
-        Map.Delay("Place_random_bot",5 + i, {faction = "time_bots", cord = cord, range = range})
-        cost = cost - math.random(5,20)
+        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range})
+        cost = cost - 1
         i = i + 5
     end
 end
@@ -182,9 +182,10 @@ local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2
 	--power = -500,
 	registers = {
 		--{tip = "<header>Request Charge</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
-        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Years Travelled</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
+        --{ read_only = true, ui_icon = "icon_small_time", tip = "<header>Years Travelled</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
         { read_only = true, ui_icon = "icon_small_time", tip = "<header>Resupply Required</>\n\nItems/bots required to resupply the party"},
-	},
+        { read_only = true, ui_icon = "icon_warning", tip = "<header>Defenders At Current Time</>\n\nThe Amount of defenders that will spawn if the portal collapses\nChanges with each jump in time."},
+    },
 	get_ui = false,
 	output_item = "fused_electrodes",
     wait_ticks = 100,
@@ -193,19 +194,22 @@ local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2
 
 function cc_time_travel_machine2:on_add(comp, cause)
     --- set registers 
-    if comp:RegisterIsEmpty(1) then 
-        comp:SetRegister(1,{id = 'fused_electrodes', num = 0 })
+    -- if comp:RegisterIsEmpty(1) then 
+    --     comp:SetRegister(1,{id = new_order_id(comp), num = 0 })
+    -- end 
+    if comp:RegisterIsEmpty(2) then 
+        comp:SetRegisterNum(2,math.random(0,30))
     end 
 end
 
 local replace_cube_with <const> = {
-    ic_cube_blue = 'ic_cube_red',
+    ic_cube_blue = 'ic_cube_green',
     ic_cube_green = 'ic_cube_empty',
-    ic_cube_empty = 'ic_cube_blue',
-    ic_cube_red = 'ic_cube_red',
+    ic_cube_empty = 'ic_cube_red',
+    ic_cube_red = 'ic_cube_blue',
 }
 local function new_order_id(comp)
-    local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red",
+    local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red","ic_cube_empty",
     "c_adv_portable_turret",
     "ic_soul_angry","ic_soul_happy","phase_leaf",
     "f_bot_1s_a",
@@ -215,7 +219,7 @@ local function new_order_id(comp)
     -- for testing 
     --new_id = "f_bot_1s_a"
 
-    comp:SetRegister(2, {id = new_id, num = 1})
+    comp:SetRegister(1, {id = new_id, num = 1})
     --comp:PrepareConsumeProcess({[new_id] = 1})
     return new_id
 end
@@ -226,11 +230,10 @@ function cc_time_travel_machine2:on_update(comp, cause)
 
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse tiem travel machine
-        spawn_robot_attack(comp.owner, 100, {range = self.range})
+        spawn_robot_attack(comp.owner, comp:GetRegisterNum(2), {range = self.range})
         -- spawn attackers 
 
-        comp:SetRegisterNum(1,0)
-        comp:FlagRegisterError(1)
+        comp:SetRegisterNum(2,0)
         comp:SetStateSleep(1000)
         comp:StopEffects()
         comp:PlayEffect("fx_pulse",'fx')
@@ -240,7 +243,7 @@ function cc_time_travel_machine2:on_update(comp, cause)
         -- check if order has arrived 
         -- reset work timer 
         -- check current order 
-        local order = comp:GetRegisterId(2)
+        local order = comp:GetRegisterId(1)
         local owner = comp.owner 
         
 
@@ -280,8 +283,7 @@ function cc_time_travel_machine2:on_update(comp, cause)
             else 
                 comp:FulfillProcess()
             end
-                -- check has frame
-            comp:SetRegisterNum(1, 1 + (comp:GetRegisterNum(1) or 0))
+            -- update tally 
             -- replace CUBE
             local new_id = replace_cube_with[order]
             if new_id ~= nil then 
@@ -290,16 +292,17 @@ function cc_time_travel_machine2:on_update(comp, cause)
 
             -- work again
             comp:SetStateStartWork(self.wait_ticks)
+            comp:SetRegisterNum(2, math.random(0,30))
+            if comp:GetRegisterNum(2) > 10 then comp:FlagRegisterError(2) end 
             comp:PlayEffect('fx_unit_teleport','fx')
             comp:PlayWorkEffect('fx_glitch2',"fx")
             new_order_id(comp)
             return 
             -- add new order
-        elseif no_space then 
-            -- trigger attack if started 
-            comp:FlagRegisterError(2)
+        elseif no_space or comp.is_working then 
+            comp:FlagRegisterError(1)
         else
-            comp:FlagRegisterError(2, false)
+            comp:FlagRegisterError(1, false)
         end
 
         if comp.is_working then 
@@ -311,10 +314,13 @@ function cc_time_travel_machine2:on_update(comp, cause)
 end
 function cc_time_travel_machine2:get_reg_error(comp, cause)
 
-    if comp:RegisterIsError(1) then 
-        return "Warning Retalitory Attack From The Furture Arriving"
+    if comp:RegisterIsError(1) then
+        if comp.is_working then 
+            return "Supply This Item or Unit before the machine finishes working for the expedition to keep working"
+        end 
+        return "Not enough space for items\nor no slots for the Cube or Ectoplasma"
     elseif comp:RegisterIsError(2) then
-        return "Not enough space for items\n make sure building has space and the required storage slots for the Cube or Ectoplasma"
+        return "Warning Extremly Dangerous Defence Response Detected\nKeep jumping for a safer time to collapse the loop"
     end
 end
 
