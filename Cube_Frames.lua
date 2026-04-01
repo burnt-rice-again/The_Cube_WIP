@@ -274,15 +274,16 @@ function Place_Anti_Cube(entity)
 		if val:HaveFreeSpace("ic_cube_sphere") == true then
 			val:AddItem("ic_cube_sphere")
 			val:PlayEffect("fx_ping")
-			return val
+			return
 		end
 	end
 	-- place as frame 
-	Map.Defer(function()
-	local new_frame = Map.CreateEntity(entity.faction, "fc_cube_sphere")
 	local cord = entity.location
-
-	new_frame:Place(cord.x + math.random(-6,6), cord.y + math.random(-6,6))
+	local faction = entity.faction
+	Map.Defer(function()
+	local new_frame = Map.CreateEntity(faction, "fc_cube_sphere")
+	if new_frame ~= nil then
+		new_frame:Place(cord.x + math.random(-6,6), cord.y + math.random(-6,6)) end
 	end)
 end 
 
@@ -295,9 +296,9 @@ local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 })
 function fc_cube_sphere:on_destroy(frame, cause, attacker)
 	Place_Anti_Cube(frame)
-	Place_Anti_Cube(frame)
+	--Place_Anti_Cube(frame)
 end 
 function fc_cube_sphere:on_remove(frame, cause)
 	Place_Anti_Cube(frame)
-	Place_Anti_Cube(frame)
+	--Place_Anti_Cube(frame)
 end 

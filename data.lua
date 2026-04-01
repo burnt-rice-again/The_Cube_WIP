@@ -10,15 +10,18 @@ package.includes = {
 	"Cube_Farming.lua",
 	
 	"Cube_Components.lua",
+	
 	"Cube_Converter.lua",
 	"Cube_Pipes.lua",
 	"Cube_Frames.lua",
+	"Cube_Attack_Waves.lua",
 	"Cube_Techs.lua",
 	--"Cube_Land_Features.lua",
 	"Cube_Explorables.lua",
 	"Cube_Biomes.lua",
 	'Cube_Instructions.lua',
-	"Cube_Attack_Waves.lua",
+	
+
 
 	"Cube_V2_DefinitionTooltip.lua",
 }

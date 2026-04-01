@@ -164,7 +164,7 @@ local function spawn_robot_attack(owner, cost, options)
     end
 end
 
-local   cc_time_travel_machine = Comp:RegisterComponent(" cc_time_travel_machine",{
+local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
 	name = "Time Travel Machine",
 	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to return items\n\nEnd the Expedition when the component finishes without the provided item\n\nPrepare for a defence response from currently visited timeline",
 	race = "robot",

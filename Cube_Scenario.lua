@@ -241,7 +241,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- recharger:Place(loc.x-3,loc.y+10)
 
 	local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	recharger:AddComponent("cc_time_travel_machine2")
+	recharger:AddComponent("cc_time_travel_machine")
 	recharger:AddComponent("c_turret")
 	recharger:AddComponent("cc_cube_storage")
 	recharger:AddComponent("c_power_cell")
