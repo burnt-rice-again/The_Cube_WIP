@@ -86,12 +86,12 @@ local cc_damage_check = Comp:RegisterComponent("cc_damage_check",{
 -- prevent the units from dropping components 
 function cc_damage_check:on_take_damage(comp, amount)
     local owner = comp.owner
-    print("Damage:",amount, " Health_old:",owner.health, "HealthNew:", owner.health-amount)
+    --print("Damage:",amount, " Health_old:",owner.health, "HealthNew:", owner.health-amount)
     if owner.health-amount <= 0 then
         for i = 1, owner.component_count do 
             local comp2 = owner:GetComponent(i)
             if comp2 ~= nil then 
-                print(comp2.id, "Destroyed")
+                --print(comp2.id, "Destroyed")
                 comp2:Destroy()
             end
         end
@@ -143,7 +143,6 @@ local function build_random_bot(faction)
         
 
     end
-    print(cost, bot)
     return bot, cost
 end 
 
@@ -158,9 +157,7 @@ local function spawn_robot_attack(owner, cost, options)
     local range = options.range or 20
     local cord = owner.location
     local i = 0
-    print(range, 'spawn range')
     while cost > 0 do 
-        print("Adding Delay", cost, 5+i)
         Map.Delay("Place_random_bot",5 + i, {faction = "time_bots", cord = cord, range = range})
         cost = cost - math.random(5,20)
         i = i + 5
@@ -196,8 +193,9 @@ local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2
 
 function cc_time_travel_machine2:on_add(comp, cause)
     --- set registers 
-    comp:SetRegister(1,{id = 'fused_electrodes', num = 0 })
-    comp:SetRegister(2)
+    if comp:RegisterIsEmpty(1) then 
+        comp:SetRegister(1,{id = 'fused_electrodes', num = 0 })
+    end 
 end
 
 local replace_cube_with <const> = {
@@ -210,11 +208,12 @@ local function new_order_id(comp)
     local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red",
     "c_adv_portable_turret",
     "ic_soul_angry","ic_soul_happy","phase_leaf",
-    --"f_bot_1s_a",
+    "f_bot_1s_a",
     }
     local new_id = req[math.random(1,#req)]
 
-    new_id = "f_bot_1s_a"
+    -- for testing 
+    --new_id = "f_bot_1s_a"
 
     comp:SetRegister(2, {id = new_id, num = 1})
     --comp:PrepareConsumeProcess({[new_id] = 1})
@@ -223,7 +222,7 @@ end
 
 function cc_time_travel_machine2:on_update(comp, cause)
 
-    print(comp.CauseToString(comp, cause))
+    --print(comp.CauseToString(comp, cause))
 
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse tiem travel machine
@@ -243,26 +242,45 @@ function cc_time_travel_machine2:on_update(comp, cause)
         -- check current order 
         local order = comp:GetRegisterId(2)
         local owner = comp.owner 
+        
 
         if order == nil then 
             -- select new order 
             order = new_order_id(comp)
         end 
+        -- check for frame type
+        local is_frame = nil ~= data.frames[order]
 
+        -- assign process when item amounts have changed (not item types)
         local can_make, missing, no_space
         if cause and CC_CHANGED_ITEMSLOT_AMOUNT then 
-            can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = 1})
-            --print("produce new", order, can_make, missing, no_space)
-        -- else 
-        --     no_space = not comp:HaveFreeSpace("fused_electrodes")
-        --     can_make = comp:CountItem(order) > 0 and not no_space
-        --     print("Check Order", can_make, no_space)
+            if is_frame ~= true then 
+                can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = 1})
+            else 
+                no_space = comp:PrepareGenerateProcess({fused_electrodes = 1})
+                can_make = no_space
+                -- for frame inputs 
+            end
         end
-
         --print(comp:FulfillProcess())
         if can_make then 
-            print("Fuffill")
-            comp:FulfillProcess()
+            if is_frame == true then 
+                local garage = owner:GetSlotsByType("garage")
+                print(garage[1].id)
+                local check = true
+                for key, val in pairs(garage) do 
+                    if val.id == order then 
+                        check = false 
+                        val.entity:Destroy()
+                        break 
+                    end
+                end
+                -- reuturn if no frame found 
+                if check then comp:SetStateSleep(1000) return end 
+            else 
+                comp:FulfillProcess()
+            end
+                -- check has frame
             comp:SetRegisterNum(1, 1 + (comp:GetRegisterNum(1) or 0))
             -- replace CUBE
             local new_id = replace_cube_with[order]
@@ -276,11 +294,9 @@ function cc_time_travel_machine2:on_update(comp, cause)
             comp:PlayWorkEffect('fx_glitch2',"fx")
             new_order_id(comp)
             return 
-            -- 
             -- add new order
         elseif no_space then 
             -- trigger attack if started 
-            print("No SPace")
             comp:FlagRegisterError(2)
         else
             comp:FlagRegisterError(2, false)
@@ -291,8 +307,6 @@ function cc_time_travel_machine2:on_update(comp, cause)
         else 
             comp:SetStateSleep(1000)
         end
-
-
     end
 end
 function cc_time_travel_machine2:get_reg_error(comp, cause)
