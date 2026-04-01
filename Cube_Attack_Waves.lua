@@ -39,9 +39,8 @@ local comp_cost_list <const> = {
         c_portable_turret = 1,
         c_adv_portable_turret = 2,
         c_plasma_turret = 5,
-        c_virus_bitlock = 5,
         c_portable_turret_red = 3,
-        c_portable_turret_green = 2,
+        --c_portable_turret_green = 2,
         c_melee_pulse = 1,
     },
     m = {
@@ -80,8 +79,27 @@ local function random_key(list)
     return list[math.random(1,#list)]
 end
 
+local cc_damage_check = Comp:RegisterComponent("cc_damage_check",{
+    name = "damage", 
+})
+
+-- prevent the units from dropping components 
+function cc_damage_check:on_take_damage(comp, amount)
+    local owner = comp.owner
+    print("Damage:",amount, " Health_old:",owner.health, "HealthNew:", owner.health-amount)
+    if owner.health-amount <= 0 then
+        for i = 1, owner.component_count do 
+            local comp2 = owner:GetComponent(i)
+            if comp2 ~= nil then 
+                print(comp2.id, "Destroyed")
+                comp2:Destroy()
+            end
+        end
+    end
+end
+
 -- create a randomized bot 
-function Build_random_bot(faction)
+local function build_random_bot(faction)
 
     local cost = 0
 
@@ -111,12 +129,169 @@ function Build_random_bot(faction)
                 cost = cost + comp_cost_list.l[comp_id]
             end
         end
+        bot:AddComponent("cc_damage_check")
+        -- add a radar so it can automattically hunt 
+        local radar = bot:AddComponent("c_alien_sensor_wide")
+        radar:SetRegister(1,data.values.v_enemy_faction)
+        -- stop it targetting construction sites
+        radar:SetRegister(2,data.values.v_robot_faction)
+
+
+        --always links to the first weapon
+        bot:LinkRegisterFromRegister(6,4,radar)
+
+        
+
     end
     print(cost, bot)
     return bot, cost
 end 
 
+function Delay.Place_random_bot(arg)
+        local bot, bot_cost = build_random_bot(arg.faction)
+        bot:Place(arg.cord.x + math.random(-arg.range, arg.range),arg.cord.y + math.random(-arg.range, arg.range), math.random(0,3))
+end
 
+local function spawn_robot_attack(owner, cost, options)
+
+    local range = options.range or 20
+    local cord = owner.location
+    local i = 0
+    while cost > 0 do 
+        Map.Delay("Place_random_bot",5 + i, {faction = "time_bots", cord = cord, range = range})
+        cost = cost - math.random(20,5)
+        i = i + 5
+    end
+end
+
+
+
+
+local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2",{
+	name = "Time Travel Machine",
+	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to increase the yield\n\nPrepare for a proportional respoinse of the defending timline\n\nEnd the expedition by providing the blue cube once the teleporter is no longer working",
+	race = "robot",
+	attachment_size = "Large",
+	texture = "Main/textures/icons/components/Component_UnitTeleporter_01_L.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
+	visual = "v_teleporter_01_l",  --"v_scienceanalyzer_l",
+	effect = "fx_unit_teleport",
+	slots = { garage = 1 },
+	power = 0,---1000,
+	production_recipe = CreateProductionRecipe({["steelblock"]=100,["concreteslab"]=100,["phase_leaf"]=50,["wire"] = 50}, {["c_assembler"] = 150}, 1),
+	activation = "OnAnyItemSlotChange",
+	--power = -500,
+	registers = {
+		--{tip = "<header>Request Charge</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Years Travelled</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
+        { read_only = true, ui_icon = "icon_small_time", tip = "<header>Resupply Required</>\n\nItems/bots required to resupply the party"},
+	},
+	get_ui = false,
+	output_item = "fused_electrodes",
+    wait_ticks = 5,
+})
+
+function cc_time_travel_machine2:on_add(comp, cause)
+    --- set registers 
+    comp:SetRegister(1,{id = 'fused_electrodes', num = 0 })
+    comp:SetRegister(2)
+end
+
+local replace_cube_with <const> = {
+    ic_cube_blue = 'ic_cube_red',
+    ic_cube_green = 'ic_cube_empty',
+    ic_cube_empty = 'ic_cube_blue',
+    ic_cube_red = 'ic_cube_red',
+}
+local function new_order_id(comp)
+    local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red",
+    "c_adv_portable_turret",
+    "ic_soul_angry","ic_soul_happy","phase_leaf",
+    --"f_bot_1s_a",
+    }
+    local new_id = req[math.random(1,#req)]
+
+    new_id = "crystal"
+
+    comp:SetRegister(2, {id = new_id, num = 1})
+    --comp:PrepareConsumeProcess({[new_id] = 1})
+    return new_id
+end
+
+function cc_time_travel_machine2:on_update(comp, cause)
+
+    print(comp.CauseToString(comp, cause))
+
+    if cause & CC_FINISH_WORK ~= 0 then 
+        -- collapse tiem travel machine
+        spawn_robot_attack(comp.owner, 100, {range = 15})
+        -- spawn attackers 
+
+        comp:SetRegisterNum(1,0)
+        comp:SetStateSleep(1000)
+    else
+        -- check if order has arrived 
+        -- reset work timer 
+        -- check current order 
+        local order = comp:GetRegisterId(2)
+        local owner = comp.owner 
+
+        if order == nil then 
+            -- select new order 
+            order = new_order_id(comp)
+        end 
+
+        local can_make, missing, no_space
+        if cause and CC_CHANGED_ITEMSLOT_AMOUNT then 
+            can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = 1})
+            --print("produce new", order, can_make, missing, no_space)
+        -- else 
+        --     no_space = not comp:HaveFreeSpace("fused_electrodes")
+        --     can_make = comp:CountItem(order) > 0 and not no_space
+        --     print("Check Order", can_make, no_space)
+        end
+
+        --print(comp:FulfillProcess())
+        if can_make then 
+            print("Fuffill")
+            comp:FulfillProcess()
+            comp:SetRegisterNum(1, 1 + (comp:GetRegisterNum(1) or 0))
+            -- replace CUBE
+            local new_id = replace_cube_with[order]
+            if new_id ~= nil then 
+                comp:AddItem(new_id)
+            end 
+
+            -- work again
+            comp:SetStateStartWork(self.wait_ticks)
+            new_order_id(comp)
+            return 
+            -- 
+            -- add new order
+        elseif no_space then 
+            -- trigger attack if started 
+            print("No SPace")
+            comp:FlagRegisterError(2)
+        else
+            comp:FlagRegisterError(2, false)
+        end
+
+        if comp.is_working then 
+            comp:SetStateContinueWork()
+        else 
+            comp:SetStateSleep(1000)
+        end
+
+
+    end
+end
+function cc_time_travel_machine2:get_reg_error(comp, cause)
+
+    if comp:RegisterIsError(1) then 
+        return "Warning Large Attack Incoming if portal collapses"
+    elseif comp:RegisterIsError(2) then
+        return "Not enough space for items\n make sure building has space and the required storage slots for the Cube or Ectoplasma"
+    end
+end
 
         -- req_comp = {'c_integrated_power_cell'},
         -- items = {fused_electrodes = 1},

@@ -62,7 +62,7 @@ data.components.c_behavior.production_recipe = CreateProductionRecipe({["datakey
 data.components.c_shared_storage.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
 
-data.components.c_signal_reader.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_signal_reader.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 2, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
@@ -114,6 +114,9 @@ data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["m
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
 
+-- Radios 
+data.components.c_radio_transmitter.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_radio_receiver.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
 
 -- shields  
 data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['phase_leaf'] = 10, ['wire'] = 4}, {c_assembler = 50})
@@ -409,12 +412,6 @@ data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 
 ---TIME TRAVEL MACHINE ----------------------------------------------------------
 
-local function spawn_enemy(owner)
-	--spawn enemies 
-	local enemy = Map:CreateEntity("f_trilobyte1")
-	enemy:Place(owner.location,owner)
-	print("spawn enemy")
-end
 
 local function time_travel_on_update(self, comp, cause)
 
@@ -529,6 +526,7 @@ cc_crystal_power:RegisterComponent("cc_time_travel_machine", {
 	--power = -500,
 	consume_items = {metalore= 1, crystal = 1},
 	registers = {
+		{tip = "<header>Request Charge</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
         { read_only = true, ui_icon = "icon_small_time", tip = "<header>Years Travelled</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
         { read_only = true, ui_icon = "icon_small_time", tip = "<header>Resupply Required</>\n\nItems/bots required to resupply the party"},
 	},

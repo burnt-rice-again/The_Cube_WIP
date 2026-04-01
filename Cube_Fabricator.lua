@@ -100,8 +100,7 @@ function cc_cube_fabrication:on_update(comp, cause)
 	if reg1_entity then reg1_id = reg1_entity.id end
 	local product_def, blueprint_def = GetProduction(reg1_id, comp)
 
-	-- pipe inpute check 
-	print(self.pipe_input, self.on_update, comp.id)
+	-- CUBE pipe input check 
 	if self.pipe_input ~= nil and comp.owner:CountItem("ic_soul_plasma") > 0 then 
 		self:pipe_input(comp, cause)
 	end

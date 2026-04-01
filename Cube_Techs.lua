@@ -320,7 +320,7 @@ data.techs.tc_robot_metallurgy_1 = {
 		"steelblock",	
 	},
 	require_tech = { "tc_robot_basic" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1}, 25),
 	category = "Independance",
 }
@@ -497,7 +497,7 @@ data.techs.tc_building4= {
 
 --- Networking
 data.techs.tc_network1 = {
-	order = 9,
+	order = 3,
 	name = "Improved Networking", -- recovered database etc.
 	desc = "Start a Linkin Profile",
 	texture = data.components.c_power_relay.texture,
@@ -511,7 +511,7 @@ data.techs.tc_network1 = {
 	category = "tc_upgrades_1",
 }
 data.techs.tc_network2 = {
-	order = 9,
+	order = 3,
 	name = "Improved Networking", -- recovered database etc.
 	desc = "Start a Linkin Profile",
 	texture = data.components.c_power_relay.texture,
@@ -525,7 +525,7 @@ data.techs.tc_network2 = {
 	category = "tc_upgrades_1",
 }
 data.techs.tc_network3 = {
-	order = 9,
+	order = 3,
 	name = "Improved Networking", -- recovered database etc.
 	desc = "Start a Linkin Profile",
 	texture = data.components.c_power_relay.texture,
@@ -539,7 +539,7 @@ data.techs.tc_network3 = {
 	category = "tc_upgrades_1",
 }
 data.techs.tc_network4 = {
-	order = 9,
+	order = 3,
 	name = "Improved Networking", -- recovered database etc.
 	desc = "Start a Linkin Profile",
 	texture = data.components.c_power_relay.texture,
@@ -547,7 +547,7 @@ data.techs.tc_network4 = {
 		-- new resources
 		"c_large_power_relay","c_large_battery","c_large_power_transmitter"
 	},
-	require_tech = { "tc_network3" },
+	require_tech = { "tc_network3","tc_cube_green_discovery" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, fused_electrodes = 1}, 50),
 	category = "tc_upgrades_1",
@@ -563,7 +563,7 @@ data.techs.tc_weapons1 = {
 		-- new resources
 		'c_repairkit',"c_repairer","c_melee_pulse",
 	},
-	require_tech = { "tc_upgrades_basic" },
+	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
 	category = "tc_upgrades_1",
@@ -611,7 +611,7 @@ data.techs.tc_robot_storage1 = {
 
 		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
 	},
-	require_tech = { "tc_upgrades_basic" },
+	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1}, 50),
 	category = "tc_upgrades_1",
@@ -668,9 +668,77 @@ data.techs.tc_robot_storage4 = {
 	category = "tc_upgrades_1",
 }
 
+------- Signals 
+---
 
+data.techs.tc_robot_signals1 = {
+	order = 11,
+	name = "Telecomunications", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_radar.texture,
+	unlocks = {
+		-- new resources
+		"c_radio_transmitter","c_radio_receiver"
+		--"steelblock","f_building1x1c","f_building1x1a",
 
+		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+	},
+	require_tech = { "tc_upgrades_basic", "tc_cube_green_discovery"},
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ wire = 1}, 50),
+	category = "tc_upgrades_1",
+}
+data.techs.tc_robot_signals2 = {
+	order = 11,
+	name = "Wireless Action", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_radar.texture,
+	unlocks = {
+		-- new resources
+		"c_small_radar","c_shield_generator",
+		--"steelblock","f_building1x1c","f_building1x1a",
 
+		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+	},
+	require_tech = { "tc_robot_signals1" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1}, 50),
+	category = "tc_upgrades_1",
+}
+data.techs.tc_robot_signals3 = {
+	order = 11,
+	name = "Wireless Action", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_radar.texture,
+	unlocks = {
+		-- new resources
+		"c_radar","c_shield_generator2",
+		--"steelblock","f_building1x1c","f_building1x1a",
+
+		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+	},
+	require_tech = { "tc_robot_signals2" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1}, 50),
+	category = "tc_upgrades_1",
+}
+data.techs.tc_robot_signals4 = {
+	order = 11,
+	name = "Wireless Action", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_radar.texture,
+	unlocks = {
+		-- new resources
+		"c_unit_teleport","c_shield_generator3",
+		--"steelblock","f_building1x1c","f_building1x1a",
+
+		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+	},
+	require_tech = { "tc_robot_signals3" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1, fused_electrodes = 1}, 50),
+	category = "tc_upgrades_1",
+}
 
 
 
