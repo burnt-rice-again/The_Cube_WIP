@@ -27,13 +27,13 @@ end
 local function tester_spawn_observers(faction, x,y)
 
 	local size = 100
-	local tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	local tower = Map.CreateEntity(faction, 'fc_testing_observer')
 	tower:Place(x+size,y+size)
-	tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower = Map.CreateEntity(faction, 'fc_testing_observer')
 	tower:Place(x+size,y-size)
-	tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower = Map.CreateEntity(faction, 'fc_testing_observer')
 	tower:Place(x-size,y+size)
-	tower = Map.CreateEntity(faction, 'cc_testing_observer')
+	tower = Map.CreateEntity(faction, 'fc_testing_observer')
 	tower:Place(x-size,y-size)
 
 end
@@ -279,6 +279,14 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	--pipe:AddComponent("cc_pipe_output")
 	pipe:Place(loc.x-11,loc.y+8)
 
+
+	local defence_block = Map.CreateEntity(faction, "f_building1x1h")
+	defence_block:AddComponent("cc_cube_storage")
+	defence_block:AddItem("ic_cube_sphere",1)
+	defence_block:Place(loc.x,loc.y-6)
+
+	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
+	defence_block:Place(loc.x+1,loc.y-6)
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)

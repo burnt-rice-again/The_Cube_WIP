@@ -252,8 +252,52 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 	is_explorable = true,
 })
 
-Frame:RegisterFrame("cc_testing_observer",{
+Frame:RegisterFrame("fc_testing_observer",{
 	visual = "v_beacon_l",
 	name = "obeserving tower",
 	visibility_range = 100,
 })
+
+
+function Place_Anti_Cube(entity)
+	-- location can be entity or location
+	if entity == nil then print("ERROR location is invalid for anticube") end 
+	-- if location.x == nil then
+	-- 	-- not coord is entity 
+	-- 	if location.location ~= nil then 
+	-- 		location = location.location
+	-- 	end
+	-- look for frame with space 
+	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 10, 10, 1, FF_OWNFACTION, entity.faction)
+	for key, val in pairs(list_nearby) do 
+		print(val)
+		if val:HaveFreeSpace("ic_cube_sphere") == true then
+			val:AddItem("ic_cube_sphere")
+			val:PlayEffect("fx_ping")
+			return val
+		end
+	end
+	-- place as frame 
+	Map.Defer(function()
+	local new_frame = Map.CreateEntity(entity.faction, "fc_cube_sphere")
+	local cord = entity.location
+
+	new_frame:Place(cord.x + math.random(-6,6), cord.y + math.random(-6,6))
+	end)
+end 
+
+
+local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
+	name = data.items.ic_cube_sphere.name,
+	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nHighly Volatile When Around The Cube\n\nCan not be destroyed by conventional means",
+	visual = "vc_cube_sphere_frame",
+	texture = data.items.ic_cube_sphere.texture,
+})
+function fc_cube_sphere:on_destroy(frame, cause, attacker)
+	Place_Anti_Cube(frame)
+	Place_Anti_Cube(frame)
+end 
+function fc_cube_sphere:on_remove(frame, cause)
+	Place_Anti_Cube(frame)
+	Place_Anti_Cube(frame)
+end 

@@ -164,10 +164,7 @@ local function spawn_robot_attack(owner, cost, options)
     end
 end
 
-
-
-
-local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2",{
+local   cc_time_travel_machine = Comp:RegisterComponent(" cc_time_travel_machine",{
 	name = "Time Travel Machine",
 	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to return items\n\nEnd the Expedition when the component finishes without the provided item\n\nPrepare for a defence response from currently visited timeline",
 	race = "robot",
@@ -192,7 +189,7 @@ local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2
     range = 10,
 })
 
-function cc_time_travel_machine2:on_add(comp, cause)
+function  cc_time_travel_machine:on_add(comp, cause)
     --- set registers 
     if comp:RegisterIsEmpty(2) then 
         comp:SetRegisterNum(2,math.random(0,30))
@@ -200,7 +197,7 @@ function cc_time_travel_machine2:on_add(comp, cause)
     comp:Activate()
 end
 
-function cc_time_travel_machine2:on_remove(comp, cause)
+function  cc_time_travel_machine:on_remove(comp, cause)
     -- spawn attack if removed while working 
     if comp.is_working then 
         spawn_robot_attack(comp.owner, comp:GetRegisterNum(2) + 10, {range = self.range})
@@ -212,24 +209,22 @@ local replace_cube_with <const> = {
     ic_cube_green = 'ic_cube_empty',
     ic_cube_empty = 'ic_cube_red',
     ic_cube_red = 'ic_cube_blue',
+    ic_cube_sphere = 'ic_cube_sphere',
 }
 local function new_order_id(comp)
-    local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red","ic_cube_empty",
+    local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red","ic_cube_empty","ic_cube_sphere",
     "c_adv_portable_turret",
     "ic_soul_angry","ic_soul_happy","phase_leaf",
     "f_bot_1s_b","f_bot_1m1s"
     }
     local new_id = req[math.random(1,#req)]
-
     -- for testing 
-    new_id = "ic_cube_blue"
-
+    --new_id = "ic_cube_blue"
     comp:SetRegister(1, {id = new_id, num = 1})
-    --comp:PrepareConsumeProcess({[new_id] = 1})
     return new_id
 end
 
-function cc_time_travel_machine2:on_update(comp, cause)
+function  cc_time_travel_machine:on_update(comp, cause)
 
     --print(comp.CauseToString(comp, cause))
 
@@ -315,7 +310,7 @@ function cc_time_travel_machine2:on_update(comp, cause)
         end
     end
 end
-function cc_time_travel_machine2:get_reg_error(comp, cause)
+function  cc_time_travel_machine:get_reg_error(comp, cause)
 
     if comp:RegisterIsError(1) then
         if comp.is_working then 

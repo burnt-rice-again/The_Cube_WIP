@@ -175,13 +175,13 @@ data.items.ic_cube_purple = {
 data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
 	index = 1004,
-	desc = "Heresey, sphere inside the cube!",
+	desc = "Heresey, there is a sphere inside the cube!",
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
-	visual = 'v_explorable_blightanomaly_02', 
+	visual = 'vc_cube_sphere_item', 
 	--production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1 }, { c_robotics_factory = 200, }),
 }
 -- "v_hybrid_worker" for final production building 

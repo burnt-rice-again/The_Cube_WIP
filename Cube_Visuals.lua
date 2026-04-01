@@ -218,3 +218,15 @@ data.visuals.vc_crop_phase.flags = "RandomRotation|RandomScale|RandomTranslation
 
 data.visuals.vc_crop_phase_seed0 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
 data.visuals.vc_crop_phase_seed0.scale = {1.3,1.3,1.5}
+
+----------- Cubes 
+data.visuals.vc_cube_sphere_item = Tool.Copy(data.visuals.v_explorable_blightanomaly_02)
+data.visuals.vc_cube_sphere_item.scale = {0.1,.1,.1}
+data.visuals.vc_cube_sphere_item.tile_size = nil
+
+data.visuals.vc_cube_sphere_frame = Tool.Copy(data.visuals.vc_cube_sphere_item)
+data.visuals.vc_cube_sphere_frame.scale = {.45,.45,.45}
+--data.visuals.vc_cube_sphere.mesh_offset = {0,0,-400}
+
+
+
