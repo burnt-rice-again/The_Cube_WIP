@@ -333,9 +333,6 @@ data.techs.tc_robot_metallurgy_2 = {
 	unlocks = {
 		-- new resources
 		"laterite","concreteslab","f_human_foundation_basic",
-		
-
-		--"f_flyer_m","f_flyer_bot","c_landing_pad","c_small_storage",
 	},
 	require_tech = { "tc_robot_metallurgy_1" },
 	progress_count = 100,
@@ -351,9 +348,6 @@ data.techs.tc_robot_beacons1 = {
 	unlocks = {
 		-- new resources
 		"beacon_frame","f_beacon",
-		
-
-		--"f_flyer_m","f_flyer_bot","c_landing_pad","c_small_storage",
 	},
 	require_tech = { "tc_robot_metallurgy_2" },
 	progress_count = 100,
@@ -370,9 +364,6 @@ data.techs.tc_robot_frames_1 = {
 	unlocks = {
 		-- new resources
 		"c_robotics_factory",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
 	},
 	require_tech = { "tc_upgrades_basic" },
 	progress_count = 25,
@@ -385,8 +376,7 @@ data.techs.tc_robot_frames_2 = {
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
-		-- new resources
-
+		-- new resoures
 		"f_bot_1m_a","f_bot_1s_b",
 	},
 	require_tech = { "tc_robot_frames_1" },
@@ -400,11 +390,7 @@ data.techs.tc_robot_frames_3 = {
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
-		-- new resources
-		
-		--"steelblock","f_building1x1c","f_building1x1a",
 		"f_bot_2s",
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
 	},
 	require_tech = { "tc_robot_frames_2" },
 	progress_count = 100,
@@ -418,10 +404,7 @@ data.techs.tc_robot_frames_4 = {
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
-		
-		--"steelblock","f_building1x1c","f_building1x1a",
-		"f_transport_bot",
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+		"f_transport_bot","f_bot_1m1s"
 	},
 	require_tech = { "tc_robot_frames_3" },
 	progress_count = 100,
@@ -606,10 +589,7 @@ data.techs.tc_robot_storage1 = {
 	texture = data.components.c_small_storage.texture,
 	unlocks = {
 		-- new resources
-		"c_small_storage",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+		"c_small_storage", 
 	},
 	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
 	progress_count = 100,
@@ -623,10 +603,7 @@ data.techs.tc_robot_storage2 = {
 	texture = data.components.c_internal_storage.texture,
 	unlocks = {
 		-- new resources
-		"c_internal_storage",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+		"c_internal_storage", 
 	},
 	require_tech = { "tc_robot_storage1" },
 	progress_count = 100,
@@ -640,10 +617,7 @@ data.techs.tc_robot_storage3 = {
 	texture = data.components.c_medium_storage.texture,
 	unlocks = {
 		-- new resources
-		"c_medium_storage",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+		"c_medium_storage", 
 	},
 	require_tech = { "tc_robot_storage2" },
 	progress_count = 100,
@@ -657,10 +631,7 @@ data.techs.tc_robot_storage4 = {
 	texture = data.components.c_large_storage.texture,
 	unlocks = {
 		-- new resources
-		"c_large_storage",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+		"c_large_storage", 
 	},
 	require_tech = { "tc_robot_storage3" },
 	progress_count = 100,
@@ -678,10 +649,7 @@ data.techs.tc_robot_signals1 = {
 	texture = data.components.c_radar.texture,
 	unlocks = {
 		-- new resources
-		"c_radio_transmitter","c_radio_receiver"
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
+		"c_radio_transmitter","c_radio_receiver" 
 	},
 	require_tech = { "tc_upgrades_basic", "tc_cube_green_discovery"},
 	progress_count = 100,
@@ -696,9 +664,6 @@ data.techs.tc_robot_signals2 = {
 	unlocks = {
 		-- new resources
 		"c_small_radar","c_shield_generator",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
 	},
 	require_tech = { "tc_robot_signals1" },
 	progress_count = 100,
@@ -713,9 +678,6 @@ data.techs.tc_robot_signals3 = {
 	unlocks = {
 		-- new resources
 		"c_radar","c_shield_generator2",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
 	},
 	require_tech = { "tc_robot_signals2" },
 	progress_count = 100,
@@ -730,9 +692,6 @@ data.techs.tc_robot_signals4 = {
 	unlocks = {
 		-- new resources
 		"c_unit_teleport","c_shield_generator3",
-		--"steelblock","f_building1x1c","f_building1x1a",
-
-		--"f_bot_1m_a","f_bot_1s_b","c_power_relay",
 	},
 	require_tech = { "tc_robot_signals3" },
 	progress_count = 100,

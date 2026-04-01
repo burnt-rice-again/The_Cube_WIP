@@ -46,6 +46,7 @@ data.frames.f_gate.construction_recipe = CreateConstructionRecipe({ metalplate =
 -- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
 
 data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 6, metalplate = 8 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m1s.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 16, reinforced_plate = 16 }, { c_robotics_factory = 80 })
 
 
 

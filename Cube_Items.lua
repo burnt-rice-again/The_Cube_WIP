@@ -236,7 +236,7 @@ data.items.ic_soul_plasma = {
 	--visual = "v_scaramar1",
 	slot_type = "anomaly",
 	stack_size = 100,
-	production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, ic_souls = 5 }, { cc_soul_refinery = 60 }, 100, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, ic_souls = 5 }, { cc_soul_refinery = 60 }, 10, {ic_cube_blue = 1}),
 }
 data.items.ic_soul_happy = {
 	name = "Enlightened Souls",

@@ -30,3 +30,7 @@ Known Bugs
 --- stuff i cant do because there isnt a method 
 biome probabilites 
 change visual of a component, SetVisual exist for an entity but not comp
+
+---- Bugs 
+
+TimeTravel machine registers reset on equip - potential exploit

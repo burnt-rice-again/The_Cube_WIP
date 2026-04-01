@@ -149,7 +149,7 @@ end
 function Delay.Place_random_bot(arg)
         local bot, bot_cost = build_random_bot(arg.faction)
         bot:Place(arg.cord.x + math.random(-arg.range, arg.range),arg.cord.y + math.random(-arg.range, arg.range), math.random(0,3))
-        print('spawning', bot.location)
+        --print('spawning', bot.location)
     end
 
 local function spawn_robot_attack(owner, cost, options)
@@ -212,12 +212,12 @@ local function new_order_id(comp)
     local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red","ic_cube_empty",
     "c_adv_portable_turret",
     "ic_soul_angry","ic_soul_happy","phase_leaf",
-    "f_bot_1s_a",
+    "f_bot_1s_b","f_bot_1m1s"
     }
     local new_id = req[math.random(1,#req)]
 
     -- for testing 
-    --new_id = "f_bot_1s_a"
+    --new_id = "ic_cube_blue"
 
     comp:SetRegister(1, {id = new_id, num = 1})
     --comp:PrepareConsumeProcess({[new_id] = 1})
@@ -287,7 +287,7 @@ function cc_time_travel_machine2:on_update(comp, cause)
             -- replace CUBE
             local new_id = replace_cube_with[order]
             if new_id ~= nil then 
-                comp:AddItem(new_id)
+                owner:AddItem(new_id)
             end 
 
             -- work again
@@ -327,7 +327,7 @@ end
         -- req_comp = {'c_integrated_power_cell'},
         -- items = {fused_electrodes = 1},
 
-
+-- TODO known bug is the requirement will change on uneqip/requip of the components
 
 
 
