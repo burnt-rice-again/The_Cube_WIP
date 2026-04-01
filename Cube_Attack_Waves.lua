@@ -13,6 +13,7 @@
 --- 
 
 local frame_cost_list <const> = {
+        --f_bot_1s_b = 3,
         f_bot_1s_as = 3,
         f_bot_1m_c = 5,
         f_bot_1s_adw = 9,
@@ -34,6 +35,7 @@ local comp_cost_list <const> = {
         c_shield_generator = 1,
         c_shield_generator2 = 2,
         c_shield_generator3 = 3,
+        c_internal_storage = 0, -- dud item
     },
     s ={
         c_portable_turret = 1,
@@ -135,13 +137,10 @@ local function build_random_bot(faction)
         radar:SetRegister(1,data.values.v_enemy_faction)
         -- stop it targetting construction sites
         radar:SetRegister(2,data.values.v_robot_faction)
-
-
         --always links to the first weapon
         bot:LinkRegisterFromRegister(6,4,radar)
-
-        
-
+        -- add a soul 
+        bot:AddItem("ic_souls", 1)
     end
     return bot, cost
 end 
@@ -149,8 +148,9 @@ end
 function Delay.Place_random_bot(arg)
         local bot, bot_cost = build_random_bot(arg.faction)
         bot:Place(arg.cord.x + math.random(-arg.range, arg.range),arg.cord.y + math.random(-arg.range, arg.range), math.random(0,3))
+        bot:PlayEffect("fx_pulse")
         --print('spawning', bot.location)
-    end
+end
 
 local function spawn_robot_attack(owner, cost, options)
 
@@ -169,7 +169,7 @@ end
 
 local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2",{
 	name = "Time Travel Machine",
-	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to increase the yield\n\nPrepare for a proportional respoinse of the defending timline\n\nEnd the expedition by providing the blue cube once the teleporter is no longer working",
+	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to return items\n\nEnd the Expedition when the component finishes without the provided item\n\nPrepare for a defence response from currently visited timeline",
 	race = "robot",
 	attachment_size = "Large",
 	texture = "Main/textures/icons/components/Component_UnitTeleporter_01_L.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
@@ -194,11 +194,16 @@ local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2
 
 function cc_time_travel_machine2:on_add(comp, cause)
     --- set registers 
-    -- if comp:RegisterIsEmpty(1) then 
-    --     comp:SetRegister(1,{id = new_order_id(comp), num = 0 })
-    -- end 
     if comp:RegisterIsEmpty(2) then 
         comp:SetRegisterNum(2,math.random(0,30))
+    end 
+    comp:Activate()
+end
+
+function cc_time_travel_machine2:on_remove(comp, cause)
+    -- spawn attack if removed while working 
+    if comp.is_working then 
+        spawn_robot_attack(comp.owner, comp:GetRegisterNum(2) + 10, {range = self.range})
     end 
 end
 
@@ -217,7 +222,7 @@ local function new_order_id(comp)
     local new_id = req[math.random(1,#req)]
 
     -- for testing 
-    --new_id = "ic_cube_blue"
+    new_id = "ic_cube_blue"
 
     comp:SetRegister(1, {id = new_id, num = 1})
     --comp:PrepareConsumeProcess({[new_id] = 1})
@@ -265,11 +270,9 @@ function cc_time_travel_machine2:on_update(comp, cause)
                 -- for frame inputs 
             end
         end
-        --print(comp:FulfillProcess())
         if can_make then 
             if is_frame == true then 
                 local garage = owner:GetSlotsByType("garage")
-                print(garage[1].id)
                 local check = true
                 for key, val in pairs(garage) do 
                     if val.id == order then 
