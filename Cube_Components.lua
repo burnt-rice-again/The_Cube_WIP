@@ -230,7 +230,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			update_cube_location(comp,"ic_cube_sphere" )
 		else
 			comp:StopEffects()
-			comp.light_color = { 0,0,1,0 }
+			comp.light_color = { 0,0,0,0 }
 			comp.extra_power = 0
 			self:on_update_boosts(comp,{} ,0)
 			if comp.faction.extra_data.cube_key == owner.key then 
@@ -242,19 +242,11 @@ local function Update_Cube_Effects(self, comp, cause)
 			return
 			
 		end
+		-- when any cube has been added 
 		comp.extra_power = 200
 		self:on_update_boosts(comp,{} ,self.boost)
 
 
-		-- fx_reforming_pool good has small plasma and a whilwind above cube
-		-- fx_alien_teleporter - creates a ring but is in the air :(
-		-- fx_unit_teleport - good for a different purpose
-		-- fx_pulse - emp like pulse , fx_viral_pulse
-		-- fx_power_core - strong light 
-		-- fx_alien_core pink light 
-		--fx_deconstructor like bullets raining from the sky 
-		--fx_assembler - smaller fire
-		--fx_EMP - huge emp blast  
 	else
 		comp:StopEffects() 
 		print("stop effects")

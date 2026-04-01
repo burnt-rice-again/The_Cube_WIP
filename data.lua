@@ -30,3 +30,16 @@ package.includes = {
 function package:init()
 end
 
+
+-- fx descriptions ---------------------
+
+-- fx_alien_liquid pink goo splash 
+-- fx_reforming_pool good has small plasma and a whilwind above cube
+-- fx_alien_teleporter - creates a ring but is in the air :(
+-- fx_unit_teleport - good for a different purpose
+-- fx_pulse - emp like pulse , fx_viral_pulse
+-- fx_power_core - strong light 
+-- fx_alien_core pink light 
+--fx_deconstructor like bullets raining from the sky 
+--fx_assembler - smaller fire
+--fx_EMP - huge emp blast  

@@ -155,6 +155,11 @@ function cc_cube_fabrication:on_update(comp, cause)
 		local drone_slot = is_bot_production and comp:GetProcessOutputSlot()
 		local bot_ingredient_extra_datas = comp:FulfillProcess(is_bot_production)
 		replace_cube(production_recipe, comp.owner)
+		-- check for anti cube 
+		if production_recipe.ingriendents ~= nil and production_recipe.ingriendents.ic_cube_sphere ~= nil then
+			Place_Anti_Cube(comp.owner)
+		end
+
 
 		if is_bot_production then
 			local owner = comp.owner
