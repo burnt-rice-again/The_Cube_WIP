@@ -14,7 +14,7 @@ data.frames.f_building1x1d.construction_recipe = CreateConstructionRecipe({ meta
 data.frames.f_building1x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 8 }, 20)
 data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ metalplate = 6, crystal = 4 }, 20)
 data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 16, datakey_robot = 4 }, 20)
-data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, datakey_robot = 1 }, { c_robotics_factory = 50, c_carrier_factory = 100 })
+data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, datakey_robot = 1 }, { c_robotics_factory = 25, c_carrier_factory = 60 })
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 
 data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4, datakey_robot = 1 }, 20)

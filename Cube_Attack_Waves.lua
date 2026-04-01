@@ -40,7 +40,7 @@ local comp_cost_list <const> = {
         c_adv_portable_turret = 2,
         c_plasma_turret = 5,
         c_portable_turret_red = 3,
-        --c_portable_turret_green = 2,
+        --c_portable_turret_green = 2, -- no virus protection in tech tree
         c_melee_pulse = 1,
     },
     m = {
@@ -150,16 +150,19 @@ end
 function Delay.Place_random_bot(arg)
         local bot, bot_cost = build_random_bot(arg.faction)
         bot:Place(arg.cord.x + math.random(-arg.range, arg.range),arg.cord.y + math.random(-arg.range, arg.range), math.random(0,3))
-end
+        print('spawning', bot.location)
+    end
 
 local function spawn_robot_attack(owner, cost, options)
 
     local range = options.range or 20
     local cord = owner.location
     local i = 0
+    print(range, 'spawn range')
     while cost > 0 do 
+        print("Adding Delay", cost, 5+i)
         Map.Delay("Place_random_bot",5 + i, {faction = "time_bots", cord = cord, range = range})
-        cost = cost - math.random(20,5)
+        cost = cost - math.random(5,20)
         i = i + 5
     end
 end
@@ -187,7 +190,8 @@ local  cc_time_travel_machine2 = Comp:RegisterComponent("cc_time_travel_machine2
 	},
 	get_ui = false,
 	output_item = "fused_electrodes",
-    wait_ticks = 5,
+    wait_ticks = 100,
+    range = 10,
 })
 
 function cc_time_travel_machine2:on_add(comp, cause)
@@ -210,7 +214,7 @@ local function new_order_id(comp)
     }
     local new_id = req[math.random(1,#req)]
 
-    new_id = "crystal"
+    new_id = "f_bot_1s_a"
 
     comp:SetRegister(2, {id = new_id, num = 1})
     --comp:PrepareConsumeProcess({[new_id] = 1})
@@ -223,11 +227,16 @@ function cc_time_travel_machine2:on_update(comp, cause)
 
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse tiem travel machine
-        spawn_robot_attack(comp.owner, 100, {range = 15})
+        spawn_robot_attack(comp.owner, 100, {range = self.range})
         -- spawn attackers 
 
         comp:SetRegisterNum(1,0)
+        comp:FlagRegisterError(1)
         comp:SetStateSleep(1000)
+        comp:StopEffects()
+        comp:PlayEffect("fx_pulse",'fx')
+        -- effect for stopped
+        
     else
         -- check if order has arrived 
         -- reset work timer 
@@ -263,6 +272,8 @@ function cc_time_travel_machine2:on_update(comp, cause)
 
             -- work again
             comp:SetStateStartWork(self.wait_ticks)
+            comp:PlayEffect('fx_unit_teleport','fx')
+            comp:PlayWorkEffect('fx_glitch2',"fx")
             new_order_id(comp)
             return 
             -- 
@@ -287,7 +298,7 @@ end
 function cc_time_travel_machine2:get_reg_error(comp, cause)
 
     if comp:RegisterIsError(1) then 
-        return "Warning Large Attack Incoming if portal collapses"
+        return "Warning Retalitory Attack From The Furture Arriving"
     elseif comp:RegisterIsError(2) then
         return "Not enough space for items\n make sure building has space and the required storage slots for the Cube or Ectoplasma"
     end
