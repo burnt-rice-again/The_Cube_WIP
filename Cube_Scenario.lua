@@ -90,7 +90,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	end
 
 	-- spawn home building
-	local home_entity = Map.CreateEntity(faction, "f_landingpod")
+	local home_entity = Map.CreateEntity(faction, "f_landingpod",true)
 	home_entity:AddComponent("cc_cube_storage")
 	home_entity:AddComponent("cc_manifest")
 	home_entity:AddComponent("c_higrade_capacitor")
@@ -287,7 +287,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	defence_block:Place(loc.x+1,loc.y-6)
 
-	home_entity:AddItem("cc_moduleefficiency",2)
+	home_entity:AddComponent("cc_moduleefficiency_h",2)
 	home_entity:AddItem("ic_fuel", 40)
 
 

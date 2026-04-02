@@ -474,7 +474,7 @@ end
 
 local cc_moduleefficiency_h = Comp:RegisterComponent("cc_moduleefficiency_h", {
 	desc = "Overclock Unit by 50%\n\nProvided By Boosting Tower",
-	attachment_size = "Hidden", race = "robot", index = 1050, name = "Chrono Boost From Tower",
+	attachment_size = "Hidden", race = "human", index = 1050, name = "Chrono Boost From Tower",
 	texture = data.components.c_moduleefficiency.texture,
 	get_ui = true,
 	-- new items 
@@ -482,10 +482,8 @@ local cc_moduleefficiency_h = Comp:RegisterComponent("cc_moduleefficiency_h", {
 	boost_id = "component_boost", -- or move_boost
 })
 function cc_moduleefficiency_h:update_boost(comp, remove)
-	--print(self, comp, remove)
 	local owner = comp.owner
-	
-	-- set remove when no nill 
+	-- set remove when not nil 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
 end
