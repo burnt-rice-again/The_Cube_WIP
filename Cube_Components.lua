@@ -483,30 +483,34 @@ end
 -------------------------------------------------------
 ----- Boosting Tower Component -----------------------------------
 
-local cc_moduleefficiency_h = Comp:RegisterComponent("cc_moduleefficiency_h", {
+local cc_moduleefficiency_h = Comp:RegisterComponent("cc_temp_boost", {
 	desc = "Overclock Unit by 50%\n\nProvided By Boosting Tower",
 	attachment_size = "Hidden", race = "human", index = 1050, name = "Chrono Boost From Tower",
 	texture = data.components.c_moduleefficiency.texture,
 	get_ui = true,
 	-- new items 
+	activation = "Manual",
 	boost = 50,
 	boost_id = "component_boost", -- or move_boost
+	wait_ticks = 100,
 })
 function cc_moduleefficiency_h:update_boost(comp, remove)
 	local owner = comp.owner
 	-- set remove when not nil 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	print(owner[self.boost_id])
 end
 function cc_moduleefficiency_h:on_add(comp, cause)	
-	print("Added Hidden Module")
 	comp.extra_data.boost_active = true
 	self:update_boost(comp, nil)
+	comp:SetStateStartWork(self.wait_ticks)
 end
 function cc_moduleefficiency_h:on_remove(comp, cause)	
 	comp.extra_data.boost_active = false
 	self:update_boost(comp,true)
+end
+function cc_moduleefficiency_h:on_update(comp, cause)	
+	comp:Destroy()
 end
 
 --- Boost Tower controller -------------------------------------
@@ -524,97 +528,61 @@ local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	fuel = "ic_fuel",
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	wait_ticks = 25,
-	slots = {storage = 1}
+	slots = {storage = 1},
+	range = 20,
 	
 })
-local function remove_boost_comp(sender, target)
-	sender.extra_data.target_key = nil
-	local comp = target:FindComponent('cc_moduleefficiency_h')
-	if comp then 
-		comp:Destroy()
-	else
-		print("Err no boost to remove")
-	end
-end
-function cc_boost_tower:on_remove(comp, cause)	
-	-- remove boost from target id it still exists 
-	print("Removing Chrono Module")
-	local target = Map.GetEntityFromKey(comp.extra_data.target_key)
-	if target ~= nil then 
-		remove_boost_comp(comp, target)
-	end
-end
-
-
-
-
-
-
 
 function cc_boost_tower:on_update(comp, cause)	
-	local target = comp:GetRegisterEntity(1)
-	print(target,comp.extra_data.target_key)
-	if target == nil  then 
-		-- no target set
-		if comp.extra_data.target_key ~= nil then 
-			-- check if target was removed 
-			target = Map:GetEntityFromKey(comp.extra_data.target_key)
-			if target ~= nil then 
-				remove_boost_comp(comp, target)
-			end
-		end
-		comp:SetStateSleep(1000)
-		return
-	end
-	if target:GetRangeTo(comp.owner, self.range) == false then 
-		comp:FlagRegisterError(1)
-		comp:SetStateSleep(1000)
-		remove_boost_comp(comp, target)
-	end 
-	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
-		-- start 
-		-- request stack size of item
-		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},20)
+	-- Activated by item slot change or work finished or first register change 
+	-- Flow:
+		-- charge tower with fuel and power 
+		-- boost unit with a tempoary buff 
+			-- buff wears off on its own 
+		-- Tower works on cooldown 
+			-- recharging again
+		-- is a hidden component so cant remove then re add 
 
-		if can_make then 
-			--consume next bit of fuel 
-			comp:FulfillProcess()
-			comp:SetStateStartWork(self.wait_ticks)
+
+	-- still on cooldown 
+	if comp.is_working then 
+		comp:SetStateContinueWork()
+		return 
+	end
+
+	local target = comp:GetRegisterEntity(1)
+
+	if target ~= nil then 
+		-- has a target 
+		-- check in range 
+		if target:InRangeTo(comp.owner,self.range) == false then 
 			comp:SetRegister(2)
-			-- add booster 
-			if comp.extra_data.target_key ~= target.key then
-				-- not the same key as before
-				if comp.extra_data.target_key ~= nil then 
-					print(comp.extra_data.target_key)
-					local old_target = Map.GetEntityFromKey(comp.extra_data.target_key)
-					if old_target ~= nil then 
-						remove_boost_comp(comp, old_target)
-						comp.extra_data.target_key = target.key
-					end
-				end
-				target:AddComponent('cc_moduleefficiency_h',{
-					key = comp.key,
-					boost_active = true,
-				})
-				print("Target Has been Boosted:",target:CountComponents("cc_moduleefficiency_h"))
-			else 
-				print('continue_boost')
-			end
+			comp:FlagRegisterError(2)
+			comp:SetStateSleep(50)
+			-- wait 10 seconds and try again
+			return 
+		end
+		-- check for fuel 
+
+		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel]=1},20)
+		if can_make then 	
+			comp:FulfillProcess()
+			comp:SetRegister(2)
+			comp:SetStateStartWork(self.wait_ticks)
+			target:AddComponent("cc_temp_boost")
 		else 
-			-- wait until fuel arrives 
 			comp:SetRegister(2,missing)
 			comp:FlagRegisterError(2)
-			comp:SetStateSleep(1000)
-			remove_boost_comp(comp, target)
 		end
-	else
-		-- still consuming so go back to sleep 
-		comp:SetStateContinueWork()
 	end
 end
 function cc_boost_tower:get_reg_error(comp, cause)	
 	if comp:RegisterIsError(2) then 
-		return "Requires Fuel To Operate"
+		if comp:RegisterIsEmpty(2) then 
+			return "Target Out Of Range"
+		else 
+			return "Missing Fuel To Operate"
+		end
 	elseif comp:RegisterIsError(1) then
 		return "Target Out Of Range"
 	end

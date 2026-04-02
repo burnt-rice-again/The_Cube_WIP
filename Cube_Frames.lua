@@ -302,3 +302,9 @@ function fc_cube_sphere:on_remove(frame, cause)
 	Place_Anti_Cube(frame)
 	Place_Anti_Cube(frame)
 end 
+
+
+local frame = data.frames.f_building2x2b
+frame.movement_speed = 4
+frame.production_recipe = CreateProductionRecipe({metalplate = 1},{c_robotics_factory = 1, c_assembler = 1})
+frame.construction_recipe = nil
