@@ -496,6 +496,93 @@ function cc_moduleefficiency_h:on_remove(comp, cause)
 	self:update_boost(comp,true)
 end
 
+--- Boost Tower controller ----
+local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
+	name = "Chrono Field Module",
+	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
+	texture = data.frames.f_beacon_l.texture,
+	visual = data.frames.f_beacon_l.visual,
+	registers = {
+		{ read_only = true, tip = "Requires",},
+		{ tip = "Chrono Field Target", filter = "entity"},
+	},
+	fuel = "ic_fuel",
+	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
+	wait_ticks = 25,
+	slots = {storage = 1}
+})
+local function remove_boost_comp(sender, target)
+	sender.extra_data.target_key = false
+	local comp = target:FindComponent('cc_moduleefficiency_h')
+	if comp then 
+		comp:Destroy()
+	else
+		print("Err no boost to remove")
+	end
+end
+function cc_boost_tower:on_remove(comp, cause)	
+	-- remove boost from target id it still exists 
+	local target = Map.GetEntityFromKey(comp.extra_data.target_key)
+	if target ~= nil then 
+		remove_boost_comp(comp, target)
+	end
+end
+
+function cc_boost_tower:on_update(comp, cause)	
+	local target = comp.GetRegisterEntity(2)
+	if target == nil  then 
+		-- no target set
+		if comp.extra_data.target_key ~= false then 
+			-- check if target was removed 
+			target = Map.GetEntityFromKey(comp.extra_data.target_key)
+			if target ~= nil then 
+				remove_boost_comp(comp, target)
+			end
+		end
+		comp:SetStateSleep(1000)
+		return
+	end
+	if target:GetRangeTo(comp.owner, self.range) == false then 
+		comp:FlagRegisterError(2)
+		comp:SetStateSleep(1000)
+		remove_boost_comp(comp, target)
+	end 
+	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
+		-- start 
+		-- request stack size of item
+		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},20)
+
+		if can_make then 
+			--consume next bit of fuel 
+			comp:FulfillProcess()
+			comp:SetStateStartWork(self.fuel_time/self.boost)
+			comp:SetRegister(1)
+			-- add booster 
+			comp.extra_data.target_key = target.key
+			target:AddComponent('cc_moduleefficiency_h',"hidden",{
+				key = comp.key
+			})
+			print("Target Has been Boosted:",target:CountComponents("cc_moduleefficiency_h"))
+		else 
+			-- wait until fuel arrives 
+			comp:SetRegister(1,missing)
+			comp:FlagRegisterError(1)
+			comp:SetStateSleep(1000)
+			remove_boost_comp(comp, target)
+		end
+	else
+		-- still consuming so go back to sleep 
+		comp:SetStateContinueWork()
+	end
+end
+function cc_boost_tower:get_reg_error(comp, cause)	
+	if comp:RegisterIsError(1) then 
+		return "Requires Fuel To Operate"
+	elseif comp:RegisterIsError(2) then
+		return "Target Out Of Range"
+	end
+end
+
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------
 local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
