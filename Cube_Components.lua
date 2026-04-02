@@ -232,7 +232,6 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	print("Updated ",self.boost_id,owner[self.boost_id])
 end
 function cc_moduleefficiency:on_add(comp, cause)	
 	comp.extra_data.boost_active = false
@@ -297,6 +296,7 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 150,
 })
+
 --- Movement Boost 
 cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
@@ -447,7 +447,6 @@ function cc_cube_storage:update_boost(comp)
 	local owner = comp.owner
 	-- set remove when no nill 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil )
-	print("Updated Pedestal",self.boost_id,owner[self.boost_id])
 end
 
 local function battery_get_ui(self, comp)
@@ -470,6 +469,37 @@ local function battery_get_ui(self, comp)
 	})
 end
 
+-------------------------------------------------------
+----- Boosting Tower Component -----------------------------------
+
+local cc_moduleefficiency_h = Comp:RegisterComponent("cc_moduleefficiency_h", {
+	desc = "Overclock Unit by 50%\n\nProvided By Boosting Tower",
+	attachment_size = "Hidden", race = "robot", index = 1050, name = "Chrono Boost From Tower",
+	texture = data.components.c_moduleefficiency.texture,
+	get_ui = true,
+	-- new items 
+	boost = 50,
+	boost_id = "component_boost", -- or move_boost
+})
+function cc_moduleefficiency_h:update_boost(comp, remove)
+	--print(self, comp, remove)
+	local owner = comp.owner
+	
+	-- set remove when no nill 
+	if remove == true then remove = comp end 
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+end
+function cc_moduleefficiency_h:on_add(comp, cause)	
+	comp.extra_data.boost_active = true
+	self:update_boost(comp)
+end
+function cc_moduleefficiency_h:on_remove(comp, cause)	
+	comp.extra_data.boost_active = false
+	self:update_boost(comp,true)
+end
+
+-------------------------------------------------------
+----- Crystal Power with Cube -----------------------------------
 local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	name = "Crystal Power", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",

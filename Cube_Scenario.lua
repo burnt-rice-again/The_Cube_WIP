@@ -287,7 +287,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	defence_block:Place(loc.x+1,loc.y-6)
 
-	home_entity:AddItem("cc_modulespeed_s")
+	home_entity:AddItem("cc_moduleefficiency",2)
 	home_entity:AddItem("ic_fuel", 40)
 
 
