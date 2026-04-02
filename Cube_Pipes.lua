@@ -1,10 +1,5 @@
 
 
-
-
-
-
-
 local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
 
     name = "ectoplasma conduit",

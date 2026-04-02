@@ -193,20 +193,9 @@ local function BoostModuleOnRemove(self, comp) self:on_update_boosts(comp, comp,
 local function Update_Cube_Effects(self, comp, cause)
 	--print(comp,cause,comp.owner)
 	--print(comp.CauseToString(comp,cause))
-
-
-
-
-	
 	--will have passed cube only if all change
 	if cause & CC_CHANGED_ITEMSLOT_AMOUNT then-- traded cube 
-
 		local owner = comp.owner
-
-		
-
-
-
 		--self.boost = -90
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
@@ -245,12 +234,9 @@ local function Update_Cube_Effects(self, comp, cause)
 		-- when any cube has been added 
 		comp.extra_power = 200
 		self:on_update_boosts(comp,{} ,self.boost)
-
-
 	else
 		comp:StopEffects() 
 		print("stop effects")
-
 		--self.boost = 0
 		--print(self, comp, comp.id)
 		--comp.extra_power = 0
@@ -281,13 +267,9 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	--dumping_ground = true,
 })
 
-
 function cc_cube_storage:on_update_boosts(comp, remove_comp, holding_cube)
 	local owner = comp.owner
-	
 	if holding_cube == 0 then comp.extra_power = 0 else comp.extra_power = 101 end
-
-	--self.PlayEffect("cube_floating_blue")
 	owner.move_boost = 100 + SumModuleBoosts(owner, "c_modulespeed", remove_comp) + holding_cube
 end
 
@@ -445,3 +427,29 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 		end)
 	end,
 })
+
+----------------- Boots Effciency 
+
+local function SumActiveModuleBoosts(owner, id, remove_comp)
+	-- start at 100
+	local sum = 100
+	for i=1,100 do
+		local boost_comp = owner:FindComponent(id, true, i)
+		-- not equipped 
+		if not boost_comp then break end
+		if boost_comp ~= remove_comp and boot_comp.extra_data.boots_active == true then sum = sum + boost_comp.def.boost end
+	end
+	return sum
+end
+
+local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
+	desc = "Boosts Effciency By 20%\n\nUses XXX as Fuel",
+	attachment_size = "Internal", race = "robot", index = 1051, name = "Internal Overclocking Module",
+	desc = "Overclock component by 20%",
+	texture = "Main/textures/icons/components/module_efficiency.png",
+	visual = "v_generic_i",
+	production_recipe = CreateProductionRecipe({ icchip = 1, refined_crystal = 1 }, { c_advanced_assembler = 30, }),
+	boost = 20,
+})
+cc_moduleefficiency
+
