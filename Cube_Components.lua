@@ -479,7 +479,7 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
-	owner[self.boost_id] = (owner.def.component_boost or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
 	print("Updated ",self.boost_id,owner[self.boost_id])
 end
 function cc_moduleefficiency:on_add(comp, cause)	
@@ -561,8 +561,8 @@ cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
 	name = "Small Movement Speed Module",
 	desc = "Thursters Increase Unit Speed by 50%\n\nUses XXX as Fuel",
 	attachment_size = "Small",
-	texture = data.components.c_moduleefficiency_s.texture,
-	visual = data.components.c_moduleefficiency_s.visual,
+	texture = data.components.c_modulespeed_s.texture,
+	visual = data.components.c_modulespeed_s.visual,
 	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 50,
 	boost_id = "move_boost", -- or move_boost	
@@ -573,8 +573,8 @@ cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
 	name = "Medium Movement Speed Module",
 	desc = "Thursters Increase Unit Speed by 80%\n\nUses XXX as Fuel",
 	attachment_size = "Medium",
-	texture = data.components.c_moduleefficiency_m.texture,
-	visual = data.components.c_moduleefficiency_m.visual,
+	texture = data.components.c_modulespeed_m.texture,
+	visual = data.components.c_modulespeed_m.visual,
 	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 80,
 	boost_id = "move_boost", -- or move_boost
@@ -585,8 +585,8 @@ cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
 	name = "Large Movement Speed Module",
 	desc = "Thursters Increase Unit Speed by 120%\n\nUses XXX as Fuel",
 	attachment_size = "Large",
-	texture = data.components.c_moduleefficiency_l.texture,
-	visual = data.components.c_moduleefficiency_l.visual,
+	texture = data.components.c_modulespeed_l.texture,
+	visual = data.components.c_modulespeed_l.visual,
 	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 120,
 	boost_id = "move_boost", -- or move_boost

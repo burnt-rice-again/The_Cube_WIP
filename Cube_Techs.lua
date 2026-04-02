@@ -259,7 +259,7 @@ data.techs.tc_cube_hyper_discovery= {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"ic_cube_pink","cc_time_travel_machine","fused_electrodes","c_moduleefficiency","c_moduleefficiency_s","c_moduleefficiency_m","c_moduleefficiency_l",
+		"ic_cube_pink","cc_time_travel_machine","fused_electrodes","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
 	},
 	require_tech = { "tc_cube_soul_refining", },
 	progress_count = 50,
@@ -302,7 +302,7 @@ data.techs.tc_engine= {
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
 		-- new resources
-		"engine","ic_fuel","c_modulespeed","c_modulespeed_s","c_modulespeed_m","c_modulespeed_l",
+		"engine","ic_fuel","c_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
 	},
 	require_tech = { "tc_cube_soul_refining" },
 	progress_count = 100,
