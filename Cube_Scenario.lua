@@ -287,9 +287,13 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	defence_block:Place(loc.x+1,loc.y-6)
 
-	home_entity:AddComponent("cc_moduleefficiency_h",2)
-	home_entity:AddItem("ic_fuel", 40)
+	
 
+
+	--- booot tower 
+	defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	defence_block:Place(loc.x,loc.y+8)
+	home_entity:AddItem("ic_fuel", 40)
 
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")

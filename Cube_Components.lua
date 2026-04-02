@@ -192,11 +192,7 @@ local function SumActiveModuleBoosts(owner, id, remove_comp)
 	local sum = 100
 	for i=1,owner.component_count do
 		local boost_comp = owner:GetComponent(i)
-
-		if boost_comp ~= nil then 
-		print(boost_comp, boost_comp.def.boost_id == id, boost_comp.extra_data.boost_active == true, boost_comp ~= remove_comp)
-		end
-
+		
 		if boost_comp ~= nil -- has comp at that socket
 		and boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
 		and boost_comp.extra_data.boost_active == true -- is comp active
@@ -205,7 +201,22 @@ local function SumActiveModuleBoosts(owner, id, remove_comp)
 			sum = sum + boost_comp.def.boost
 		end
 	end
-	print("Summed Boost:", id, sum)
+	-- hidden comps
+	for i=1,20 do
+		local boost_comp = owner:GetHiddenComponent(i)
+		
+		if boost_comp ~= nil -- has comp at that socket
+		and boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
+		and boost_comp.extra_data.boost_active == true -- is comp active
+		and boost_comp ~= remove_comp --not the comp being removed
+		then
+			sum = sum + boost_comp.def.boost
+		else 
+			break
+		end
+	end	
+
+
 	return sum
 end
 -- on update/onremove/onadd should be the same for all the new boost modules
@@ -486,33 +497,38 @@ function cc_moduleefficiency_h:update_boost(comp, remove)
 	-- set remove when not nil 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	print(owner[self.boost_id])
 end
 function cc_moduleefficiency_h:on_add(comp, cause)	
+	print("Added Hidden Module")
 	comp.extra_data.boost_active = true
-	self:update_boost(comp)
+	self:update_boost(comp, nil)
 end
 function cc_moduleefficiency_h:on_remove(comp, cause)	
 	comp.extra_data.boost_active = false
 	self:update_boost(comp,true)
 end
 
---- Boost Tower controller ----
+--- Boost Tower controller -------------------------------------
+--- 
 local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	name = "Chrono Field Module",
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
 	texture = data.frames.f_beacon_l.texture,
-	visual = data.frames.f_beacon_l.visual,
+	get_ui = true,
+	--visual = data.frames.f_beacon_l.visual,
 	registers = {
+		{ tip = "Chrono Field Target"},
 		{ read_only = true, tip = "Requires",},
-		{ tip = "Chrono Field Target", filter = "entity"},
 	},
 	fuel = "ic_fuel",
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	wait_ticks = 25,
 	slots = {storage = 1}
+	
 })
 local function remove_boost_comp(sender, target)
-	sender.extra_data.target_key = false
+	sender.extra_data.target_key = nil
 	local comp = target:FindComponent('cc_moduleefficiency_h')
 	if comp then 
 		comp:Destroy()
@@ -522,19 +538,27 @@ local function remove_boost_comp(sender, target)
 end
 function cc_boost_tower:on_remove(comp, cause)	
 	-- remove boost from target id it still exists 
+	print("Removing Chrono Module")
 	local target = Map.GetEntityFromKey(comp.extra_data.target_key)
 	if target ~= nil then 
 		remove_boost_comp(comp, target)
 	end
 end
 
+
+
+
+
+
+
 function cc_boost_tower:on_update(comp, cause)	
-	local target = comp.GetRegisterEntity(2)
+	local target = comp:GetRegisterEntity(1)
+	print(target,comp.extra_data.target_key)
 	if target == nil  then 
 		-- no target set
-		if comp.extra_data.target_key ~= false then 
+		if comp.extra_data.target_key ~= nil then 
 			-- check if target was removed 
-			target = Map.GetEntityFromKey(comp.extra_data.target_key)
+			target = Map:GetEntityFromKey(comp.extra_data.target_key)
 			if target ~= nil then 
 				remove_boost_comp(comp, target)
 			end
@@ -543,7 +567,7 @@ function cc_boost_tower:on_update(comp, cause)
 		return
 	end
 	if target:GetRangeTo(comp.owner, self.range) == false then 
-		comp:FlagRegisterError(2)
+		comp:FlagRegisterError(1)
 		comp:SetStateSleep(1000)
 		remove_boost_comp(comp, target)
 	end 
@@ -555,18 +579,31 @@ function cc_boost_tower:on_update(comp, cause)
 		if can_make then 
 			--consume next bit of fuel 
 			comp:FulfillProcess()
-			comp:SetStateStartWork(self.fuel_time/self.boost)
-			comp:SetRegister(1)
+			comp:SetStateStartWork(self.wait_ticks)
+			comp:SetRegister(2)
 			-- add booster 
-			comp.extra_data.target_key = target.key
-			target:AddComponent('cc_moduleefficiency_h',"hidden",{
-				key = comp.key
-			})
-			print("Target Has been Boosted:",target:CountComponents("cc_moduleefficiency_h"))
+			if comp.extra_data.target_key ~= target.key then
+				-- not the same key as before
+				if comp.extra_data.target_key ~= nil then 
+					print(comp.extra_data.target_key)
+					local old_target = Map.GetEntityFromKey(comp.extra_data.target_key)
+					if old_target ~= nil then 
+						remove_boost_comp(comp, old_target)
+						comp.extra_data.target_key = target.key
+					end
+				end
+				target:AddComponent('cc_moduleefficiency_h',{
+					key = comp.key,
+					boost_active = true,
+				})
+				print("Target Has been Boosted:",target:CountComponents("cc_moduleefficiency_h"))
+			else 
+				print('continue_boost')
+			end
 		else 
 			-- wait until fuel arrives 
-			comp:SetRegister(1,missing)
-			comp:FlagRegisterError(1)
+			comp:SetRegister(2,missing)
+			comp:FlagRegisterError(2)
 			comp:SetStateSleep(1000)
 			remove_boost_comp(comp, target)
 		end
@@ -576,12 +613,22 @@ function cc_boost_tower:on_update(comp, cause)
 	end
 end
 function cc_boost_tower:get_reg_error(comp, cause)	
-	if comp:RegisterIsError(1) then 
+	if comp:RegisterIsError(2) then 
 		return "Requires Fuel To Operate"
-	elseif comp:RegisterIsError(2) then
+	elseif comp:RegisterIsError(1) then
 		return "Target Out Of Range"
 	end
 end
+
+local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
+	name = "Chrono Field Module",
+	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
+	texture = data.frames.f_beacon_l.texture,
+	visual = data.frames.f_beacon_l.visual,
+	components = {
+		{"cc_boost_tower","hidden"}
+	}
+})
 
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------
