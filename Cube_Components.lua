@@ -374,7 +374,8 @@ local function Update_Cube_Effects(self, comp, cause)
 
 		if owner:CountItem("ic_cube_red") == 1 then
 			comp:PlayEffect("fx_refinery","fx")
-			self:on_update_boosts(comp,{} ,self.boost)
+			comp.extra_data.boost_active = true
+			self:update_boost(comp)
 			update_cube_location(comp,"ic_cube_blue" )
 			comp.extra_power = 400
 			return 
@@ -393,7 +394,8 @@ local function Update_Cube_Effects(self, comp, cause)
 			comp:StopEffects()
 			comp.light_color = { 0,0,0,0 }
 			comp.extra_power = 0
-			self:on_update_boosts(comp,{} ,0)
+			comp.extra_data.boost_active = false
+			self:update_boost(comp)
 			if comp.faction.extra_data.cube_key == owner.key then 
 				-- lost cube but key hasnt updated
 				-- save cord encase it was thrown on the ground 
@@ -405,18 +407,19 @@ local function Update_Cube_Effects(self, comp, cause)
 		end
 		-- when any cube has been added 
 		comp.extra_power = 200
-		self:on_update_boosts(comp,{} ,self.boost)
+		comp.extra_data.boost_active = true
+		self:update_boost(comp)
 	else
 		comp:StopEffects() 
 		print("stop effects")
 		--self.boost = 0
 		--print(self, comp, comp.id)
 		--comp.extra_power = 0
-		self:on_update_boosts(comp,{} ,0)
+		comp.extra_data.boost_active = false
+		self:update_boost(comp)
 		--comp.light_color = { 0,0,0,0 }
 	end
 	--if cause == 3073 -- cube left 
-
 end
 -- Storage Comp for Cube 
 local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
@@ -427,6 +430,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	visual = "vc_cube_storage",
 	race = "robot",
 	boost = -90,
+	boost_id = "move_boost",
 	power = -1,
 	slots = { cube = 1, },
 	production_recipe = CreateProductionRecipe({ steelblock = 16, metalplate = 4 }, { c_assembler = 20 }),
@@ -438,19 +442,12 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	--effect = "cube_floating_blue",
 	--dumping_ground = true,
 })
-function cc_cube_storage:update_boost(comp, remove)
+function cc_cube_storage:update_boost(comp)
 	--print(self, comp, remove)
 	local owner = comp.owner
-	
 	-- set remove when no nill 
-	if remove == true then remove = comp end 
-	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	print("Updated ",self.boost_id,owner[self.boost_id])
-end
-function cc_cube_storage:on_update_boosts(comp, remove_comp, holding_cube)
-	local owner = comp.owner
-	if holding_cube == 0 then comp.extra_power = 0 else comp.extra_power = 101 end
-	owner.move_boost = 100 + SumModuleBoosts(owner, "c_modulespeed", remove_comp) + holding_cube
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil )
+	print("Updated Pedestal",self.boost_id,owner[self.boost_id])
 end
 
 local function battery_get_ui(self, comp)
