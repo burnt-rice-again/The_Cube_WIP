@@ -459,7 +459,7 @@ end
 -- on update/onremove/onadd should be the same for all the new boost modules
 local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	desc = "Overclock Unit by 20%\n\nUses XXX as Fuel",
-	attachment_size = "Internal", race = "robot", index = 1051, name = "Internal Overclocking Module",
+	attachment_size = "Internal", race = "robot", index = 1050, name = "Internal Overclocking Module",
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
 	production_recipe = CreateProductionRecipe({ icchip = 1, refined_crystal = 1 }, { c_advanced_assembler = 30, }),
@@ -468,7 +468,7 @@ local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	boost = 20,
 	boost_id = "component_boost", -- or move_boost
 	fuel = "ic_fuel",
-	fuel_time = 50,
+	fuel_time = 1000, -- fuel_time / boost = working_time
 	registers = {
 		{ read_only = true, tip = "Requires",},
 	}
@@ -500,7 +500,7 @@ function cc_moduleefficiency:on_update(comp, cause)
 		if can_make then 
 			--consume next bit of fuel 
 			comp:FulfillProcess()
-			comp:SetStateStartWork(self.fuel_time)
+			comp:SetStateStartWork(self.fuel_time/self.boost)
 			comp.extra_data.boost_active = true 
 			comp:SetRegister(1)
 		else 
@@ -517,3 +517,14 @@ function cc_moduleefficiency:on_update(comp, cause)
 		comp:SetStateContinueWork()
 	end
 end
+
+cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
+	name = "Small Overclocking Module",
+	desc = "Overclock Unit by 50%\n\nUses XXX as Fuel",
+	attachment_size = "Small",
+	texture = data.components.c_moduleefficiency_s.texture,
+	visual = data.components.c_moduleefficiency_s.visual,
+	production_recipe = CreateProductionRecipe({ icchip = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 50,
+	boost_id = "component_boost", -- or move_boost
+})
