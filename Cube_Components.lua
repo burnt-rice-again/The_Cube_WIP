@@ -429,27 +429,78 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 })
 
 ----------------- Boots Effciency 
-
+-- will add all comps that have a self.boost, 
+-- id will check for self.component_boost or move_boost.
 local function SumActiveModuleBoosts(owner, id, remove_comp)
 	-- start at 100
 	local sum = 100
 	for i=1,100 do
-		local boost_comp = owner:FindComponent(id, true, i)
+		local boost_comp = owner:FindComponent()
 		-- not equipped 
 		if not boost_comp then break end
-		if boost_comp ~= remove_comp and boot_comp.extra_data.boots_active == true then sum = sum + boost_comp.def.boost end
+		if boost_comp.def[id] ~= nil -- check comp can effect boost
+		and boost_comp.extra_data.boost_active == true
+		and boost_comp ~= remove_comp
+		then
+			sum = sum + boost_comp.def.boost
+		end
 	end
 	return sum
 end
-
+-- on update/onremove/onadd should be the same for all the new boost modules
 local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
-	desc = "Boosts Effciency By 20%\n\nUses XXX as Fuel",
+	desc = "Overclock Unit by 20%\n\nUses XXX as Fuel",
 	attachment_size = "Internal", race = "robot", index = 1051, name = "Internal Overclocking Module",
-	desc = "Overclock component by 20%",
-	texture = "Main/textures/icons/components/module_efficiency.png",
+	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
 	production_recipe = CreateProductionRecipe({ icchip = 1, refined_crystal = 1 }, { c_advanced_assembler = 30, }),
+	-- new items 
+	activation = "OnAnyItemSlotChange",
 	boost = 20,
+	boost_id = "component_boost", -- or move_boost
+	fuel = "ic_fuel",
+	fuel_time = 50,
+	registers = {
+		{ read_only = true, tip = "Requires",},
+	}
 })
-cc_moduleefficiency
+function cc_moduleefficiency:on_add(comp, cause)	
+	comp.extra_data.boost_active = false
+	comp:Activate()
+end
+function cc_moduleefficiency:on_remove(comp, cause)	
+	comp.extra_data.boost_active = false
+	comp:update_boost(comp,true)
+end
+function cc_moduleefficiency:on_update(comp, cause)	
 
+	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
+		-- start 
+		-- request stack size of item
+		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},20)
+
+		if can_make then 
+			--consume next bit of fuel 
+			comp:FulfillProcess()
+			comp:SetStateStartWork(self.fuel_time)
+			comp.extra_data.boost_active = true 
+		else 
+			-- wait until fuel arrives 
+			comp:SetRegister(1,missing)
+			comp:FlagRegisterError(1)
+			comp:SetStateSleep(1000)
+			comp.extra_data.boost_active = false
+		end
+		-- recalculate boosts
+		comp:update_boost(comp)
+	else
+		-- still consuming so go back to sleep 
+		comp:SetStateContinueWork()
+	end
+end
+function cc_moduleefficiency:update_boost(comp, remove)
+	local owner = comp.owner
+	-- set remove when no nill 
+	if remove == true then remove = comp end 
+	owner[self.boost_id] = SumActiveModuleBoosts(owner, self.boost_id, remove )
+end
