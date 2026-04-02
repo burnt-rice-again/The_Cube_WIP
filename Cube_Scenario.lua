@@ -95,8 +95,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:AddComponent("cc_manifest")
 	home_entity:AddComponent("c_higrade_capacitor")
 	home_entity:AddComponent("cc_pipe_output_i")
-	--home_entity:AddComponent("c_modulevisibility_m")
-	--home_entity:AddComponent("c_modulevisibility_m")
+
 	home_entity:AddItem("ic_cube_blue")
 	home_entity:AddItem("datakey_robot", 40)
 	home_entity:AddItem("cc_cube_storage", 2)
@@ -287,6 +286,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	defence_block:Place(loc.x+1,loc.y-6)
+
+	home_entity:AddComponent("cc_moduleefficiency")
+	home_entity:AddItem("ic_fuel", 40)
+
+
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)

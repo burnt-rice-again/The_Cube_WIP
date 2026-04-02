@@ -429,22 +429,31 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 })
 
 ----------------- Boots Effciency 
--- will add all comps that have a self.boost, 
--- id will check for self.component_boost or move_boost.
+-- Modified to allow any component to modify a specific boost with greater control 
+-- Rules Are:
+-- Comps that have a .boost = amount 
+-- Comps that have a .boost_id = boost type (component_boost or move_boost)
+-- Comps that have extra_data.boost_active == true 
+
 local function SumActiveModuleBoosts(owner, id, remove_comp)
 	-- start at 100
 	local sum = 100
-	for i=1,100 do
-		local boost_comp = owner:FindComponent()
-		-- not equipped 
-		if not boost_comp then break end
-		if boost_comp.def[id] ~= nil -- check comp can effect boost
-		and boost_comp.extra_data.boost_active == true
-		and boost_comp ~= remove_comp
+	for i=1,owner.component_count do
+		local boost_comp = owner:GetComponent(i)
+
+		if boost_comp ~= nil then 
+		print(boost_comp, boost_comp.def.boost_id == id, boost_comp.extra_data.boost_active == true, boost_comp ~= remove_comp)
+		end
+
+		if boost_comp ~= nil -- has comp at that socket
+		and boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
+		and boost_comp.extra_data.boost_active == true -- is comp active
+		and boost_comp ~= remove_comp --not the comp being removed
 		then
 			sum = sum + boost_comp.def.boost
 		end
 	end
+	print("Summed Boost:", id, sum)
 	return sum
 end
 -- on update/onremove/onadd should be the same for all the new boost modules
@@ -464,16 +473,25 @@ local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 		{ read_only = true, tip = "Requires",},
 	}
 })
+function cc_moduleefficiency:update_boost(comp, remove)
+	--print(self, comp, remove)
+	local owner = comp.owner
+	
+	-- set remove when no nill 
+	if remove == true then remove = comp end 
+	owner[self.boost_id] = (owner.def.component_boost or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	print("Updated ",self.boost_id,owner[self.boost_id])
+end
 function cc_moduleefficiency:on_add(comp, cause)	
 	comp.extra_data.boost_active = false
 	comp:Activate()
 end
 function cc_moduleefficiency:on_remove(comp, cause)	
 	comp.extra_data.boost_active = false
-	comp:update_boost(comp,true)
+	self:update_boost(comp,true)
 end
 function cc_moduleefficiency:on_update(comp, cause)	
-
+	
 	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
 		-- start 
 		-- request stack size of item
@@ -484,6 +502,7 @@ function cc_moduleefficiency:on_update(comp, cause)
 			comp:FulfillProcess()
 			comp:SetStateStartWork(self.fuel_time)
 			comp.extra_data.boost_active = true 
+			comp:SetRegister(1)
 		else 
 			-- wait until fuel arrives 
 			comp:SetRegister(1,missing)
@@ -492,15 +511,9 @@ function cc_moduleefficiency:on_update(comp, cause)
 			comp.extra_data.boost_active = false
 		end
 		-- recalculate boosts
-		comp:update_boost(comp)
+		self:update_boost(comp)
 	else
 		-- still consuming so go back to sleep 
 		comp:SetStateContinueWork()
 	end
-end
-function cc_moduleefficiency:update_boost(comp, remove)
-	local owner = comp.owner
-	-- set remove when no nill 
-	if remove == true then remove = comp end 
-	owner[self.boost_id] = SumActiveModuleBoosts(owner, self.boost_id, remove )
 end
