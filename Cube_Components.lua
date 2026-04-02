@@ -524,7 +524,72 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
 	attachment_size = "Small",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
-	production_recipe = CreateProductionRecipe({ icchip = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 50,
-	boost_id = "component_boost", -- or move_boost
+})
+cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
+	name = "Medium Overclocking Module",
+	desc = "Overclock Unit by 100%\n\nUses XXX as Fuel",
+	attachment_size = "Medium",
+	texture = data.components.c_moduleefficiency_m.texture,
+	visual = data.components.c_moduleefficiency_m.visual,
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 100,
+})
+cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
+	name = "Large Overclocking Module",
+	desc = "Overclock Unit by 150%\n\nUses XXX as Fuel",
+	attachment_size = "Large",
+	texture = data.components.c_moduleefficiency_s.texture,
+	visual = data.components.c_moduleefficiency_s.visual,
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 150,
+})
+--- Movement Boost 
+cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
+	name = "Internal Movement Speed Module",
+	desc = "Thursters Increase Unit Speed by 50%\n\nUses XXX as Fuel",
+	attachment_size = "Small",
+	texture = data.components.c_modulespeed.texture,
+	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 50,
+	boost_id = "move_boost", -- or move_boost
+	fuel = "ic_fuel",
+	index = 1052,
+})
+cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
+	name = "Small Movement Speed Module",
+	desc = "Thursters Increase Unit Speed by 50%\n\nUses XXX as Fuel",
+	attachment_size = "Small",
+	texture = data.components.c_moduleefficiency_s.texture,
+	visual = data.components.c_moduleefficiency_s.visual,
+	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 50,
+	boost_id = "move_boost", -- or move_boost	
+	fuel = "ic_fuel",
+	index = 1052,
+})
+cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
+	name = "Medium Movement Speed Module",
+	desc = "Thursters Increase Unit Speed by 80%\n\nUses XXX as Fuel",
+	attachment_size = "Medium",
+	texture = data.components.c_moduleefficiency_m.texture,
+	visual = data.components.c_moduleefficiency_m.visual,
+	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 80,
+	boost_id = "move_boost", -- or move_boost
+	fuel = "ic_fuel",
+	index = 1052,
+})
+cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
+	name = "Large Movement Speed Module",
+	desc = "Thursters Increase Unit Speed by 120%\n\nUses XXX as Fuel",
+	attachment_size = "Large",
+	texture = data.components.c_moduleefficiency_l.texture,
+	visual = data.components.c_moduleefficiency_l.visual,
+	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	boost = 120,
+	boost_id = "move_boost", -- or move_boost
+	fuel = "ic_fuel",
+	index = 1052,
 })
