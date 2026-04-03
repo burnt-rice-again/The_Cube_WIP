@@ -533,7 +533,7 @@ function cc_temp_boost:on_update(comp, cause)
 	if cause & CC_FINISH_WORK ~= 0 then 
 		Map.Defer(function()comp:Destroy()end)
 	else 
-		comp:SetStateStartWork(self.wait_ticks)
+		comp:SetStateStartWork(self.wait_ticks*comp.owner[self.boost_id]/100)
 	end
 end
 
