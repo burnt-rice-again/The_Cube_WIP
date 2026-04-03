@@ -40,18 +40,6 @@ data.components.samplecomponent = {
 }
 ]]
 
--- adjustements --------------------------------------
-
-
--- refinery 
--- for key,_ in pairs(data) do 
--- 	print(key)
--- end
--- data.components.c_refinery.name = "Cube Refinery"
--- data.components.c_refinery.power = -1000
--- data.components.c_refinery.production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_assembler"] = 150}, 1)
--------------------
-
 data.components.c_fabricator.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 3}, {['c_fabricator'] = 50, c_assembler = 25},1 )
 
 ---lvl0
@@ -120,8 +108,6 @@ data.components.c_radio_receiver.production_recipe = CreateProductionRecipe({["m
 
 -- shields  
 data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['phase_leaf'] = 10, ['wire'] = 4}, {c_assembler = 50})
-
-
 
 --cube 
 data.components.c_advanced_refinery.name = "Soul Forge"
@@ -307,7 +293,6 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 150,
 })
-
 --- Movement Boost 
 cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",

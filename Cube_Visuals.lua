@@ -203,7 +203,7 @@ data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_sea_grass.scale = {3,3,3}
 data.visuals.vc_sea_grass.flags = "RandomRotation|RandomScale|RandomTranslation"
 
------------------- plans 
+------------------ plants 
 --- Crop Plants
 data.visuals.vc_crop_wire = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_crop_wire.scale = {2,2,2}
@@ -217,7 +217,15 @@ data.visuals.vc_crop_phase.scale = {2,2,2}
 data.visuals.vc_crop_phase.flags = "RandomRotation|RandomScale|RandomTranslation"
 
 data.visuals.vc_crop_phase_seed0 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
-data.visuals.vc_crop_phase_seed0.scale = {1.3,1.3,1.5}
+data.visuals.vc_crop_phase_seed0.scale = {1,1,1}
+data.visuals.vc_crop_phase_seed1 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
+data.visuals.vc_crop_phase_seed1.scale = {1.3,1.3,1.3}
+data.visuals.vc_crop_phase_seed2 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
+data.visuals.vc_crop_phase_seed2.scale = {1.6,1.6,1.6}
+data.visuals.vc_crop_phase_seed3 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
+data.visuals.vc_crop_phase_seed3.scale = {1.9,1.9,1.9}
+data.visuals.vc_crop_phase_seed4 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
+data.visuals.vc_crop_phase_seed4.scale = {2.2,2.2,2.2}
 
 ----------- Cubes 
 data.visuals.vc_cube_sphere_item = Tool.Copy(data.visuals.v_explorable_blightanomaly_02)

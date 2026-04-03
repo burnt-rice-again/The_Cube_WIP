@@ -67,6 +67,15 @@ function cc_crop:on_update(comp, cause)
     end
 
     if cause & CC_FINISH_WORK ~= 0 then 
+
+        -- check if has a next visual
+        if self.visual_set and comp.extra_data.next_visual <= #self.visual_set then 
+            print("Next Visual For Plant")
+            comp.owner:SetVisual(self.visual_set[comp.extra_data.next_visual])
+            comp.extra_data.next_visual = comp.extra_data.next_visual+1
+            comp:SetStateStartWork(comp.extra_data.growth_time or 100)
+            return
+        end
         -- finished growing 
         local owner = comp.owner
         local next_frame = owner.def.next_frame
@@ -98,6 +107,7 @@ function cc_crop:on_add(comp)
     if comp.has_extra_data == false then 
         comp.extra_data.yield = 1
         comp.extra_data.growth_time = 300
+        comp.extra_data.next_visual = 1
     end
     comp:SetRegister(1,comp.extra_data.growth_time)
     comp:SetRegisterNum(2, comp.extra_data.yield)
@@ -177,7 +187,7 @@ fc_crop:RegisterFrame('fc_crop_phase_seed0',{
     texture = "The_Cube_WIP/textures/phase_seed.png",
     next_frame = 'fc_crop_phase_plant',
     drop = 'phase_leaf',
-    
+    visual_set = {"vc_crop_phase_seed1","vc_crop_phase_seed2","vc_crop_phase_seed3","vc_crop_phase_seed4"}
 })
 fc_crop:RegisterFrame('fc_crop_phase_plant',{
     name = 'Wire Weed',
