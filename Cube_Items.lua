@@ -296,6 +296,10 @@ data.items.ic_time_crystal = {
 	texture = "The_Cube_WIP/textures/pixels.png",
 	production_recipe = CreateProductionRecipe({ blight_crystal = 16, phase_leaf = 4,ic_soul_happy = 1 }, { cc_soul_refinery = 20 }, 1),
 }
+data.items.ldframe.name = "AntiGravity Frame"
+data.items.ldframe.desc = "A Contained AntiCube"
+data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, phase_leaf = 4,ic_cube_sphere = 1 }, { cc_manifest = 20 }, 1),
+
 -- data.items.ic_soul_crystal = {
 -- 	name = "Purified Crystal",
 -- 	race = "robot",

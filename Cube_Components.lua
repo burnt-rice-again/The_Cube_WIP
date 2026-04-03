@@ -590,6 +590,8 @@ function cc_boost_tower:on_update(comp, cause)
 			return
 		end
 		-- check for fuel 
+		-- if you relocate the tower you can probably skip the wait time.
+		-- if they figure that out then good on them im not patching it
 		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel]=1},20)
 		if can_make then
 			comp:FulfillProcess()
@@ -621,16 +623,7 @@ function cc_boost_tower:get_reg_error(comp, cause)
 	end
 end
 
-data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
-local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
-	name = "Chrono Field Module",
-	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
-	texture = data.frames.f_beacon_l.texture,
-	visual = data.frames.f_beacon_l.visual,
-	components = {
-		{"cc_boost_tower","hidden"}
-	}
-})
+
 
 
 -------------------------------------------------------

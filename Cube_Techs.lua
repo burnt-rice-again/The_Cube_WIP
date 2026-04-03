@@ -288,7 +288,7 @@ data.techs.tc_cube_anti_1 = { -- will unlock when cube is anhillated
 }
 data.techs.tc_cube_anti_2 = { -- will unlock when cube is anhillated
 	order = 1,
-	name = "Anti Cube Annihilation", -- recovered database etc.
+	name = "Chrono Field Stabilization", -- recovered database etc.
 	desc = "Find",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
@@ -316,7 +316,7 @@ data.techs.tc_cube_anti_3= {
 }
 data.techs.tc_green_4 = {
 	order = 3,
-	name = "Boost Speed", -- recovered database etc.
+	name = "Boost Speed",
 	desc = "",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
@@ -328,17 +328,44 @@ data.techs.tc_green_4 = {
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
 	category = "Cube_Obsession",
 }
-
-data.techs.tc_red_5 = { -- will unlock when cube is anhillated
+data.techs.tc_green_5 = {
+	order = 3,
+	name = "Boost Speed",
+	desc = "Cortex Enrichment",
+	texture = "Main/textures/icons/items/human/engine.png",
+	unlocks = {
+		-- new resources
+		"datakey_virus",
+	},
+	require_tech = { "tc_green_3" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
+	category = "Cube_Obsession",
+}
+data.techs.tc_red_4 = { 
 	order = 1,
-	name = "Anti Cube Annihilation", -- recovered database etc.
-	desc = "Find",
+	name = "Anti-Gravity Unit", 
+	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"blight_crystal",
+		"fc_boost_tower",
 	},
-	require_tech = { "tc_red_3", },
+	require_tech = { "tc_red_3"},
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_red_5 = { 
+	order = 1,
+	name = "Chrono Field Towers", 
+	desc = "Towers Harnessing stabilized chrono crystal to create localized chronological fields",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"ldframe",
+	},
+	require_tech = { "tc_red_4"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
 	category = "Cube_Obsession",

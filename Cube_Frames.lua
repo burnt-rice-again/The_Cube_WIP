@@ -303,3 +303,14 @@ function fc_cube_sphere:on_remove(frame, cause)
 	Place_Anti_Cube(frame,true)
 end 
 
+data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
+local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
+	name = "Chrono Field Module",
+	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
+	texture = data.frames.f_beacon_l.texture,
+	visual = data.frames.f_beacon_l.visual,
+	components = {
+		{"cc_boost_tower","hidden"}
+	},
+	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50)
+})
