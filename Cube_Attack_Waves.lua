@@ -212,7 +212,7 @@ local replace_cube_with <const> = {
     ic_cube_sphere = 'ic_cube_sphere',
 }
 local function new_order_id(comp)
-    local req = {"ic_cube_blue", "ic_cube_green","ic_cube_red","ic_cube_empty","ic_cube_sphere",
+    local req = {"ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty","ic_cube_sphere",
     "c_adv_portable_turret",
     "ic_soul_angry","ic_soul_happy","phase_leaf",
     "f_bot_1s_b","f_bot_1m1s"

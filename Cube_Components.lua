@@ -188,21 +188,21 @@ local function SumActiveModuleBoosts(owner, id, remove_comp)
 		end
 	end
 	-- hidden comps
-	for i=1,20 do
+	for i=1,100 do
 		local boost_comp = owner:GetHiddenComponent(i)
-		
-		if boost_comp ~= nil -- has comp at that socket
-		and boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
-		and boost_comp.extra_data.boost_active == true -- is comp active
-		and boost_comp ~= remove_comp --not the comp being removed
-		then
-			sum = sum + boost_comp.def.boost
+		--print(i,boost_comp,boost_comp.def.boost_id,boost_comp.extra_data.boost_active,boost_comp ~= remove_comp )
+		if boost_comp ~= nil then -- has comp at that socket
+
+			if boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
+			and boost_comp.extra_data.boost_active == true -- is comp active
+			and boost_comp ~= remove_comp --not the comp being removed
+			then
+				sum = sum + boost_comp.def.boost
+			end
 		else 
 			break
 		end
 	end	
-
-
 	return sum
 end
 -- on update/onremove/onadd should be the same for all the new boost modules
@@ -358,7 +358,6 @@ end
 local function check_for_anti_cube(comp) 
 	local owner = comp.owner
 	local slots = owner:GetSlotsByType("cube")
-	print(slots, "check anti cube slots")
 	if #slots >= 2 then
 		-- could have anti cube and another cube 
 		local check_anti, check_cube = false, false
@@ -385,29 +384,32 @@ local function anti_cube_explosion(comp)
 
 	if check_for_anti_cube(comp) ~= true then return end 
 	local owner = comp.owner
-	comp:PlayEffect("fx_emp")
+	owner:PlayEffect("fx_EMP")
 	local slots = owner:GetSlotsByType("cube")
 	-- replace cube and destroy anti cube
 	for i, val in ipairs(slots) do 
 		if val.stack > 0 then 
 			--contains cube 
-			if val.id ~= "ic_cube_sphere" then 
-				val:SetItemAndStack(replace_cube_with[val.id],1)
-			else val:Clear() end 
+			local id = val.id
+			val:Clear()
+			if id ~= "ic_cube_sphere" then 
+				val:SetItemAndStack(replace_cube_with[id],1)
+			end
+			
 		end
 	end 
 	local range = 10
 	-- explosion 
 	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
-		PlaceResourceNode(frame.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(0,#blight_crystal_visuals)])
+		PlaceResourceNode(frame.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		frame:RemoveHealth(300, owner, "plasma_damage")
 	end
 	-- add time crystals 
-	PlaceResourceNode(owner.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(0,#blight_crystal_visuals)])
+	PlaceResourceNode(owner.location,"blight_crystal",10,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 	-- add blight 
 	local num = Map.StartTerraforming(owner, range, 10000)
 	--does this need to be in a defer?
-	Map.StopTerraforming(num)
+	Map.Defer(function()Map.StopTerraforming(num)end)
 	-- notification
 	-- need to add an on click method 
 	Notification.Add("cube_explosion", "warning", "CUBE and ANTI-CUBE Annihilation", "The Cube and Anti-Cube where in contact\nThe Anti Cube Exploded leaving behind chrono crystal deposits")
@@ -492,7 +494,7 @@ function cc_cube_storage:update_boost(comp)
 	--print(self, comp, remove)
 	local owner = comp.owner
 	-- set remove when no nill 
-	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil )
+	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
 end
 
 
@@ -514,20 +516,25 @@ local cc_temp_boost = Comp:RegisterComponent("cc_temp_boost", {
 function cc_temp_boost:update_boost(comp, remove)
 	local owner = comp.owner
 	-- set remove when not nil 
-	if remove == true then remove = comp end 
+	if remove == true then remove = comp end  
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	print(owner[self.boost_id],owner.def[self.boost_id])
 end
-function cc_temp_boost:on_add(comp, cause)	
+function cc_temp_boost:on_add(comp, cause)
 	comp.extra_data.boost_active = true
-	self:update_boost(comp, nil)
-	comp:SetStateStartWork(self.wait_ticks)
+	self:update_boost(comp, false)
+	comp:Activate()
 end
-function cc_temp_boost:on_remove(comp, cause)	
+function cc_temp_boost:on_remove(comp, cause)
 	comp.extra_data.boost_active = false
 	self:update_boost(comp,true)
 end
-function cc_temp_boost:on_update(comp, cause)	
-	comp:Destroy()
+function cc_temp_boost:on_update(comp, cause)
+	if cause & CC_FINISH_WORK ~= 0 then 
+		Map.Defer(function()comp:Destroy()end)
+	else 
+		comp:SetStateStartWork(self.wait_ticks)
+	end
 end
 
 --- Boost Tower controller -------------------------------------
@@ -537,6 +544,7 @@ local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
 	texture = data.frames.f_beacon_l.texture,
 	get_ui = true,
+	power = 100,
 	--visual = data.frames.f_beacon_l.visual,
 	registers = {
 		{ tip = "Chrono Field Target"},
@@ -570,7 +578,7 @@ function cc_boost_tower:on_update(comp, cause)
 	if target ~= nil then
 		-- has a target 
 		-- check in range 
-		if target:InRangeTo(comp.owner,self.range) == false then 
+		if target:IsInRangeOf(comp.owner,self.range) == false then 
 			comp:SetRegister(2)
 			comp:FlagRegisterError(2)
 			comp:SetStateSleep(50)
@@ -587,6 +595,7 @@ function cc_boost_tower:on_update(comp, cause)
 		else 
 			comp:SetRegister(2,missing)
 			comp:FlagRegisterError(2)
+			comp:SetStateSleep(1000)
 		end
 	end
 end

@@ -82,8 +82,12 @@ end
 --- @frame frame such as f_resourcenode_metal
 --- @visual string of visual 
 function PlaceResourceNode(cord, resource, amt, frame, visual)
-	local new_entity = Map.CreateEntity("world", frame, visual)
-	new_entity:SetRegister(FRAMEREG_GOTO, {id=resource,num=amt})
-	new_entity:Place(cord, cord,math.random(0,3))
+	Map.Defer(function()
+		local new_entity = Map.CreateEntity("world", frame, visual)
+		if new_entity then 
+			new_entity:SetRegister(FRAMEREG_GOTO, {id=resource,num=amt})
+			new_entity:Place(cord, cord,math.random(0,3))
+		end
+	end)
 end
 
