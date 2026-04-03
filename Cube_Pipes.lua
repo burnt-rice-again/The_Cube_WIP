@@ -168,7 +168,6 @@ cc_pipe_crane:RegisterComponent("cc_pipe_output",{
     visual = 'v_hacking_tool_s',
     on_update = recieve_only_plasma,
     production_recipe = CreateProductionRecipe({steelblock = 8, concreteslab = 4, wire = 1},{c_fabricator = 40})
-
 })
 
 cc_pipe_crane:RegisterComponent("cc_pipe_output_h",{

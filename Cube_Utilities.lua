@@ -76,4 +76,14 @@ function CheckFreeAreaFromCentre(x,y,max_layer)
 	end
 	return max_layer
 end
+--- @cord Coordinate
+--- @resource id for resource
+--- @mount number for resource 
+--- @frame frame such as f_resourcenode_metal
+--- @visual string of visual 
+function PlaceResourceNode(cord, resource, amt, frame, visual)
+	local new_entity = Map.CreateEntity("world", frame, visual)
+	new_entity:SetRegister(FRAMEREG_GOTO, {id=resource,num=amt})
+	new_entity:Place(cord, cord,math.random(0,3))
+end
 

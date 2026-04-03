@@ -388,6 +388,7 @@ local function check_for_anti_cube(comp)
 	end
 	return false
 end
+
 local replace_cube_with <const> = {
     ic_cube_blue = 'ic_cube_empty',
     ic_cube_green = 'ic_cube_red',
@@ -413,17 +414,11 @@ local function anti_cube_explosion(comp)
 	local range = 10
 	-- explosion 
 	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
+		PlaceResourceNode(frame.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(0,#blight_crystal_visuals)])
 		frame:RemoveHealth(300, owner, "plasma_damage")
 	end
 	-- add time crystals 
-	local i = math.random(5,12)
-	while i > 0 do 
-		i = i - 1
-		local crystal = Map.CreateEntity("world","f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,3)])
-		crystal:SetRegisterId(1,"blight_crystal")
-		crystal:SetRegisterNum(1,100)
-		crystal:Place(owner.location)
-	end
+	PlaceResourceNode(owner.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(0,#blight_crystal_visuals)])
 	-- need ground effect 
 	-- add blight 
 	local num = Map.StartTerraforming(owner, range, 10000)
@@ -471,12 +466,12 @@ local function Update_Cube_Effects(self, comp, cause)
 				comp.faction.extra_data.cube_cord = owner.location
 			end
 			return
-			
 		end
 		-- when any cube has been added 
 		comp.extra_power = 200
 		comp.extra_data.boost_active = true
 		self:update_boost(comp)
+		anti_cube_explosion(comp)
 	else
 		comp:StopEffects() 
 		print("stop effects")
