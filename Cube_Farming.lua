@@ -21,7 +21,8 @@
 --     growth_time = comp.extra_data.growth_time or 100,
 -- }
 
-
+------------------------------------------------------
+---------- Crop Frame and Component -------------------------
 
 
 local cc_crop = Comp:RegisterComponent('cc_crop',{
@@ -210,29 +211,9 @@ fc_crop:RegisterFrame('fc_crop_phase_plant',{
 data.items.wire.production_recipe = CreateProductionRecipe({cc_planter_wire = 1},{c_assembler = 15})
 data.items.phase_leaf.production_recipe = CreateProductionRecipe({cc_planter_phase_leaf = 1},{c_assembler = 15})
 
+------------------------------------------------------
+---------- Planter Component -------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---- PLANTER 
-
-                -- Map.Defer( function()
-                --     print('placing plant')
-                --     local plant = Map.CreateEntity('world', 'fc_wire_plant')
-                --     plant:Place(dx,dy)
-                -- end)
--- wire seeds
 
 local function is_pos_plantable(comp, x,y, range)
     local owner = comp.owner
