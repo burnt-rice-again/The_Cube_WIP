@@ -497,8 +497,6 @@ function cc_cube_storage:update_boost(comp)
 	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
 end
 
-
-
 -------------------------------------------------------
 ----- Boosting Tower Component -----------------------------------
 
