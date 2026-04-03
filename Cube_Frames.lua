@@ -258,8 +258,9 @@ Frame:RegisterFrame("fc_testing_observer",{
 	visibility_range = 100,
 })
 
-
-function Place_Anti_Cube(entity)
+-- @Entity From frame
+-- @Bool True to place two anticubes instead of 1
+function Place_Anti_Cube(entity, do_again)
 	-- location can be entity or location
 	if entity == nil then print("ERROR location is invalid for anticube") end 
 	-- if location.x == nil then
@@ -284,6 +285,7 @@ function Place_Anti_Cube(entity)
 	if new_frame ~= nil then
 		new_frame:Place(cord.x + math.random(-6,6), cord.y + math.random(-6,6)) end
 	end)
+	if do_again == true then  Place_Anti_Cube(entity, false) end 
 end 
 
 

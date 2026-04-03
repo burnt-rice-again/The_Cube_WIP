@@ -136,30 +136,30 @@ data.items.ic_cube_green = {
 	visual = "v_virus_data",
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, wire = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
-data.items.ic_cube_yellow = {
-	name = "TEMPERED CUBE",
-	index = 1003,
-	desc = "A cube half full",
-	tag = "cube",
-	slot_type = "cube",
-	stack_size = 1,
-	race = "alien",
-	texture = "Main/textures/icons/items/human_datacube.png",
-	visual = "v_human_data",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 1, ic_soul_happy = 1, ic_cube_red = 1 }, { cc_manifest = 200, cc_green_brain = 100 },1,{ic_cube_yellow = 1}),
-}
-data.items.ic_cube_pink = {
-	name = "HYPER CUBE",
-	index = 1003,
-	desc = "A cube half full",
-	tag = "cube",
-	slot_type = "cube",
-	stack_size = 1,
-	race = "alien",
-	texture = "The_Cube_WIP/textures/robot_research_cube_ghost.png",
-	visual = "v_blight_plasma",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1, phase_leaf = 20 }, { cc_manifest = 200, },1,{ic_cube_pink = 1}),
-}
+-- data.items.ic_cube_yellow = {
+-- 	name = "TEMPERED CUBE",
+-- 	index = 1003,
+-- 	desc = "A cube half full",
+-- 	tag = "cube",
+-- 	slot_type = "cube",
+-- 	stack_size = 1,
+-- 	race = "alien",
+-- 	texture = "Main/textures/icons/items/human_datacube.png",
+-- 	visual = "v_human_data",
+-- 	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 1, ic_soul_happy = 1, ic_cube_red = 1 }, { cc_manifest = 200, cc_green_brain = 100 },1,{ic_cube_yellow = 1}),
+-- }
+-- data.items.ic_cube_pink = {
+-- 	name = "HYPER CUBE",
+-- 	index = 1003,
+-- 	desc = "A cube half full",
+-- 	tag = "cube",
+-- 	slot_type = "cube",
+-- 	stack_size = 1,
+-- 	race = "alien",
+-- 	texture = "The_Cube_WIP/textures/robot_research_cube_ghost.png",
+-- 	visual = "v_blight_plasma",
+-- 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1, phase_leaf = 20 }, { cc_manifest = 200, },1,{ic_cube_pink = 1}),
+-- }
 data.items.ic_cube_purple = {
 	name = "POSI-CUBE",
 	index = 1003,
@@ -186,23 +186,6 @@ data.items.ic_cube_sphere = {
 }
 -- "v_hybrid_worker" for final production building 
 
---- Metal Production Chain
--- data.items.metalore = {
--- 	name = "Scrap",
--- 	index = 1004,
--- 	desc = "Scrap Salvaged from the ruins of civilization",
--- 	tag = "resource",
--- 	stack_size = 20,
--- 	slot_type = "storage",
--- 	visual = "v_metalore",
--- 	texture = "Main/textures/icons/items/metalore.png",
--- 	mining_recipe = CreateMiningRecipe({
--- 		c_miner = 30,
--- 		c_adv_miner = 15,
--- 		c_human_miner = 20,
--- 		c_alien_miner = 30,
--- 	}),
--- }
 data.items.datakey_robot = {
 	name = "Cube Log",
 	race = "robot",

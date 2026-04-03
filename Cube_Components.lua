@@ -355,6 +355,7 @@ local function update_cube_location(comp, item)
 		faction.extra_data.cube_cord = comp.owner.location
 	end
 end
+-- checks if both a Cube and Anti Cube are present in the same frame
 local function check_for_anti_cube(comp) 
 	local owner = comp.owner
 	local slots = owner:GetSlotsByType("cube")
@@ -383,6 +384,7 @@ local blight_crystal_visuals <const> = { "v_blightcrystal_small1","v_blightcryst
 local function anti_cube_explosion(comp)
 
 	if check_for_anti_cube(comp) ~= true then return end 
+	-- EXPLOSION!
 	local owner = comp.owner
 	owner:PlayEffect("fx_EMP")
 	local slots = owner:GetSlotsByType("cube")
@@ -496,7 +498,10 @@ function cc_cube_storage:update_boost(comp)
 	-- set remove when no nill 
 	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
 end
-
+function cc_cube_storage:on_remove(comp)
+	local slot = comp:GetSlot(1)
+	if slot.id == "ic_cube_sphere" then Place_Anti_Cube(comp.owner) end
+end
 -------------------------------------------------------
 ----- Boosting Tower Component -----------------------------------
 
