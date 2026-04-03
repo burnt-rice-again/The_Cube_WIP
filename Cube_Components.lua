@@ -500,7 +500,7 @@ function cc_cube_storage:update_boost(comp)
 end
 function cc_cube_storage:on_remove(comp)
 	local slot = comp:GetSlot(1)
-	if slot.id == "ic_cube_sphere" then Place_Anti_Cube(comp.owner) end
+	if slot.id == "ic_cube_sphere" then Place_Anti_Cube(comp.owner,true) end
 end
 -------------------------------------------------------
 ----- Boosting Tower Component -----------------------------------
