@@ -45,7 +45,6 @@ data.tech_categories = {
 	},
 }
 
-
 data.tech_categories_race =
 {
 	["robot"] = data.tech_categories,
@@ -53,27 +52,18 @@ data.tech_categories_race =
 	['alien'] = data.tech_categories
 }
 
-
-
 data.techs.tc_cube_basic = {
 	name = "A Curious Cube", -- recovered database etc.
 	desc = "8 verticies to point the way, 12 edges a perfect form, 6 faces to reflect our own",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
-
-
 		-- for testing 
-		-- "ic_cube_green", "cc_plant_seed","ic_cube_pink","ceramictiles",
-		-- ,"f_human_foundation1","f_human_foundation2","f_human_foundation3","f_human_foundation4",
+		-- "f_human_foundation1","f_human_foundation2","f_human_foundation3","f_human_foundation4",
 		-- "f_human_foundation5","f_human_foundation6","f_human_foundation7","f_human_foundation8",
-		--"cc_pipe_crane",""
 
 		-- starting resources		
 		"ic_cube_blue","ic_cube_empty","datakey_robot","ic_souls",
-		-- starting buildings
-		-- starting bots 
-		-- starting componenets
-			--new
+		--components
 		"cc_cube_storage","cc_crystal_power","cc_manifest",
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
@@ -85,20 +75,11 @@ data.techs.tc_robot_basic = {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- starting resources
-        "metalore","crystal",
-		
-		"metalplate",
-
-		
+        "metalore","crystal","metalplate",
 		-- starting buildings
-		
 		"f_building1x1d","f_building1x1f","f_building2x1g","f_building2x1f",
-
 		-- starting bots 
 		"f_bot_1s_a","f_carrier_bot",
-			--other
-
-
 		-- starting values
 		"v_color_red", "v_color_green", "v_color_blue", "v_color_yellow", "v_color_cyan", "v_color_magenta", "v_ally_faction",
 		"v_color_black", "v_color_brown", "v_color_crimson", "v_color_dark_grey", "v_color_light_green", "v_color_light_grey",
@@ -106,7 +87,6 @@ data.techs.tc_robot_basic = {
 		"v_own_faction", "v_enemy_faction", "v_world_faction", "v_bot", "v_building", "v_construction", "v_droppeditem", "v_resource", "v_damaged", "v_mineable",
 		"v_alien_faction", "v_solved", "v_unsolved", "v_can_loot", "v_bug_faction", "v_human_faction", "v_robot_faction", "v_blight", "v_not_blight",
 		"v_plateau", "v_valley", "v_in_powergrid", "v_is_foundation", "v_is_grounded", "v_is_flying", "v_is_flower",
-
 		-- states
 		"v_damaged", "v_infected", "v_broken", "v_unpowered", "v_emergency", "v_powereddown", "v_moving", "v_pathblocked", "v_idle", "v_setnum", "v_maxrange",
 		"v_arrow_up", "v_arrow_down", "v_arrow_left", "v_arrow_right",
@@ -117,8 +97,6 @@ data.techs.tc_robot_basic = {
 		"v_letter_H", "v_letter_I", "v_letter_J", "v_letter_K", "v_letter_L", "v_letter_M", "v_letter_N",
 		"v_letter_O", "v_letter_P", "v_letter_Q", "v_letter_R", "v_letter_S", "v_letter_T", "v_letter_U",
 		"v_letter_V", "v_letter_W", "v_letter_X", "v_letter_Y", "v_letter_Z",
-
-
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
@@ -129,7 +107,7 @@ data.techs.tc_upgrades_basic = {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		"c_assembler",
-				-- starting componenets
+		-- starting componenets
 		--external
 		"c_miner","c_fabricator","c_uplink","c_small_relay","c_deconstructor","c_portable_turret",
 		--internal
@@ -140,7 +118,10 @@ data.techs.tc_upgrades_basic = {
 	progress = 1,
 }
 
-data.techs.tc_cube_refining = {
+-------------------------------------------------
+--------- CUBE Techs Category -------------------
+
+data.techs.tc_cube_blue_1 = {
 	order = 2,
 	name = "Blue Cube Refining", -- recovered database etc.
 	desc = "The Cubes Materials are Unfathomable, But our own are not ",
@@ -148,95 +129,15 @@ data.techs.tc_cube_refining = {
 	unlocks = {
 		-- new resources
 		"crystal_powder","cc_cube_recharger",
-		
-		
 		-- new components 
 		--"cc_refinery",
-
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
 	category = "Cube_Curiosity"
 }
-data.techs.tc_cube_red_refining = {
-	order = 1,
-	name = "Hidden Fury", -- recovered database etc.
-	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\nUnlock this technology by finding a place to melt the Cube",
-	texture = data.items.ic_cube_red.texture,
-	unlocks = {
-		-- new resources
-		"ic_cube_red","cc_red_cube_refinery","reinforced_plate","cc_crystal_power_red",
-	},
-	require_tech = { "tc_cube_basic" },
-	tooltip = 'Find a molten explorable to unlock this tech for free',
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
-	category = "Cube_Curiosity",
-}
--- data.techs.tc_cube_red_power = {
--- 	order = 1,
--- 	name = "Crystal Vaporization", -- recovered database etc.
--- 	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power/nA byproduct of this process is some crystal powder that wasnt able to react",
--- 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
--- 	unlocks = {
--- 		-- new resources
--- 		"cc_crystal_power_red",
--- 	},
--- 	require_tech = { "tc_cube_red_refining" },
--- 	progress_count = 100,
--- 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 300),
--- 	category = "Cube_Curiosity",
--- }
-data.techs.tc_cube_emotion_processing = {
-	order = 1,
-	name = "Emotional Processing", -- recovered database etc.
-	desc = "",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
-	unlocks = {
-		-- new resources
-		"ic_soul_angry",
-	},
-	require_tech = { "tc_cube_red_refining", },
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1 }, 100),
-	category = "Cube_Curiosity",
-}
-data.techs.tc_cube_green_discovery= {
-	order = 3,
-	name = "Farming", -- recovered database etc.
-	desc = "Grow seeds",
-	texture = data.items.ic_cube_green.texture,
-	unlocks = {
-		-- new resources
-		"ic_cube_green",
-		-- phase farming 
-		"wire",
-
-		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
-	},
-	require_tech = { "tc_cube_basic" },
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
-	category = "Cube_Curiosity",
-}
-data.techs.tc_cube_green_2= {
-	order = 3,
-	name = "Farming", -- recovered database etc.
-	desc = "Grow seeds",
-	texture = data.items.phase_leaf.texture,
-	unlocks = {
-		-- new resources
-		-- phase farming 
-		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
-	},
-	require_tech = { "tc_cube_green_discovery" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, wire = 1 }, 300),
-	category = "Cube_Curiosity",
-}
-
-data.techs.tc_cube_soul_refining= {
+data.techs.tc_cube_blue_2 = {
 	order = 2,
 	name = "Soul Plasma Refinery", -- recovered database etc.
 	desc = "This facotry will run on the power of friendship",
@@ -246,27 +147,101 @@ data.techs.tc_cube_soul_refining= {
 		"ic_soul_plasma",
 		"cc_soul_refinery","fc_pipe","cc_power_souls",'cc_pipe_output_i',
 	},
-	require_tech = { "tc_cube_refining" },
+	require_tech = { "tc_cube_blue_1" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1 }, 50),
 	category = "Cube_Curiosity",
 }
-
-data.techs.tc_cube_hyper_discovery= {
+data.techs.tc_cube_blue_3 = {
 	order = 2,
-	name = "Parrallel Universe Thoery", -- recovered database etc.
+	name = "Cube Splitting", -- recovered database etc.
+	desc = "With Incredible precision and emotion the Cube can theoretically be cracked open",
+	texture = data.items.anomaly_particle.texture,
+	unlocks = {
+		-- new resources
+		"ic_cube_sphere","ic_cube_purple",
+	},
+	require_tech = { "tc_cube_blue_2" },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1, ic_soul_angry = 1 }, 50),
+	category = "Cube_Curiosity",
+}
+
+data.techs.tc_cube_red_1 = {
+	order = 1,
+	name = "Hidden Fury", -- recovered database etc.
+	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\nUnlock this technology by finding a place to melt the Cube",
+	texture = data.items.ic_cube_red.texture,
+	unlocks = {
+		-- new resources
+		"ic_cube_red","cc_red_cube_refinery","reinforced_plate",
+	},
+	require_tech = { "tc_cube_basic" },
+	tooltip = 'Find a molten explorable to unlock this tech for free',
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
+	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_red_2 = {
+	order = 1,
+	name = "Crystal Vaporization", -- recovered database etc.
+	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power/nA byproduct of this process is some crystal powder that wasnt able to react",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"cc_crystal_power_red",
+	},
+	require_tech = { "tc_cube_red_1" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, crystal_powder = 1 }, 300),
+	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_red_3 = {
+	order = 1,
+	name = "Emotional Processing", 
 	desc = "",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"ic_cube_pink","cc_time_travel_machine","fused_electrodes","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+		"ic_soul_angry",
 	},
-	require_tech = { "tc_cube_soul_refining", },
+	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1 }, 100),
-	category = "Cube_Obsession",
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1, crystal_powder = 1 }, 100),
+	category = "Cube_Curiosity",
 }
-data.techs.tc_cube_green_brain = {
+data.techs.tc_cube_green_1= {
+	order = 3,
+	name = "Farming",
+	desc = "Grow seeds",
+	texture = data.items.ic_cube_green.texture,
+	unlocks = {
+		-- new resources
+		"ic_cube_green",
+		"wire",
+		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
+	},
+	require_tech = { "tc_cube_basic" },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
+	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_green_2 = {
+	order = 3,
+	name = "Farming", -- recovered database etc.
+	desc = "Grow seeds",
+	texture = data.items.phase_leaf.texture,
+	unlocks = {
+		-- new resources
+		-- phase farming 
+		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
+	},
+	require_tech = { "tc_cube_green_1" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1 }, 300),
+	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_green_3 = {
 	order = 3,
 	name = "Outsourced Introspection", -- recovered database etc.
 	desc = "A Brain in a jar set to ponder its own existence",
@@ -277,38 +252,100 @@ data.techs.tc_cube_green_brain = {
 	},
 	require_tech = { "tc_cube_green_2", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, wire = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, datakey_robot = 1, ic_soul_plasma = 1 }, 50),
 	category = "Cube_Curiosity",
 }
-data.techs.tc_cube_yellow_discovery= {
-	order = 1,
-	name = "Tempered Cube", -- recovered database etc.
+data.techs.tc_cube_anti_0= {--unlocked when Cube is split
+	order = 2,
+	name = "Anti Cube Heresey", -- recovered database etc.
 	desc = "",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"ic_cube_yellow","ic_living_metal"
+		"ic_cube_sphere"
 	},
-	require_tech = { "tc_cube_soul_refining", },
+	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ic_soul_happy = 1, ic_soul_angry = 1 }, 100),
-	category = "Cube_Obsession",
+	uplink_recipe = CreateUplinkRecipe({ ic_soul_plasma = 1 }, 50),
+	--category = "Cube_Obsession", -- will not show up in graph 
 }
 
-data.techs.tc_engine= {
+-----------------------------------
+------------- Cube Section 2 -----
+data.techs.tc_cube_anti_1 = { -- will unlock when cube is anhillated
+	order = 1,
+	name = "Anti Cube Annihilation", -- recovered database etc.
+	desc = "Find",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"blight_crystal",
+	},
+	require_tech = { "tc_cube_anti_0", },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_anti_2 = { -- will unlock when cube is anhillated
+	order = 1,
+	name = "Anti Cube Annihilation", -- recovered database etc.
+	desc = "Find",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"ic_time_crystal",
+	},
+	require_tech = { "tc_cube_anti_1", },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_anti_3= {
+	order = 2,
+	name = "Parrallel Universe Thoery", -- recovered database etc.
+	desc = "",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"cc_time_travel_machine","fused_electrodes","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+	},
+	require_tech = { "tc_cube_anti_2", },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_green_4 = {
 	order = 3,
 	name = "Boost Speed", -- recovered database etc.
 	desc = "",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
 		-- new resources
-		"engine","ic_fuel","c_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
+		"engine","ic_fuel","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
 	},
-	require_tech = { "tc_cube_soul_refining" },
+	require_tech = { "tc_green_3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
 	category = "Cube_Obsession",
 }
+
+data.techs.tc_red_5 = { -- will unlock when cube is anhillated
+	order = 1,
+	name = "Anti Cube Annihilation", -- recovered database etc.
+	desc = "Find",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"blight_crystal",
+	},
+	require_tech = { "tc_red_3", },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
+	category = "Cube_Obsession",
+}
+
+
+--------------------------------
 ---------- ROBOT ---------------
 data.techs.tc_robot_metallurgy_1 = {
 	order = 2,
@@ -354,7 +391,20 @@ data.techs.tc_robot_beacons1 = {
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, datakey_robot = 1 }, 50),
 	category = "Independance",
 }
-
+data.techs.tc_robot_beacons1 = {
+	order = 2,
+	name = "Beacons", -- recovered database etc.
+	desc = "",
+	texture = data.frames.f_beacon.texture,
+	unlocks = {
+		-- new resources
+		"beacon_frame","f_beacon_l",
+	},
+	require_tech = { "tc_robot_beacons1" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, datakey_robot = 1, phase_leaf = 1 }, 50),
+	category = "Independance",
+}
 
 data.techs.tc_robot_frames_1 = {
 	order = 1,

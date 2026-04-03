@@ -149,12 +149,13 @@ Frame:RegisterFrame("fc_pipe", {
     visibility_range = 10,
 	health_points = 500,
 	power = -1,
+	start_disconnected = true,
 	--slots = {anomaly = 1 },
 	construction_recipe = CreateConstructionRecipe({steelblock = 6, concreteslab = 4, crystal_powder = 1},1),
 	--construction_recipe = CreateConstructionRecipe({ concreteslab = 9, steelblock = 20, phase_leaf = 10 }, 40),
 	texture = "Main/textures/icons/components/Component_Blight1.png",
 	trigger_channels = "building",
-	visual = "vc_tower1",--'v_blight_stabilizer',--"v_blight_stabilizer",
+	visual = "vc_tower1",--'v_blight_stabilizer',
     components = {
         { "cc_pipe_crane", "hidden" },
 	},
@@ -197,8 +198,6 @@ function fc_wire_plant:on_destroy(entity, damager)
 	Map.DropItemAt(entity.location, "wire", math.random(20) + 10 , "f_dropped_resource")
 	Map.DropItemAt(entity.location, "cc_plant_seed2", 1, "f_dropped_resource")
 end
-
-
 Frame:RegisterFrame("f_resourcenode_pixel",  {
 		type = "Resource", index = 1, name = "Voxel Deposit",
 		texture = "Main/textures/icons/values/resource.png",
@@ -301,12 +300,6 @@ local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 -- 	--Place_Anti_Cube(frame)
 -- end 
 function fc_cube_sphere:on_remove(frame, cause)
-	Place_Anti_Cube(frame)
-	Place_Anti_Cube(frame)
+	Place_Anti_Cube(frame,true)
 end 
 
-
-local frame = data.frames.f_building2x2b
-frame.movement_speed = 4
-frame.production_recipe = CreateProductionRecipe({metalplate = 1},{c_robotics_factory = 1, c_assembler = 1})
-frame.construction_recipe = nil

@@ -1,8 +1,5 @@
 
-
-
 --- each seed will have some properties 
----     speed
 ---     yield 
 ---     growth speed 
 
@@ -23,7 +20,6 @@
 
 ------------------------------------------------------
 ---------- Crop Frame and Component -------------------------
-
 
 local cc_crop = Comp:RegisterComponent('cc_crop',{
     -- wait a set amount of time 
@@ -165,7 +161,6 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     --on_destroy = wake_up_planter,
     
 })
-
 fc_crop:RegisterFrame('fc_crop_wire_seed0',{
     name = 'Wire Weed Seedling',
     desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
@@ -242,8 +237,6 @@ local function find_plantable_position(self, comp)
     end
     return nil, nil
 end
-
-
 
 local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     name = 'Wire Weed Planter',

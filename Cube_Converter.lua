@@ -327,3 +327,25 @@ cc_scrap_converter:RegisterComponent("cc_red_cube_refinery", {
 
 	},
 })
+
+-- split the cube 
+cc_scrap_converter:RegisterComponent("cc_cube_splitter", {
+	name = "Cube Splitter",
+	texture = "Main/textures/icons/values/plateau.png",
+	desc = "A ray of distilled emotion can cut into an already molten Cube\n\nThe Power Required is extreme",
+	attachment_size = "Large",
+	visual = "v_human_powerplant",
+	power = -100000,
+	production_recipe = CreateProductionRecipe({ reinforced_plate = 64, ic_soul_angry = 16, concreteslab = 10 }, { c_fabricator = 30, }),
+	--production_recipe = false,
+	recipes = {
+		{ 	id = "ic_cube_red", 
+		amt = {["ic_cube_red"] = 1} , 
+		t = 300, 
+		to = {ic_cube_sphere = 1},
+		cube_out = "ic_cube_empty",
+		},
+		-- some hidden recipes 
+
+	},
+})

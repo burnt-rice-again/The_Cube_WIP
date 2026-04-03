@@ -285,7 +285,17 @@ data.items.ic_pixel = {
 		c_alien_miner = 30,
 	}),
 }
-
+data.items.ic_time_crystal = {
+	name = 'Chrono Crystal',
+	index = 10,
+	tag = 'advanced_material',
+	desc = 'Stabilized Chrono Crystal',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = 'v_metalore',
+	texture = "The_Cube_WIP/textures/pixels.png",
+	production_recipe = CreateProductionRecipe({ blight_crystal = 16, phase_leaf = 4,ic_soul_happy = 1 }, { cc_soul_refinery = 20 }, 1),
+}
 -- data.items.ic_soul_crystal = {
 -- 	name = "Purified Crystal",
 -- 	race = "robot",
