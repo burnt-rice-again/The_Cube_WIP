@@ -43,3 +43,5 @@ end
 --fx_deconstructor like bullets raining from the sky 
 --fx_assembler - smaller fire
 --fx_EMP - huge emp blast  
+--fx_alien_miner for a cool effect around the centre
+--fx_bug_attack for planter?

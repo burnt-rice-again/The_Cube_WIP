@@ -511,7 +511,7 @@ local cc_temp_boost = Comp:RegisterComponent("cc_temp_boost", {
 	activation = "Manual",
 	boost = 50,
 	boost_id = "component_boost", -- or move_boost
-	wait_ticks = 100,
+	wait_ticks = 25,
 })
 function cc_temp_boost:update_boost(comp, remove)
 	local owner = comp.owner
@@ -578,10 +578,11 @@ function cc_boost_tower:on_update(comp, cause)
 	if target ~= nil then
 		-- has a target 
 		-- check in range 
-		if target.faction.id == comp.faction.id or target:IsInRangeOf(comp.owner,self.range) == false then 
+		if target.faction.id ~= comp.faction.id or target:IsInRangeOf(comp.owner,self.range) == false then 
 			comp:SetRegister(2)
 			comp:FlagRegisterError(2)
 			comp:SetStateSleep(50)
+			comp:StopEffects()
 			-- wait 10 seconds and try again
 			return
 		end
@@ -592,11 +593,18 @@ function cc_boost_tower:on_update(comp, cause)
 			comp:SetRegister(2)
 			comp:SetStateStartWork(self.wait_ticks)
 			target:AddComponent("cc_temp_boost")
+			comp:StopEffects()
+			--comp:PlayEffect("fx_miner","fx",target)--fx_railgun
+			comp:PlayEffect("fx_photon_beam","fx",target)
+
 		else 
 			comp:SetRegister(2,missing)
 			comp:FlagRegisterError(2)
 			comp:SetStateSleep(1000)
+			comp:StopEffects()
 		end
+	else 
+		comp:StopEffects()
 	end
 end
 function cc_boost_tower:get_reg_error(comp, cause)	
@@ -611,6 +619,7 @@ function cc_boost_tower:get_reg_error(comp, cause)
 	end
 end
 
+data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
@@ -620,6 +629,7 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 		{"cc_boost_tower","hidden"}
 	}
 })
+
 
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------

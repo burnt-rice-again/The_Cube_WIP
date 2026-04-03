@@ -6428,7 +6428,7 @@ function c_small_scanner:on_update(comp, cause)
 		comp:StopEffects()
 		return need_sleep and comp:SetStateSleep(7) -- sleep, it might get solved later
 	end
-
+ 
 	-- start scanning with refresh to check if we're still in place and the scannable still exists
 	comp:PlayWorkEffect("fx_scan", "fx")
 	comp:SetRegister(2, nil)
