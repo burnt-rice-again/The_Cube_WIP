@@ -370,9 +370,66 @@ local function update_cube_location(comp, item)
 		faction.extra_data.cube_cord = comp.owner.location
 	end
 end
+local function check_for_anti_cube(comp) 
+	local owner = comp.owner
+	local slots = owner:GetSlotsByType("cube")
+	print(slots, "check anti cube slots")
+	if #slots >= 2 then
+		-- could have anti cube and another cube 
+		local check_anti, check_cube = false, false
+		for i, val in ipairs(slots) do 
+			if val.stack > 0 then 
+				--contains cube 
+				if val.id == "ic_cube_sphere" then check_anti = true 
+				else check_cube = true end					
+			end
+		end 
+		return check_anti and check_cube
+	end
+	return false
+end
+local replace_cube_with <const> = {
+    ic_cube_blue = 'ic_cube_empty',
+    ic_cube_green = 'ic_cube_red',
+    ic_cube_empty = 'ic_cube_blue',
+    ic_cube_red = 'ic_cube_green',
+}
+local blight_crystal_visuals <const> = { "v_blightcrystal_small1","v_blightcrystal1a", "v_blightcrystal1b" }
+local function anti_cube_explosion(comp)
 
-local function BoostModuleOnAdd(self, comp) self:on_update_boosts(comp, nil, 0) end
-local function BoostModuleOnRemove(self, comp) self:on_update_boosts(comp, comp, 0) end
+	if check_for_anti_cube(comp) ~= true then return end 
+	local owner = comp.owner
+	comp:PlayEffect("fx_emp")
+	local slots = owner:GetSlotsByType("cube")
+	-- replace cube and destroy anti cube
+	for i, val in ipairs(slots) do 
+		if val.stack > 0 then 
+			--contains cube 
+			if val.id ~= "ic_cube_sphere" then 
+				val:SetItemAndStack(replace_cube_with[val.id],1)
+			else val:Clear() end 
+		end
+	end 
+	local range = 10
+	-- explosion 
+	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
+		frame:RemoveHealth(300, owner, "plasma_damage")
+	end
+	-- add time crystals 
+	local i = math.random(5,12)
+	while i > 0 do 
+		i = i - 1
+		local crystal = Map.CreateEntity("world","f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,3)])
+		crystal:SetRegisterId(1,"blight_crystal")
+		crystal:SetRegisterNum(1,100)
+		crystal:Place(owner.location)
+	end
+	-- need ground effect 
+	-- add blight 
+	local num = Map.StartTerraforming(owner, range, 10000)
+	--does this need to be in a defer?
+	Map.StopTerraforming(num)
+end
 local function Update_Cube_Effects(self, comp, cause)
 	--print(comp,cause,comp.owner)
 	--print(comp.CauseToString(comp,cause))
@@ -450,8 +507,6 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	-- on_remove = BoostModuleOnRemove,
 	on_update = Update_Cube_Effects,
 	adjust_light_color = true,
-	--effect = "cube_floating_blue",
-	--dumping_ground = true,
 })
 function cc_cube_storage:update_boost(comp)
 	--print(self, comp, remove)
@@ -460,30 +515,12 @@ function cc_cube_storage:update_boost(comp)
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil )
 end
 
-local function battery_get_ui(self, comp)
-	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color=ui_light bgcolor=ui_dark/></Box>]], {
-		compicon = comp.def.texture,
-		update = function(w)
-			local comp_def, comp_details = comp.def, comp.power_details
-			if comp_details then
-				w.progress = comp_details.stored / comp_def.power_storage
-				if w.tt then
-					w.tt.text = L((comp_details.change ~= 0 and "%s: %.0f/%.0f (%+.0f)" or "%s: %.0f/%.0f"), "Stored", comp_details.stored, comp_def.power_storage, comp_details.change*TICKS_PER_SECOND)
-				end
-			end
-		end,
-		tooltip = function(w)
-			w.tt = UI.New("<Box bg=popup_box_bg padding=12><Text/></Box>", { destruct = function() if w:IsValid() then w.tt = nil end end })[1]
-			w:update()
-			return w.tt.parent
-		end,
-	})
-end
+
 
 -------------------------------------------------------
 ----- Boosting Tower Component -----------------------------------
 
-local cc_moduleefficiency_h = Comp:RegisterComponent("cc_temp_boost", {
+local cc_temp_boost = Comp:RegisterComponent("cc_temp_boost", {
 	desc = "Overclock Unit by 50%\n\nProvided By Boosting Tower",
 	attachment_size = "Hidden", race = "human", index = 1050, name = "Chrono Boost From Tower",
 	texture = data.components.c_moduleefficiency.texture,
@@ -494,22 +531,22 @@ local cc_moduleefficiency_h = Comp:RegisterComponent("cc_temp_boost", {
 	boost_id = "component_boost", -- or move_boost
 	wait_ticks = 100,
 })
-function cc_moduleefficiency_h:update_boost(comp, remove)
+function cc_temp_boost:update_boost(comp, remove)
 	local owner = comp.owner
 	-- set remove when not nil 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
 end
-function cc_moduleefficiency_h:on_add(comp, cause)	
+function cc_temp_boost:on_add(comp, cause)	
 	comp.extra_data.boost_active = true
 	self:update_boost(comp, nil)
 	comp:SetStateStartWork(self.wait_ticks)
 end
-function cc_moduleefficiency_h:on_remove(comp, cause)	
+function cc_temp_boost:on_remove(comp, cause)	
 	comp.extra_data.boost_active = false
 	self:update_boost(comp,true)
 end
-function cc_moduleefficiency_h:on_update(comp, cause)	
+function cc_temp_boost:on_update(comp, cause)	
 	comp:Destroy()
 end
 
@@ -527,10 +564,9 @@ local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	},
 	fuel = "ic_fuel",
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
-	wait_ticks = 25,
+	wait_ticks = cc_temp_boost.wait_ticks,
 	slots = {storage = 1},
 	range = 20,
-	
 })
 
 function cc_boost_tower:on_update(comp, cause)	
@@ -543,7 +579,6 @@ function cc_boost_tower:on_update(comp, cause)
 			-- recharging again
 		-- is a hidden component so cant remove then re add 
 
-
 	-- still on cooldown 
 	if comp.is_working then 
 		comp:SetStateContinueWork()
@@ -552,7 +587,7 @@ function cc_boost_tower:on_update(comp, cause)
 
 	local target = comp:GetRegisterEntity(1)
 
-	if target ~= nil then 
+	if target ~= nil then
 		-- has a target 
 		-- check in range 
 		if target:InRangeTo(comp.owner,self.range) == false then 
@@ -560,12 +595,11 @@ function cc_boost_tower:on_update(comp, cause)
 			comp:FlagRegisterError(2)
 			comp:SetStateSleep(50)
 			-- wait 10 seconds and try again
-			return 
+			return
 		end
 		-- check for fuel 
-
 		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel]=1},20)
-		if can_make then 	
+		if can_make then
 			comp:FulfillProcess()
 			comp:SetRegister(2)
 			comp:SetStateStartWork(self.wait_ticks)
@@ -600,6 +634,25 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------
+local function battery_get_ui(self, comp)
+	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color=ui_light bgcolor=ui_dark/></Box>]], {
+		compicon = comp.def.texture,
+		update = function(w)
+			local comp_def, comp_details = comp.def, comp.power_details
+			if comp_details then
+				w.progress = comp_details.stored / comp_def.power_storage
+				if w.tt then
+					w.tt.text = L((comp_details.change ~= 0 and "%s: %.0f/%.0f (%+.0f)" or "%s: %.0f/%.0f"), "Stored", comp_details.stored, comp_def.power_storage, comp_details.change*TICKS_PER_SECOND)
+				end
+			end
+		end,
+		tooltip = function(w)
+			w.tt = UI.New("<Box bg=popup_box_bg padding=12><Text/></Box>", { destruct = function() if w:IsValid() then w.tt = nil end end })[1]
+			w:update()
+			return w.tt.parent
+		end,
+	})
+end
 local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	name = "Crystal Power", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",
