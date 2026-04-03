@@ -544,7 +544,7 @@ local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
 	texture = data.frames.f_beacon_l.texture,
 	get_ui = true,
-	power = 100,
+	power = -100,
 	--visual = data.frames.f_beacon_l.visual,
 	registers = {
 		{ tip = "Chrono Field Target"},
@@ -578,7 +578,7 @@ function cc_boost_tower:on_update(comp, cause)
 	if target ~= nil then
 		-- has a target 
 		-- check in range 
-		if target:IsInRangeOf(comp.owner,self.range) == false then 
+		if target.faction.id == comp.faction.id or target:IsInRangeOf(comp.owner,self.range) == false then 
 			comp:SetRegister(2)
 			comp:FlagRegisterError(2)
 			comp:SetStateSleep(50)
@@ -602,7 +602,7 @@ end
 function cc_boost_tower:get_reg_error(comp, cause)	
 	if comp:RegisterIsError(2) then 
 		if comp:RegisterIsEmpty(2) then 
-			return "Target Out Of Range"
+			return "Target Out Of Range or not valid"
 		else 
 			return "Missing Fuel To Operate"
 		end
