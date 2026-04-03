@@ -69,7 +69,8 @@ function cc_crop:on_update(comp, cause)
     if cause & CC_FINISH_WORK ~= 0 then 
 
         -- check if has a next visual
-        if self.visual_set and comp.extra_data.next_visual <= #self.visual_set then 
+        if self.visual_set and comp.extra_data.next_visual <= #self.visual_set then
+            -- grow visual and reset timer 
             print("Next Visual For Plant")
             comp.owner:SetVisual(self.visual_set[comp.extra_data.next_visual])
             comp.extra_data.next_visual = comp.extra_data.next_visual+1
