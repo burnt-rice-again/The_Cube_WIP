@@ -419,11 +419,13 @@ local function anti_cube_explosion(comp)
 	end
 	-- add time crystals 
 	PlaceResourceNode(owner.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(0,#blight_crystal_visuals)])
-	-- need ground effect 
 	-- add blight 
 	local num = Map.StartTerraforming(owner, range, 10000)
 	--does this need to be in a defer?
 	Map.StopTerraforming(num)
+	-- notification
+	-- need to add an on click method 
+	Notification.Add("cube_explosion", "warning", "CUBE and ANTI-CUBE Annihilation", "The Cube and Anti-Cube where in contact\nThe Anti Cube Exploded leaving behind chrono crystal deposits")
 end
 local function Update_Cube_Effects(self, comp, cause)
 	--print(comp,cause,comp.owner)
@@ -434,7 +436,6 @@ local function Update_Cube_Effects(self, comp, cause)
 		--self.boost = -90
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
-
 		if owner:CountItem("ic_cube_red") == 1 then
 			comp:PlayEffect("fx_refinery","fx")
 			comp.extra_data.boost_active = true
@@ -452,7 +453,6 @@ local function Update_Cube_Effects(self, comp, cause)
 		elseif owner:CountItem("ic_cube_sphere") == 1 then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
 			--comp:PlayEffect("fx_alien_liquid")
-			update_cube_location(comp,"ic_cube_sphere" )
 		else
 			comp:StopEffects()
 			comp.light_color = { 0,0,0,0 }
