@@ -154,6 +154,20 @@ data.items.ic_cube_green = {
 	visual = "v_virus_data",
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, wire = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
+data.items.ic_cube_sphere = {
+	name = "ANTI-CUBE",
+	index = 1004,
+	desc = "Heresey, there is a sphere inside the cube!",
+	tag = "cube",
+	slot_type = "cube",
+	stack_size = 1,
+	race = "alien",
+	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
+	visual = 'vc_cube_sphere_item', 
+	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 1, }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1}),
+	alt_item = "ic_cube_empty",
+}
 -- data.items.ic_cube_yellow = {
 -- 	name = "TEMPERED CUBE",
 -- 	index = 1003,
@@ -190,18 +204,7 @@ data.items.ic_cube_green = {
 -- 	visual = 'v_micropro', --"v_bot_ai_core", -- "v_simulation_data","v_blight_research_item"
 -- 	production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1, ic_cube_blue =1 }, { cc_manifest = 200, }),
 -- }
-data.items.ic_cube_sphere = {
-	name = "ANTI-CUBE",
-	index = 1004,
-	desc = "Heresey, there is a sphere inside the cube!",
-	tag = "cube",
-	slot_type = "cube",
-	stack_size = 1,
-	race = "alien",
-	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
-	visual = 'vc_cube_sphere_item', 
-	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 100, ic_soul }, { c_robotics_factory = 200, }),
-}
+
 -- "v_hybrid_worker" for final production building 
 
 data.items.datakey_robot = {
@@ -287,22 +290,6 @@ data.items.ic_fuel = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe({ phase_leaf = 10, crystal_powder = 1}, { cc_soul_refinery = 20 }, 1),
 }
-data.items.ic_pixel = {
-	name = 'pixel',
-	index = 1,
-	tag = 'resource',
-	desc = 'loose voxels',
-	stack_size = 20,
-	slot_type = 'storage',
-	visual = 'v_metalore',
-	texture = "The_Cube_WIP/textures/pixels.png",
-	mining_recipe = CreateMiningRecipe({
-		c_miner = 30,
-		c_adv_miner = 15,
-		c_human_miner = 20,
-		c_alien_miner = 30,
-	}),
-}
 data.items.ic_time_crystal = {
 	name = 'Chrono Crystal',
 	index = 10,
@@ -337,7 +324,10 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 
 
 create_alt_recipe("ic_soul_plasma", 
-	CreateProductionRecipeWithWaste({ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, {cc_manifest = 100},
-	20, {ic_cube_empty = 1}),
+	CreateProductionRecipeWithWaste(
+	{ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, 
+	{cc_manifest = 100},
+	20, 
+	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )

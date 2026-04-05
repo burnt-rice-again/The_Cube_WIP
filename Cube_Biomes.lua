@@ -139,23 +139,23 @@ local metal_patch_size = 0.93 -- richness width from edge -1 -> 1
 local metal_dist_falloff = 0.3 -- distance
 local metal_edge = 1
 
-table.insert(data.land_features,{
-	exclusive = true,
-	frame = "f_resourcenode_pixel",
-	min_spawn_distance = 100,
-	functions = {
-		{ func = "Threshold", param = "Blightness", range = { -1, blight_threshold } },
-		{ func = "Threshold", param = "Elevation", range = { desert_level, grass_level }, falloff = 0.05 },
-		{ func = "Threshold", param = "Variation", range = { metal_edge-metal_coverage, metal_edge }, falloff = metal_dist_falloff, },
-		{ func = "Threshold", param = "Richness", falloff = 0.1, range = { -1, -1+metal_patch_size }, chance = 0.3},
-	},
-	nodes = {
-		{
-			visuals = { "vc_pixel_ore_1", "vc_pixel_ore_2" },
-			resource = { ic_pixel = resource_inf and {REG_INFINITE ,REG_INFINITE } or { metal_richness_min*200, metal_richness_max*400 } },
-		},
-	}
-})
+-- table.insert(data.land_features,{
+-- 	exclusive = true,
+-- 	frame = "f_resourcenode_pixel",
+-- 	min_spawn_distance = 100,
+-- 	functions = {
+-- 		{ func = "Threshold", param = "Blightness", range = { -1, blight_threshold } },
+-- 		{ func = "Threshold", param = "Elevation", range = { desert_level, grass_level }, falloff = 0.05 },
+-- 		{ func = "Threshold", param = "Variation", range = { metal_edge-metal_coverage, metal_edge }, falloff = metal_dist_falloff, },
+-- 		{ func = "Threshold", param = "Richness", falloff = 0.1, range = { -1, -1+metal_patch_size }, chance = 0.3},
+-- 	},
+-- 	nodes = {
+-- 		{
+-- 			visuals = { "vc_pixel_ore_1", "vc_pixel_ore_2" },
+-- 			resource = { ic_pixel = resource_inf and {REG_INFINITE ,REG_INFINITE } or { metal_richness_min*200, metal_richness_max*400 } },
+-- 		},
+-- 	}
+-- })
 -- does not work?
 table.insert(data.land_features,{
 	--exclusive = true,
