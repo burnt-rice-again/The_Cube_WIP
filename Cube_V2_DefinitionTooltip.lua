@@ -358,6 +358,11 @@ local function ShowIngredients(list, seen_unlocks, ingredients, def, amount, bp)
 	end
 	ingredient_list:Add("<Image image=icon_small_arrow/>")
 	ingredient_list:Add("<Reg bg=item_default on_click={onclickreg}/>", { def = def, num = (amount or 1) })
+	-- show byproducts
+	if def.production_recipe and def.production_recipe.byproduct then 
+		for id, num in pairs(def.production_recipe.byproduct) do have_locks = ShowIngredient(ingredient_list, seen_unlocks, id, num) or have_locks end
+	end
+	
 	return have_locks
 end
 
@@ -429,8 +434,6 @@ end
 
 local function UpdateDefinitionTooltip(deftooltip)
 	local mode = deftooltip.mode
-
-	--print("AHHHHHHHHHHH")
 	
 	if mode == "all" then
 		deftooltip.every_frame_update = nil

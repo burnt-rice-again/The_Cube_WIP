@@ -246,16 +246,13 @@ function cc_cube_fabrication:on_update(comp, cause)
 	-- Prepare next production
 	local outputs = (not is_bot_production or (self.slots and self.slots[product_def.slot_type])) and { [reg1_id] = production_recipe.amount }
 	local order_count = (count + production_recipe.amount - 1) // production_recipe.amount
-	print(outputs,"out")
-	--Replace Alternative Recipes 
+	--ADDITION Replace Alternative Recipes 
 	for key, val in pairs(outputs) do
-		print(key,val)
 		if data.items[key].alt_item then 
 			outputs[data.items[key].alt_item] = val
 			outputs[key] = nil
 		end
 	end
-	print(outputs,"after")
 
 	--ADDITION
 	-- remove cube from output if it is in waste 

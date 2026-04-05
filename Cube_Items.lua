@@ -1,3 +1,21 @@
+
+
+-- alternative  recipes.
+---@param id string of original item 
+---@param recipe table recipe from CreateProductionRecipeWithWaste ect
+---@param overide_values table of values to overwite ect {desc = "New Desc"}
+local function create_alt_recipe(id,recipe,overide_values)
+	local item = Tool.Copy(data.items[id])
+	item.production_recipe = recipe
+	item.alt_item = id
+	for key, val in pairs(overide_values) do
+		item[key] = val
+	end
+	data.items[id.."_alt"] = item
+end
+
+
+
 data.item_slot_icons["cube"] = "Main/skin/Icons/Special/Technologies/Robots.png"
 
 -- basic non cube parts 
@@ -313,27 +331,11 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 -- }
 
 
--- alternative  recpeis.
--- must use cube
--- resulting cube is immediatly swapped out by pedestal for the real item 
--- texture will be of the produced items
---@ string id of item 
---@ dict keys = inputs and amt is value 
---@ number amt to produce 
---@ cube out 
---@ custom texture file or nil to use id 
-local function create_alt_recipe(id,recipe,overide_values)
-	print("Starting Alt Recipe")
-	local item = Tool.Copy(data.items[id])
-	item.production_recipe = recipe
-	item.alt_item = id
-	print(item)
-	for key, val in pairs(overide_values) do 
-		item[key] = val
-	end
-	print(item)
-	data.items[id.."_alt"] = item
-end
+
+
+
+
+
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste({ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, {cc_manifest = 100},
 	20, {ic_cube_empty = 1}),

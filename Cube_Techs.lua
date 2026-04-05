@@ -128,7 +128,7 @@ data.techs.tc_cube_blue_1 = {
 	texture = data.items.ic_cube_blue.texture,
 	unlocks = {
 		-- new resources
-		"crystal_powder","cc_cube_recharger","crystal_powder_alt","ic_soul_plasma_alt"
+		"crystal_powder","cc_cube_recharger",
 		-- new components 
 		--"cc_refinery",
 	},
