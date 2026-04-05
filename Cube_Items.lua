@@ -160,18 +160,18 @@ data.items.ic_cube_green = {
 -- 	visual = "v_blight_plasma",
 -- 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1, phase_leaf = 20 }, { cc_manifest = 200, },1,{ic_cube_pink = 1}),
 -- }
-data.items.ic_cube_purple = {
-	name = "POSI-CUBE",
-	index = 1003,
-	desc = "THE CUBE IS CALM",
-	tag = "cube",
-	slot_type = "cube",
-	stack_size = 1,
-	race = "alien",
-	texture = "Main/textures/icons/items/blight_datacube.png",
-	visual = 'v_micropro', --"v_bot_ai_core", -- "v_simulation_data","v_blight_research_item"
-	production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1, ic_cube_blue =1 }, { cc_manifest = 200, }),
-}
+-- data.items.ic_cube_purple = {
+-- 	name = "POSI-CUBE",
+-- 	index = 1003,
+-- 	desc = "THE CUBE IS CALM",
+-- 	tag = "cube",
+-- 	slot_type = "cube",
+-- 	stack_size = 1,
+-- 	race = "alien",
+-- 	texture = "Main/textures/icons/items/blight_datacube.png",
+-- 	visual = 'v_micropro', --"v_bot_ai_core", -- "v_simulation_data","v_blight_research_item"
+-- 	production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1, ic_cube_blue =1 }, { cc_manifest = 200, }),
+-- }
 data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
 	index = 1004,
@@ -182,7 +182,7 @@ data.items.ic_cube_sphere = {
 	race = "alien",
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
 	visual = 'vc_cube_sphere_item', 
-	--production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1 }, { c_robotics_factory = 200, }),
+	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 100, ic_soul }, { c_robotics_factory = 200, }),
 }
 -- "v_hybrid_worker" for final production building 
 
@@ -298,7 +298,7 @@ data.items.ic_time_crystal = {
 }
 data.items.ldframe.name = "AntiGravity Frame"
 data.items.ldframe.desc = "A Contained AntiCube"
-data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, phase_leaf = 4,ic_cube_sphere = 1 }, { cc_manifest = 20 }, 1),
+data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, phase_leaf = 4,ic_cube_sphere = 1 }, { cc_manifest = 20 }, 1)
 
 -- data.items.ic_soul_crystal = {
 -- 	name = "Purified Crystal",
