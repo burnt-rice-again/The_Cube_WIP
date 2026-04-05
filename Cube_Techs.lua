@@ -128,7 +128,7 @@ data.techs.tc_cube_blue_1 = {
 	texture = data.items.ic_cube_blue.texture,
 	unlocks = {
 		-- new resources
-		"crystal_powder","cc_cube_recharger",
+		"crystal_powder","cc_cube_recharger","crystal_powder_alt","ic_soul_plasma_alt"
 		-- new components 
 		--"cc_refinery",
 	},
@@ -159,7 +159,7 @@ data.techs.tc_cube_blue_3 = {
 	texture = data.items.anomaly_particle.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_sphere","ic_cube_purple",
+		"ic_cube_sphere",
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
@@ -314,7 +314,7 @@ data.techs.tc_cube_anti_3= {
 	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1 }, 100),
 	category = "Cube_Obsession",
 }
-data.techs.tc_green_4 = {
+data.techs.tc_cube_green_4 = {
 	order = 3,
 	name = "Boost Speed",
 	desc = "",
@@ -323,12 +323,12 @@ data.techs.tc_green_4 = {
 		-- new resources
 		"engine","ic_fuel","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
 	},
-	require_tech = { "tc_green_3" },
+	require_tech = { "tc_cube_green_3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
 	category = "Cube_Obsession",
 }
-data.techs.tc_green_5 = {
+data.techs.tc_cube_green_5 = {
 	order = 3,
 	name = "Boost Speed",
 	desc = "Cortex Enrichment",
@@ -337,12 +337,12 @@ data.techs.tc_green_5 = {
 		-- new resources
 		"datakey_virus",
 	},
-	require_tech = { "tc_green_3" },
+	require_tech = { "tc_cube_green_4" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
 	category = "Cube_Obsession",
 }
-data.techs.tc_red_4 = { 
+data.techs.tc_cube_red_4 = { 
 	order = 1,
 	name = "Anti-Gravity Unit", 
 	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
@@ -351,12 +351,12 @@ data.techs.tc_red_4 = {
 		-- new resources
 		"fc_boost_tower",
 	},
-	require_tech = { "tc_red_3"},
+	require_tech = { "tc_cube_red_3"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
 	category = "Cube_Obsession",
 }
-data.techs.tc_red_5 = { 
+data.techs.tc_cube_red_5 = { 
 	order = 1,
 	name = "Chrono Field Towers", 
 	desc = "Towers Harnessing stabilized chrono crystal to create localized chronological fields",
@@ -365,7 +365,7 @@ data.techs.tc_red_5 = {
 		-- new resources
 		"ldframe",
 	},
-	require_tech = { "tc_red_4"},
+	require_tech = { "tc_cube_red_4"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
 	category = "Cube_Obsession",
@@ -418,7 +418,7 @@ data.techs.tc_robot_beacons1 = {
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, datakey_robot = 1 }, 50),
 	category = "Independance",
 }
-data.techs.tc_robot_beacons1 = {
+data.techs.tc_robot_beacons2 = {
 	order = 2,
 	name = "Beacons", -- recovered database etc.
 	desc = "",
@@ -607,7 +607,7 @@ data.techs.tc_network4 = {
 		-- new resources
 		"c_large_power_relay","c_large_battery","c_large_power_transmitter"
 	},
-	require_tech = { "tc_network3","tc_cube_green_discovery" },
+	require_tech = { "tc_network3","tc_cube_green_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, fused_electrodes = 1}, 50),
 	category = "tc_upgrades_1",
@@ -728,7 +728,7 @@ data.techs.tc_robot_signals1 = {
 		-- new resources
 		"c_radio_transmitter","c_radio_receiver" 
 	},
-	require_tech = { "tc_upgrades_basic", "tc_cube_green_discovery"},
+	require_tech = { "tc_upgrades_basic", "tc_cube_green_1"},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1}, 50),
 	category = "tc_upgrades_1",

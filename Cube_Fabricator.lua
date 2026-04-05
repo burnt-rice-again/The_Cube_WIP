@@ -242,18 +242,27 @@ function cc_cube_fabrication:on_update(comp, cause)
 
 	-- Get production ingredients
 	local ingredients = GetIngredients(production_recipe, blueprint_def)
-
+	
 	-- Prepare next production
 	local outputs = (not is_bot_production or (self.slots and self.slots[product_def.slot_type])) and { [reg1_id] = production_recipe.amount }
 	local order_count = (count + production_recipe.amount - 1) // production_recipe.amount
-	
+	print(outputs,"out")
+	--Replace Alternative Recipes 
+	for key, val in pairs(outputs) do
+		print(key,val)
+		if data.items[key].alt_item then 
+			outputs[data.items[key].alt_item] = val
+			outputs[key] = nil
+		end
+	end
+	print(outputs,"after")
+
 	--ADDITION
 	-- remove cube from output if it is in waste 
 	if production_recipe.byproduct then
 		check_waste_and_output(production_recipe, outputs)
 	end
 	---
-
 
 	local can_make, missing_register = comp:PrepareProduceProcess(ingredients, outputs, order_count)
 	if not can_make then

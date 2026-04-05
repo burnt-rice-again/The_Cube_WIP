@@ -245,18 +245,18 @@ data.items.ic_soul_angry = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_plasma = 50, ic_cube_red = 1 }, { cc_soul_refinery = 10 }, 1, {ic_cube_empty = 1}),
 }
-data.items.ic_living_metal = {
-	name = "Living Metal",
-	index = 1011,
-	race = "robot",
-	desc = "All Parts Are Equalally valuable",
-	tag = "hitech_material",
-	texture = "The_Cube_WIP/textures/mercury.png",
-	visual = "v_scaramar1",
-	slot_type = "storage",
-	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_plasma = 10, ic_cube_yellow = 1, ic_soul_happy = 1, reinforced_plate = 20 }, { cc_manifest = 60 }, 5, {ic_cube_yellow = 1}),
-}
+-- data.items.ic_living_metal = {
+-- 	name = "Living Metal",
+-- 	index = 1011,
+-- 	race = "robot",
+-- 	desc = "All Parts Are Equalally valuable",
+-- 	tag = "hitech_material",
+-- 	texture = "The_Cube_WIP/textures/mercury.png",
+-- 	visual = "v_scaramar1",
+-- 	slot_type = "storage",
+-- 	stack_size = 20,
+-- 	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_plasma = 10, ic_cube_yellow = 1, ic_soul_happy = 1, reinforced_plate = 20 }, { cc_manifest = 60 }, 5, {ic_cube_yellow = 1}),
+-- }
 data.items.ic_fuel = {
 	name = "Rocket Fuel",
 	index = 1020,
@@ -322,8 +322,20 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 --@ number amt to produce 
 --@ cube out 
 --@ custom texture file or nil to use id 
-local function create_alt_recipe(id,inputs,producers,amt,cube_out,texture)
-	local old_item = data.items[id]
-	local item = data.items[id.."_alt"]
-	item.production_recipe = CreateProductionRecipeWithWaste(inputs,producers,amt,cube_out)
+local function create_alt_recipe(id,recipe,overide_values)
+	print("Starting Alt Recipe")
+	local item = Tool.Copy(data.items[id])
+	item.production_recipe = recipe
+	item.alt_item = id
+	print(item)
+	for key, val in pairs(overide_values) do 
+		item[key] = val
+	end
+	print(item)
+	data.items[id.."_alt"] = item
 end
+create_alt_recipe("ic_soul_plasma", 
+	CreateProductionRecipeWithWaste({ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, {cc_manifest = 100},
+	20, {ic_cube_empty = 1}),
+	{desc = "Alternative Soul Plasma Extraction"}
+)
