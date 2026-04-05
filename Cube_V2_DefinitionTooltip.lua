@@ -205,14 +205,15 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 end
 
 local function ProductionBreakdownGraph(list, def_id, bp, ingredients, amount)
-	print('Prod Breakdown')
 	local function add_ingredient(id, num, lvl, parent, ingredients, amount, bp_components)
 		local vl = parent:Add("<VerticalList valign=bottom/>") 
-		if ingredients and ~def_id:find('ic_cube')  then -- ~def_id:find('ic_cube')
+		if ingredients  then -- ~def_id:find('ic_cube')
 			local hl = vl:Add("<HorizontalList halign=center valign=bottom child_padding=4/>")
 			for sub_id, sub_num in pairs(ingredients) do
-				local recipe = data.all[sub_id].production_recipe
-				add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1, hl, recipe and recipe.ingredients, recipe and recipe.amount)
+				if sub_id:find('ic_cube') == nil then 
+					local recipe = data.all[sub_id].production_recipe
+					add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1, hl, recipe and recipe.ingredients, recipe and recipe.amount)
+				end
 			end
 			if bp_components then
 				for i,v in ipairs(bp.components) do
@@ -234,7 +235,6 @@ local function ProductionBreakdownGraph(list, def_id, bp, ingredients, amount)
 end
 
 local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
-	print('Ing Breakdown')
 	local data_all, counts, durations, producers, levels, maxlevels = data.all, {}, {}, {}, {}, {}
 	local function add_ingredient(id, num, lvl, bp_components)
 		local def, ingredients, amount, defproducers, producer, ticks = data_all[id]
@@ -263,9 +263,11 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 
 		lvl = math.max(levels[id] or 0, lvl)
 		local maxlvl = lvl
-		if ingredients  then -- ~def_id:find('ic_cube')
+		if ingredients then -- ~def_id:find('ic_cube')
 			for sub_id, sub_num in pairs(ingredients) do
-				maxlvl = math.max(maxlvl, add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1))
+				if sub_id:find('ic_cube') == nil then
+					maxlvl = math.max(maxlvl, add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1))
+				end
 			end
 		end
 		if bp_components then
@@ -882,30 +884,28 @@ local function UpdateDefinitionTooltip(deftooltip)
 			end
 		end
 	end
-	--print("YYYYYYY")
-	mode = 'summed'
+	--mode = 'summed'
 	if mode == "summed" and ingredients and not have_locks then
 		-- Add summed up ingredient requirements and list how many producers are required to meet a constant production
 		list:Add("<Image height=2 color=ui_light margin=8/>")
 		list:Add('<Text text="Ingredient Requirements:" color=ui_light/>')
-		--IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
+		IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 	elseif mode == "all" and ingredients and not have_locks then
 		-- Add summed up ingredient requirements and list how many producers are required to meet a constant production
 		list:Add("<Image height=2 color=ui_light margin=8/>")
 
-		-- local prop = { onbtn = function(hl, btn)
-		-- 	return end 
-			-- local pop = UI.MenuPopup("<Box blur=true padding=10><VerticalList/></Box>", btn)
-			-- if not pop then return end
-			-- if btn.ir then
-				--IngredientRequirementsGraph(pop[1], def_id, bp, seen_unlocks)
-			-- else
-			-- 	--ProductionBreakdownGraph(pop[1], def_id, bp, ingredients, amount)
-			-- end
-		-- 	function pop:onclickreg(...) list:SendEvent("onclickpopreg", ...) end
-		-- end }
-		-- list:Add('<HorizontalList child_align=center child_padding=16><Text text="Ingredient Requirements:" color=ui_light min_width=200/><Button icon=icon_small_find text="Click for more details" height=32 on_click={onbtn} ir=true/></HorizontalList>', prop)
-		-- list:Add('<HorizontalList child_align=center child_padding=16><Text text="Production Breakdown:" color=ui_light min_width=200/><Button icon=icon_small_find text="Click for more details" height=32 on_click={onbtn}/></HorizontalList>', prop)
+		local prop = { onbtn = function(hl, btn)
+			local pop = UI.MenuPopup("<Box blur=true padding=10><VerticalList/></Box>", btn)
+			if not pop then return end
+			if btn.ir then
+				IngredientRequirementsGraph(pop[1], def_id, bp, seen_unlocks)
+			else
+				ProductionBreakdownGraph(pop[1], def_id, bp, ingredients, amount)
+			end
+			function pop:onclickreg(...) list:SendEvent("onclickpopreg", ...) end
+		end }
+		list:Add('<HorizontalList child_align=center child_padding=16><Text text="Ingredient Requirements:" color=ui_light min_width=200/><Button icon=icon_small_find text="Click for more details" height=32 on_click={onbtn} ir=true/></HorizontalList>', prop)
+		list:Add('<HorizontalList child_align=center child_padding=16><Text text="Production Breakdown:" color=ui_light min_width=200/><Button icon=icon_small_find text="Click for more details" height=32 on_click={onbtn}/></HorizontalList>', prop)
 	end
 end
 
@@ -968,40 +968,104 @@ DefinitionTooltip = function (def_or_id, options)
 end
 
 Input.RemoveActionBinding("SystemIndex")
+
 Input.BindAction("SystemIndex", "Released", OpenSystemIndex)
 
-local SystemIndex_layout<const> = [[
-	<Box bg=popup_box_bg padding=12 blur=true width=936 height=600>
-		<HorizontalList>
-			<Canvas id=listbox width=368 margin_right=8 clip=true>
-				<TextSearch id=search halign=fill on_refresh={on_search}/>
-				<ScrollList id=defs dock=fill margin_top=40/>
-			</Canvas>
-			<VerticalList fill=true child_padding=8>
-				<ScrollList id=details fill=true/>
-				<HorizontalList id=buttons child_padding=8 height=32>
-					<Button id=backbtn icon=icon_previous tooltip="Back" on_click={back} height=32 hidden=true/>
-					<Button id=forwardbtn icon=icon_next tooltip="Forward" on_click={forward} height=32 hidden=true/>
-					<Spacer fill=true/>
-					<Button id=selecbtn icon=icon50_Library text="Object List" on_click={showlist} height=32 hidden=true/>
-					<Button id=factionbtn icon=icon50_Faction text="Control Center" on_click={gofaction} height=32 hidden=true/>
-					<Button id=techbtn icon=icon50_Tech text="Research" on_click={gotech} height=32 hidden=true/>
-					<Button id=closebtn icon=icon_deny text="Close" on_click={close} height=32 hidden=true/>
-				</HorizontalList>
-			</VerticalList>
-		</HorizontalList>
-	</Box>
-]]
+local SystemIndex_2 = UI.GetRegisteredLayoutClass("SystemIndex")
+SystemIndex_2.on_item_tooltip = function(itemw)
+	return BuildDefinitionTooltip(itemw.def)
+end
 
-local SystemIndexItem_layout<const> =
-[[
-	<Box width=56 height=56 bg=item_default on_click={on_item_click} tooltip={on_item_tooltip}>
-		<Canvas child_fill=true>
-			<Image image={racebg} hide_no_image=true margin=2/>
-			<Image image={icon} id=iconimg color="#D0" margin=3/>
-		</Canvas>
-	</Box>
-]]
+
+
+UI.Register("SystemIndex_2",UI.GetRegisteredLayoutString("SystemIndex"),SystemIndex_2)
+
+local ResourceBar = UI.GetRegisteredLayoutClass("ResourceBar")
+ResourceBar.on_click_systemindex = function(btn)
+	OpenSystemIndex()
+end
+
+SystemIndex_2.selectid = function(self, id, go_back, go_forward)
+	local scrollpos, lastid = 0, self.lastid
+	if lastid then
+		if lastid == id then return end
+		local history, historypos = self.history, self.historypos
+		if not history then history, historypos = { }, 1 self.history = history end
+		history[historypos], history[historypos+1] = lastid, self.details:GetScrollOffset()
+		if go_back or go_forward then
+			historypos = historypos + (go_forward and 2 or -2)
+			id, scrollpos = history[historypos], history[historypos+1]
+		else
+			local clear = #history - (historypos+1)
+			if clear > 0 then table.move(history, #history+1, #history+1+clear, historypos+2) end
+			historypos = historypos + 2
+			self.backbtn.hidden = false
+			self.forwardbtn.hidden = false
+		end
+		self.historypos = historypos
+		self.backbtn.disabled = historypos == 1
+		self.forwardbtn.disabled = not go_back and (not go_forward or (historypos+1) == #history)
+	end
+	self.lastid = id
+	local def = data.all[id]
+	if not def then return end
+	local options = self.options
+	local defspacer = self.details:SetContent("<Spacer><VerticalList id=list onclickpopreg={onclickpopreg} child_padding=4/></Spacer>", {
+		def = def,
+		mode = "all",
+		options = options and (self.backbtn.hidden or self.backbtn.disabled) and options,
+	})
+	UpdateDefinitionTooltip(defspacer)
+	self.details:SetScrollOffset(scrollpos)
+	local data_name = def.data_name
+	local itemorframe = (data_name == "items" or data_name == "frames" or data_name == "components")
+	local islocked = itemorframe and Game.GetLocalPlayerFaction():IsUnlocked(id)
+	self.factionbtn.hidden = not itemorframe or not islocked
+	self.techbtn.hidden = not itemorframe or islocked
+	self.closebtn.hidden = false
+
+	if not self.listbox.hidden then
+		if self.listbox.width ~= 368 then
+			self.listbox.width = 368
+			for _,w in ipairs(self.defs) do w.width = 368 end
+		end
+		self:sethighlight(id)
+	end
+end
+
+
+-- local SystemIndex_layout<const> = [[
+-- 	<Box bg=popup_box_bg padding=12 blur=true width=936 height=600>
+-- 		<HorizontalList>
+-- 			<Canvas id=listbox width=368 margin_right=8 clip=true>
+-- 				<TextSearch id=search halign=fill on_refresh={on_search}/>
+-- 				<ScrollList id=defs dock=fill margin_top=40/>
+-- 			</Canvas>
+-- 			<VerticalList fill=true child_padding=8>
+-- 				<ScrollList id=details fill=true/>
+-- 				<HorizontalList id=buttons child_padding=8 height=32>
+-- 					<Button id=backbtn icon=icon_previous tooltip="Back" on_click={back} height=32 hidden=true/>
+-- 					<Button id=forwardbtn icon=icon_next tooltip="Forward" on_click={forward} height=32 hidden=true/>
+-- 					<Spacer fill=true/>
+-- 					<Button id=selecbtn icon=icon50_Library text="Object List" on_click={showlist} height=32 hidden=true/>
+-- 					<Button id=factionbtn icon=icon50_Faction text="Control Center" on_click={gofaction} height=32 hidden=true/>
+-- 					<Button id=techbtn icon=icon50_Tech text="Research" on_click={gotech} height=32 hidden=true/>
+-- 					<Button id=closebtn icon=icon_deny text="Close" on_click={close} height=32 hidden=true/>
+-- 				</HorizontalList>
+-- 			</VerticalList>
+-- 		</HorizontalList>
+-- 	</Box>
+-- ]]
+
+-- local SystemIndexItem_layout<const> =
+-- [[
+-- 	<Box width=56 height=56 bg=item_default on_click={on_item_click} tooltip={on_item_tooltip}>
+-- 		<Canvas child_fill=true>
+-- 			<Image image={racebg} hide_no_image=true margin=2/>
+-- 			<Image image={icon} id=iconimg color="#D0" margin=3/>
+-- 		</Canvas>
+-- 	</Box>
+-- ]]
 
 
 
