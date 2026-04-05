@@ -13,7 +13,7 @@ data.items.crystal_powder.production_recipe = CreateProductionRecipeWithWaste({i
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 
 -- Red Cube 
-data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, steelblock = 100, crystal_powder = 10  }, {cc_red_furnace = 100}, 80, {ic_cube_empty = 1})
+data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, steelblock = 100, crystal_powder = 10  }, {cc_manifest = 100}, 50, {ic_cube_empty = 1})
 --data.items.steelblock.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, metalore = 100, fused_electrodes = 10  }, {cc_red_furnace = 100}, 80, {ic_cube_empty = 1})
 data.items.blight_plasma.name = "Purified Crystal"
 data.items.blight_plasma.desc = "The leavings from a Soul Distillery\nThe rest has been melted away"
@@ -311,3 +311,19 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 -- 	stack_size = 20,
 -- 	production_recipe = CreateProductionRecipe({ ic_souls = 1 }, { cc_soul_refinery = 30 }, 10),
 -- }
+
+
+-- alternative  recpeis.
+-- must use cube
+-- resulting cube is immediatly swapped out by pedestal for the real item 
+-- texture will be of the produced items
+--@ string id of item 
+--@ dict keys = inputs and amt is value 
+--@ number amt to produce 
+--@ cube out 
+--@ custom texture file or nil to use id 
+local function create_alt_recipe(id,inputs,producers,amt,cube_out,texture)
+	local old_item = data.items[id]
+	local item = data.items[id.."_alt"]
+	item.production_recipe = CreateProductionRecipeWithWaste(inputs,producers,amt,cube_out)
+end

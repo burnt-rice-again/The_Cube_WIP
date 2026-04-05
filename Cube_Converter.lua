@@ -285,7 +285,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 cc_scrap_converter:RegisterComponent("cc_red_cube_refinery", {
 	name = "Mantle Tear",
 	texture = "Main/textures/icons/alien/alienbuilding_alienheart.png",
-	desc = "Refined Sadness petrified into a moment of anguish",
+	desc = "Refined Sadness petrified into a moment of anguish\n\nProvides Alternative Crafting recipes ",
 	attachment_size = "Large",
 	visual = "v_explorable_blightanomaly_01",
 	--power = -500,
@@ -344,6 +344,12 @@ cc_scrap_converter:RegisterComponent("cc_cube_splitter", {
 		t = 300, 
 		to = {ic_cube_sphere = 1},
 		cube_out = "ic_cube_empty",
+		},
+		{ 	id = "datakey_robot", 
+		amt = {["ic_cube_empty"] = 1, ic_soul_happy = 10} , 
+		t = 300, 
+		to = {datakey_robot = 100},
+		cube_out = "ic_cube_blue",
 		},
 		-- some hidden recipes 
 
