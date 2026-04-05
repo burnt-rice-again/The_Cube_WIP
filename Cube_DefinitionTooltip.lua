@@ -1,41 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local old_SystemIndex = UI.GetRegisteredLayoutClass("SystemIndex")
-
-if not old_SystemIndex then
-  error("Couldn't override Program — registered class not found")
-  return
-end
-
--- if not type(old_SystemIndex.on_filter) == "function" then
---   error("Couldn't override Program:on_filter — not a function")
---   return
--- end
-
--- if not type(old_SystemIndex.construct) == "construct" then
---   error("Couldn't override Program:construct — not a function")
---   return
--- end
-
-
-
-
-
----------------------
-
 local reserve_labels<const> = {
 	["StackForTransfer"]      = "reserved for outgoing order",
 	["StackForCarry"]         = "reserved for delivery",
@@ -216,7 +178,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if mod_boost > 0 or faction_boost > 0 then
 				if AddStat("icon_tiny_speed", string.format("%d%% <gl>(%d%%)</>", 100 + base_boost, 100 + base_boost + mod_boost + faction_boost), "Component Efficiency") then goto full end
 			else
-				if AddStat("icon_tiny_speed", string.format("%d%%", 100 + base_boost), "Component Efficiency") then goto full end
+				if AddStat("icon_tiny_speed", string.format("<gl>%d%%</>", 100 + base_boost), "Component Efficiency") then goto full end
 			end
 		end
 		if def.power and def.power > 0 then
@@ -244,18 +206,14 @@ end
 
 local function ProductionBreakdownGraph(list, def_id, bp, ingredients, amount)
 	local function add_ingredient(id, num, lvl, parent, ingredients, amount, bp_components)
-		local vl = parent:Add("<VerticalList valign=bottom/>")
-		-- MY MODIFICATION IN THE NEXT LINE
-		print(def_id)
-		if lvl > 10 then 
-			print("MAX LEVEL")
-			return 
-		end
-		if ingredients and data.items[def_id].tag ~= 'cube' then
+		local vl = parent:Add("<VerticalList valign=bottom/>") 
+		if ingredients  then -- ~def_id:find('ic_cube')
 			local hl = vl:Add("<HorizontalList halign=center valign=bottom child_padding=4/>")
 			for sub_id, sub_num in pairs(ingredients) do
-				local recipe = data.all[sub_id].production_recipe
-				add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1, hl, recipe and recipe.ingredients, recipe and recipe.amount)
+				if sub_id:find('ic_cube') == nil then 
+					local recipe = data.all[sub_id].production_recipe
+					add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1, hl, recipe and recipe.ingredients, recipe and recipe.amount)
+				end
 			end
 			if bp_components then
 				for i,v in ipairs(bp.components) do
@@ -286,14 +244,7 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 		elseif def.uplink_recipe       then ingredients, producer, ticks = def.uplink_recipe.ingredients, "c_uplink", def.uplink_recipe.ticks
 		else return lvl end
 
-		print(def)
-		-- CUBE MODIFICATION HERE 
-		if data.items[def].tag == "cube" then 
-			return
-		end 
-
-		----
-
+		if def_id:find('ic_cube')then return lvl end 
 
 		if defproducers then
 			local seenpid, anypid, seenticks, anyticks
@@ -312,9 +263,11 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 
 		lvl = math.max(levels[id] or 0, lvl)
 		local maxlvl = lvl
-		if ingredients then
+		if ingredients then -- ~def_id:find('ic_cube')
 			for sub_id, sub_num in pairs(ingredients) do
-				maxlvl = math.max(maxlvl, add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1))
+				if sub_id:find('ic_cube') == nil then
+					maxlvl = math.max(maxlvl, add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1))
+				end
 			end
 		end
 		if bp_components then
@@ -365,10 +318,11 @@ local function ShowProducers(list, options, faction, seen_unlocks, producer_txt,
 			local producer_def = data.all[producer_id]
 			if comp_boost and comp_boost ~= 100 then
 				local tick_boost = ((ticks * 100 + comp_boost - 1) // comp_boost) / TICKS_PER_SECOND
+				local boost_color = comp_boost > 100 and "gl" or "rl"
 				list:Add("<HorizontalList child_align=center child_padding=10><Reg bg=card_box_bg def={def} on_click={onclickreg}/><Text size=12 text={txt}/></HorizontalList>", {
 					def = producer_def,
 					txt = show_per_minute
-						and L("<bl>%s</>\n<gl>%.1f</>/min (<hl>%.1fs</>→<gl>%.1fs</>)", (producer_def.name or "Unknown"), (amount or 1)*60.0/tick_boost, ttime, tick_boost)
+						and L("<bl>%s</>\n<%s>%.1f</>/min (<hl>%.1fs</>→<%s>%.1fs</>)", (producer_def.name or "Unknown"), boost_color, (amount or 1)*60.0/tick_boost, ttime, boost_color, tick_boost)
 						or L("<bl>%s</>\n<hl>%.1fs</> (<gl>%.1fs</>)", (producer_def.name or "Unknown"), ttime, tick_boost)
 				})
 			else
@@ -406,6 +360,11 @@ local function ShowIngredients(list, seen_unlocks, ingredients, def, amount, bp)
 	end
 	ingredient_list:Add("<Image image=icon_small_arrow/>")
 	ingredient_list:Add("<Reg bg=item_default on_click={onclickreg}/>", { def = def, num = (amount or 1) })
+	-- show byproducts
+	if def.production_recipe and def.production_recipe.byproduct then 
+		for id, num in pairs(def.production_recipe.byproduct) do have_locks = ShowIngredient(ingredient_list, seen_unlocks, id, num) or have_locks end
+	end
+	
 	return have_locks
 end
 
@@ -477,6 +436,7 @@ end
 
 local function UpdateDefinitionTooltip(deftooltip)
 	local mode = deftooltip.mode
+	
 	if mode == "all" then
 		deftooltip.every_frame_update = nil
 	else
@@ -767,33 +727,52 @@ local function UpdateDefinitionTooltip(deftooltip)
 		end
 	end
 
-	local can_alt = (ingredients and not have_locks)
-	if not can_alt and mode == "summed" then mode = false end
-	local show_no_stats = (mode == "summed")
-	local show_sockets_and_slots = (not entity or entity.is_construction)
+	-- Add frame socket and inventory slot stats
+	local show_sockets_and_slots = (not entity or entity.is_construction) and is_seen
 	local show_sockets = show_sockets_and_slots and visual_def and visual_def.sockets
 	local show_slots = show_sockets_and_slots and def.slots
-	if show_all_stats then
-		-- Add frame socket and inventory slot stats
+	if show_sockets or show_slots then
+		list:Add("<Image height=2 color=ui_light margin=8/>")
+		local wrap = list:Add('<Wrap halign=center wrapsize=320 child_padding=8/>')
 		if show_sockets then
-			list:Add("<Image height=2 color=ui_light margin=8/>")
-			local socklist = list:Add('<HorizontalList halign=center margin_top=8 child_align=center/>')
 			for i,sz in ipairs(socket_sizes) do
 				local n = 0
 				for _,v in ipairs(show_sockets) do if v[2] == sz then n = n + 1 end end
 				if n > 0 then
-					socklist:Add("<Image margin_left=4 margin_right=3 width=32 height=32 color=ui_light/>").image = socket_icons[i]
-					socklist:Add("<Text margin_right=4/>").text = string.format("×%d", n)
+					local hl = wrap:Add([[<HorizontalList child_align=center child_padding=3>
+							<Image width=32 height=32 color=ui_light/>
+							<Text/>
+						</HorizontalList>]])
+					hl.order = #wrap
+					hl.tooltip = L("%s Socket", sz)
+					hl[1].image = socket_icons[i]
+					hl[2].text = string.format("×%d", n)
 				end
 			end
 		end
 		if show_slots then
-			for k,v in pairs(def.slots) do
-				list:Add(stat_layout, { icon = "icon_tiny_inventory", value = tostring(v), name = k:gsub("^%l", string.upper) })
+			local order_add = #wrap + 1
+			for k,v in pairs(show_slots) do
+				local hl = wrap:Add([[<HorizontalList child_align=center child_padding=3>
+						<Canvas>
+							<Image width=32 height=32 image=item_default/>
+							<Image width=32 height=32 image={icon} color="#B6EEFC"/>
+							<Image width=32 height=32 image={icon} color="ui_light" x=1/>
+						</Canvas>
+						<Text/>
+					</HorizontalList>]])
+				hl.order = order_add + (data.item_slot_order[k] or 999)
+				hl.tooltip = L("%s\n%s: %s", "Item Slots", "Type", k)
+				hl.icon = data.item_slot_icons[k] or "icon_inventory"
+				hl[2].text = string.format("×%d", v)
 			end
 		end
+		wrap:SortChildren(function(a,b) return a.order < b.order end)
 	end
 
+	local can_alt = (ingredients and not have_locks)
+	if not can_alt and mode == "summed" then mode = false end
+	local show_no_stats = (mode == "summed")
 	local remain_stat_lines = (show_all_stats and 10002) or (show_no_stats and -1) or 3
 	remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_MAIN', def, options and comp, entity, faction)
 
@@ -822,9 +801,13 @@ local function UpdateDefinitionTooltip(deftooltip)
 	if remain_stat_lines >= 0 and additional_stats then
 		remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_ADDITIONAL', additional_stats, nil, nil, faction)
 	elseif remain_stat_lines >= 0 and def.components then
+		local hidden_count = 1
 		for i,v in ipairs(def.components) do
 			local comp_def = data.all[v[1]]
-			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, nil, entity, faction) or remain_stat_lines
+			local stat_comp = entity and entity:GetHiddenComponent(hidden_count)
+			stat_comp = stat_comp and stat_comp.id == v[1] and stat_comp
+			if stat_comp then hidden_count = hidden_count + 1 end
+			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, stat_comp, entity, faction) or remain_stat_lines
 			if remain_stat_lines < 0 then break end
 		end
 	end
@@ -833,7 +816,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 		list:Add('<Text text="・ ・ ・ ・ ・" color=light_gray size=8 textalign=center/>')
 	end
 
-	local can_shift = (remain_stat_lines < 0 or show_sockets or show_slots or (show_all_stats and remain_stat_lines < 10000) or producer_lists > 1)
+	local can_shift = (remain_stat_lines < 0 or (show_all_stats and remain_stat_lines < 10000) or producer_lists > 1)
 	if not can_shift and mode == "stats" then mode = nil end
 
 	if not mode then
@@ -901,7 +884,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 			end
 		end
 	end
-
+	--mode = 'summed'
 	if mode == "summed" and ingredients and not have_locks then
 		-- Add summed up ingredient requirements and list how many producers are required to meet a constant production
 		list:Add("<Image height=2 color=ui_light margin=8/>")
@@ -926,15 +909,40 @@ local function UpdateDefinitionTooltip(deftooltip)
 	end
 end
 
+local tooltip_window, system_index
 
-local function DefinitionTooltipMouseButtonDown(w, mousebtn) -- tooltip mouse handler must specifically return true if handled
-	if mousebtn == "MIDDLEMOUSEBUTTON" and tooltip_window and not tooltip_window.hidden then OpenSystemIndex() return true end
+OpenSystemIndex = function()
+	local id = tooltip_window and tooltip_window.def.id
+	if type(id) ~= "string" then id = tooltip_window and tooltip_window.def.frame end -- library items have numerical ids
+	if not system_index then
+		local x, y, w, h
+		if id then x, y, w, h = tooltip_window:GetViewportPosition() end
+		UI.MenuPopup("SystemIndex", { id = id, animw = w, animh = h, options = id and tooltip_window.options }, (w and "TOOLTIP" or "SCREEN"))
+	elseif id then
+		system_index:selectid(id)
+	elseif system_index.listbox.hidden then
+		system_index:showlist()
+	end
+
+	-- If the mouse is still triggering the definition tooltip, hide it until it is opened the next time
+	if id then
+		UI.RefreshTooltip()
+		if tooltip_window then tooltip_window.hidden = true tooltip_window = nil end
+	end
 end
 
--- Creates the tooltip widget for any id or definition
-local function BuildDefinitionTooltip(def_or_id, options)
+local function DefinitionTooltipMouseButtonDown(w, mousebtn) -- tooltip mouse handler must specifically return true if handled
+	--if mousebtn == "MIDDLEMOUSEBUTTON" and tooltip_window and not tooltip_window.hidden then OpenSystemIndex() return true end
+	-- replace with false?
+	if mousebtn == "MIDDLEMOUSEBUTTON" and tooltip_window and not tooltip_window.hidden then OpenSystemIndex() return true end
+
+end
+
+
+BuildDefinitionTooltip = function(def_or_id, options)
 	local def = type(def_or_id) ~= "string" and def_or_id or data.all[def_or_id]
 	if not def then return end
+	--print("Build Definition New")
 	return UI.New("<Box bg=popup_box_bg padding=12 blur=true><VerticalList id=list child_padding=4/></Box>", {
 		def = def,
 		options = options,
@@ -951,85 +959,33 @@ local function BuildDefinitionTooltip(def_or_id, options)
 	})
 end
 
+
 data.tooltip_definition = BuildDefinitionTooltip
 
 -- Return a function that creates a tooltip for any id or definition
-function DefinitionTooltip(def_or_id, options)
+DefinitionTooltip = function (def_or_id, options)
 	return function() return BuildDefinitionTooltip(def_or_id, options) end
 end
 
+Input.RemoveActionBinding("SystemIndex")
+
 Input.BindAction("SystemIndex", "Released", OpenSystemIndex)
 
-local SystemIndex_layout<const> = [[
-	<Box bg=popup_box_bg padding=12 blur=true width=936 height=600>
-		<HorizontalList>
-			<Canvas id=listbox width=368 margin_right=8 clip=true>
-				<TextSearch id=search halign=fill on_refresh={on_search}/>
-				<ScrollList id=defs dock=fill margin_top=40/>
-			</Canvas>
-			<VerticalList fill=true child_padding=8>
-				<ScrollList id=details fill=true/>
-				<HorizontalList id=buttons child_padding=8 height=32>
-					<Button id=backbtn icon=icon_previous tooltip="Back" on_click={back} height=32 hidden=true/>
-					<Button id=forwardbtn icon=icon_next tooltip="Forward" on_click={forward} height=32 hidden=true/>
-					<Spacer fill=true/>
-					<Button id=selecbtn icon=icon50_Library text="Object List" on_click={showlist} height=32 hidden=true/>
-					<Button id=factionbtn icon=icon50_Faction text="Control Center" on_click={gofaction} height=32 hidden=true/>
-					<Button id=techbtn icon=icon50_Tech text="Research" on_click={gotech} height=32 hidden=true/>
-					<Button id=closebtn icon=icon_deny text="Close" on_click={close} height=32 hidden=true/>
-				</HorizontalList>
-			</VerticalList>
-		</HorizontalList>
-	</Box>
-]]
-
-local SystemIndexItem_layout<const> =
-[[
-	<Box width=56 height=56 bg=item_default on_click={on_item_click} tooltip={on_item_tooltip}>
-		<Canvas child_fill=true>
-			<Image image={racebg} hide_no_image=true margin=2/>
-			<Image image={icon} id=iconimg color="#D0" margin=3/>
-		</Canvas>
-	</Box>
-]]
-
-local SystemIndex = {}
-
-UI.SetRegisteredLayoutClass("SystemIndex", SystemIndex_layout, SystemIndex)
-
-function SystemIndex:construct()
-	system_index = self
-	if self.animw then
-		self.listbox.hidden = true
-		self:TweenFromTo("width", self.animw, math.max(self.animw, 600), 250)
-		self:TweenFromTo("height", self.animh, math.max(self.animh + 40, 600), 250)
-		self.buttons:TweenFromTo("height", 0, 32, 250)
-		self.selecbtn.hidden = false
-	end
-	if self.id then
-		self:selectid(self.id)
-	else
-		self:refreshlist()
-		self.search:Focus()
-		self.listbox.width = 912
-		for _,w in ipairs(self.defs) do w.width = 912 end
-	end
+local SystemIndex_2 = UI.GetRegisteredLayoutClass("SystemIndex")
+SystemIndex_2.on_item_tooltip = function(itemw)
+	return BuildDefinitionTooltip(itemw.def)
 end
 
-function SystemIndex:destruct()
-	system_index = nil
+
+
+UI.Register("SystemIndex_2",UI.GetRegisteredLayoutString("SystemIndex"),SystemIndex_2)
+
+local ResourceBar = UI.GetRegisteredLayoutClass("ResourceBar")
+ResourceBar.on_click_systemindex = function(btn)
+	OpenSystemIndex()
 end
 
-function SystemIndex:showlist()
-	self:refreshlist()
-	self.selecbtn.hidden = true
-	self.listbox.hidden = false
-	self.listbox:TweenFromTo("width", 0, 368, 250)
-	self.listbox:TweenFromTo("margin_right", 0, 8, 250)
-	self:TweenFromTo("width", 600, 936, 250)
-end
-
-function SystemIndex:selectid(id, go_back, go_forward)
+SystemIndex_2.selectid = function(self, id, go_back, go_forward)
 	local scrollpos, lastid = 0, self.lastid
 	if lastid then
 		if lastid == id then return end
@@ -1077,85 +1033,226 @@ function SystemIndex:selectid(id, go_back, go_forward)
 	end
 end
 
-function SystemIndex:back() self:selectid(nil, true) end
-function SystemIndex:forward() self:selectid(nil, nil, true) end
 
-function SystemIndex:sethighlight(id)
-	local last_reg, reg = self.last_reg, self.regs[id]
-	if last_reg then
-		last_reg.bg, last_reg.iconimg.margin, last_reg.iconimg.color = "item_default", 3, "#D0"
-	end
-	if reg then
-		reg.bg, reg.iconimg.margin, reg.iconimg.color = "item_active", 0, "#FF"
-		self.defs:ScrollIntoView(reg)
-	end
-	self.last_reg = reg
-end
+-- local SystemIndex_layout<const> = [[
+-- 	<Box bg=popup_box_bg padding=12 blur=true width=936 height=600>
+-- 		<HorizontalList>
+-- 			<Canvas id=listbox width=368 margin_right=8 clip=true>
+-- 				<TextSearch id=search halign=fill on_refresh={on_search}/>
+-- 				<ScrollList id=defs dock=fill margin_top=40/>
+-- 			</Canvas>
+-- 			<VerticalList fill=true child_padding=8>
+-- 				<ScrollList id=details fill=true/>
+-- 				<HorizontalList id=buttons child_padding=8 height=32>
+-- 					<Button id=backbtn icon=icon_previous tooltip="Back" on_click={back} height=32 hidden=true/>
+-- 					<Button id=forwardbtn icon=icon_next tooltip="Forward" on_click={forward} height=32 hidden=true/>
+-- 					<Spacer fill=true/>
+-- 					<Button id=selecbtn icon=icon50_Library text="Object List" on_click={showlist} height=32 hidden=true/>
+-- 					<Button id=factionbtn icon=icon50_Faction text="Control Center" on_click={gofaction} height=32 hidden=true/>
+-- 					<Button id=techbtn icon=icon50_Tech text="Research" on_click={gotech} height=32 hidden=true/>
+-- 					<Button id=closebtn icon=icon_deny text="Close" on_click={close} height=32 hidden=true/>
+-- 				</HorizontalList>
+-- 			</VerticalList>
+-- 		</HorizontalList>
+-- 	</Box>
+-- ]]
 
-function SystemIndex:refreshlist(filter)
-	if filter == "" then filter = nil end
-	local ContainsStringNoCase = filter and Tool.ContainsStringNoCase
-	local list, regs, lastcat, catwrap = self.defs, {}
-	local RaceTagOrder = data.RaceTagOrder
-	self.regs, self.last_reg = regs, nil
-	list:Clear()
-	ProcessUnlockedDefinitions(function(id, def, category)
-		local found = not filter or ContainsStringNoCase(L(def.name or ""), filter) -- filter by text
-		if not found then return end
-		if lastcat ~= category then
-			lastcat = category
-			list:Add("<Text height=24/>").text = category.name
-			catwrap = list:Add("<Wrap child_padding=4 width=368/>")
-		end
-		regs[def.id] = catwrap:Add(SystemIndexItem_layout, {
-			def_id = def.id, def = def, icon = def.texture,
-			racebg = def.race and GetComponentRaceBG(def.race),
-			sortkey = string.format("%03d%s", RaceTagOrder[def.race or def.tag] or 999, id)
-		})
-	end, nil, nil, nil, true)
-	for _,w in ipairs(list) do
-		if not w.text then w:SortChildren(function(a, b) return a.sortkey < b.sortkey end) end
-	end
-	self:sethighlight(self.lastid)
-end
-
-function SystemIndex:on_search(w, txt)
-	self:refreshlist(txt)
-end
-
-function SystemIndex:close()
-	UI.CloseMenuPopup(self)
-end
-
-function SystemIndex:on_item_click(itemw)
-	self:selectid(itemw.def_id)
-end
-
-function SystemIndex:on_item_tooltip(itemw)
-	return BuildDefinitionTooltip(itemw.def)
-end
-
-function SystemIndex:gofaction()
-	local id = self.lastid
-	local is_frame = (data.all[id].data_name == "frames")
-	UI.CloseMenuPopup()
-	OpenMainWindow("Faction", { show_item_id = not is_frame and id or nil, show_frame_id = is_frame and id or nil }, false, true) -- pass no_close so it can be used even in tech tree or behavior editor
-end
-
-function SystemIndex:gotech()
-	local id = self.lastid
-	UI.CloseMenuPopup()
-	OpenMainWindow("Tech", { param = id })
-end
-
-function SystemIndex:onclickreg(reg, mousebutton, set_id)
-	local id = set_id or reg.def_id or (reg.def and reg.def.id)
-	if id then self:selectid(id) end
-end
-
-function SystemIndex:onclickpopreg(defspacer, list, reg, mousebutton, set_id)
-	self:onclickreg(reg, mousebutton, set_id)
-end
+-- local SystemIndexItem_layout<const> =
+-- [[
+-- 	<Box width=56 height=56 bg=item_default on_click={on_item_click} tooltip={on_item_tooltip}>
+-- 		<Canvas child_fill=true>
+-- 			<Image image={racebg} hide_no_image=true margin=2/>
+-- 			<Image image={icon} id=iconimg color="#D0" margin=3/>
+-- 		</Canvas>
+-- 	</Box>
+-- ]]
 
 
-print("Override Definitoion ToolTip successful")
+
+-- local SystemIndex = UI.GetRegisteredLayoutClass("SystemIndex")
+
+-- print(SystemIndex)
+
+-- SystemIndex.on_item_tooltip = function(itemw) return BuildDefinitionTooltip_local(itemw.def) end
+
+-- print(SystemIndex)
+
+-- UI.SetRegisteredLayoutClass("SystemIndex", SystemIndex)
+
+----------------------------
+
+-- local SystemIndex = {}
+
+-- function SystemIndex:construct()
+-- 	system_index = self
+-- 	if self.animw then
+-- 		self.listbox.hidden = true
+-- 		self:TweenFromTo("width", self.animw, math.max(self.animw, 600), 250)
+-- 		self:TweenFromTo("height", self.animh, math.max(self.animh + 40, 600), 250)
+-- 		self.buttons:TweenFromTo("height", 0, 32, 250)
+-- 		self.selecbtn.hidden = false
+-- 	end
+-- 	if self.id then
+-- 		self:selectid(self.id)
+-- 	else
+-- 		self:refreshlist()
+-- 		self.search:Focus()
+-- 		self.listbox.width = 912
+-- 		for _,w in ipairs(self.defs) do w.width = 912 end
+-- 	end
+-- end
+
+-- function SystemIndex:destruct()
+-- 	system_index = nil
+-- end
+
+-- function SystemIndex:showlist()
+-- 	self:refreshlist()
+-- 	self.selecbtn.hidden = true
+-- 	self.listbox.hidden = false
+-- 	self.listbox:TweenFromTo("width", 0, 368, 250)
+-- 	self.listbox:TweenFromTo("margin_right", 0, 8, 250)
+-- 	self:TweenFromTo("width", 600, 936, 250)
+-- end
+
+-- function SystemIndex:selectid(id, go_back, go_forward)
+-- 	local scrollpos, lastid = 0, self.lastid
+-- 	if lastid then
+-- 		if lastid == id then return end
+-- 		local history, historypos = self.history, self.historypos
+-- 		if not history then history, historypos = { }, 1 self.history = history end
+-- 		history[historypos], history[historypos+1] = lastid, self.details:GetScrollOffset()
+-- 		if go_back or go_forward then
+-- 			historypos = historypos + (go_forward and 2 or -2)
+-- 			id, scrollpos = history[historypos], history[historypos+1]
+-- 		else
+-- 			local clear = #history - (historypos+1)
+-- 			if clear > 0 then table.move(history, #history+1, #history+1+clear, historypos+2) end
+-- 			historypos = historypos + 2
+-- 			self.backbtn.hidden = false
+-- 			self.forwardbtn.hidden = false
+-- 		end
+-- 		self.historypos = historypos
+-- 		self.backbtn.disabled = historypos == 1
+-- 		self.forwardbtn.disabled = not go_back and (not go_forward or (historypos+1) == #history)
+-- 	end
+-- 	self.lastid = id
+-- 	local def = data.all[id]
+-- 	if not def then return end
+-- 	local options = self.options
+-- 	local defspacer = self.details:SetContent("<Spacer><VerticalList id=list onclickpopreg={onclickpopreg} child_padding=4/></Spacer>", {
+-- 		def = def,
+-- 		mode = "all",
+-- 		options = options and (self.backbtn.hidden or self.backbtn.disabled) and options,
+-- 	})
+-- 	UpdateDefinitionTooltip(defspacer)
+-- 	self.details:SetScrollOffset(scrollpos)
+-- 	local data_name = def.data_name
+-- 	local itemorframe = (data_name == "items" or data_name == "frames" or data_name == "components")
+-- 	local islocked = itemorframe and Game.GetLocalPlayerFaction():IsUnlocked(id)
+-- 	self.factionbtn.hidden = not itemorframe or not islocked
+-- 	self.techbtn.hidden = not itemorframe or islocked
+-- 	self.closebtn.hidden = false
+
+-- 	if not self.listbox.hidden then
+-- 		if self.listbox.width ~= 368 then
+-- 			self.listbox.width = 368
+-- 			for _,w in ipairs(self.defs) do w.width = 368 end
+-- 		end
+-- 		self:sethighlight(id)
+-- 	end
+-- end
+
+-- function SystemIndex:back() self:selectid(nil, true) end
+-- function SystemIndex:forward() self:selectid(nil, nil, true) end
+
+-- function SystemIndex:sethighlight(id)
+-- 	local last_reg, reg = self.last_reg, self.regs[id]
+-- 	if last_reg then
+-- 		last_reg.bg, last_reg.iconimg.margin, last_reg.iconimg.color = "item_default", 3, "#D0"
+-- 	end
+-- 	if reg then
+-- 		reg.bg, reg.iconimg.margin, reg.iconimg.color = "item_active", 0, "#FF"
+-- 		self.defs:ScrollIntoView(reg)
+-- 	end
+-- 	self.last_reg = reg
+-- end
+
+-- function SystemIndex:refreshlist(filter)
+-- 	if filter == "" then filter = nil end
+-- 	local ContainsStringNoCase = filter and Tool.ContainsStringNoCase
+-- 	local list, regs, lastcat, catwrap = self.defs, {}
+-- 	local RaceTagOrder = data.RaceTagOrder
+-- 	self.regs, self.last_reg = regs, nil
+-- 	list:Clear()
+-- 	ProcessUnlockedDefinitions(function(id, def, category)
+-- 		local found = not filter or ContainsStringNoCase(L(def.name or ""), filter) -- filter by text
+-- 		if not found then return end
+-- 		if lastcat ~= category then
+-- 			lastcat = category
+-- 			list:Add("<Text height=24/>").text = category.name
+-- 			catwrap = list:Add("<Wrap child_padding=4 width=368/>")
+-- 		end
+-- 		regs[def.id] = catwrap:Add(SystemIndexItem_layout, {
+-- 			def_id = def.id, def = def, icon = def.texture,
+-- 			racebg = def.race and GetComponentRaceBG(def.race),
+-- 			sortkey = string.format("%03d%s", RaceTagOrder[def.race or def.tag] or 999, id)
+-- 		})
+-- 	end, nil, nil, nil, true)
+-- 	for _,w in ipairs(list) do
+-- 		if not w.text then w:SortChildren(function(a, b) return a.sortkey < b.sortkey end) end
+-- 	end
+-- 	self:sethighlight(self.lastid)
+-- end
+
+-- function SystemIndex:on_search(w, txt)
+-- 	self:refreshlist(txt)
+-- end
+
+-- function SystemIndex:close()
+-- 	UI.CloseMenuPopup(self)
+-- end
+
+-- function SystemIndex:on_item_click(itemw)
+-- 	self:selectid(itemw.def_id)
+-- end
+
+-- function SystemIndex:on_item_tooltip(itemw)
+-- 	return BuildDefinitionTooltip_local(itemw.def)
+-- end
+
+-- function SystemIndex:gofaction()
+-- 	local id = self.lastid
+-- 	local is_frame = (data.all[id].data_name == "frames")
+-- 	UI.CloseMenuPopup()
+-- 	OpenMainWindow("Faction", { show_item_id = not is_frame and id or nil, show_frame_id = is_frame and id or nil }, false, true) -- pass no_close so it can be used even in tech tree or behavior editor
+-- end
+
+-- function SystemIndex:gotech()
+-- 	local id = self.lastid
+-- 	UI.CloseMenuPopup()
+-- 	OpenMainWindow("Tech", { param = id })
+-- end
+
+-- function SystemIndex:onclickreg(reg, mousebutton, set_id)
+-- 	local id = set_id or reg.def_id or (reg.def and reg.def.id)
+-- 	if id then self:selectid(id) end
+-- end
+
+-- function SystemIndex:onclickpopreg(defspacer, list, reg, mousebutton, set_id)
+-- 	self:onclickreg(reg, mousebutton, set_id)
+-- end
+
+-- UI.SetRegisteredLayoutClass("SystemIndex", SystemIndex)
+-- --`
+
+-- print('Overide SystemIndex Success')
+
+-- local ResourceBar = UI.GetRegisteredLayoutClass("ResourceBar")
+
+-- local old_on_click_systemindex = ResourceBar.on_click_systemindex
+-- ResourceBar.on_click_systemindex = function (self, btn) OpenSystemIndex() end 
+
+-- UI.SetRegisteredLayoutClass('ResourceBar', ResourceBar)
+
+

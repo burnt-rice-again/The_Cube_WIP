@@ -7,22 +7,11 @@
     "homepage": "https://www.desyncedgame.com/",
     "description": "Block to spawn units and buildings with specific registers set on componets or the frame",
     "packages": {
-        
-        "Scenario": {
-            "name": "Cube_Scenario",
-            "entry": "Cube_Scenario.lua",
-            "dependencies": [ "Main/Data" ],
-            "type": "Scenario"
-        },
         "Data": {
             "name": "Data",
             "entry": "data.lua",
             "dependencies": [ "Main/Data" ],
             "type": "Addon"
-        },
-        "UI": {
-            "name": "UI",
-            "entry": "Cube_UI.lua"
         }
     }
 }

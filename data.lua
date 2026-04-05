@@ -19,11 +19,11 @@ package.includes = {
 	--"Cube_Land_Features.lua",
 	"Cube_Explorables.lua",
 	"Cube_Biomes.lua",
-	'Cube_Instructions.lua',
 	
-
-
-	"Cube_V2_DefinitionTooltip.lua",
+	
+	"Cube_Scenatio.lua",
+	'Cube_Instructions.lua',
+	"Cube_DefinitionTooltip.lua",
 }
 
 -- called when mod is initializing
