@@ -12,7 +12,7 @@ local function create_alt_recipe(id,recipe,overide_values)
 		item[key] = val
 	end
 	data.items[id.."_alt"] = item
-	print(item, id.."_alt")
+	data.items[id].has_alt = id.."_alt"
 end
 
 
