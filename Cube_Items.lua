@@ -218,7 +218,7 @@ data.items.datakey_robot = {
 	visual = "v_gears",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1 }, { cc_manifest = 30, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 25, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
 }
 data.items.ic_souls = {
 	name = "Lingering Souls",
@@ -241,7 +241,7 @@ data.items.ic_soul_plasma = {
 	--visual = "v_scaramar1",
 	slot_type = "anomaly",
 	stack_size = 100,
-	production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, ic_souls = 5 }, { cc_soul_refinery = 60 }, 10, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, ic_souls = 10 }, { cc_soul_refinery = 80 }, 20, {ic_cube_blue = 1}),
 }
 data.items.ic_soul_happy = {
 	name = "Enlightened Souls",
@@ -326,9 +326,9 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, 
-	{cc_manifest = 100},
-	20, 
+	{ic_cube_red = 1, ic_souls = 20, phase_leaf = 20 }, 
+	{cc_soul_refinery = 50,},
+	50, 
 	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
@@ -338,4 +338,11 @@ create_alt_recipe("concreteslab",
 	{c_fabricator = 25},
 	1),
 	{desc = "Laterite Concrete Mixing"}
+)
+create_alt_recipe("datakey_robot", 
+	CreateProductionRecipeWithWaste(
+	{ic_cube_empty = 1, reinforced_plate = 20, }, 
+	{cc_green_brain = 15 , cc_red_furnace = 5},
+	20, {ic_cube_blue = 1}),
+	{desc = "Bulk Cube Log Filling"}
 )
