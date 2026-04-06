@@ -42,11 +42,13 @@ data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ conc
 data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, phase_leaf = 9 }, 40)
 data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x1c.component_boost = 0
+data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
 data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x1d.component_boost = 0
 data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x2b.component_boost = 0
 data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building3x2b.components = {{"cc_moduleefficiency_s","hidden"}}
 data.frames.f_building2x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x2a.component_boost = 0
 data.frames.f_building2x2c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
@@ -57,7 +59,7 @@ data.frames.f_building2x2e.construction_recipe = CreateConstructionRecipe({ conc
 data.frames.f_building2x2e.component_boost = 0
 data.frames.f_building3x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building3x2a.component_boost = 0
-
+-- flying frames
 data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ ldframe = 1, datakey_robot = 2, metalplate = 4 }, { c_robotics_factory = 50 })
 data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ ldframe = 2, ic_soul_happy = 4, reinforced_plate = 6 }, { c_robotics_factory = 80 })
 data.frames.f_drone_transfer_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 1, metalplate = 2 }, { c_robotics_factory = 80 })
@@ -65,6 +67,12 @@ data.frames.f_drone_transfer_a2.production_recipe = CreateProductionRecipe({ ldf
 data.frames.f_drone_miner_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 2, metalplate = 6, c_miner = 1  }, { c_robotics_factory = 80 })
 data.frames.f_drone_adv_miner.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 4, reinforced_plate = 6, c_adv_miner = 1 }, { c_robotics_factory = 80 })
 data.frames.f_drone_defense_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 2, reinforced_plate = 6, c_adv_portable_turret = 1 }, { c_robotics_factory = 80 })
+-- special frames 
+data.frames.f_beacon_l.construction_recipe = CreateConstructionRecipe({ beacon_frame = 5, ic_soul_happy = 1, phase_leaf = 2},25)
+
+
+
+
 
 -- foundations 
 -- bugs drops

@@ -58,8 +58,12 @@ data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["me
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
 data.components.c_portable_turret.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
 data.components.c_melee_pulse.production_recipe = CreateProductionRecipe({["steelblock"] = 6, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
-data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
 data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({["metalplate"] = 6, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
+
+--miners 
+data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
+data.components.c_adv_miner.production_recipe = CreateProductionRecipe({ic_soul_angry = 1, reinforced_plate = 4, wire = 4, c_miner = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_extractor.production_recipe = CreateProductionRecipe({ic_soul_angry = 4, reinforced_plate = 9, phase_leaf = 4, c_adv_miner = 1}, {["c_assembler"] = 70}, 1)
 
 ---lvl1
 ---non cube 

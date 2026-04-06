@@ -12,6 +12,7 @@ local function create_alt_recipe(id,recipe,overide_values)
 		item[key] = val
 	end
 	data.items[id.."_alt"] = item
+	print(item, id.."_alt")
 end
 
 
@@ -330,4 +331,11 @@ create_alt_recipe("ic_soul_plasma",
 	20, 
 	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
+)
+create_alt_recipe("concreteslab", 
+	CreateProductionRecipe(
+	{laterite = 4, steelblock = 1}, 
+	{c_fabricator = 25},
+	1),
+	{desc = "Laterite Concrete Mixing"}
 )

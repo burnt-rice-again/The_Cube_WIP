@@ -388,7 +388,6 @@ data.techs.tc_robot_metallurgy_1 = {
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1}, 25),
 	category = "Independance",
 }
-
 data.techs.tc_robot_metallurgy_2 = {
 	order = 2,
 	name = "More Materials", -- recovered database etc.
@@ -396,14 +395,41 @@ data.techs.tc_robot_metallurgy_2 = {
 	texture = data.items.laterite.texture,
 	unlocks = {
 		-- new resources
-		"laterite","concreteslab","f_human_foundation_basic",
+		"concreteslab","f_human_foundation_basic",
 	},
 	require_tech = { "tc_robot_metallurgy_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1 }, 25),
 	category = "Independance",
 }
-
+data.techs.tc_robot_metallurgy_3 = {
+	order = 2,
+	name = "Adv Miners", -- recovered database etc.
+	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
+	texture = data.components.c_adv_miner.texture,
+	unlocks = {
+		-- new resources
+		"c_adv_miner",
+	},
+	require_tech = { "tc_robot_metallurgy_2" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1 }, 25),
+	category = "Independance",
+}
+data.techs.tc_robot_metallurgy_4 = {
+	order = 2,
+	name = "Adv Miners", -- recovered database etc.
+	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
+	texture = data.components.c_extractor.texture,
+	unlocks = {
+		-- new resources
+		"c_extractor","concreteslab_alt","laterite"
+	},
+	require_tech = { "tc_robot_metallurgy_3" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1,phase_leaf = 1 }, 25),
+	category = "Independance",
+}
 data.techs.tc_robot_beacons1 = {
 	order = 2,
 	name = "Beacons", -- recovered database etc.
@@ -413,9 +439,9 @@ data.techs.tc_robot_beacons1 = {
 		-- new resources
 		"beacon_frame","f_beacon",
 	},
-	require_tech = { "tc_robot_metallurgy_2" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, datakey_robot = 1 }, 50),
+	require_tech = { "tc_robot_basic" },
+	progress_count = 25,
+	uplink_recipe = CreateUplinkRecipe({steelblock = 1, datakey_robot = 1 }, 50),
 	category = "Independance",
 }
 data.techs.tc_robot_beacons2 = {
@@ -429,7 +455,7 @@ data.techs.tc_robot_beacons2 = {
 	},
 	require_tech = { "tc_robot_beacons1" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, datakey_robot = 1, phase_leaf = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, datakey_robot = 1, phase_leaf = 1 }, 50),
 	category = "Independance",
 }
 
@@ -700,14 +726,9 @@ data.techs.tc_robot_fly_4 = {
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1, phase_leaf = 1}, 50),
 	category = "Humility",
 }
+
 --------------------------------------------------------
-
------- UPGRADES
-
-
---- Robot Frames ---
-
-
+------ UPGRADES ------------------------------
 --- Networking
 data.techs.tc_network1 = {
 	order = 3,
