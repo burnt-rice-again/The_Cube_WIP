@@ -377,7 +377,6 @@ local function ShowIngredients(list, seen_unlocks, ingredients, def, amount, bp)
 			list:Add("Text").text = "Unresearched alternative recipe"
 		end 
 	end
-
 	return have_locks
 end
 

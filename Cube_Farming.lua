@@ -29,7 +29,7 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     desc = "Will grow the plant once the work completes",
     texture = "The_Cube_WIP/textures/wire_seed.png",
     activation = 'Manual',
-
+    
     attachment_size = "Hidden",
     race = 'robot',
     --visual = "v_generic_i",
@@ -41,7 +41,7 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     production_recipe = false,
     index = 9999,
     slots = {anomaly = 1},
-
+    power = -1, --wierdly need this to stop an error in the UI
     get_ui = true, -- needs this to show hidden components
     -- will have extra_data.key to find planter
 })
@@ -65,17 +65,19 @@ function cc_crop:on_update(comp, cause)
 
     if cause & CC_FINISH_WORK ~= 0 then 
 
+        local owner = comp.owner
         -- check if has a next visual
-        if self.visual_set and comp.extra_data.next_visual <= #self.visual_set then
+        print( owner.def.visual_set ~= nil, comp.extra_data.next_visual <= #owner.def.visual_set, #owner.def.visual_set)
+        if owner.def.visual_set ~= nil and comp.extra_data.next_visual <= #owner.def.visual_set then
             -- grow visual and reset timer 
             print("Next Visual For Plant")
-            comp.owner:SetVisual(self.visual_set[comp.extra_data.next_visual])
+            comp.owner:SetVisual(owner.def.visual_set[comp.extra_data.next_visual])
             comp.extra_data.next_visual = comp.extra_data.next_visual+1
             comp:SetStateStartWork(comp.extra_data.growth_time or 100)
             return
         end
         -- finished growing 
-        local owner = comp.owner
+        
         local next_frame = owner.def.next_frame
         if next_frame == nil then return end 
 
@@ -159,7 +161,6 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
 
     drop = 'wire',
     --on_destroy = wake_up_planter,
-    
 })
 fc_crop:RegisterFrame('fc_crop_wire_seed0',{
     name = 'Wire Weed Seedling',
@@ -167,7 +168,7 @@ fc_crop:RegisterFrame('fc_crop_wire_seed0',{
     visual = "vc_crop_wire_seed0",
     texture = "The_Cube_WIP/textures/wire_seed.png",
     next_frame = 'fc_crop_wire_plant',
-    
+    visual_set = {"vc_crop_wire_seed1","vc_crop_wire_seed2","vc_crop_wire_seed3","vc_crop_wire_seed4"}
 })
 fc_crop:RegisterFrame('fc_crop_wire_plant',{
     name = 'Wire Weed',
@@ -178,7 +179,7 @@ fc_crop:RegisterFrame('fc_crop_wire_plant',{
     on_remove = wake_up_planter,
 })
 fc_crop:RegisterFrame('fc_crop_phase_seed0',{
-    name = 'Wire Weed Seedling',
+    name = 'Phase Flower Seedling',
     desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
     visual = "vc_crop_phase_seed0",
     texture = "The_Cube_WIP/textures/phase_seed.png",
@@ -187,14 +188,13 @@ fc_crop:RegisterFrame('fc_crop_phase_seed0',{
     visual_set = {"vc_crop_phase_seed1","vc_crop_phase_seed2","vc_crop_phase_seed3","vc_crop_phase_seed4"}
 })
 fc_crop:RegisterFrame('fc_crop_phase_plant',{
-    name = 'Wire Weed',
+    name = 'Phase Flower',
     desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
     visual = 'vc_crop_phase',
     texture = "The_Cube_WIP/textures/phase_seed.png",
     is_flower = true,
     on_remove = wake_up_planter,
     drop = 'phase_leaf',
-
 	components = {{ "cc_phase_plant_all", "hidden" },},
 })
 
@@ -272,7 +272,7 @@ cc_planter:RegisterComponent('cc_planter_phase_leaf',{
     name = 'Phase Flower Planter',
     seed_id = 'fc_crop_phase_seed0',
     drop = 'phase_leaf',
-    default_grow_time = 1000,
+    default_grow_time = 800,
     ingriedents = { ic_cube_green = 1, crystal_powder = 1},
 })
 
@@ -336,6 +336,7 @@ function cc_planter:on_update(comp, cause)
                 key = comp.owner.key,
                 yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1),
                 growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5),
+                next_visual = 1,
             })
             -- if crop then 
             --     crop.extra_data.key = comp.owner.key

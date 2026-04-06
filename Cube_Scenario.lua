@@ -202,18 +202,19 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- testing buildings 
 
 	--spawn Farming Tester
-	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
-	-- new_entity:AddComponent("cc_planter_wire")
-	-- new_entity:AddComponent("cc_cube_storage")
-	-- new_entity:AddComponent("c_adv_portable_turret")
-	-- new_entity:AddItem("ic_cube_green", 1)
-	-- new_entity:AddItem("crystal_powder", 10)
-	-- new_entity:AddItem("c_deconstructor", 1)
-	-- new_entity:AddItem("steelblock", 40)
-	-- new_entity:AddItem("c_portable_radar", 2)
-	-- new_entity:AddItem("c_deconstructor", 1)
-	-- home_entity:AddItem("cc_manifest")
-	-- new_entity:Place(loc.x+13, loc.y)
+	new_entity = Map.CreateEntity(faction, "f_building2x2c")
+	new_entity:AddComponent("cc_planter_phase_leaf")
+	new_entity:AddItem("cc_planter_wire")
+	new_entity:AddComponent("cc_cube_storage")
+	new_entity:AddComponent("c_adv_portable_turret")
+	new_entity:AddItem("ic_cube_green", 1)
+	new_entity:AddItem("crystal_powder", 10)
+	new_entity:AddItem("c_deconstructor", 1)
+	new_entity:AddItem("steelblock", 40)
+	new_entity:AddItem("c_portable_radar", 2)
+	new_entity:AddItem("c_deconstructor", 1)
+	home_entity:AddItem("cc_manifest")
+	new_entity:Place(loc.x+13, loc.y)
 
 	-- local volcano = Map.CreateEntity(faction, "fc_volcano")
 	-- volcano:Place(loc.x+3,loc.y+6)
@@ -239,13 +240,12 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- recharger:AddComponent("c_power_cell")
 	-- recharger:Place(loc.x-3,loc.y+10)
 
-	local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	recharger:AddComponent("cc_time_travel_machine")
-	recharger:AddComponent("c_turret")
-	recharger:AddComponent("cc_cube_storage")
-	recharger:AddComponent("c_power_cell")
-	--recharger:AddItem("concreteslab",180)
-	recharger:Place(loc.x+6,loc.y-6)
+	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	-- recharger:AddComponent("cc_time_travel_machine")
+	-- recharger:AddComponent("c_turret")
+	-- recharger:AddComponent("cc_cube_storage")
+	-- recharger:AddComponent("c_power_cell")
+	-- recharger:Place(loc.x+6,loc.y-6)
 
 
 	-- local test_enemy = Map.CreateEntity(GetBugsFaction(), "f_scaramar2")
@@ -286,9 +286,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	defence_block:Place(loc.x+1,loc.y-6)
-
-	
-
 
 	--- booot tower 
 	defence_block = Map.CreateEntity(faction, "fc_boost_tower")

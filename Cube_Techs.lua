@@ -29,13 +29,6 @@ data.tech_categories = {
 		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 		--textures = { "Main/skin/Icons/Special/Technologies/Basic.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png",},
 	},
-	-- {
-	-- 	name = "Upgrades",
-	-- 	initial_tech = "tc_upgrades_basic",
-	-- 	sub_categories = { "tc_upgrades_1", "tc_adv_upgrades"},
-	-- 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
-	-- 	textures = { "Main/skin/Icons/Special/Technologies/Basic.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png"},
-	-- },
 	{
 		name = "Upgrades",
 		initial_tech = "tc_upgrades_basic",
