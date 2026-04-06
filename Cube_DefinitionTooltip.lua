@@ -369,8 +369,13 @@ local function ShowIngredients(list, seen_unlocks, ingredients, def, amount, bp)
 	end
 	if def.has_alt ~= nil and seen_unlocks[def.has_alt] ~= nil then 
 		-- has an alternative production recipe and it is seen
-		local def_2 = data.items[def.has_alt]
-		ShowIngredients(list, seen_unlocks, def_2.production_recipe.ingredients, def_2, amount, bp)
+		local faction = Game.GetLocalPlayerFaction()
+		if faction:IsUnlocked(def.has_alt) then 
+			local def_2 = data.items[def.has_alt]
+			ShowIngredients(list, seen_unlocks, def_2.production_recipe.ingredients, def_2, amount, bp)
+		else
+			list:Add("Text").text = "Unresearched alternative recipe"
+		end 
 	end
 
 	return have_locks
