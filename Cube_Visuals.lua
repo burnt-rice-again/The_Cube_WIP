@@ -200,7 +200,8 @@ data.visuals.vc_cube_blue = {
 }
 
 data.visuals.vc_time_crystal = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb"
+	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
+	--mesh_offset = {0,0,10000	}
 }
 
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
