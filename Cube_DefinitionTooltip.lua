@@ -363,7 +363,7 @@ local function ShowIngredients(list, seen_unlocks, ingredients, def, amount, bp)
 	-- show byproducts
 	if def.production_recipe and def.production_recipe.byproduct then 
 		for id, num in pairs(def.production_recipe.byproduct) do 
-			if ingredients[id] == nil then 
+			if def.id ~= id then 
 				have_locks = ShowIngredient(ingredient_list, seen_unlocks, id, num) or have_locks end
 		end
 	end
