@@ -1,68 +1,79 @@
 
+--- New Crafting Recipes in tech order 
 
+-- Tech Category Inpependace 
+-- Bot Frames 
+-- lvl 0
+data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, datakey_robot = 1 }, { c_robotics_factory = 25, c_carrier_factory = 60 })
 
--- Mark V [M] bot
---data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ aluminiumsheet = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
---cub
+-- lvl 1
+data.frames.f_bot_1s_b.production_recipe = CreateProductionRecipe({ metalplate = 2, datakey_robot = 1, steelblock = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ steelblock = 10, datakey_robot = 1, metalplate = 5 }, { c_robotics_factory = 80 })
+data.frames.f_bot_2s.production_recipe = CreateProductionRecipe({ steelblock = 6, datakey_robot = 2, wire = 4 }, { c_robotics_factory = 80 })
+data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 6, metalplate = 8 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m_b.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 4, steelblock = 16 }, { c_robotics_factory = 80 })
+-- lvl2 
+data.frames.f_bot_1s_as.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, ic_soul_happy = 1, datakey_robot = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m1s.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 16, reinforced_plate = 16 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1l_a.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 4, reinforced_plate = 32 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 4, reinforced_plate = 12, fused_electrodes = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1s_adw.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 1, reinforced_plate = 9, fused_electrodes = 16 }, { c_robotics_factory = 80 })
 
--- [s] bots
-
-
------------ buildings rewrite 
---- lvl0
+-- Building Frames 
+-- lvl 0
 data.frames.f_building1x1d.construction_recipe = CreateConstructionRecipe({ metalplate = 4, crystal = 1 }, 20)
 data.frames.f_building1x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 8 }, 20)
 data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ metalplate = 6, crystal = 4 }, 20)
-data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, steelblock = 16, datakey_robot = 4 }, 20)
-data.frames.f_bot_1s_a.production_recipe = CreateProductionRecipe({ metalplate = 4, datakey_robot = 1 }, { c_robotics_factory = 25, c_carrier_factory = 60 })
-data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
-
 data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4, datakey_robot = 1 }, 20)
-data.frames.f_building2x1e.construction_recipe = CreateConstructionRecipe({ steelblock = 16, concreteslab = 25, datakey_robot = 4 }, 20)
-data.frames.f_building2x1e.component_boost = 0
--- concrete resources 
---Frame:RegisterFrame("f_resourcenode_ruins",        CreateResourceDef(10, "Ruins",          "concreteslab",         { 1.0, 1.0, 1.0 }, "Main/textures/icons/frame/concreteslab.png"))
-
-
-
-
---- lvl1 
+-- lvl 1 
 data.frames.f_building1x1c.construction_recipe = CreateConstructionRecipe({ metalplate = 8,  crystal = 4 }, 20)
 data.frames.f_building1x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 16,  crystal = 8  }, 20)
-
-
-data.frames.f_bot_2s.production_recipe = CreateProductionRecipe({ steelblock = 6, datakey_robot = 2, wire = 4 }, { c_robotics_factory = 80 })
-data.frames.f_bot_1s_b.production_recipe = CreateProductionRecipe({ metalplate = 2, datakey_robot = 1, steelblock = 4 }, { c_robotics_factory = 80 })
-data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ steelblock = 10, datakey_robot = 1, metalplate = 5 }, { c_robotics_factory = 80 })
 data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 8, datakey_robot = 2 }, 30)
-data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
-data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, }, 40)
-
+data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 12, datakey_robot = 4 }, 30)
+data.frames.f_building1x1b.construction_recipe = CreateConstructionRecipe({ steelblock = 9, concreteslab = 12, datakey_robot = 1 }, 20)
+data.frames.f_building2x1e.construction_recipe = CreateConstructionRecipe({ steelblock = 16, concreteslab = 25, datakey_robot = 4 }, 20)
+data.frames.f_building2x1e.component_boost = 0
 data.frames.f_wall.construction_recipe = CreateConstructionRecipe({ metalplate = 1, concreteslab = 4 }, 20)
 data.frames.f_gate.construction_recipe = CreateConstructionRecipe({ metalplate = 2, concreteslab = 4, crystal = 2 }, 20)
+data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, }, 40)
+-- f_building1x1h
+-- lvl2 
+data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, phase_leaf = 9 }, 40)
+data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x1c.component_boost = 0
+data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x1d.component_boost = 0
+data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2b.component_boost = 0
+data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2a.component_boost = 0
+data.frames.f_building2x2c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2c.component_boost = 0
+data.frames.f_building2x2d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2d.component_boost = 0
+data.frames.f_building2x2e.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2e.component_boost = 0
+data.frames.f_building3x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building3x2a.component_boost = 0
 
--- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
--- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
--- data.frames.f_bot_1m_a.production_recipe = CreateProductionRecipe({ aluminiumrod = 10, datakey_robot = 3, steelblock = 5 }, { c_robotics_factory = 80 })
-
-data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 6, metalplate = 8 }, { c_robotics_factory = 80 })
-data.frames.f_bot_1m1s.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 16, reinforced_plate = 16 }, { c_robotics_factory = 80 })
-
-
-
---- lvl2
-
-data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, datakey_robot = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
-data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ aluminiumsheet = 6, datakey_robot = 3, aluminiumrod = 4 }, { c_robotics_factory = 80 })
-
-
-
+data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ ldframe = 1, datakey_robot = 2, metalplate = 4 }, { c_robotics_factory = 50 })
+data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ ldframe = 2, ic_soul_happy = 4, reinforced_plate = 6 }, { c_robotics_factory = 80 })
+data.frames.f_drone_transfer_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 1, metalplate = 2 }, { c_robotics_factory = 80 })
+data.frames.f_drone_transfer_a2.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 1, reinforced_plate = 2, engine = 1 }, { c_robotics_factory = 80 })
+data.frames.f_drone_miner_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 2, metalplate = 6, c_miner = 1  }, { c_robotics_factory = 80 })
+data.frames.f_drone_adv_miner.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 4, reinforced_plate = 6, c_adv_miner = 1 }, { c_robotics_factory = 80 })
+data.frames.f_drone_defense_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 2, reinforced_plate = 6, c_adv_portable_turret = 1 }, { c_robotics_factory = 80 })
 
 -- foundations 
 -- bugs drops
 data.frames.f_trilobyte1.resource_drop = {"ic_souls", "vc_souls"}
 data.frames.f_tetrapuss1.resource_drop = {"ic_souls", "vc_souls"}
 data.frames.f_tripodonte1.resource_drop = {"ic_souls", "vc_souls"}
+
+data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
+
 
 -------------------------------------------
 ------------- Robot Frames -----------------
@@ -89,31 +100,6 @@ Frame:RegisterFrame("fc_scrap_recycler", {
 
 -- Starting Bots 
 
-Frame:RegisterFrame("f_flyer_m", {
-	texture = "Main/textures/icons/frame/flyer_medium.png",
-	name = "Flyer",
-	desc = "A fast flying unit that can perform construction based logistics operations outside of the logistics network when docked in a landing pad",
-	minimap_color = { 0.9, 0.9, 0.8 },
-	slot_type = "flyer",
-	health_points = 80,
-	trigger_channels = "bot",
-	race = "human",
-	visibility_range = 20,
-	slots = { storage = 2 },
-	movement_speed = 7,
-	cost_modifier = 0,
-	power = -5,
-	size = "Drone",
-	flags = "AnimateRoot|Flyer",
-	is_tethered = true,
-	--convert_to = "flyer_package_m",
-	visual = "v_flyer_m",
-	production_recipe = CreateProductionRecipe({ aluminiumrod = 4, aluminiumsheet = 3, datakey_robot = 2 }, { c_robotics_factory = 100 }),
-	components = {
-		{ "c_higrade_capacitor", "hidden" },
-		{ "c_blight_shield", "hidden" },
-	},
-})
 
 
 
@@ -268,7 +254,7 @@ function Place_Anti_Cube(entity, do_again)
 	-- 		location = location.location
 	-- 	end
 	-- look for frame with space 
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 10, 10, 1, FF_OWNFACTION, entity.faction)
+	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 5, 5, 1, FF_OWNFACTION, entity.faction)
 	for key, val in pairs(list_nearby) do 
 		if val:HaveFreeSpace("ic_cube_sphere") == true then
 			val:AddItem("ic_cube_sphere")

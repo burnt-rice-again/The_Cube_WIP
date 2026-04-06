@@ -481,14 +481,55 @@ data.techs.tc_robot_frames_4 = {
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
-		"f_transport_bot","f_bot_1m1s"
+		"f_transport_bot","f_bot_1m_b"
 	},
 	require_tech = { "tc_robot_frames_3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1, wire = 1, ic_soul_happy = 1}, 50),
 	category = "Independance",
 }
-
+data.techs.tc_robot_frames_5 = {
+	order = 1,
+	name = "Simple Robotics", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_bot_1s_as","f_bot_1m1s",
+	},
+	require_tech = { "tc_robot_frames_4" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_frames_6 = {
+	order = 1,
+	name = "Simple Robotics", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_bot_1l_a"
+	},
+	require_tech = { "tc_robot_frames_5" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1, engine = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_frames_7 = {
+	order = 1,
+	name = "Simple Robotics", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_bot_1m_c","f_bot_1s_adw"
+	},
+	require_tech = { "tc_robot_frames_6" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1, engine = 1, fused_electrodes = 1}, 50),
+	category = "Humility",
+}
 --- buildings 
 data.techs.tc_building1 = {
 	order = 3,
@@ -525,11 +566,11 @@ data.techs.tc_building3= {
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
-		"f_building1x1b","f_building2x1e",
+		"f_building1x1b","f_building2x1e","f_building1x1g",
 		"f_wall","f_gate",
 	},
 	require_tech = {  "tc_building2", "tc_robot_metallurgy_2", },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, concreteslab = 1}, 50),
 	category = "Independance",
 }
@@ -540,12 +581,124 @@ data.techs.tc_building4= {
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
-		"f_building2x1b","f_building1x1g","f_building1x1h",
+		"f_building2x1b","f_building1x1h",
 	},
 	require_tech = {  "tc_building3" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, concreteslab = 1, reinforced_plate = 1}, 50),
 	category = "Independance",
+}
+data.techs.tc_building5= {
+	order = 30,
+	name = "Reinforced Walls", -- recovered database etc.
+	desc = "",
+	texture = data.items.concreteslab.texture,
+	unlocks = {
+		-- new resources
+		"f_building1x1e","f_building2x1c",
+	},
+	require_tech = {  "tc_building4" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_building6= {
+	order = 30,
+	name = "Reinforced Walls", -- recovered database etc.
+	desc = "",
+	texture = data.items.concreteslab.texture,
+	unlocks = {
+		-- new resources
+		"f_building2x1d","f_building2x2b","f_building3x2b"
+	},
+	require_tech = {  "tc_building5" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_building7= {
+	order = 30,
+	name = "Reinforced Walls", -- recovered database etc.
+	desc = "",
+	texture = data.items.concreteslab.texture,
+	unlocks = {
+		-- new resources
+		"f_building2x2a","f_building2x2c","f_building2x2d"
+	},
+	require_tech = {  "tc_building6" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1, ic_time_crystal = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_building8= {
+	order = 30,
+	name = "Reinforced Walls", -- recovered database etc.
+	desc = "",
+	texture = data.items.concreteslab.texture,
+	unlocks = {
+		-- new resources
+		"f_building2x2e","f_building3x2a"
+	},
+	require_tech = {  "tc_building7" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({reinforced_plate = 1, ic_soul_happy = 1, ic_time_crystal = 1, fused_electrodes = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_fly_1 = {
+	order = 1,
+	name = "Flying Robots", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_flyer_bot","f_flyer_m","c_landing_pad",
+	},
+	require_tech = { "tc_robot_frames_4" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ldframe = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_fly_2 = {
+	order = 1,
+	name = "Flying Robots", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_drone_miner_a","f_drone_transfer_a","c_drone_comp",
+	},
+	require_tech = { "tc_robot_fly_1" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_fly_3 = {
+	order = 1,
+	name = "Flying Robots", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_drone_transfer_a2","c_drone_port",
+	},
+	require_tech = { "tc_robot_fly_2" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_fly_4 = {
+	order = 1,
+	name = "Flying Robots", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_drone_adv_miner","f_drone_defense_a","c_drone_launcher",
+	},
+	require_tech = { "tc_robot_fly_3" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1, phase_leaf = 1}, 50),
+	category = "Humility",
 }
 --------------------------------------------------------
 
