@@ -32,7 +32,14 @@ data.items.crystal_powder.production_recipe = CreateProductionRecipeWithWaste({i
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 
 -- Red Cube 
-data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, steelblock = 100, crystal_powder = 10  }, {cc_manifest = 100}, 50, {ic_cube_empty = 1})
+data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, steelblock = 100, crystal_powder = 10  }, {cc_manifest = 100, cc_red_furnace = 25}, 20, {ic_cube_empty = 1})
+create_alt_recipe("reinforced_plate",
+	CreateProductionRecipeWithWaste(
+	{ic_cube_red = 1, steelblock = 100, laterite = 60, ic_soul_plasma = 100 }, 
+	{cc_manifest = 50, cc_red_furnace = 5},
+	20, {ic_cube_empty = 1}),
+	{desc = "Bulk Metal Smelting"}
+)
 --data.items.steelblock.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, metalore = 100, fused_electrodes = 10  }, {cc_red_furnace = 100}, 80, {ic_cube_empty = 1})
 data.items.blight_plasma.name = "Purified Crystal"
 data.items.blight_plasma.desc = "The leavings from a Soul Distillery\nThe rest has been melted away"
@@ -93,13 +100,7 @@ data.items.fused_electrodes.production_recipe = false
 data.items.micropro.production_recipe = CreateProductionRecipe({wire = 16, reinforced_plate = 2 , ic_soul_angry = 1}, {cc_green_brain = 60}, 1)
 data.items.micropro.desc = "Subsumed Will"
 
-data.items.power_petal.production_recipe = CreateProductionRecipe({phase_leaf = 1, reinforced_plate = 2 , ic_soul_angry = 1}, {cc_green_brain = 60}, 1)
-data.items.power_petal.desc = "Unstable Petal"
-data.items.engine.production_recipe = CreateProductionRecipe({fused_electrodes = 1, aluminiumsheet = 6 , micropro = 1}, {c_robotics_factory = 120}, 1)
-
-
-
-
+data.items.engine.production_recipe = CreateProductionRecipe({reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120}, 1)
 data.items.ic_cube_blue = {
 	name = "THE CUBE",
 	index = 1000,
@@ -241,8 +242,19 @@ data.items.ic_soul_plasma = {
 	--visual = "v_scaramar1",
 	slot_type = "anomaly",
 	stack_size = 100,
-	production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, ic_souls = 10 }, { cc_soul_refinery = 80 }, 20, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste(
+	{ic_cube_blue = 1, ic_souls = 50 },
+	{ cc_soul_refinery = 200 },
+	100, {ic_cube_blue = 1}),
 }
+create_alt_recipe("ic_soul_plasma", 
+	CreateProductionRecipeWithWaste(
+	{ic_cube_red = 1, ic_souls = 100, phase_leaf = 20 }, 
+	{cc_soul_refinery = 25,},
+	100, 
+	{ic_cube_empty = 1}),
+	{desc = "Alternative Soul Plasma Extraction"}
+)
 data.items.ic_soul_happy = {
 	name = "Enlightened Souls",
 	index = 1010,
@@ -324,14 +336,7 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 
 
 
-create_alt_recipe("ic_soul_plasma", 
-	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_souls = 20, phase_leaf = 20 }, 
-	{cc_soul_refinery = 50,},
-	50, 
-	{ic_cube_empty = 1}),
-	{desc = "Alternative Soul Plasma Extraction"}
-)
+
 create_alt_recipe("concreteslab", 
 	CreateProductionRecipe(
 	{laterite = 4, steelblock = 1}, 

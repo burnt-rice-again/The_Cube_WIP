@@ -203,7 +203,7 @@ data.techs.tc_cube_red_3 = {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"ic_soul_angry",
+		"ic_soul_angry","ic_soul_plasma_alt"
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
@@ -472,7 +472,6 @@ data.techs.tc_robot_beacons3 = {
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, datakey_robot = 1, phase_leaf = 1, reinforced_plate = 1 }, 50),
 	category = "Independance",
 }
-
 data.techs.tc_robot_frames_1 = {
 	order = 1,
 	name = "Simple Robotics", -- recovered database etc.
