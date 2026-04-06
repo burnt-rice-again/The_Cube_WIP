@@ -174,7 +174,7 @@ data.techs.tc_cube_red_1 = {
 	texture = data.items.ic_cube_red.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_red","cc_red_cube_refinery","reinforced_plate",
+		"ic_cube_red","reinforced_plate",
 	},
 	require_tech = { "tc_cube_basic" },
 	tooltip = 'Find a molten explorable to unlock this tech for free',
@@ -207,7 +207,7 @@ data.techs.tc_cube_red_3 = {
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1, crystal_powder = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_plasma = 1, crystal_powder = 1 }, 100),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_1= {
@@ -228,6 +228,20 @@ data.techs.tc_cube_green_1= {
 }
 data.techs.tc_cube_green_2 = {
 	order = 3,
+	name = "Outsourced Introspection", -- recovered database etc.
+	desc = "A Brain in a jar set to ponder its own existence",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"cc_green_brain","ic_soul_happy",
+	},
+	require_tech = { "tc_cube_green_1", },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, datakey_robot = 1, ic_soul_plasma = 1 }, 50),
+	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_green_3 = {
+	order = 3,
 	name = "Farming", -- recovered database etc.
 	desc = "Grow seeds",
 	texture = data.items.phase_leaf.texture,
@@ -236,82 +250,69 @@ data.techs.tc_cube_green_2 = {
 		-- phase farming 
 		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
 	},
-	require_tech = { "tc_cube_green_1" },
+	require_tech = { "tc_cube_green_2" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1 }, 300),
 	category = "Cube_Curiosity",
 }
-data.techs.tc_cube_green_3 = {
-	order = 3,
-	name = "Outsourced Introspection", -- recovered database etc.
-	desc = "A Brain in a jar set to ponder its own existence",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
-	unlocks = {
-		-- new resources
-		"cc_green_brain","ic_soul_happy",
-	},
-	require_tech = { "tc_cube_green_2", },
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, datakey_robot = 1, ic_soul_plasma = 1 }, 50),
-	category = "Cube_Curiosity",
-}
-data.techs.tc_cube_anti_0= {--unlocked when Cube is split
-	order = 2,
-	name = "Anti Cube Heresey", -- recovered database etc.
-	desc = "",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
-	unlocks = {
-		-- new resources
-		"ic_cube_sphere"
-	},
-	require_tech = { "tc_cube_blue_3", },
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ic_soul_plasma = 1 }, 50),
-	--category = "Cube_Obsession", -- will not show up in graph 
-}
-
------------------------------------
-------------- Cube Section 2 -----
-data.techs.tc_cube_anti_1 = { -- will unlock when cube is anhillated
+data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	order = 1,
 	name = "Anti Cube Annihilation", -- recovered database etc.
 	desc = "Find",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"blight_crystal",
+		"blight_crystal","ic_time_crystal",
 	},
-	require_tech = { "tc_cube_anti_0", },
+	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
-	category = "Cube_Obsession",
+	category = "Cube_Curiosity",
 }
-data.techs.tc_cube_anti_2 = { -- will unlock when cube is anhillated
-	order = 1,
-	name = "Chrono Field Stabilization", -- recovered database etc.
-	desc = "Find",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
-	unlocks = {
-		-- new resources
-		"ic_time_crystal",
-	},
-	require_tech = { "tc_cube_anti_1", },
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
-	category = "Cube_Obsession",
-}
-data.techs.tc_cube_anti_3= {
+
+-----------------------------------
+------------- Cube Section 2 -----
+
+data.techs.tc_cube_anti_1= {
 	order = 2,
-	name = "Parrallel Universe Thoery", -- recovered database etc.
+	name = "Localized Chrono Field Creation", -- recovered database etc.
 	desc = "",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"cc_time_travel_machine","fused_electrodes","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+	},
+	require_tech = { "tc_cube_anti_0", },
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_anti_2 = {
+	order = 1,
+	name = "Chrono Towers", 
+	desc = "Towers Harnessing stabilized chrono crystal to create localized chronological fields",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"fc_boost_tower",
+	},
+	require_tech = { "tc_cube_anti_1"},
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1, phase_leaf = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_anti_3= {
+	order = 2,
+	name = "Parrallel Universe Invasion", -- recovered database etc.
+	desc = "Send Expeditions to the future to steal materials not craftable with the current technology\n\nWarning beware of response from attacked timeline",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"cc_time_travel_machine","fused_electrodes",
 	},
 	require_tech = { "tc_cube_anti_2", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_soul_plasma = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_plasma = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_4 = {
@@ -325,13 +326,13 @@ data.techs.tc_cube_green_4 = {
 	},
 	require_tech = { "tc_cube_green_3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_5 = {
 	order = 3,
-	name = "Boost Speed",
-	desc = "Cortex Enrichment",
+	name = "Datakey",
+	desc = "TBA",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
 		-- new resources
@@ -339,38 +340,37 @@ data.techs.tc_cube_green_5 = {
 	},
 	require_tech = { "tc_cube_green_4" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 5, concreteslab = 2 }, 300),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_soul_angry = 1}, 300),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_red_4 = { 
 	order = 1,
-	name = "Anti-Gravity Unit", 
-	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
-	unlocks = {
-		-- new resources
-		"fc_boost_tower",
-	},
-	require_tech = { "tc_cube_red_3"},
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
-	category = "Cube_Obsession",
-}
-data.techs.tc_cube_red_5 = { 
-	order = 1,
-	name = "Chrono Field Towers", 
-	desc = "Towers Harnessing stabilized chrono crystal to create localized chronological fields",
+	name = "Anti-Cube Containment", 
+	desc = "Captured Anti Cube for perpetual vertical force",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
 		"ldframe",
 	},
-	require_tech = { "tc_cube_red_4"},
+	require_tech = { "tc_cube_red_3"},
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
 	category = "Cube_Obsession",
 }
-
+data.techs.tc_cube_red_5 = {
+	order = 1,
+	name = "Bulk Cube Refining", 
+	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
+	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	unlocks = {
+		-- new resources
+		"cc_red_furnace",
+	},
+	require_tech = { "tc_cube_red_4"},
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
+	category = "Cube_Obsession",
+}
 
 --------------------------------
 ---------- ROBOT ---------------
@@ -381,7 +381,7 @@ data.techs.tc_robot_metallurgy_1 = {
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
-		"steelblock",	
+		"steelblock",
 	},
 	require_tech = { "tc_robot_basic" },
 	progress_count = 25,

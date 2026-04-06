@@ -20,7 +20,7 @@ local function replace_cube(recipe, entity)
 end
 local function check_waste_and_output(recipe, outputs)
 
-	local cube_names = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red', 'ic_cube_pink', 'ic_cube_yellow', 'ic_cube_purple', 'ic_cube_sphere'}
+	local cube_names = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red', 'ic_cube_sphere'}
 	for i,cube_name in ipairs(cube_names) do 
 		-- allows the process function to ignore reserving space for input cube
 		if (recipe.byproduct[cube_name] and outputs[cube_name]) then 
