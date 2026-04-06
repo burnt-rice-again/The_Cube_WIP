@@ -15,20 +15,15 @@ local function create_alt_recipe(id,recipe,overide_values)
 	data.items[id.."_alt"] = item
 	data.items[id].has_alt = id.."_alt"
 end
-
-
-
+-- create slot for cube
 data.item_slot_icons["cube"] = "Main/skin/Icons/Special/Technologies/Robots.png"
-
--- basic non cube parts 
--- TODO data.categories to put cubes on their own line 
+-- add cube category 
 data.categories[#data.categories+1] = { name = "Cube", tab = "item",  defs = data.items,  filter_field = "tag", filter_val = "cube"   }
 
+--------------------------------------
+---- Update Cube Existing Items -----------
 
--- manifesting 
---data.items.steelblock.production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, metalore = 1}, {cc_manifest = 10}, 1, {ic_cube_blue = 1})
----------- CUBE Recipes -----------
--- Blue Cube
+-- Blue Cube items 
 data.items.crystal_powder.production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, crystal = 40,  }, {cc_manifest = 100}, 20, {ic_cube_empty = 1})
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
@@ -38,7 +33,26 @@ create_alt_recipe("crystal_powder",
 	50, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}
 )
--- Red Cube 
+data.items.datakey_robot = {
+	name = "Cube Log",
+	race = "robot",
+	index = 1010,
+	desc = "The Cube holds histories of the past.  There is surely knowladge to be gained there",
+	tag = "research",
+	texture = "Main/textures/icons/items/datakey_robot.png",
+	visual = "v_gears",
+	slot_type = "storage",
+	stack_size = 20,
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 25, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
+}
+create_alt_recipe("datakey_robot", 
+	CreateProductionRecipeWithWaste(
+	{ic_cube_empty = 1, reinforced_plate = 20, }, 
+	{cc_green_brain = 15 , cc_red_furnace = 5},
+	20, {ic_cube_blue = 1}),
+	{desc = "Bulk Cube Log Filling"}
+)
+-- Red Cube items
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, steelblock = 100, crystal_powder = 10  }, {cc_manifest = 100, cc_red_furnace = 25}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
@@ -47,25 +61,26 @@ create_alt_recipe("reinforced_plate",
 	20, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
 )
---data.items.steelblock.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, metalore = 100, fused_electrodes = 10  }, {cc_red_furnace = 100}, 80, {ic_cube_empty = 1})
-data.items.blight_plasma.name = "Purified Crystal"
-data.items.blight_plasma.desc = "The leavings from a Soul Distillery\nThe rest has been melted away"
-data.items.blight_plasma.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, ic_soul_plasma = 100, phase_leaf = 10  }, {cc_red_furnace = 100}, 80, {ic_cube_empty = 1})
---- green cube 
+--- Green cube 
 data.items.phase_leaf.production_recipe = false
 data.items.phase_leaf.tag = "resource"
 data.items.phase_leaf.race = "virus"
--- 	name = "Purified Crystal",
--- 	race = "robot",
--- 	desc = "The leavings from a Soul Distillery\nThe rest has been melted away",
---foundations 
+
+data.items.wire.name = "Neurotic Reed Fibre"
+data.items.wire.desc = "Conductive reed fibre, wound and ready for higher conceptualization"
+data.items.wire.production_recipe = false
+data.items.wire.race = "virus"
+--- AntiCube 
+data.items.ldframe.name = "AntiPhysics Frame"
+data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
+data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, phase_leaf = 4,ic_cube_sphere = 1 }, { cc_manifest = 20 }, 1)
 
 
---------------- Production Recipes 
----lvl0
+--------------------------------------
+---- Update Non Cube Existing Items -----------
+data.items.crystal.name = "Resonance Crystal"
 
 data.items.metalplate.production_recipe = CreateProductionRecipe({metalore = 2}, {c_fabricator = 5}, 1)
-
 data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_miner = 15})
 
 data.items.steelblock.name = "Steel Beams"
@@ -75,39 +90,27 @@ data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = 'robot'
 data.items.steelblock.tag = "simple_material"
 
-
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
 data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 4)
---data.items.concreteslab.production_recipe = CreateMiningRecipe({c_miner = 30,c_adv_miner = 15,c_human_miner = 20,c_alien_miner = 30,})
-
 data.items.concreteslab.tag = "simple_material"
-
+create_alt_recipe("concreteslab", 
+	CreateProductionRecipe(
+	{laterite = 4, steelblock = 1}, 
+	{c_fabricator = 25},
+	1),
+	{desc = "Laterite Concrete Mixing"}
+)
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40}, 1)
 
+data.items.engine.production_recipe = CreateProductionRecipe({reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120}, 1)
 
-data.items.crystal.name = "Resonance Crystal"
---- lvl1 
-data.items.wire.name = "Neurotic Reed Fibre"
-data.items.wire.desc = "Conductive reed fibre, wound and ready for higher conceptualization"
-data.items.wire.production_recipe = false
-data.items.wire.race = "virus"
-
-data.items.aluminiumrod.production_recipe = CreateProductionRecipe({laterite = 2 }, {c_fabricator = 10}, 1)
-
-data.items.aluminiumsheet.production_recipe = CreateProductionRecipe({aluminiumrod = 3, crystal = 2}, {c_fabricator = 30}, 1)
-
-data.items.icchip.production_recipe = CreateProductionRecipe({ic_souls = 1, crystal_powder = 2}, {c_human_science_analyzer_robots = 60}, 1)
-data.items.icchip.desc = "Ghost in the machine"
---- lvl2 
 data.items.fused_electrodes.name = "Superconductor"
 data.items.fused_electrodes.desc = "This Material is beyond our current understanding\nItleast we know we will eventually be able to manufacture it"
 data.items.fused_electrodes.production_recipe = false
 
---- lvl3 
-data.items.micropro.production_recipe = CreateProductionRecipe({wire = 16, reinforced_plate = 2 , ic_soul_angry = 1}, {cc_green_brain = 60}, 1)
-data.items.micropro.desc = "Subsumed Will"
+--------------------------------------
+---- CUBE! -----------
 
-data.items.engine.production_recipe = CreateProductionRecipe({reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120}, 1)
 data.items.ic_cube_blue = {
 	name = "THE CUBE",
 	index = 1000,
@@ -119,7 +122,8 @@ data.items.ic_cube_blue = {
 	race = "alien",
 	texture = "Main/textures/icons/items/robot_research_cube.png",
 	visual = "vc_cube_blue",--"v_robot_data",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1, concreteslab = 20 }, { cc_manifest = 200 },1,{ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste(
+	{ ic_cube_green = 1, crystal = 20 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
 	--v_robot_data
 }
 
@@ -161,7 +165,8 @@ data.items.ic_cube_green = {
 	race = "alien",
 	texture = "Main/textures/icons/items/virus_research_data.png",
 	visual = "v_virus_data",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, wire = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
+	production_recipe = CreateProductionRecipeWithWaste(
+	{ ic_cube_blue = 1, wire = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
 data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
@@ -174,7 +179,9 @@ data.items.ic_cube_sphere = {
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
 	visual = 'vc_cube_sphere_item',
 	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 100,  }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste(
+	{ ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
+	1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
 	alt_item = "datakey_robot",
 }
 -- data.items.ic_cube_yellow = {
@@ -214,20 +221,10 @@ data.items.ic_cube_sphere = {
 -- 	production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1, ic_cube_blue =1 }, { cc_manifest = 200, }),
 -- }
 
--- "v_hybrid_worker" for final production building 
+-- "v_hybrid_worker" for final production building ?
+--------------------------------------
+---- Soul Related Items -----------
 
-data.items.datakey_robot = {
-	name = "Cube Log",
-	race = "robot",
-	index = 1010,
-	desc = "The Cube holds histories of the past.  There is surely knowladge to be gained there",
-	tag = "research",
-	texture = "Main/textures/icons/items/datakey_robot.png",
-	visual = "v_gears",
-	slot_type = "storage",
-	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 25, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
-}
 data.items.ic_souls = {
 	name = "Lingering Souls",
 	index = 1010,
@@ -328,21 +325,6 @@ data.items.ic_time_crystal = {
 	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
 	production_recipe = CreateProductionRecipe({ blight_crystal = 16, phase_leaf = 4,ic_soul_happy = 1 }, { cc_soul_refinery = 20 }, 1),
 }
-data.items.ldframe.name = "AntiGravity Frame"
-data.items.ldframe.desc = "A Contained AntiCube"
-data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, phase_leaf = 4,ic_cube_sphere = 1 }, { cc_manifest = 20 }, 1)
-
--- data.items.ic_soul_crystal = {
--- 	name = "Purified Crystal",
--- 	race = "robot",
--- 	desc = "The leavings from a Soul Distillery\nThe rest has been melted away",
--- 	tag = "advanced_material",
--- 	texture = "Main/textures/icons/items/anomaly_particle.png",
--- 	visual = "v_scaramar1",
--- 	slot_type = "anomaly",
--- 	stack_size = 20,
--- 	production_recipe = CreateProductionRecipe({ ic_souls = 1 }, { cc_soul_refinery = 30 }, 10),
--- }
 
 
 
@@ -350,18 +332,3 @@ data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate
 
 
 
-
-create_alt_recipe("concreteslab", 
-	CreateProductionRecipe(
-	{laterite = 4, steelblock = 1}, 
-	{c_fabricator = 25},
-	1),
-	{desc = "Laterite Concrete Mixing"}
-)
-create_alt_recipe("datakey_robot", 
-	CreateProductionRecipeWithWaste(
-	{ic_cube_empty = 1, reinforced_plate = 20, }, 
-	{cc_green_brain = 15 , cc_red_furnace = 5},
-	20, {ic_cube_blue = 1}),
-	{desc = "Bulk Cube Log Filling"}
-)

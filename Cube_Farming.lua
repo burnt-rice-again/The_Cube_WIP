@@ -29,7 +29,7 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     desc = "Will grow the plant once the work completes",
     texture = "The_Cube_WIP/textures/wire_seed.png",
     activation = 'Manual',
-    
+
     attachment_size = "Hidden",
     race = 'robot',
     --visual = "v_generic_i",
@@ -199,16 +199,12 @@ fc_crop:RegisterFrame('fc_crop_phase_plant',{
 })
 
 -- modify phase component to hit own units 
-
-
-
 -- add method for recycling planters
 data.items.wire.production_recipe = CreateProductionRecipe({cc_planter_wire = 1},{c_assembler = 15})
 data.items.phase_leaf.production_recipe = CreateProductionRecipe({cc_planter_phase_leaf = 1},{c_assembler = 15})
 
 ------------------------------------------------------
 ---------- Planter Component -------------------------
-
 
 local function is_pos_plantable(comp, x,y, range)
     local owner = comp.owner

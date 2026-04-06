@@ -25,7 +25,6 @@ function package:on_world_spawn()
 end
 
 local function tester_spawn_observers(faction, x,y)
-
 	local size = 100
 	local tower = Map.CreateEntity(faction, 'fc_testing_observer')
 	tower:Place(x+size,y+size)
@@ -35,7 +34,6 @@ local function tester_spawn_observers(faction, x,y)
 	tower:Place(x-size,y+size)
 	tower = Map.CreateEntity(faction, 'fc_testing_observer')
 	tower:Place(x-size,y-size)
-
 end
 
 
