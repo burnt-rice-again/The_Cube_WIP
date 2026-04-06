@@ -48,11 +48,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	for key, val in pairs(data.techs) do 
-		if "tc_" == string.sub(key, 1, 3) then 
-			faction:Unlock(key)
-		end
-	end
+	-- for key, val in pairs(data.techs) do 
+	-- 	if "tc_" == string.sub(key, 1, 3) then 
+	-- 		faction:Unlock(key)
+	-- 	end
+	-- end
 	
 	-- blightness
 	faction.extra_data.blight_fog = 1
@@ -299,6 +299,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
 
-	tester_spawn_observers(faction, loc.x,loc.y)
+	--tester_spawn_observers(faction, loc.x,loc.y)
 end
 

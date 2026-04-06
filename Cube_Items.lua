@@ -11,6 +11,7 @@ local function create_alt_recipe(id,recipe,overide_values)
 	for key, val in pairs(overide_values) do
 		item[key] = val
 	end
+	item.race = 'human'
 	data.items[id.."_alt"] = item
 	data.items[id].has_alt = id.."_alt"
 end
@@ -30,7 +31,13 @@ data.categories[#data.categories+1] = { name = "Cube", tab = "item",  defs = dat
 -- Blue Cube
 data.items.crystal_powder.production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, crystal = 40,  }, {cc_manifest = 100}, 20, {ic_cube_empty = 1})
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
-
+create_alt_recipe("crystal_powder",
+	CreateProductionRecipeWithWaste(
+	{ic_cube_blue = 1, crystal = 100, ic_soul_angry = 5}, 
+	{cc_manifest = 25, cc_red_furnace = 5},
+	50, {ic_cube_empty = 1}),
+	{desc = "Bulk Crystal Refraction"}
+)
 -- Red Cube 
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste({ic_cube_red = 1, steelblock = 100, crystal_powder = 10  }, {cc_manifest = 100, cc_red_furnace = 25}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
@@ -244,14 +251,14 @@ data.items.ic_soul_plasma = {
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, ic_souls = 50 },
-	{ cc_soul_refinery = 200 },
+	{ cc_soul_refinery = 400 },
 	100, {ic_cube_blue = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_souls = 100, phase_leaf = 20 }, 
+	{ic_cube_red = 1, ic_souls = 40, phase_leaf = 1 }, 
 	{cc_soul_refinery = 25,},
-	100, 
+	100,
 	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
@@ -265,7 +272,9 @@ data.items.ic_soul_happy = {
 	visual = "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipe({ ic_soul_plasma = 1, datakey_robot = 1 }, { cc_green_brain = 1 }, 1),
+	production_recipe = CreateProductionRecipe(
+	{ ic_soul_plasma = 1, datakey_robot = 1, crystal_powder = 1 },
+	{ cc_green_brain = 1}, 1),
 }
 data.items.ic_soul_angry = {
 	name = "Soul Pearls",
@@ -277,7 +286,10 @@ data.items.ic_soul_angry = {
 	visual = "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_plasma = 50, ic_cube_red = 1 }, { cc_soul_refinery = 10 }, 1, {ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste(
+	{ ic_soul_plasma = 100, ic_cube_red = 1 }, 
+	{ cc_soul_refinery = 10, cc_red_furnace = 5},
+	5, {ic_cube_empty = 1}),
 }
 -- data.items.ic_living_metal = {
 -- 	name = "Living Metal",
@@ -301,7 +313,9 @@ data.items.ic_fuel = {
 	visual = "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipe({ phase_leaf = 10, crystal_powder = 1}, { cc_soul_refinery = 20 }, 1),
+	production_recipe = CreateProductionRecipe(
+	{ phase_leaf = 10, crystal_powder = 1}, 
+	{ cc_soul_refinery = 20 }, 1),
 }
 data.items.ic_time_crystal = {
 	name = 'Chrono Crystal',

@@ -177,7 +177,6 @@ data.techs.tc_cube_red_1 = {
 		"ic_cube_red","reinforced_plate",
 	},
 	require_tech = { "tc_cube_basic" },
-	tooltip = 'Find a molten explorable to unlock this tech for free',
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
 	category = "Cube_Curiosity",
@@ -237,7 +236,7 @@ data.techs.tc_cube_green_2 = {
 	},
 	require_tech = { "tc_cube_green_1", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, datakey_robot = 1, ic_soul_plasma = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({datakey_robot = 1, ic_soul_plasma = 1 }, 50),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_3 = {
@@ -252,7 +251,7 @@ data.techs.tc_cube_green_3 = {
 	},
 	require_tech = { "tc_cube_green_2" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1 }, 300),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
@@ -451,7 +450,7 @@ data.techs.tc_robot_beacons2 = {
 	texture = data.frames.f_beacon.texture,
 	unlocks = {
 		-- new resources
-		"datakey_robot_alt",
+		"datakey_robot_alt","crystal_powder_alt"
 	},
 	require_tech = { "tc_robot_beacons1" },
 	progress_count = 25,

@@ -367,8 +367,8 @@ local function ShowIngredients(list, seen_unlocks, ingredients, def, amount, bp)
 				have_locks = ShowIngredient(ingredient_list, seen_unlocks, id, num) or have_locks end
 		end
 	end
-	if def.has_alt ~= nil then 
-		-- has an alternative production recipe 
+	if def.has_alt ~= nil and seen_unlocks[def.has_alt] ~= nil then 
+		-- has an alternative production recipe and it is seen
 		local def_2 = data.items[def.has_alt]
 		ShowIngredients(list, seen_unlocks, def_2.production_recipe.ingredients, def_2, amount, bp)
 	end
