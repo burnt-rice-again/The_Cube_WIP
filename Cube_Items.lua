@@ -154,7 +154,7 @@ data.items.ic_cube_green = {
 	name = "RESTLESS CUBE",
 	index = 1002,
 	desc = "THE CUBE IS RESTLESS",
-	locked_desc = "The Perfect Shape",
+	locked_desc = "Find a large weed in the plains and claim a cutting",
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
@@ -235,7 +235,7 @@ data.items.ic_souls = {
 	desc = "",
 	tag = "resource",
 	texture = "The_Cube_WIP/textures/soul3.png",
-	visual = "v_scaramar1",
+	visual = "v_bot_ai_core", -- "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
 }
@@ -324,8 +324,8 @@ data.items.ic_time_crystal = {
 	desc = 'Stabilized Chrono Crystal',
 	stack_size = 20,
 	slot_type = 'storage',
-	visual = 'v_metalore',
-	texture = "The_Cube_WIP/textures/pixels.png",
+	visual = 'vc_time_crystal',
+	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
 	production_recipe = CreateProductionRecipe({ blight_crystal = 16, phase_leaf = 4,ic_soul_happy = 1 }, { cc_soul_refinery = 20 }, 1),
 }
 data.items.ldframe.name = "AntiGravity Frame"

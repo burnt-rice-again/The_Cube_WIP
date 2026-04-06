@@ -199,6 +199,10 @@ data.visuals.vc_cube_blue = {
 	--placement = "AtCenter",
 }
 
+data.visuals.vc_time_crystal = {
+	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb"
+}
+
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_sea_grass.scale = {3,3,3}
 data.visuals.vc_sea_grass.flags = "RandomRotation|RandomScale|RandomTranslation"

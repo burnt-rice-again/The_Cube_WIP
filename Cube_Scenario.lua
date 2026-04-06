@@ -172,9 +172,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	new_entity:SetRegister(FRAMEREG_GOTO, {id="crystal",num=math.random(500, 2500)})
 	new_entity:Place(loc.x+7, loc.y+6,2)
 
-
-
-
 	-- spawn consturction fliers 
 	local flier = Map.CreateEntity(faction, "f_flyer_bot")
 	flier:AddComponent("c_anomaly_container_i")
@@ -183,7 +180,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	flier:Place(loc.x+4,loc.y+3)
 
 	-- cub with cube transporter 
-	local transport = Map.CreateEntity(faction, "f_bot_1m_c")
+	local transport = Map.CreateEntity(faction, "f_bot_1m_a")
 	transport:AddComponent("cc_cube_storage")
 	--transport:AddItem("ic_cube_empty")
 	transport.logistics_carrier = true
@@ -191,15 +188,9 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	transport:Place(loc.x+4,loc.y+4)
 
 
-
-
-
-
-
-
-
-
+	------------------------------
 	-- testing buildings 
+
 
 	--spawn Farming Tester
 	new_entity = Map.CreateEntity(faction, "f_building2x2c")
@@ -269,6 +260,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	pipe:AddComponent("cc_cube_storage")
 	--pipe:AddComponent("cc_pipe_output")
 	pipe:AddItem("ic_souls",200)
+	pipe:AddItem("ic_time_crystal",20)
 	pipe:AddItem("ic_cube_blue",1)
 	pipe:Place(loc.x-8,loc.y)
 
