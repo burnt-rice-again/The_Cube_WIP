@@ -163,10 +163,10 @@ data.items.ic_cube_sphere = {
 	stack_size = 1,
 	race = "alien",
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
-	visual = 'vc_cube_sphere_item', 
-	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 1, }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1}),
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1}),
-	alt_item = "ic_cube_empty",
+	visual = 'vc_cube_sphere_item',
+	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 100,  }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	alt_item = "datakey_robot",
 }
 -- data.items.ic_cube_yellow = {
 -- 	name = "TEMPERED CUBE",

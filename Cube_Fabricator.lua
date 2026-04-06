@@ -9,30 +9,33 @@ end
 
 --- My Modification here -----------
 local function replace_cube(recipe, entity)
-	--print(recipe)
-	if recipe.byproduct ~= nil then 
+	if recipe.byproduct ~= nil then
+		local anti_count = 0
 		for waste,num in pairs(recipe.byproduct) do
-			--print(waste)
-			--print(num)
-			entity:AddItem(waste)
-		end 
-	end 
+			if waste == "ic_cube_sphere" then
+				-- special placement of anticube in area
+				anti_count = anti_count + 1
+			else
+				entity:AddItem(waste)
+			end
+		end
+		while anti_count > 0 do 
+			Place_Anti_Cube(entity, false)
+			anti_count = anti_count - 1
+		end
+	end
 end
 local function check_waste_and_output(recipe, outputs)
-
 	local cube_names = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red', 'ic_cube_sphere'}
 	for i,cube_name in ipairs(cube_names) do 
 		-- allows the process function to ignore reserving space for input cube
 		if (recipe.byproduct[cube_name] and outputs[cube_name]) then 
 			outputs[cube_name] = nil
 		end
-	end
+	end	
 	return recipe
 end
 ---------------------------------
-
-
-
 
 local cc_cube_fabrication = Comp:RegisterComponent("cc_cube_fabrication", {
 	name = "Dream Lounge",
@@ -105,9 +108,6 @@ function cc_cube_fabrication:on_update(comp, cause)
 		self:pipe_input(comp, cause)
 	end
 
-
-
-
 	if not product_def then
 		-- Production cancel requested
 		return self:end_production(comp, nil, count > 0, true)
@@ -155,10 +155,6 @@ function cc_cube_fabrication:on_update(comp, cause)
 		local drone_slot = is_bot_production and comp:GetProcessOutputSlot()
 		local bot_ingredient_extra_datas = comp:FulfillProcess(is_bot_production)
 		replace_cube(production_recipe, comp.owner)
-		-- check for anti cube 
-		if production_recipe.ingriendents ~= nil and production_recipe.ingriendents.ic_cube_sphere ~= nil then
-			Place_Anti_Cube(comp.owner)
-		end
 
 
 		if is_bot_production then
@@ -240,6 +236,12 @@ function cc_cube_fabrication:on_update(comp, cause)
 		return self:end_production(comp, nil, count > 0)
 	end
 
+	-- has a recipe and is working so just keep going 
+	if comp.is_working then 
+		comp:SetStateContinueWork()
+		return 
+	end
+
 	-- Get production ingredients
 	local ingredients = GetIngredients(production_recipe, blueprint_def)
 	
@@ -255,12 +257,12 @@ function cc_cube_fabrication:on_update(comp, cause)
 	end
 
 	--ADDITION
-	-- remove cube from output if it is in waste 
+	-- remove cube from output if it is in waste
+		-- this allows the process to still run with only 1 cube storage
 	if production_recipe.byproduct then
 		check_waste_and_output(production_recipe, outputs)
 	end
 	---
-
 	local can_make, missing_register = comp:PrepareProduceProcess(ingredients, outputs, order_count)
 	if not can_make then
 		-- Missing ingredient or no space for output
@@ -268,11 +270,10 @@ function cc_cube_fabrication:on_update(comp, cause)
 		return comp:SetStateSleep()
 	end
 
+
 	comp:SetRegister(2, missing_register)
 	comp:FlagRegisterError(1, not can_make)
 	if comp.owner.is_placed and self.production_effect ~= false then
-		--print(self.production_effect)
-		
 		comp:PlayWorkEffect(self.production_effect)
 		comp:SetWorkAnimationSpeed()
 	end
