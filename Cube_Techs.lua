@@ -267,7 +267,7 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"blight_crystal","ic_time_crystal","xc_cube_anti"
+		"blight_crystal","ic_time_crystal","xc_cube_anti","xc_cube_time_crystal",
 	},
 	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,

@@ -27,7 +27,7 @@ data.codex.xc_cube_1 = {
 }
 data.codex.xc_cube_power_1 = {
     category = "Codex",
-    index = 10,
+    index = 2,
     title = [[<img width="18" height="18" image="Main/textures/icons/values/power.png"/>Cube Power]],
     text = [[<img width="100" height="100" image="Main/textures/icons/values/power.png"/><codex_title>Cube Power Production</>
 
@@ -55,7 +55,7 @@ data.codex.xc_cube_power_1 = {
 }
 data.codex.xc_cube_pedestal = {
     category = "Codex",
-    index = 11,
+    index = 3,
     title = [[<img width="18" height="18" id="cc_cube_storage"/>Cube Storage]],
     text = [[<img width="100" height="100" id="cc_cube_storage"/><codex_title>Cube Storage</>
 
@@ -68,27 +68,9 @@ data.codex.xc_cube_pedestal = {
         The blue Cube will provide <bl>500</> power/second while placed on a pedestal
         ]],
 }
-data.codex.xc_cube_alt = {
-    category = "Codex",
-    index = 12,
-    title = [[<img width="18" height="18" id="v_color_yellow"/>Alternative Recipes]],
-    text = [[<img width="100" height="100" id="v_color_yellow"/><codex_title>Alternative Recipes</>
-
-        There are some alternative recipes available for items made with the Cube 
-
-        All alternative recipes have a yellow background 
-
-        Typically these recipes cost more resources but significantly less Cube time.
-        They also offer new ways to change the Cubes form.
-
-        <img image="The_Cube_WIP/textures/Codex_Images/Alt_Recipe.png"/>
-        <img id="datakey_robot" width="50" height="50"/> <hl>Original Recipe</> 
-        <img id="datakey_robot_alt" width="50" height="50"/> <hl>Alternative Recipe</> 
-        ]],
-}
 data.codex.xc_cube_recharger = {
     category = "Codex",
-    index = 12,
+    index = 4,
     title = [[<img width="18" height="18" id="cc_cube_recharger"/>Cube Recharger]],
     text = [[<img width="100" height="100" id="cc_cube_recharger"/><codex_title>Cube Recharger</>
 
@@ -104,36 +86,27 @@ data.codex.xc_cube_recharger = {
             -- Charging inside the blight can create a Verdant Cube. 
         ]],
 }
-data.codex.xc_cube_red = {
+data.codex.xc_cube_alt = {
     category = "Codex",
-    index = 4,
-    title = [[<img width="18" height="18" id="ic_cube_red"/>Fury Cube]],
-    text = [[<img width="100" height="100" id="ic_cube_red"/><codex_title>Fury Cube</>
+    index = 5,
+    title = [[<img width="18" height="18" id="v_color_yellow"/>Alternative Recipes]],
+    text = [[<img width="100" height="100" id="v_color_yellow"/><codex_title>Alternative Recipes</>
 
-        The Fury Cube is useful for smelting and power generation 
+        There are some alternative recipes available for items made with the Cube 
 
-        The Fury Cube can only be created by melting a dormant cube inside a blight volcano
-        <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="fc_volcano"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+        All alternative recipes have a yellow background 
 
-        The Cube will cooldown when used for crafting
-        Alternativly the Fury Cube can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
+        Typically these recipes cost more resources but significantly less Cube time.
+        They also offer new ways to change the Cubes form.
 
-        Available Power Generation via Fury Cube.
-        <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Basic Crystal Power</> 
-        Energy Recipe 
-		<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-
-        Crystal power will attempt to recharge when its battery is empty.
-        A single recharge will fully recharge the internal battery.
-
-        Other Similiar Power Components 
-        <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
-        <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+        <img image="The_Cube_WIP/textures/Codex_Images/Alt_Recipe.png"/>
+        <img id="datakey_robot" width="50" height="50"/> <hl>Original Recipe</> 
+        <img id="datakey_robot_alt" width="50" height="50"/> <hl>Alternative Recipe</> 
         ]],
 }
 data.codex.xc_cube_green = {
     category = "Codex",
-    index = 4,
+    index = 6,
     title = [[<img width="18" height="18" id="ic_cube_green"/>Verdant Cube]],
     text = [[<img width="100" height="100" id="ic_cube_green"/><codex_title>Verdant Cube</>
 
@@ -162,9 +135,37 @@ data.codex.xc_cube_green = {
         Unwanted seeds can be recycled in the assembler
         ]],
 }
+data.codex.xc_cube_red = {
+    category = "Codex",
+    index = 7,
+    title = [[<img width="18" height="18" id="ic_cube_red"/>Fury Cube]],
+    text = [[<img width="100" height="100" id="ic_cube_red"/><codex_title>Fury Cube</>
+
+        The Fury Cube is useful for smelting and power generation 
+
+        The Fury Cube can only be created by melting a dormant cube inside a blight volcano
+        <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="fc_volcano"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+
+        The Cube will cooldown when used for crafting
+        Alternativly the Fury Cube can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
+
+        Available Power Generation via Fury Cube.
+        <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Basic Crystal Power</> 
+        Energy Recipe 
+		<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+
+        Crystal power will attempt to recharge when its battery is empty.
+        A single recharge will fully recharge the internal battery.
+
+        Other Similiar Power Components 
+        <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
+        <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+        ]],
+}
+
 data.codex.xc_cube_plasma = {
     category = "Codex",
-    index = 5,
+    index = 8,
     title = [[<img width="18" height="18" id="ic_soul_plasma"/>Ectoplasma Network]],
     text = [[<img width="100" height="100" id="ic_soul_plasma"/><codex_title>Ectoplasma Network</>
 
@@ -181,7 +182,7 @@ data.codex.xc_cube_plasma = {
 }
 data.codex.xc_cube_anti = {
     category = "Codex",
-    index = 5,
+    index = 10,
     title = [[<img width="18" height="18" id="ic_cube_sphere"/>Anti-Cube]],
     text = [[<img width="100" height="100" id="ic_cube_sphere"/><codex_title>Anti-Cube</>
 
@@ -202,9 +203,24 @@ data.codex.xc_cube_anti = {
 
         ]],
 }
+data.codex.xc_cube_time_crystal = {
+    category = "Codex",
+    index = 11,
+    title = [[<img width="18" height="18" id="blight_crystal"/>Cube Anihillation]],
+    text = [[<img width="100" height="100" id="blight_crystal"/><codex_title>Cube Anihillation</>
+
+        Placing the Cube and Anti-Cube into the same frame will cause them to anhillate. 
+
+        The Anti-Cube will explode dealing damage to units within range 10. 
+        Blight Crystal Deposits will form neaarby. 
+        Units Killed by the explosion will cause additonal blight crystals to appear. 
+
+        In additon the Cube will be transformed into another form. 
+        ]],
+}
 data.codex.xc_cube_boost = {
     category = "Codex",
-    index = 5,
+    index = 11,
     title = [[<img width="18" height="18" id="ic_fuel"/>Boost Modules]],
     text = [[<img width="100" height="100" id="ic_fuel"/><codex_title>Boost Modules</>
 
@@ -225,7 +241,7 @@ data.codex.xc_cube_boost = {
 }
 data.codex.xc_cube_time_travel = {
     category = "Codex",
-    index = 5,
+    index = 12,
     title = [[<img width="18" height="18" id="cc_time_travel_machine"/>Time Travel Expedition]],
     text = [[<img width="100" height="100" id="cc_time_travel_machine"/><codex_title>Time Travel Expedition</>
 
