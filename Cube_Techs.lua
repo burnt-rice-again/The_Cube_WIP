@@ -136,7 +136,7 @@ data.techs.tc_cube_blue_1 = {
 		--"cc_refinery",
 	},
 	require_tech = { "tc_cube_basic" },
-	progress_count = 25,
+	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
 	category = "Cube_Curiosity"
 }
@@ -245,6 +245,19 @@ data.techs.tc_cube_green_2 = {
 }
 data.techs.tc_cube_green_3 = {
 	order = 3,
+	name = "Resource Regeneration", -- recovered database etc.
+	desc = "heal the worlds wounds",
+	texture = data.items.ic_cube_green.texture,
+	unlocks = {
+		"c_blight_magnifier"
+	},
+	require_tech = { "tc_cube_green_2" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
+	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_green_4 = {
+	order = 3,
 	name = "Farming", -- recovered database etc.
 	desc = "Grow seeds",
 	texture = data.items.phase_leaf.texture,
@@ -253,9 +266,23 @@ data.techs.tc_cube_green_3 = {
 		-- phase farming 
 		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
 	},
-	require_tech = { "tc_cube_green_2" },
+	require_tech = { "tc_cube_green_3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_green_5 = {
+	order = 3,
+	name = "Boost Speed","xc_cube_boost",
+	desc = "",
+	texture = "Main/textures/icons/items/human/engine.png",
+	unlocks = {
+		-- new resources
+		"engine","ic_fuel","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
+	},
+	require_tech = { "tc_cube_green_4" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
@@ -306,7 +333,7 @@ data.techs.tc_cube_anti_2 = {
 }
 data.techs.tc_cube_anti_3= {
 	order = 2,
-	name = "Parrallel Universe Invasion", -- recovered database etc.
+	name = "Future Invasion", -- recovered database etc.
 	desc = "Send Expeditions to the future to steal materials not craftable with the current technology\n\nWarning beware of response from attacked timeline",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
@@ -318,34 +345,8 @@ data.techs.tc_cube_anti_3= {
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_plasma = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
 	category = "Cube_Obsession",
 }
-data.techs.tc_cube_green_4 = {
-	order = 3,
-	name = "Boost Speed","xc_cube_boost",
-	desc = "",
-	texture = "Main/textures/icons/items/human/engine.png",
-	unlocks = {
-		-- new resources
-		"engine","ic_fuel","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
-	},
-	require_tech = { "tc_cube_green_3" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
-	category = "Cube_Obsession",
-}
-data.techs.tc_cube_green_5 = {
-	order = 3,
-	name = "Datakey",
-	desc = "TBA",
-	texture = "Main/textures/icons/items/human/engine.png",
-	unlocks = {
-		-- new resources
-		"datakey_virus",
-	},
-	require_tech = { "tc_cube_green_4" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_soul_angry = 1}, 300),
-	category = "Cube_Obsession",
-}
+
+
 data.techs.tc_cube_red_4 = { 
 	order = 1,
 	name = "Anti-Cube Containment", 
