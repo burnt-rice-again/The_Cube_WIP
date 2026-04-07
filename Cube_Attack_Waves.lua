@@ -44,6 +44,9 @@ local comp_cost_list <const> = {
         c_portable_turret_red = 3,
         --c_portable_turret_green = 2, -- no virus protection in tech tree
         c_melee_pulse = 1,
+        c_turret = 1,
+        c_twin_autocannons = 5,
+        c_light_cannon = 5,
     },
     m = {
         c_virus_bitlock = 10,
@@ -51,10 +54,14 @@ local comp_cost_list <const> = {
         c_plasma_turret = 10,
         c_pulse_disrupter = 10,
         c_photon_beam = 8,
-        c_laser_turret = 6
+        c_laser_turret = 6,
+        c_pulselasers = 5,
+        c_plasma_cannon = 10,
+        c_railgun = 10,
     },
     l = {
         c_missile_turret = 5,
+        c_human_missilelauncher = 3,
     },
 }
 

@@ -839,7 +839,7 @@ data.techs.tc_weapons1 = {
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		-- new resources
-		'c_repairkit',"c_repairer","c_melee_pulse",
+		'c_repairkit',"c_repairer","c_melee_pulse","c_adv_portable_turret",
 	},
 	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
 	progress_count = 100,
@@ -852,8 +852,7 @@ data.techs.tc_weapons2 = {
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
-		-- new resources
-		"c_adv_portable_turret",
+		"c_pulselasers","c_pulse_disrupter","c_repairport"
 	},
 	require_tech = { "tc_weapons1" },
 	progress_count = 100,
@@ -866,13 +865,51 @@ data.techs.tc_weapons3 = {
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
-		-- new resources
-		"c_portable_turret_red","c_portable_turret_green"
+		"c_portable_turret_red","c_turret","c_repairer_small_aoe",
 	},
 	require_tech = { "tc_weapons2" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, phase_leaf = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, ic_soul_angry = 1}, 50),
 	category = "tc_upgrades_1",
+}
+data.techs.tc_weapons4 = {
+	order = 9,
+	name = "Improved Soul Capture Methods", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	texture = data.components.c_adv_portable_turret.texture,
+	unlocks = {
+		"c_plasma_cannon", "c_twin_autocannons","c_human_missilelauncher",
+	},
+	require_tech = { "tc_weapons3" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, ic_soul_angry = 1, reinforced_plate = 1}, 50),
+	category = "tc_upgrades_1",
+}
+data.techs.tc_weapons5 = {
+	order = 9,
+	name = "Improved Soul Capture Methods", -- recovered database etc.
+	desc = "The Cube must be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	texture = data.components.c_adv_portable_turret.texture,
+	unlocks = {
+		"c_railgun","c_light_cannon","c_plasma_turret",
+	},
+	require_tech = { "tc_weapons4" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ wire = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
+	category = "tc_upgrades_2",
+}
+data.techs.tc_weapons6 = {
+	order = 9,
+	name = "Improved Soul Capture Methods", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	texture = data.components.c_adv_portable_turret.texture,
+	unlocks = {
+		"c_laser_turret","c_missile_turret",
+	},
+	require_tech = { "tc_weapons5" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
+	category = "tc_upgrades_2",
 }
 
 --- storages 
