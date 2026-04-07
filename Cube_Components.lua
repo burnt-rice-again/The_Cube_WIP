@@ -62,7 +62,7 @@ data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({[
 data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
 data.components.c_adv_miner.production_recipe = CreateProductionRecipe({ic_soul_angry = 1, reinforced_plate = 4, wire = 4, c_miner = 1}, {["c_assembler"] = 50}, 1)
 data.components.c_extractor.production_recipe = CreateProductionRecipe({ic_soul_angry = 4, reinforced_plate = 9, phase_leaf = 4, c_adv_miner = 1, c_medium_capacitor = 1}, {["c_assembler"] = 70}, 1)
-
+data.components.c_extractor.race = 'robot'
 ---lvl1
 ---non cube 
 data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["wire"]=9}, {["c_assembler"] = 60}, 1)
@@ -191,14 +191,16 @@ local function SumActiveModuleBoosts(owner, id, remove_comp)
 end
 -- on update/onremove/onadd should be the same for all the new boost modules
 local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
-	desc = "Overclock Unit by 20%\n\nUses XXX as Fuel",
-	attachment_size = "Internal", race = "robot", index = 1050, name = "Internal Overclocking Module",
+	name = "Internal Time Distortion Module",
+	desc = [[Time Distortion Increases Unit Effciency by 25%
+Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
+	attachment_size = "Internal", race = "robot", index = 1050,
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
 	production_recipe = CreateProductionRecipe({ icchip = 1, refined_crystal = 1 }, { c_advanced_assembler = 30, }),
 	-- new items 
 	activation = "OnAnyItemSlotChange",
-	boost = 20,
+	boost = 25,
 	boost_id = "component_boost", -- or move_boost
 	fuel = "ic_fuel",
 	fuel_time = 1000, -- fuel_time / boost = working_time
@@ -268,51 +270,56 @@ function cc_moduleefficiency:get_reg_error(comp, cause)
 end
 
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
-	name = "Small Overclocking Module",
-	desc = "Overclock Unit by 50%\n\nUses XXX as Fuel",
+	name = "Small Time Distortion Module",
+	desc = [[Time Distortion Increases Unit Effciency by 50%
+Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],	
 	attachment_size = "Small",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
-	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_assembler = 60, }),
 	boost = 50,
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
-	name = "Medium Overclocking Module",
-	desc = "Overclock Unit by 100%\n\nUses XXX as Fuel",
+	name = "Medium Time Distortion Module",
+	desc = [[Time Distortion Increases Unit Effciency by 100%
+Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],	
 	attachment_size = "Medium",
 	texture = data.components.c_moduleefficiency_m.texture,
 	visual = data.components.c_moduleefficiency_m.visual,
-	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_assembler = 60, }),
 	boost = 100,
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
-	name = "Large Overclocking Module",
-	desc = "Overclock Unit by 150%\n\nUses XXX as Fuel",
+	name = "Large Time Distortion Module",
+	desc = [[Time Distortion Increases Unit Effciency by 150%
+Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],	
 	attachment_size = "Large",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
-	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 5, hdframe = 5 }, { c_assembler = 60, }),
 	boost = 150,
 })
 --- Movement Boost 
 cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
-	desc = "Thursters Increase Unit Speed by 50%\n\nUses XXX as Fuel",
+	desc = [[Thursters Increase Unit Speed by 25%
+Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Internal",
 	texture = data.components.c_modulespeed.texture,
-	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
-	boost = 50,
+	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1 }, { c_assembler = 60, }),
+	boost = 25,
 	boost_id = "move_boost", -- or move_boost
 	fuel = "ic_fuel",
 	index = 1052,
 })
 cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
 	name = "Small Movement Speed Module",
-	desc = "Thursters Increase Unit Speed by 50%\n\nUses XXX as Fuel",
+	desc = [[Thursters Increase Unit Speed by 50%
+Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Small",
 	texture = data.components.c_modulespeed_s.texture,
 	visual = data.components.c_modulespeed_s.visual,
-	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2 }, { c_assembler = 60, }),
 	boost = 50,
 	boost_id = "move_boost", -- or move_boost	
 	fuel = "ic_fuel",
@@ -320,11 +327,12 @@ cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
 })
 cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
 	name = "Medium Movement Speed Module",
-	desc = "Thursters Increase Unit Speed by 80%\n\nUses XXX as Fuel",
+	desc = [[Thursters Increase Unit Speed by 80%
+Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Medium",
 	texture = data.components.c_modulespeed_m.texture,
 	visual = data.components.c_modulespeed_m.visual,
-	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4 }, { c_assembler = 60, }),
 	boost = 80,
 	boost_id = "move_boost", -- or move_boost
 	fuel = "ic_fuel",
@@ -332,11 +340,12 @@ cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
 })
 cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
 	name = "Large Movement Speed Module",
-	desc = "Thursters Increase Unit Speed by 120%\n\nUses XXX as Fuel",
+	desc = [[Thursters Increase Unit Speed by 120%
+Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Large",
 	texture = data.components.c_modulespeed_l.texture,
 	visual = data.components.c_modulespeed_l.visual,
-	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8 }, { c_assembler = 60, }),
 	boost = 120,
 	boost_id = "move_boost", -- or move_boost
 	fuel = "ic_fuel",
@@ -499,8 +508,9 @@ function cc_cube_storage:update_boost(comp, reverse_polarity)
 	--print(self, comp, remove)
 	local owner = comp.owner
 	-- set remove when no nill 
-	if reverse_polarity == true then  
+	if reverse_polarity == true then
 		owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id ) + self.boost * -2,0)
+		return 
 	end
 	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
 end
@@ -717,7 +727,7 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
 	desc = [[Requires extreme heat to vaporize crystal powders
-		<img width="50" height="50" image="Main/textures/icons/items/alien_datacube.png"/><img width="50" height="50" image="Main/textures/icons/items/crystalpowder.png"/>x100 --><img width="50" height="50" image="The_Cube_WIP/textures/cube_blue_drained.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+		<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 	]],
 	visual = 'v_blightcrystalpower_01_m',
 	power_storage = 500000,

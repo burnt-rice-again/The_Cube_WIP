@@ -160,7 +160,7 @@ cc_pipe_crane:RegisterComponent("cc_pipe_input",{
 cc_pipe_crane:RegisterComponent("cc_pipe_output",{
 
     name = "Ectoplasma Reciever",
-    desc = "Takes Ectoplasma In",
+    desc = "Recieves Ectoplasma From Nearby Relays",
     power = -50,
     texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
     attachment_size = "Small",

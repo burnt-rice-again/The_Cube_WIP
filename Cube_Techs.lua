@@ -161,7 +161,7 @@ data.techs.tc_cube_blue_3 = {
 	order = 2,
 	name = "Cube Splitting", -- recovered database etc.
 	desc = "With Incredible precision and emotion the Cube can theoretically be cracked open",
-	texture = data.items.anomaly_particle.texture,
+	texture = data.items.ic_cube_sphere.texture,
 	unlocks = {
 		-- new resources
 		"ic_cube_sphere",
@@ -191,24 +191,24 @@ data.techs.tc_cube_red_2 = {
 	order = 1,
 	name = "Crystal Vaporization", -- recovered database etc.
 	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power/nA byproduct of this process is some crystal powder that wasnt able to react",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.components.cc_crystal_power_red.texture,
 	unlocks = {
 		-- new resources
 		"cc_crystal_power_red",
 	},
 	require_tech = { "tc_cube_red_1" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, crystal_powder = 1 }, 300),
+	uplink_recipe = CreateUplinkRecipe({crystal_powder = 1, reinforced_plate = 1 }, 300),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_red_3 = {
 	order = 1,
 	name = "Emotional Processing", 
 	desc = "",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.items.ic_soul_angry.texture,
 	unlocks = {
 		-- new resources
-		"ic_soul_angry","ic_soul_plasma_alt"
+		"ic_soul_plasma_alt","ic_soul_angry",
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
@@ -235,7 +235,7 @@ data.techs.tc_cube_green_2 = {
 	order = 3,
 	name = "Outsourced Introspection", -- recovered database etc.
 	desc = "A Brain in a jar set to ponder its own existence",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.components.cc_green_brain.texture,
 	unlocks = {
 		-- new resources
 		"cc_green_brain","ic_soul_happy",
@@ -258,13 +258,13 @@ data.techs.tc_cube_green_3 = {
 	require_tech = { "tc_cube_green_2" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
-	category = "Cube_Curiosity",
+	category = "Cube_Obsession",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	order = 1,
 	name = "Anti Cube Annihilation", -- recovered database etc.
 	desc = "Find",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
 		-- new resources
 		"blight_crystal","ic_time_crystal","xc_cube_anti","xc_cube_time_crystal",
@@ -282,7 +282,7 @@ data.techs.tc_cube_anti_1= {
 	order = 2,
 	name = "Localized Chrono Field Creation", -- recovered database etc.
 	desc = "",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.components.cc_moduleefficiency_l.texture,
 	unlocks = {
 		-- new resources
 		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
@@ -296,7 +296,7 @@ data.techs.tc_cube_anti_2 = {
 	order = 1,
 	name = "Chrono Towers", 
 	desc = "Towers Harnessing stabilized chrono crystal to create localized chronological fields",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.frames.fc_boost_tower.texture,
 	unlocks = {
 		-- new resources
 		"fc_boost_tower","xc_cube_boost",
@@ -310,7 +310,7 @@ data.techs.tc_cube_anti_3= {
 	order = 2,
 	name = "Parrallel Universe Invasion", -- recovered database etc.
 	desc = "Send Expeditions to the future to steal materials not craftable with the current technology\n\nWarning beware of response from attacked timeline",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		-- new resources
 		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel"
@@ -352,7 +352,7 @@ data.techs.tc_cube_red_4 = {
 	order = 1,
 	name = "Anti-Cube Containment", 
 	desc = "Captured Anti Cube for perpetual vertical force",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.items.ldframe.texture,
 	unlocks = {
 		-- new resources
 		"ldframe",
@@ -366,7 +366,7 @@ data.techs.tc_cube_red_5 = {
 	order = 1,
 	name = "Bulk Cube Refining", 
 	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = data.components.cc_red_furnace.texture,
 	unlocks = {
 		-- new resources
 		"cc_red_furnace",
@@ -397,7 +397,7 @@ data.techs.tc_robot_metallurgy_2 = {
 	order = 2,
 	name = "More Materials", -- recovered database etc.
 	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
-	texture = data.items.laterite.texture,
+	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
 		"concreteslab","f_human_foundation_basic",
@@ -453,7 +453,7 @@ data.techs.tc_robot_beacons2 = {
 	order = 2,
 	name = "Bulk Recipes", -- recovered database etc.
 	desc = "Alternative Bulk Recipes for basic items",
-	texture = data.frames.f_beacon.texture,
+	texture = data.components.cc_manifest.texture,
 	unlocks = {
 		-- new resources
 		"datakey_robot_alt","crystal_powder_alt","xc_cube_alt"
@@ -467,14 +467,28 @@ data.techs.tc_robot_beacons3 = {
 	order = 2,
 	name = "Beacons", -- recovered database etc.
 	desc = "",
-	texture = data.frames.f_beacon.texture,
+	texture = data.frames.f_beacon_l.texture,
 	unlocks = {
 		-- new resources
-		"beacon_frame","f_beacon_l",
+		"f_beacon_l",
 	},
 	require_tech = { "tc_robot_beacons2" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, datakey_robot = 1, phase_leaf = 1, reinforced_plate = 1 }, 50),
+	category = "Independance",
+}
+data.techs.tc_robot_beacons4 = {
+	order = 2,
+	name = "More Bulk Crafting", -- recovered database etc.
+	desc = "",
+	texture = data.components.cc_manifest.texture,
+	unlocks = {
+		-- new resources
+		"reinforced_plate_alt","steelblock_alt"
+	},
+	require_tech = { "tc_robot_beacons3" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, datakey_robot = 1, phase_leaf = 1, reinforced_plate = 1, ic_soul_angry = 1 }, 50),
 	category = "Independance",
 }
 data.techs.tc_robot_frames_1 = {
@@ -621,7 +635,7 @@ data.techs.tc_building3= {
 	order = 30,
 	name = "Deep Foundations", -- recovered database etc.
 	desc = "",
-	texture = data.items.concreteslab.texture,
+	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
 		"f_building1x1b","f_building2x1e","f_building1x1g",
@@ -636,7 +650,7 @@ data.techs.tc_building4= {
 	order = 30,
 	name = "Reinforced Walls", -- recovered database etc.
 	desc = "",
-	texture = data.items.concreteslab.texture,
+	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x1b","f_building1x1h",
@@ -650,7 +664,7 @@ data.techs.tc_building5= {
 	order = 30,
 	name = "Reinforced Walls", -- recovered database etc.
 	desc = "",
-	texture = data.items.concreteslab.texture,
+	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
 		"f_building1x1e","f_building2x1c",
@@ -664,7 +678,7 @@ data.techs.tc_building6= {
 	order = 30,
 	name = "Reinforced Walls", -- recovered database etc.
 	desc = "",
-	texture = data.items.concreteslab.texture,
+	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x1d","f_building2x2b","f_building3x2b"
@@ -678,7 +692,7 @@ data.techs.tc_building7= {
 	order = 30,
 	name = "Reinforced Walls", -- recovered database etc.
 	desc = "",
-	texture = data.items.concreteslab.texture,
+	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x2a","f_building2x2c","f_building2x2d"
@@ -692,7 +706,7 @@ data.techs.tc_building8= {
 	order = 30,
 	name = "Reinforced Walls", -- recovered database etc.
 	desc = "",
-	texture = data.items.concreteslab.texture,
+	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x2e","f_building3x2a"
@@ -706,7 +720,7 @@ data.techs.tc_robot_fly_1 = {
 	order = 1,
 	name = "Flying Robots", -- recovered database etc.
 	desc = "BEEP BOOP",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_flyer_bot.texture,
 	unlocks = {
 		-- new resources
 		"f_flyer_bot","f_flyer_m","c_landing_pad",
@@ -720,7 +734,7 @@ data.techs.tc_robot_fly_2 = {
 	order = 1,
 	name = "Flying Robots", -- recovered database etc.
 	desc = "BEEP BOOP",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.components.c_drone_comp.texture,
 	unlocks = {
 		-- new resources
 		"f_drone_miner_a","f_drone_transfer_a","c_drone_comp",
@@ -734,7 +748,7 @@ data.techs.tc_robot_fly_3 = {
 	order = 1,
 	name = "Flying Robots", -- recovered database etc.
 	desc = "BEEP BOOP",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.components.c_drone_port.texture,
 	unlocks = {
 		-- new resources
 		"f_drone_transfer_a2","c_drone_port",
@@ -748,7 +762,7 @@ data.techs.tc_robot_fly_4 = {
 	order = 1,
 	name = "Flying Robots", -- recovered database etc.
 	desc = "BEEP BOOP",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.components.c_drone_launcher.texture,
 	unlocks = {
 		-- new resources
 		"f_drone_adv_miner","f_drone_defense_a","c_drone_launcher",

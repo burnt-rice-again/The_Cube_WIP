@@ -73,7 +73,8 @@ data.items.wire.race = "virus"
 --- AntiCube 
 data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
-data.items.ldframe.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, phase_leaf = 4,ic_cube_sphere = 1 }, { cc_manifest = 20 }, 1)
+data.items.ldframe.production_recipe = CreateProductionRecipe(
+{ reinforced_plate = 6, phase_leaf = 4,ic_cube_sphere = 1, wire = 4 }, { cc_manifest = 20 }, 1)
 
 
 --------------------------------------
@@ -85,10 +86,18 @@ data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_mine
 
 data.items.steelblock.name = "Steel Beams"
 data.items.steelblock.desc = "The Trusty I beam. A Pylon of Civilization"
-data.items.steelblock.production_recipe = CreateProductionRecipe({metalplate = 4, crystal = 1  }, {c_fabricator = 30}, 2)
+data.items.steelblock.production_recipe = CreateProductionRecipe(
+{metalplate = 4, crystal = 1  }, {c_fabricator = 30, cc_red_furnace = 10}, 2)
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = 'robot'
 data.items.steelblock.tag = "simple_material"
+create_alt_recipe("steelblock", 
+	CreateProductionRecipeWithWaste(
+	{laterite = 40, metalplate = 20, ic_cube_red = 1}, 
+	{cc_red_furnace = 25},
+	20, {ic_cube_empty = 1}),
+	{desc = "Laterite Steel Alloy"}
+)	
 
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
 data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 4)
@@ -102,7 +111,8 @@ create_alt_recipe("concreteslab",
 )
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40}, 1)
 
-data.items.engine.production_recipe = CreateProductionRecipe({reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120}, 1)
+data.items.engine.production_recipe = CreateProductionRecipe(
+{reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120, cc_green_brain = 80}, 1)
 
 data.items.fused_electrodes.name = "Superconductor"
 data.items.fused_electrodes.desc = "This Material is beyond our current understanding\nItleast we know we will eventually be able to manufacture it"
@@ -114,7 +124,7 @@ data.items.fused_electrodes.production_recipe = false
 data.items.ic_cube_blue = {
 	name = "THE CUBE",
 	index = 1000,
-	desc = "Limitless Potential",
+	desc = "<bl>Limitless Potential</>",
 	locked_desc = "",
 	tag = "cube",
 	slot_type = "cube",
@@ -130,7 +140,7 @@ data.items.ic_cube_blue = {
 data.items.ic_cube_empty = {
 	name = "DORMANT CUBE",
 	index = 1001,
-	desc = "THE CUBE IS EMPTY",
+	desc = "<bl>THE CUBE IS EMPTY</>",
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
@@ -142,7 +152,7 @@ data.items.ic_cube_empty = {
 data.items.ic_cube_red = {
 	name = "FURY CUBE",
 	index = 1002,
-	desc = "THE CUBE IS HOT",
+	desc = "<rl>THE CUBE IS HOT</>",
 	locked_desc = "Find a fissure to the underworld\nBoil a sleeping cube in its hellfire",
 	tag = "cube",
 	slot_type = "cube",
@@ -155,7 +165,7 @@ data.items.ic_cube_red = {
 data.items.ic_cube_green = {
 	name = "RESTLESS CUBE",
 	index = 1002,
-	desc = "THE CUBE IS RESTLESS",
+	desc = "<hl>THE CUBE IS RESTLESS</>",
 	locked_desc = "Find a large weed in the plains and claim a cutting",
 	tag = "cube",
 	slot_type = "cube",
@@ -169,17 +179,21 @@ data.items.ic_cube_green = {
 data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
 	index = 1004,
-	desc = "Heresey, there is a sphere inside the cube!",
+	desc = [[<hl>Heresey, there is a sphere inside the cube!</>
+<rl>WARNING: extremly unstable around the Cube</>
+	]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
 	visual = 'vc_cube_sphere_item',
-	--production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, ic_soul_plasma = 100,  }, { cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
-	1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	{ ic_cube_red = 1, ic_soul_plasma = 100,  }, 
+	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	--production_recipe = CreateProductionRecipeWithWaste(
+	-- { ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
+	-- 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
 	alt_item = "datakey_robot",
 }
 -- data.items.ic_cube_yellow = {
@@ -310,19 +324,21 @@ data.items.ic_fuel = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
 	{ phase_leaf = 10, crystal_powder = 1}, 
-	{ cc_soul_refinery = 20 }, 1),
+	{ cc_soul_refinery = 20, cc_red_furnace = 15 }, 20),
 }
 data.items.ic_time_crystal = {
 	name = 'Chrono Crystal',
 	index = 10,
 	tag = 'advanced_material',
-	desc = 'Stabilized Chrono Crystal',
+	desc = 'Stabilized Chrono Crystal\n\nTrapped by Joy then caged in wire',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
 	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ blight_crystal = 16, phase_leaf = 4,ic_soul_happy = 1 }, { cc_soul_refinery = 20 }, 1),
+	production_recipe = CreateProductionRecipe({ blight_crystal = 4, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_soul_refinery = 20 }, 1),
 }
+data.items.blight_crystal.name = "Unstable Chrono Crystal"
+data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"
 
 
 
