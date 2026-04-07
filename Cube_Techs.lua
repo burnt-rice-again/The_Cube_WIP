@@ -58,6 +58,8 @@ data.techs.tc_cube_basic = {
 		"ic_cube_blue","ic_cube_empty","datakey_robot","ic_souls",
 		--components
 		"cc_cube_storage","cc_crystal_power","cc_manifest",
+
+		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal",
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
@@ -67,7 +69,7 @@ data.techs.tc_robot_basic = {
 	desc = "To Achieve our dreams we will need to <hl>grow</>",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
-		"xc_cube_1","xc_cube_power_1",
+		
 		-- starting resources
         "metalore","crystal","metalplate",
 		-- starting buildings
@@ -147,7 +149,7 @@ data.techs.tc_cube_blue_2 = {
 	texture = data.items.anomaly_particle.texture,
 	unlocks = {
 		-- new resources
-		"ic_soul_plasma",
+		"ic_soul_plasma","xc_cube_plasma",
 		"cc_soul_refinery","fc_pipe","cc_power_souls",'cc_pipe_output_i',
 	},
 	require_tech = { "tc_cube_blue_1" },
@@ -178,6 +180,7 @@ data.techs.tc_cube_red_1 = {
 	unlocks = {
 		-- new resources
 		"ic_cube_red","reinforced_plate",
+		"xc_cube_red",
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 100,
@@ -219,7 +222,7 @@ data.techs.tc_cube_green_1= {
 	texture = data.items.ic_cube_green.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_green",
+		"ic_cube_green","xc_cube_green",
 		"wire",
 		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
 	},
@@ -264,7 +267,7 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"blight_crystal","ic_time_crystal",
+		"blight_crystal","ic_time_crystal","xc_cube_anti"
 	},
 	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,
@@ -282,7 +285,7 @@ data.techs.tc_cube_anti_1= {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
 	},
 	require_tech = { "tc_cube_anti_0", },
 	progress_count = 50,
@@ -296,7 +299,7 @@ data.techs.tc_cube_anti_2 = {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"fc_boost_tower",
+		"fc_boost_tower","xc_cube_boost",
 	},
 	require_tech = { "tc_cube_anti_1"},
 	progress_count = 50,
@@ -310,7 +313,7 @@ data.techs.tc_cube_anti_3= {
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		-- new resources
-		"cc_time_travel_machine","fused_electrodes",
+		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel"
 	},
 	require_tech = { "tc_cube_anti_2", },
 	progress_count = 50,
@@ -319,7 +322,7 @@ data.techs.tc_cube_anti_3= {
 }
 data.techs.tc_cube_green_4 = {
 	order = 3,
-	name = "Boost Speed",
+	name = "Boost Speed","xc_cube_boost",
 	desc = "",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
@@ -453,7 +456,7 @@ data.techs.tc_robot_beacons2 = {
 	texture = data.frames.f_beacon.texture,
 	unlocks = {
 		-- new resources
-		"datakey_robot_alt","crystal_powder_alt"
+		"datakey_robot_alt","crystal_powder_alt","xc_cube_alt"
 	},
 	require_tech = { "tc_robot_beacons1" },
 	progress_count = 25,
@@ -569,6 +572,20 @@ data.techs.tc_robot_frames_7 = {
 	require_tech = { "tc_robot_frames_6" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1, engine = 1, fused_electrodes = 1}, 50),
+	category = "Humility",
+}
+data.techs.tc_robot_frames_8 = {
+	order = 1,
+	name = "Simple Robotics", -- recovered database etc.
+	desc = "BEEP BOOP",
+	texture = data.components.c_robotics_factory.texture,
+	unlocks = {
+		-- new resources
+		"f_bot_2m_as",
+	},
+	require_tech = { "tc_robot_frames_7" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1, engine = 1, fused_electrodes = 1, ic_soul_plasma = 1}, 50),
 	category = "Humility",
 }
 --- buildings 
