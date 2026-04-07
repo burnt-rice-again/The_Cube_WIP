@@ -45,7 +45,7 @@ data.items.datakey_robot = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 25, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
 }
-create_alt_recipe("datakey_robot", 
+create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
 	{ic_cube_empty = 1, reinforced_plate = 20, }, 
 	{cc_green_brain = 15 , cc_red_furnace = 5},
@@ -91,13 +91,13 @@ data.items.steelblock.production_recipe = CreateProductionRecipe(
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = 'robot'
 data.items.steelblock.tag = "simple_material"
-create_alt_recipe("steelblock", 
+create_alt_recipe("steelblock",
 	CreateProductionRecipeWithWaste(
 	{laterite = 40, metalplate = 20, ic_cube_red = 1}, 
 	{cc_red_furnace = 25},
 	20, {ic_cube_empty = 1}),
 	{desc = "Laterite Steel Alloy"}
-)	
+)
 
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
 data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 4)
@@ -275,7 +275,7 @@ data.items.ic_soul_happy = {
 	name = "Enlightened Souls",
 	index = 1010,
 	race = "robot",
-	desc = "Empowered, Fortified and Self Determined",
+	desc = "Empowered, Fortified and Self Determined\n\nEnlightened Souls are capable of independant thought. Perfect for operations involving control and automation",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/soul2.png",
 	visual = "v_scaramar1",
@@ -289,7 +289,7 @@ data.items.ic_soul_angry = {
 	name = "Soul Pearls",
 	index = 1011,
 	race = "robot",
-	desc = "Left at the bottom of the soul forge, Crystalized emotinal baggage",
+	desc = "Left at the bottom of the soul forge, Crystalized emotinal baggage\n\nSoul pearls provide a strong focus for energy, allowing for destructive lasers and incredible power systems",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/soul4.png",
 	visual = "v_scaramar1",
@@ -316,7 +316,7 @@ data.items.ic_fuel = {
 	name = "Rocket Fuel",
 	index = 1020,
 	race = "robot",
-	desc = "3,2,1 Liftoff",
+	desc = "3,2,1 Liftoff\nFuel for engines",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/fuel.png",
 	visual = "v_scaramar1",
@@ -330,7 +330,7 @@ data.items.ic_time_crystal = {
 	name = 'Chrono Crystal',
 	index = 10,
 	tag = 'advanced_material',
-	desc = 'Stabilized Chrono Crystal\n\nTrapped by Joy then caged in wire',
+	desc = 'Stabilized Chrono Crystal\nTrapped by Joy then caged in wire\n\nChrono crystals are used to create pockets of distorted time',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',

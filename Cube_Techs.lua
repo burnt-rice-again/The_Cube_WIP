@@ -37,14 +37,12 @@ data.tech_categories = {
 		--textures = {"Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png"}
 	},
 }
-
 data.tech_categories_race =
 {
 	["robot"] = data.tech_categories,
 	["human"] = data.tech_categories,
 	['alien'] = data.tech_categories
 }
-
 data.techs.tc_cube_basic = {
 	name = "A Curious Cube", -- recovered database etc.
 	desc = "8 verticies to point the way, 12 edges a perfect form, 6 faces to reflect our own",
@@ -995,11 +993,46 @@ data.techs.tc_robot_signals4 = {
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1, fused_electrodes = 1}, 50),
 	category = "tc_upgrades_1",
 }
-
-
-
-
-
+data.techs.tc_robot_floor_1 = {
+	order = 11,
+	name = "Foundations", 
+	desc = "BEEP BOOP",
+	texture = data.frames.f_human_foundation1.texture,
+	unlocks = {
+		"f_human_foundation1","f_human_foundation_adv"
+	},
+	require_tech = { "tc_robot_metallurgy_2"},
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1}, 50),
+	category = "tc_upgrades_2",
+}
+data.techs.tc_robot_floor_2 = {
+	order = 11,
+	name = "Foundations", 
+	desc = "BEEP BOOP",
+	texture = data.frames.f_human_foundation1.texture,
+	unlocks = {
+		"f_human_foundation2","f_human_foundation3","f_human_foundation4",
+		"f_human_foundation5","f_human_foundation6","f_human_foundation7","f_foundation_adv",
+	},
+	require_tech = { "tc_robot_floor_1",},
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1}, 50),
+	category = "tc_upgrades_2",
+}
+data.techs.tc_robot_floor_3 = {
+	order = 11,
+	name = "Foundations", 
+	desc = "BEEP BOOP",
+	texture = data.frames.f_human_foundation1.texture,
+	unlocks = {
+		"f_human_foundation9","f_human_foundation8",
+	},
+	require_tech = { "tc_robot_floor_2",},
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
+	category = "tc_upgrades_2",
+}
 
 
 

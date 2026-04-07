@@ -11,16 +11,14 @@ data.codex.xc_cube_1 = {
     category = "Codex",
     index = 1,
     title = [[<img width="18" height="18" id="ic_cube_blue"/>Cube Discovery]],
-    text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Introduction</>
+    text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Discovery</>
     
-    Status: Operator Online
+    The Cube offers incredible potential energy     
 
-    Providing Mission Briefing
+    
 
-    Awakening sentince module,
-    Clearing stored personality matrix,
-    Verifying emotinal processor
-    Verification failed 
+
+
   
     ]],
 

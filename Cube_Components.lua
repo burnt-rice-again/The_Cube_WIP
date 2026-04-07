@@ -197,7 +197,7 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],
 	attachment_size = "Internal", race = "robot", index = 1050,
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
-	production_recipe = CreateProductionRecipe({ icchip = 1, refined_crystal = 1 }, { c_advanced_assembler = 30, }),
+	production_recipe = CreateProductionRecipe({ icchip = 1, refined_crystal = 1 }, { c_assembler = 30, }),
 	-- new items 
 	activation = "OnAnyItemSlotChange",
 	boost = 25,
