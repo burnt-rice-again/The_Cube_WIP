@@ -246,10 +246,10 @@ data.techs.tc_cube_green_2 = {
 data.techs.tc_cube_green_3 = {
 	order = 3,
 	name = "Resource Regeneration", -- recovered database etc.
-	desc = "heal the worlds wounds",
+	desc = "pick the worlds wounds",
 	texture = data.items.ic_cube_green.texture,
 	unlocks = {
-		"c_blight_magnifier"
+		"c_blight_magnifier",--"c_blight_terraformer",
 	},
 	require_tech = { "tc_cube_green_2" },
 	progress_count = 100,

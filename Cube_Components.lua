@@ -795,6 +795,73 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 		end)
 	end,
 })
-
 --Resource Rejeneration 
 -- via green cube or anti-cube 
+
+local c_blight_magnifier = data.components.c_blight_magnifier
+c_blight_magnifier.name = "Cube Magnifier"
+c_blight_magnifier.activation = "OnAnyItemSlotChange"
+c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nMust be placed inside the bligth"
+c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},}
+c_blight_magnifier.magnify_time = 25
+c_blight_magnifier.get_ui = nil
+c_blight_magnifier.magnify_limit = 1000
+c_blight_magnifier.production_recipe = CreateProductionRecipe(
+{wire = 12, ic_soul_happy = 1, crystal_powder = 4},{c_assembler = 30})
+
+function c_blight_magnifier:on_update(comp, cause)
+	local owner = comp.owner
+	-- local is_in_blight = Map.GetBlightnessDelta(owner, -1) >= 0 or Map.GetSave().dust_storm
+	-- if not is_in_blight or owner.powered_down or not owner.is_placed then
+	-- 	comp:SetRegisterId(1,"v_blight")
+	-- 	comp:FlagRegisterError(1)
+	-- 	comp:StopEffects()
+	-- 	return comp:SetStateSleep(10000)
+	-- end
+	-- meets requirements 
+	if comp.is_working == true then 
+		comp:SetStateContinueWork() 
+	end
+	-- check if finished working 
+	local is_finished_working = (cause & CC_FINISH_WORK == CC_FINISH_WORK)
+	if is_finished_working then
+		-- replace cube 
+		comp:CancelProcess()
+		--comp:AddItem("ic_cube_green")
+
+		local check = Map.FindClosestEntity(owner, self.range, function(e)
+			if AddResourceHarvestItemAmount(e, 100, self.magnify_limit) then
+				e:SetRegisterNum(FRAMEREG_STORE, 1) -- mark as magnified (see c_miner:on_update)
+			end
+		end, FF_RESOURCE)
+		if check == nil then 
+			--no resources to regenerate 
+			comp:SetRegister(1)
+			comp:FlagRegisterError(1)
+			comp:SetStateSleep(100)
+			return
+		end
+	end
+	local can_make, missing = comp:PrepareConsumeProcess({ic_cube_green = 1})
+	if can_make == false then 
+		comp:SetRegister(1,missing)
+		comp:FlagRegisterError(1)
+		comp:SetStateSleep(10000)
+	else
+		comp:PlayWorkEffect("fx_alien_liquid")
+		comp:SetRegister(1)
+		comp:FlagRegisterError(1,false)
+		return comp:SetStateStartWork(self.magnify_time, false)
+	end
+end
+function c_blight_magnifier:get_reg_error(comp)
+	if comp:RegisterIsError(1) then
+		if comp:RegisterIsEmpty(1) then 
+			return "No Resources to Regnerate"
+		elseif comp:GetRegisterId(1) == data.values.v_blight.id then 
+			return "Not Inside the Blight"
+		else	
+			return "Missing The Cube"
+		end
+	end
+end

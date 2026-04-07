@@ -123,24 +123,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	miner1:AddComponent("c_capacitor")
 	miner1:AddComponent("c_portable_radar")
 	miner1:Place(loc.x-1,loc.y+2)
-	-- miner1:SetRegister(5,{id="metalore",num=REG_INFINITE})
-	-- --miner1:SetRegister(FRAMEREG_STORE,{entity = recycler})
-	-- miner1.disconnected = false
-	-- miner1:Place(loc.x-4,loc.y)
-	-- -- crystal miner
-	-- miner1 = Map.CreateEntity(faction, "f_bot_1s_adw")
-	-- miner1:AddComponent("c_adv_miner")
-	-- miner1:AddComponent("c_capacitor")
-	-- miner1:SetRegister(5,{id="crystal",num=REG_INFINITE})
-	-- miner1.disconnected = false
-	-- miner1:Place(loc.x+5,loc.y+5)
-
-	--spawn recharger 
-	-- local new_entity = Map.CreateEntity(faction, "f_building2x1f")
-	-- new_entity:AddComponent("cc_cube_storage")
-	-- new_entity:AddComponent("cc_cube_recharger")
-	-- new_entity:AddItem("ic_souls", 80)
-	-- new_entity:Place(loc.x+4, loc.y-5)
 
 	--spawn power source 
 	local new_entity = Map.CreateEntity(faction, "f_building2x1f")
@@ -191,18 +173,28 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 
 	--spawn Farming Tester
+	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
+	-- new_entity:AddComponent("cc_planter_phase_leaf")
+	-- new_entity:AddItem("cc_planter_wire")
+	-- new_entity:AddComponent("cc_cube_storage")
+	-- new_entity:AddComponent("c_adv_portable_turret")
+	-- new_entity:AddItem("ic_cube_green", 1)
+	-- new_entity:AddItem("crystal_powder", 10)
+	-- new_entity:AddItem("c_deconstructor", 1)
+	-- new_entity:AddItem("steelblock", 40)
+	-- new_entity:AddItem("c_portable_radar", 2)
+	-- new_entity:AddItem("c_deconstructor", 1)
+	-- home_entity:AddItem("cc_manifest")
+	-- new_entity:Place(loc.x+13, loc.y)
+
 	new_entity = Map.CreateEntity(faction, "f_building2x2c")
-	new_entity:AddComponent("cc_planter_phase_leaf")
-	new_entity:AddItem("cc_planter_wire")
+	new_entity:AddComponent("c_blight_magnifier")
 	new_entity:AddComponent("cc_cube_storage")
-	new_entity:AddComponent("c_adv_portable_turret")
+	new_entity:AddComponent("c_blight_terraformer")
 	new_entity:AddItem("ic_cube_green", 1)
-	new_entity:AddItem("crystal_powder", 10)
-	new_entity:AddItem("c_deconstructor", 1)
-	new_entity:AddItem("steelblock", 40)
-	new_entity:AddItem("c_portable_radar", 2)
-	new_entity:AddItem("c_deconstructor", 1)
-	home_entity:AddItem("cc_manifest")
+	new_entity:Place(loc.x+13, loc.y)
+	new_entity = Map.CreateEntity("world", "f_resourcenode_metal", "v_2x2_a_ruined")
+	new_entity:SetRegister(FRAMEREG_GOTO, {id="metalore",num=math.random(100, 200)})
 	new_entity:Place(loc.x+13, loc.y)
 
 	-- local volcano = Map.CreateEntity(faction, "fc_volcano")
