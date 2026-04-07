@@ -57,7 +57,6 @@ local meshes = {
 -- cube component
 data.visuals.vc_cube_blue = { 
     mesh = meshes.cube_blue, 
-
     --scale = { 4, 4, 4 },
 	--materials = { "MaterialInstanceConstant'/Game/Meshes/BaseBuildings/Materials/Component_Miner_Advanced_01_S/Component_Miner_Advanced_01_S.Component_Miner_Advanced_01_S'" },
 }
@@ -86,14 +85,6 @@ data.fx.vc_cube_steam = {
 		--transform = { { -274.1640625, 216.6713867, 350.1871338 }, { 31.2168312, -164.5661774, 110.6963120 }, { 1.0000000, 1.0000000, 1.0000000 }, },
 	},
 }
-
-
--- data.visuals.vc_cube_blue_drained = { 
---     mesh = meshes.cube_blue_drained, 
---     scale = { 4, 4, 4 },
---     bob_speed = 1,
--- }
-
 -- components 
 data.visuals.vc_cube_storage = { 
     mesh = meshes.storage_single, 
@@ -107,12 +98,9 @@ data.visuals.vc_cube_storage = {
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/MI_Resource_Blight_Pickup_01.MI_Resource_Blight_Pickup_01'",
 	-- }
 }
-
 -- data.visuals.v_empty_inventory = {
 -- 	mesh = "StaticMesh'/Game/Meshes/empty_Inventory.empty_Inventory'",
 -- }
-
-
 -- console / cc_manifest
 data.visuals.v_explorable_blightanomaly_03.scale = {0.4,0.4,0.4}
 
@@ -125,8 +113,6 @@ data.visuals.vc_souls ={
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/MI_Resource_Blight_Pickup_01.MI_Resource_Blight_Pickup_01'",
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/Impostors/MI_Resource_Blight_Small_01_Impostor.MI_Resource_Blight_Small_01_Impostor'",}
 }
-
-
 
 data.visuals.vc_mug_anim = {
 	animesh = "The_Cube_WIP/textures/In Progress Blender/Cube_test_2.glb",
@@ -156,8 +142,6 @@ data.visuals.vc_tower1 = {
 	--placement = "Max",
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
-
-
 data.visuals.vc_gyroscope = {
 	animesh = "The_Cube_WIP/textures/customanim.glb",
 	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
@@ -195,13 +179,11 @@ data.visuals.vc_cube_blue = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/Cube_3.glb",
 	--mesh_offset = { 0, 0, 1000000},
 	scale = {0.03,0.03,0.03},
-	--mesh_sockets = { ["fx"] = {50,50,100}, },
-	--placement = "AtCenter",
 }
-
 data.visuals.vc_time_crystal = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
 	--mesh_offset = {0,0,10000	}
+	mesh_scale = {0,0,0.8}
 }
 
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)

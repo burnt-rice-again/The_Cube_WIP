@@ -2,7 +2,7 @@
 
 
 
-local Get, GetNum, GetCoord, GetId, GetEntity, Set, BeginBlock = InstGet, InstGetNum, InstGetCoord, InstGetId, InstGetEntity, InstSet, InstBeginBlock
+local  GetCoord, Set, BeginBlock = InstGetCoord, InstSet, InstBeginBlock
 
 
 

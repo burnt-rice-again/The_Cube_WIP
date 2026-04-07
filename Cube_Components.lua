@@ -146,23 +146,6 @@ battery.power_storage = battery.power_storage * battery_modifier
 battery.drain_rate = battery.drain_rate * battery_modifier
 battery.charge_rate = battery.charge_rate * battery_modifier 
 
-
-
---data.components.c_terraformer.range = 2
--- define and register a custom component, the ID needs to be unique
-local cc_adv_alien_factory = Comp:RegisterComponent("cc_adv_alien_factory", {
-	name = "Advanced Alien Factory2",
-	texture = "Main/textures/icons/components/Component_AdvancedAlienFactory_01_M.png",
-	desc = "Alien and Robot technology, capable of producing Alien constructs and devices",
-	attachment_size = "Large",
-	race = "alien",
-	visual = "vc_cube_blue",
-	production_effect = "fx_assembler",
-	power = -400,
-	production_recipe = CreateProductionRecipe({  cpu = 10, energized_artifact = 10 }, { c_alien_factory_robots = 200 }),
-	-- production_recipe = CreateProductionRecipe({ hdframe = 20, blight_plasma = 10, blight_bar = 10 }, { c_assembler = 150 }),
-})
-
 -------------------------------------------------------
 ----- Fueled Boost Modules -----------------------------------
 
@@ -652,7 +635,7 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	name = "Crystal Power", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",
 	desc = [[Produces a small amount of power with the cube and crystals
-		<img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/>x20 --><img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+		<img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 	]],
 	attachment_size = "Small",
 	visual = "v_crystalpower_01_s",

@@ -12,6 +12,12 @@
             "entry": "data.lua",
             "dependencies": [ "Main/Data" ],
             "type": "Addon"
+        },
+        "Scenario": {
+            "name": "Cube Start",
+            "entry": "Cube_Scenario.lua",
+            "dependencies": [ "Main/Data" ],
+            "type": "Scenario"
         }
     }
 }

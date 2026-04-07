@@ -139,7 +139,6 @@ data.items.ic_cube_empty = {
 	visual = "v_gears",
 	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
 }
-
 data.items.ic_cube_red = {
 	name = "FURY CUBE",
 	index = 1002,
@@ -153,7 +152,6 @@ data.items.ic_cube_red = {
 	visual = "v_alien_data",
 	--production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1 }, { c_robotics_factory = 200, }),
 }
-
 data.items.ic_cube_green = {
 	name = "RESTLESS CUBE",
 	index = 1002,

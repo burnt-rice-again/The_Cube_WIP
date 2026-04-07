@@ -67,6 +67,7 @@ data.techs.tc_robot_basic = {
 	desc = "To Achieve our dreams we will need to <hl>grow</>",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
+		"xc_cube_1","xc_cube_power_1",
 		-- starting resources
         "metalore","crystal","metalplate",
 		-- starting buildings
@@ -90,6 +91,15 @@ data.techs.tc_robot_basic = {
 		"v_letter_H", "v_letter_I", "v_letter_J", "v_letter_K", "v_letter_L", "v_letter_M", "v_letter_N",
 		"v_letter_O", "v_letter_P", "v_letter_Q", "v_letter_R", "v_letter_S", "v_letter_T", "v_letter_U",
 		"v_letter_V", "v_letter_W", "v_letter_X", "v_letter_Y", "v_letter_Z",
+	
+		"x_tutorial",
+		-- NEW How to Play entries
+		"x_tc_controls", "x_tc_buildings", "x_tc_deployment", "x_tc_components", "x_tc_research", "x_tc_resources_mining",
+		"x_tc_production", "x_tc_logistics", "x_tc_behaviors", "x_tc_research", "x_tc_user_interface", "x_tc_registers", "x_tc_power",
+		"x_tc_unit", "x_tc_transport_route", "x_tc_introduction", "x_tc_the_interface", "x_tc_virus", "x_tc_blight",
+		
+		"x_bugs","x_behaviors",
+	
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
