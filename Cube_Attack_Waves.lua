@@ -214,8 +214,8 @@ local replace_cube_with <const> = {
 local function new_order_id(comp)
     local req <const> = {
     "ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty","ic_cube_sphere",
-    "c_adv_portable_turret",
-    "ic_soul_angry","ic_soul_happy","phase_leaf",
+    "c_adv_portable_turret","c_shield_generator2","c_shield_generator","c_radio_transmitter","c_radio_receiver",
+    "ic_soul_angry","ic_soul_happy","phase_leaf","ic_time_crystal","ic_time_crystal","ic_time_crystal",
     "f_bot_1s_b","f_bot_1m1s","f_flyer_m","f_drone_transfer_a",
     }
     local new_id = req[math.random(1,#req)]

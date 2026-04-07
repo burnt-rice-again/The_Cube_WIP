@@ -83,7 +83,7 @@ data.codex.xc_cube_recharger = {
 
         There are some alternative recipes as well 
             -- Emergency Cube Cooling can cool the Fury Cube.
-            -- Charging inside the blight can create a Verdant Cube. 
+            -- Charging inside the blight can create a Restless Cube. 
         ]],
 }
 data.codex.xc_cube_alt = {
@@ -107,16 +107,16 @@ data.codex.xc_cube_alt = {
 data.codex.xc_cube_green = {
     category = "Codex",
     index = 6,
-    title = [[<img width="18" height="18" id="ic_cube_green"/>Verdant Cube]],
-    text = [[<img width="100" height="100" id="ic_cube_green"/><codex_title>Verdant Cube</>
+    title = [[<img width="18" height="18" id="ic_cube_green"/>Restless Cube]],
+    text = [[<img width="100" height="100" id="ic_cube_green"/><codex_title>Restless Cube</>
 
-        The Verdant Cube is useful for farming and transportation
+        The Restless Cube is useful for farming and transportation
 
         It can be crafted at the Cube think tank
-        Alternativly recharging the cube inside the blight will produce a Verdant Cube
+        Alternativly recharging the cube inside the blight will produce a Restless Cube
         <img width="50" height="50" id="cc_cube_recharger"/>
 
-        Farming requires the Verdant cube to plant new crops 
+        Farming requires the Restless cube to plant new crops 
         A planter will request the Cube when it has a space available in range
         
         To plant a crop there must be an unobstructed tile nearby
@@ -192,12 +192,12 @@ data.codex.xc_cube_anti = {
         This anomalous sphere behaves in opposition to everythin known about the cube. 
 
         <hl>Interaction with the Anti-Cube will cause it to duplicate</>
-        Crafting, Dismantling or Destroying, Anti-Cubes will cause this duplication. 
+        Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
 
         <hl>Available Cube pedestals will be filled first</>
-        Otherwise uncaptured Anti-Cubes will appear nearby.  
+        Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.  
 
-        Anti-Cubes are highly unstable around the Cube. 
+        <bl>Anti-Cubes</> are highly unstable around the Cube. 
         Placing them together in a frame to anhillate them. 
         <rl>WARNING - Explosion Expected</>
 

@@ -974,7 +974,7 @@ data.techs.tc_robot_signals4 = {
 	texture = data.components.c_radar.texture,
 	unlocks = {
 		-- new resources
-		"c_unit_teleport","c_shield_generator3",
+		"c_shield_generator3",
 	},
 	require_tech = { "tc_robot_signals3" },
 	progress_count = 100,

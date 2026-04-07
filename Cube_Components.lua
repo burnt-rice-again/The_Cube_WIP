@@ -426,6 +426,7 @@ local function Update_Cube_Effects(self, comp, cause)
 		--self.boost = -90
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
+		local boost_polarity = false
 		if owner:CountItem("ic_cube_red") == 1 then
 			comp:PlayEffect("fx_refinery","fx")
 			comp.extra_data.boost_active = true
@@ -440,6 +441,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			update_cube_location(comp,"ic_cube_empty" )
 		elseif owner:CountItem("ic_cube_green") == 1 then 
 			update_cube_location(comp,"ic_cube_green" )
+			boost_polarity = true
 		elseif owner:CountItem("ic_cube_sphere") == 1 then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
 			--comp:PlayEffect("fx_alien_liquid")
@@ -460,7 +462,7 @@ local function Update_Cube_Effects(self, comp, cause)
 		-- when any cube has been added 
 		comp.extra_power = 200
 		comp.extra_data.boost_active = true
-		self:update_boost(comp)
+		self:update_boost(comp, boost_polarity)
 		anti_cube_explosion(comp)
 	else
 		comp:StopEffects() 
@@ -493,10 +495,13 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	on_update = Update_Cube_Effects,
 	adjust_light_color = true,
 })
-function cc_cube_storage:update_boost(comp)
+function cc_cube_storage:update_boost(comp, reverse_polarity)
 	--print(self, comp, remove)
 	local owner = comp.owner
 	-- set remove when no nill 
+	if reverse_polarity == true then  
+		owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id ) + self.boost * -2,0)
+	end
 	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
 end
 function cc_cube_storage:on_remove(comp)
