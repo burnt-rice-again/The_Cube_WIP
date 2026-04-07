@@ -224,17 +224,25 @@ function cc_moduleefficiency:on_remove(comp, cause)
 end
 function cc_moduleefficiency:on_update(comp, cause)	
 	
+	-- check if installed on building for movement module
+	if comp.owner.has_movement == false and self.boost_id == "move_boost" then 
+		comp:FlagRegisterError(1)
+		comp:SetStateSleep(2000) 
+		return 
+	end 
+
 	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
 		-- start 
 		-- request stack size of item
-		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},20)
-
+		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},3)
+		--comp:OrderItem(self.fuel, 20)
 		if can_make then 
 			--consume next bit of fuel 
 			comp:FulfillProcess()
 			comp:SetStateStartWork(self.fuel_time/self.boost)
 			comp.extra_data.boost_active = true 
 			comp:SetRegister(1)
+
 		else 
 			-- wait until fuel arrives 
 			comp:SetRegister(1,missing)
@@ -247,6 +255,15 @@ function cc_moduleefficiency:on_update(comp, cause)
 	else
 		-- still consuming so go back to sleep 
 		comp:SetStateContinueWork()
+	end
+end
+function cc_moduleefficiency:get_reg_error(comp, cause)	
+	if comp:RegisterIsError(1) then 
+		if comp.owner.has_movement == false and self.boost_id == "move_boost" then 
+			return "Unit cannot move"
+		else 
+			return "Missing Fuel To Operate"
+		end
 	end
 end
 
@@ -281,7 +298,7 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
 	desc = "Thursters Increase Unit Speed by 50%\n\nUses XXX as Fuel",
-	attachment_size = "Small",
+	attachment_size = "Internal",
 	texture = data.components.c_modulespeed.texture,
 	production_recipe = CreateProductionRecipe({ engine = 5, hdframe = 5 }, { c_advanced_assembler = 60, }),
 	boost = 50,
