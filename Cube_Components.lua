@@ -738,7 +738,6 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	wait_ticks = 100,
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60})
 })
-
 data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 	name = "Soul Consumption", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
@@ -752,7 +751,19 @@ Requires drastically less Cube time compared to crystal power]],
 	wait_ticks = 11,
 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
 })
-
+data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
+	name = "Phase Fuel Generator", --"Crystal Power Extractor",
+	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+	desc = [[Consumes Phase Fuel for energy 
+<img width="50" height="50" id="ic_fuel"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+Less effcient but very portable]],
+	visual = "v_power_cell_01_s",
+	power_storage = 50000,
+	drain_rate = 200,
+	consume_item = "ic_fuel",
+	wait_ticks = 11,
+	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+})
 ------------------ Explorables 
 local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 	name = "Repair Required",
@@ -805,6 +816,7 @@ c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nMust be plac
 c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},}
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil
+c_blight_magnifier.power = -200
 c_blight_magnifier.magnify_limit = 1000
 c_blight_magnifier.production_recipe = CreateProductionRecipe(
 {wire = 12, ic_soul_happy = 1, crystal_powder = 4},{c_assembler = 30})

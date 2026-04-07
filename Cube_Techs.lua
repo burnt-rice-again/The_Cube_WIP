@@ -206,12 +206,54 @@ data.techs.tc_cube_red_3 = {
 	texture = data.items.ic_soul_angry.texture,
 	unlocks = {
 		-- new resources
-		"ic_soul_plasma_alt","ic_soul_angry",
+		"ic_soul_angry",
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_plasma = 1, crystal_powder = 1 }, 100),
 	category = "Cube_Curiosity",
+}
+data.techs.tc_cube_red_4 = { 
+	order = 51,
+	name = "Anti-Cube Containment", 
+	desc = "Captured Anti Cube for perpetual vertical force",
+	texture = data.items.ldframe.texture,
+	unlocks = {
+		-- new resources
+		"ldframe",
+	},
+	require_tech = { "tc_cube_red_3"},
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_red_5 = {
+	order = 52,
+	name = "Bulk Cube Refining", 
+	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
+	texture = data.components.cc_red_furnace.texture,
+	unlocks = {
+		-- new resources
+		"cc_red_furnace","ic_soul_plasma_alt",
+	},
+	require_tech = { "tc_cube_red_4"},
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_red_6 = {
+	order = 52,
+	name = "Ultimate Power", 
+	desc = "Massive Power Generation",
+	texture = data.components.cc_red_furnace.texture,
+	unlocks = {
+		-- new resources
+		-- ultimate power? using superconductors 
+	},
+	require_tech = { "tc_cube_red_5"},
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
+	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_1= {
 	order = 3,
@@ -257,7 +299,7 @@ data.techs.tc_cube_green_3 = {
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_4 = {
-	order = 3,
+	order = 1,
 	name = "Farming", -- recovered database etc.
 	desc = "Grow seeds",
 	texture = data.items.phase_leaf.texture,
@@ -272,15 +314,31 @@ data.techs.tc_cube_green_4 = {
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_5 = {
-	order = 3,
-	name = "Boost Speed","xc_cube_boost",
+	order = 2,
+	name = "Boost Speed",
 	desc = "",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
 		-- new resources
+		"xc_cube_boost",
 		"engine","ic_fuel","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
 	},
 	require_tech = { "tc_cube_green_4" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
+	category = "Cube_Obsession",
+}
+data.techs.tc_cube_green_6 = {
+	order = 2,
+	name = "Phase Power",
+	desc = "Uses phase fuel to make power",
+	texture = "Main/textures/icons/items/human/engine.png",
+	unlocks = {
+		-- new resources
+		-- power from fuel
+		'cc_power_phase',
+	},
+	require_tech = { "tc_cube_green_5" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
 	category = "Cube_Obsession",
@@ -299,12 +357,8 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
 	category = "Cube_Curiosity",
 }
-
------------------------------------
-------------- Cube Section 2 -----
-
 data.techs.tc_cube_anti_1= {
-	order = 2,
+	order = 40,
 	name = "Localized Chrono Field Creation", -- recovered database etc.
 	desc = "",
 	texture = data.components.cc_moduleefficiency_l.texture,
@@ -318,7 +372,7 @@ data.techs.tc_cube_anti_1= {
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_anti_2 = {
-	order = 1,
+	order = 41,
 	name = "Chrono Towers", 
 	desc = "Towers Harnessing stabilized chrono crystal to create localized chronological fields",
 	texture = data.frames.fc_boost_tower.texture,
@@ -332,7 +386,7 @@ data.techs.tc_cube_anti_2 = {
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_anti_3= {
-	order = 2,
+	order = 42,
 	name = "Future Invasion", -- recovered database etc.
 	desc = "Send Expeditions to the future to steal materials not craftable with the current technology\n\nWarning beware of response from attacked timeline",
 	texture = data.items.fused_electrodes.texture,
@@ -345,36 +399,21 @@ data.techs.tc_cube_anti_3= {
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_plasma = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
 	category = "Cube_Obsession",
 }
-
-
-data.techs.tc_cube_red_4 = { 
-	order = 1,
-	name = "Anti-Cube Containment", 
-	desc = "Captured Anti Cube for perpetual vertical force",
-	texture = data.items.ldframe.texture,
+data.techs.tc_cube_anti_4= {
+	order = 42,
+	name = "Negative Entropy Project", -- recovered database etc.
+	desc = "The Final Form",
+	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		-- new resources
-		"ldframe",
 	},
-	require_tech = { "tc_cube_red_3"},
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
+	require_tech = { "tc_cube_anti_3", },
+	progress_count = 200,
+	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, fused_electrodes = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
 	category = "Cube_Obsession",
 }
-data.techs.tc_cube_red_5 = {
-	order = 1,
-	name = "Bulk Cube Refining", 
-	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
-	texture = data.components.cc_red_furnace.texture,
-	unlocks = {
-		-- new resources
-		"cc_red_furnace",
-	},
-	require_tech = { "tc_cube_red_4"},
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
-	category = "Cube_Obsession",
-}
+
+
 
 --------------------------------
 ---------- ROBOT ---------------
@@ -828,7 +867,7 @@ data.techs.tc_network4 = {
 	},
 	require_tech = { "tc_network3","tc_cube_green_1" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, fused_electrodes = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, ic_time_crystal = 1}, 50),
 	category = "tc_upgrades_1",
 }
 
