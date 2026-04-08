@@ -427,7 +427,7 @@ data.techs.tc_robot_metallurgy_1 = {
 		"steelblock",
 	},
 	require_tech = { "tc_robot_basic" },
-	progress_count = 25,
+	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1}, 25),
 	category = "Independance",
 }
@@ -441,7 +441,7 @@ data.techs.tc_robot_metallurgy_2 = {
 		"concreteslab","f_human_foundation_basic",
 	},
 	require_tech = { "tc_robot_metallurgy_1" },
-	progress_count = 100,
+	progress_count = 15,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1 }, 25),
 	category = "Independance",
 }
@@ -539,7 +539,7 @@ data.techs.tc_robot_frames_1 = {
 		"c_robotics_factory",
 	},
 	require_tech = { "tc_upgrades_basic" },
-	progress_count = 25,
+	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1}, 25),
 	category = "Independance",
 }
@@ -553,7 +553,7 @@ data.techs.tc_robot_frames_2 = {
 		"f_bot_1m_a","f_bot_1s_b",
 	},
 	require_tech = { "tc_robot_frames_1" },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1}, 25),
 	category = "Independance",
 }
@@ -566,7 +566,7 @@ data.techs.tc_robot_frames_3 = {
 		"f_bot_2s",
 	},
 	require_tech = { "tc_robot_frames_2" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1, wire = 1}, 50),
 	category = "Independance",
 }
@@ -580,7 +580,7 @@ data.techs.tc_robot_frames_4 = {
 		"f_transport_bot","f_bot_1m_b"
 	},
 	require_tech = { "tc_robot_frames_3" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1, wire = 1, ic_soul_happy = 1}, 50),
 	category = "Independance",
 }
@@ -651,7 +651,7 @@ data.techs.tc_building1 = {
 		"f_building1x1c","f_building1x1a",
 	},
 	require_tech = { "tc_upgrades_basic" },
-	progress_count = 50,
+	progress_count = 20,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1}, 25),
 	category = "Independance",
 }
@@ -665,7 +665,7 @@ data.techs.tc_building2 = {
 		"f_building2x2f","f_building2x1a",
 	},
 	require_tech = { "tc_building1", "tc_robot_metallurgy_1" },
-	progress_count = 50,
+	progress_count = 20,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1}, 25),
 	category = "Independance",
 }
@@ -680,7 +680,7 @@ data.techs.tc_building3= {
 		"f_wall","f_gate",
 	},
 	require_tech = {  "tc_building2", "tc_robot_metallurgy_2", },
-	progress_count = 50,
+	progress_count = 40,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, concreteslab = 1}, 50),
 	category = "Independance",
 }

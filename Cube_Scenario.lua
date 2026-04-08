@@ -46,11 +46,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	for key, val in pairs(data.techs) do 
-		if "tc_" == string.sub(key, 1, 3) then 
-			faction:Unlock(key)
-		end
-	end
+	-- for key, val in pairs(data.techs) do 
+	-- 	if "tc_" == string.sub(key, 1, 3) then 
+	-- 		faction:Unlock(key)
+	-- 	end
+	-- end
 	
 	-- blightness
 	faction.extra_data.blight_fog = 1
@@ -163,6 +163,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	local transport = Map.CreateEntity(faction, "f_bot_1m_a")
 	transport:AddComponent("cc_cube_storage")
 	--transport:AddItem("ic_cube_empty")
+	transport.GetSlot(1):SetLockedItem()
+	transport.GetSlot(2):SetLockedItem()
 	transport.logistics_carrier = true
 	transport.disconnected = false
 	transport:Place(loc.x+4,loc.y+4)
@@ -187,15 +189,15 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- home_entity:AddItem("cc_manifest")
 	-- new_entity:Place(loc.x+13, loc.y)
 
-	new_entity = Map.CreateEntity(faction, "f_building2x2c")
-	new_entity:AddComponent("c_blight_magnifier")
-	new_entity:AddComponent("cc_cube_storage")
-	new_entity:AddComponent("c_blight_terraformer")
-	new_entity:AddItem("ic_cube_green", 1)
-	new_entity:Place(loc.x+13, loc.y)
-	new_entity = Map.CreateEntity("world", "f_resourcenode_metal", "v_2x2_a_ruined")
-	new_entity:SetRegister(FRAMEREG_GOTO, {id="metalore",num=math.random(100, 200)})
-	new_entity:Place(loc.x+13, loc.y)
+	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
+	-- new_entity:AddComponent("c_blight_magnifier")
+	-- new_entity:AddComponent("cc_cube_storage")
+	-- new_entity:AddComponent("c_blight_terraformer")
+	-- new_entity:AddItem("ic_cube_green", 1)
+	-- new_entity:Place(loc.x+13, loc.y)
+	-- new_entity = Map.CreateEntity("world", "f_resourcenode_metal", "v_2x2_a_ruined")
+	-- new_entity:SetRegister(FRAMEREG_GOTO, {id="metalore",num=math.random(100, 200)})
+	-- new_entity:Place(loc.x+13, loc.y)
 
 	-- local volcano = Map.CreateEntity(faction, "fc_volcano")
 	-- volcano:Place(loc.x+3,loc.y+6)
@@ -233,49 +235,49 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- test_enemy:Place(loc.x-6,loc.y-12)
 
 
-	local pipe = Map.CreateEntity(faction, "fc_pipe")
-	--recharger:AddItem("ic_soul_plasma",20)
-	pipe:Place(loc.x-12,loc.y)
-	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",9)
-	pipe:Place(loc.x-8,loc.y+10)
+	-- local pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- --recharger:AddItem("ic_soul_plasma",20)
+	-- pipe:Place(loc.x-12,loc.y)
+	-- pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- pipe:AddItem("ic_soul_plasma",9)
+	-- pipe:Place(loc.x-8,loc.y+10)
 
-	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",1)
-	pipe:Place(loc.x-8,loc.y+4)
+	-- pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- pipe:AddItem("ic_soul_plasma",1)
+	-- pipe:Place(loc.x-8,loc.y+4)
 
-	--testing soul refinery 
-	pipe = Map.CreateEntity(faction, "f_building2x2c")
-	pipe:AddComponent("cc_soul_refinery")
-	pipe:AddComponent("cc_cube_storage")
-	pipe:AddComponent("cc_modulespeed")
-	pipe:AddComponent("cc_modulespeed")
-	--pipe:AddComponent("cc_pipe_output")
-	pipe:AddItem("ic_souls",200)
-	pipe:AddItem("ic_time_crystal",20)
-	pipe:AddItem("ic_cube_blue",1)
+	-- --testing soul refinery 
+	-- pipe = Map.CreateEntity(faction, "f_building2x2c")
+	-- pipe:AddComponent("cc_soul_refinery")
+	-- pipe:AddComponent("cc_cube_storage")
+	-- pipe:AddComponent("cc_modulespeed")
+	-- pipe:AddComponent("cc_modulespeed")
+	-- --pipe:AddComponent("cc_pipe_output")
+	-- pipe:AddItem("ic_souls",200)
+	-- pipe:AddItem("ic_time_crystal",20)
+	-- pipe:AddItem("ic_cube_blue",1)
 
-	pipe:Place(loc.x-8,loc.y)
+	-- pipe:Place(loc.x-8,loc.y)
 
-	pipe = Map.CreateEntity(faction, "f_building2x1f")
-	pipe:AddComponent("cc_power_souls")
-	pipe:AddComponent("cc_pipe_output")
-	--pipe:AddComponent("cc_pipe_output")
-	pipe:Place(loc.x-11,loc.y+8)
+	-- pipe = Map.CreateEntity(faction, "f_building2x1f")
+	-- pipe:AddComponent("cc_power_souls")
+	-- pipe:AddComponent("cc_pipe_output")
+	-- --pipe:AddComponent("cc_pipe_output")
+	-- pipe:Place(loc.x-11,loc.y+8)
 
 
-	local defence_block = Map.CreateEntity(faction, "f_building1x1h")
-	defence_block:AddComponent("cc_cube_storage")
-	defence_block:AddItem("ic_cube_sphere",1)
-	defence_block:Place(loc.x,loc.y-6)
+	-- local defence_block = Map.CreateEntity(faction, "f_building1x1h")
+	-- defence_block:AddComponent("cc_cube_storage")
+	-- defence_block:AddItem("ic_cube_sphere",1)
+	-- defence_block:Place(loc.x,loc.y-6)
 
-	defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
-	defence_block:Place(loc.x+1,loc.y-6)
+	-- defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
+	-- defence_block:Place(loc.x+1,loc.y-6)
 
-	--- booot tower 
-	defence_block = Map.CreateEntity(faction, "fc_boost_tower")
-	defence_block:Place(loc.x,loc.y+8)
-	home_entity:AddItem("ic_fuel", 40)
+	-- --- booot tower 
+	-- defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	-- defence_block:Place(loc.x,loc.y+8)
+	-- home_entity:AddItem("ic_fuel", 40)
 
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")

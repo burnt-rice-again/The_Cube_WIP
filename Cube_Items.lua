@@ -42,7 +42,7 @@ data.items.datakey_robot = {
 	visual = "v_gears",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 25, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 20, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
@@ -83,7 +83,7 @@ data.items.ldframe.production_recipe = CreateProductionRecipe(
 ---- Update Non Cube Existing Items -----------
 data.items.crystal.name = "Resonance Crystal"
 
-data.items.metalplate.production_recipe = CreateProductionRecipe({metalore = 2}, {c_fabricator = 5}, 1)
+data.items.metalplate.production_recipe = CreateProductionRecipe({metalore = 2}, {c_fabricator = 30}, 1)
 data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_miner = 15})
 
 data.items.steelblock.name = "Steel Beams"
