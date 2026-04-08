@@ -15,6 +15,7 @@ package.includes = {
 	"Cube_Pipes.lua",
 	"Cube_Frames.lua",
 	"Cube_Attack_Waves.lua",
+	"Cube_Crystal_Power.lua",
 
 	"Cube_Techs.lua",
 

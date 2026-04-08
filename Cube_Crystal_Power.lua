@@ -40,16 +40,16 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	-- battery
 	power_storage = 10000,
 	drain_rate = 400,
-    registers = {{filter = "Number", icon = "icon_number", tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"}}
+    registers = {{filter = "number", icon = "icon_number", tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"}}
 })
 
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
-	if cause & CC_FINISH_WORK == 0 and comp.is_working then
+	if comp.is_working then
 		return comp:SetStateContinueWork()
 	end
-    local percentage = comp:GetRegisterNum(1)
-    if (percentage or 0) > comp.stored_power / self.power_storage * 100 then
+    local target = comp:GetRegisterNum(1)
+    if (target or 1) >= comp.stored_power / self.power_storage * 100 then
         -- Perform Recharge
         local can_make = comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount, [self.cube_in] = 1}, 2)
         if not can_make then
@@ -67,45 +67,49 @@ function cc_crystal_power:on_update(comp, cause)
         comp:SetStateSleep(50)
     end 
 end
+function cc_crystal_power:get_reg_error(comp)
+    return "Missing Inputs to produce power"
+end
 
-cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
-	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
-	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
-	desc = [[Requires extreme heat to vaporize crystal powders
-<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>]],
-	visual = 'v_blightcrystalpower_01_m',
-	power_storage = 500000,
-	drain_rate = 2000,
-	consume_item = "crystal_powder",
-	consume_amount = 10,
-	cube_in = "ic_cube_red",
-	attachment_size = "Small",
-	wait_ticks = 100,
-	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60})
-})
-data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
-	name = "Soul Consumption", --"Crystal Power Extractor",
-	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
-	desc = [[Consumes Soul Plasma for energy 
-<img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-Requires drastically less Cube time compared to crystal power]],
-	visual = "v_power_cell_01_s",
-	power_storage = 5000,
-	drain_rate = 50,
-	consume_item = "ic_soul_plasma",
-	wait_ticks = 11,
-	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
-})
-data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
-	name = "Phase Fuel Generator", --"Crystal Power Extractor",
-	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
-	desc = [[Consumes Phase Fuel for energy 
-<img width="50" height="50" id="ic_fuel"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-Less effcient but very portable]],
-	visual = "v_power_cell_01_s",
-	power_storage = 50000,
-	drain_rate = 200,
-	consume_item = "ic_fuel",
-	wait_ticks = 11,
-	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
-})
+
+-- cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
+-- 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
+-- 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
+-- 	desc = [[Requires extreme heat to vaporize crystal powders
+-- <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>]],
+-- 	visual = 'v_blightcrystalpower_01_m',
+-- 	power_storage = 500000,
+-- 	drain_rate = 2000,
+-- 	consume_item = "crystal_powder",
+-- 	consume_amount = 10,
+-- 	cube_in = "ic_cube_red",
+-- 	attachment_size = "Small",
+-- 	wait_ticks = 100,
+-- 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60})
+-- })
+-- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
+-- 	name = "Soul Consumption", --"Crystal Power Extractor",
+-- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+-- 	desc = [[Consumes Soul Plasma for energy 
+-- <img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+-- Requires drastically less Cube time compared to crystal power]],
+-- 	visual = "v_power_cell_01_s",
+-- 	power_storage = 5000,
+-- 	drain_rate = 50,
+-- 	consume_item = "ic_soul_plasma",
+-- 	wait_ticks = 11,
+-- 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+-- })
+-- data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
+-- 	name = "Phase Fuel Generator", --"Crystal Power Extractor",
+-- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+-- 	desc = [[Consumes Phase Fuel for energy 
+-- <img width="50" height="50" id="ic_fuel"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+-- Less effcient but very portable]],
+-- 	visual = "v_power_cell_01_s",
+-- 	power_storage = 50000,
+-- 	drain_rate = 200,
+-- 	consume_item = "ic_fuel",
+-- 	wait_ticks = 11,
+-- 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+-- })
