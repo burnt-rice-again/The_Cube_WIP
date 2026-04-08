@@ -687,7 +687,7 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
-	if comp.stored_power > 0.5 * self.power_storage then
+	if comp.stored_power > 0.01 * self.power_storage then
 		if comp.has_prepared_process then
 			-- keep 1 ordered/reserved for once power runs out
 			--comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount}, 1)
