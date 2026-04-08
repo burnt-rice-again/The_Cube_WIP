@@ -441,7 +441,7 @@ data.techs.tc_robot_metallurgy_2 = {
 		"concreteslab","f_human_foundation_basic",
 	},
 	require_tech = { "tc_robot_metallurgy_1" },
-	progress_count = 15,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1 }, 25),
 	category = "Independance",
 }

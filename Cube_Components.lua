@@ -493,7 +493,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>500</> power while holding a CUBE",
 	visual = "vc_cube_storage",
 	race = "robot",
-	boost = -90,
+	boost = -80,
 	boost_id = "move_boost",
 	power = -1,
 	slots = { cube = 1, },
@@ -797,11 +797,11 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 	explorable_fix = "datakey_robot",
 	on_solved = function(comp, explorable_race, faction)
 		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		if not faction:IsUnlocked("tc_cube_green_1") then faction:Unlock("tc_cube_green_1") end
 		Map.Defer(function ()
 			comp.owner:AddItem("cc_planter_wire")
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
 			if comp_puzzle then comp_puzzle:Destroy() end
-			if not faction:IsUnlocked("tc_cube_green_discovery") then faction:Unlock("tc_cube_green_discovery") end
 			comp:Destroy()
 		end)
 	end,

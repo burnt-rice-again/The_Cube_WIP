@@ -42,12 +42,12 @@ data.items.datakey_robot = {
 	visual = "v_gears",
 	slot_type = "storage",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 2 }, { cc_manifest = 20, cc_green_brain = 5 }, 2, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 25, cc_green_brain = 5 }, 5, {ic_cube_blue = 1}),
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
 	{ic_cube_empty = 1, reinforced_plate = 20, }, 
-	{cc_green_brain = 15 , cc_red_furnace = 5},
+	{cc_green_brain = 25 , cc_red_furnace = 5},
 	20, {ic_cube_blue = 1}),
 	{desc = "Bulk Cube Log Filling"}
 )
@@ -111,7 +111,7 @@ create_alt_recipe("concreteslab",
 	1),
 	{desc = "Laterite Concrete Mixing"}
 )
-data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40}, 1)
+data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40, c_assembler = 30}, 1)
 
 data.items.engine.production_recipe = CreateProductionRecipe(
 {reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120, cc_green_brain = 80}, 1)
@@ -177,8 +177,16 @@ data.items.ic_cube_green = {
 	texture = "Main/textures/icons/items/virus_research_data.png",
 	visual = "v_virus_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_blue = 1, wire = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
+	{ ic_cube_blue = 1, crystal_powder = 1 }, { cc_manifest = 200, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
+create_alt_recipe("ic_cube_green", 
+	CreateProductionRecipeWithWaste(
+	{ic_cube_empty = 1, ic_soul_plasma = 16}, 
+	{cc_manifest = 25,},
+	1,
+	{ic_cube_empty = 1}),
+	{desc = "Alternative Soul Plasma Conversion"}
+)
 data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
 	index = 1004,

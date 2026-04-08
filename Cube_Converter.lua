@@ -218,7 +218,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 	attachment_size = "Small",
 	visual = "v_blightpowergenerator_01_m",
 	power = -500,
-	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 20, datakey_robot = 1 }, { c_fabricator = 30, }),
+	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 20, datakey_robot = 1 }, { c_fabricator = 30, c_assembler = 20 }),
 	recipes = {
 		{ 	id = "ic_cube_green", 
 		amt = {["ic_cube_empty"] = 1} , 
@@ -230,15 +230,15 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 		tech = "tc_cube_green_discovery",
 		},
 		{ 	id = "ic_souls", 
-		amt = {["ic_cube_empty"] = 1, ["ic_souls"] = 1} , 
-		t = 50, 
+		amt = {["ic_cube_empty"] = 1, ["ic_soul_plasma"] = 1} , 
+		t = 5, 
 		to = {},
 		cube_out = "ic_cube_blue",
 		effect = "fx_blight_extract"
 		},
 		{ 	id = "ic_cube_empty", 
 		amt = {["ic_cube_empty"] = 1} , 
-		t = 200, 
+		t = 100, 
 		to = {},
 		cube_out = "ic_cube_blue",
 		effect = "fx_blight_extract"
@@ -250,6 +250,14 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 		cube_out = "ic_cube_blue",
 		effect = "fx_blight_extract",
 		desc = "Emergency Cube Cooling"
+		},
+		{ 	id = "ic_cube_empty", 
+		amt = {["ic_cube_green"] = 1} , 
+		t = 10, 
+		to = {},
+		cube_out = "ic_cube_empty",
+		effect = "fx_blight_extract",
+		desc = "Cube Settling"
 		},
 	},
 })

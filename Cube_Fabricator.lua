@@ -310,7 +310,7 @@ cc_cube_fabrication:RegisterComponent("cc_manifest",{
 	visual = "v_explorable_blightanomaly_03",  --"v_scienceanalyzer_l",
 	production_effect = "fx_uplink",--"fx_digital_in",--"fx_digital",
 	power = -1000,
-	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=10,["crystal"]=10}, {["c_fabricator"] = 150}, 1),
+	production_recipe = CreateProductionRecipe({["steelblock"]=20,["crystal"]=10, datakey_robot = 4}, {["c_fabricator"] = 150, c_assembler = 50}, 1),
 })	
 
 cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
