@@ -1019,10 +1019,6 @@ data.techs.tc_robot_storage4 = {
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1, ic_soul_happy = 1 }, 50),
 	category = "tc_upgrades_1",
 }
-
-------- Signals 
----
-
 data.techs.tc_robot_signals1 = {
 	order = 11,
 	name = "Telecomunications", -- recovered database etc.
@@ -1076,7 +1072,7 @@ data.techs.tc_robot_signals4 = {
 	},
 	require_tech = { "tc_robot_signals3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1, fused_electrodes = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1, ldframe = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_robot_floor_1 = {

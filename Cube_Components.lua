@@ -112,6 +112,7 @@ data.components.c_large_storage.production_recipe = CreateProductionRecipe({ic_s
 
 -- Radar 
 data.components.c_small_radar.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_radar.production_recipe = CreateProductionRecipe({["reinforced_plate"]=4,["wire"]=4,ic_soul_happy = 1}, {["c_assembler"] = 50}, 1)
 -- Radios 
 data.components.c_radio_transmitter.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
 data.components.c_radio_receiver.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=1,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
@@ -122,7 +123,9 @@ data.components.c_drone_port.production_recipe = CreateProductionRecipe({reinfor
 data.components.c_drone_launcher.production_recipe = CreateProductionRecipe({reinforced_plate=25,c_portable_radar=3, wire = 6}, {["c_assembler"] = 150}, 1)
 data.components.c_drone_launcher.race = "robot"
 -- shields  
-data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['phase_leaf'] = 10, ['wire'] = 4}, {c_assembler = 50})
+data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['crystal_powder'] = 4, ['wire'] = 4, metalplate = 4}, {c_assembler = 50})
+data.components.c_shield_generator2.production_recipe = CreateProductionRecipe({['crystal_powder'] = 9, ['ic_soul_happy'] = 4, steelblock = 4}, {c_assembler = 50})
+data.components.c_shield_generator3.production_recipe = CreateProductionRecipe({['crystal_powder'] = 4, ['wire'] = 4, metalplate = 4}, {c_assembler = 50})
 
 --cube 
 data.components.c_advanced_refinery.name = "Soul Forge"
