@@ -55,7 +55,6 @@ data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["data
 data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["datakey_robot"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_portable_turret.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
-data.components.c_melee_pulse.production_recipe = CreateProductionRecipe({["steelblock"] = 6, ["crystal"] = 4}, {['c_assembler'] = 25},1 )
 data.components.c_robotics_factory.production_recipe = CreateProductionRecipe({["metalplate"] = 6, ["crystal"] = 4, ['datakey_robot']=1}, {['c_assembler'] = 25},1 )
 
 --miners 
@@ -63,57 +62,65 @@ data.components.c_miner.production_recipe = CreateProductionRecipe({["metalplate
 data.components.c_adv_miner.production_recipe = CreateProductionRecipe({ic_soul_angry = 1, reinforced_plate = 4, wire = 4, c_miner = 1}, {["c_assembler"] = 50}, 1)
 data.components.c_extractor.production_recipe = CreateProductionRecipe({ic_soul_angry = 4, reinforced_plate = 9, phase_leaf = 4, c_adv_miner = 1, c_medium_capacitor = 1}, {["c_assembler"] = 70}, 1)
 data.components.c_extractor.race = 'robot'
----lvl1
 ---non cube 
-data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["wire"]=9}, {["c_assembler"] = 60}, 1)
-data.components.c_adv_portable_turret.production_recipe = CreateProductionRecipe({["steelblock"]=8,["wire"]=6,["crystal"]=4}, {["c_assembler"] = 60}, 1)
 data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
 -- batteries and capacitors 
-data.components.c_small_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
-data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=4,["crystal_powder"]=10,["ic_soul_angry"]=1}, {["c_assembler"] = 150}, 1)
-data.components.c_large_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
+data.components.c_small_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=9,["wire"]=2}, {["c_assembler"] = 150}, 1)
+data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=9,["crystal_powder"]=9,["ic_soul_angry"]=1}, {["c_assembler"] = 150}, 1)
+data.components.c_large_battery.production_recipe = CreateProductionRecipe({["reinforced_plate"]=16,["crystal_powder"]=16,["ic_time_crystal"]=2, ic_soul_happy = 2}, {["c_assembler"] = 150}, 1)
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
-data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({["steelblock"]=8,["ic_soul_angry"]=1,["crystal"]=10}, {["c_assembler"] = 150}, 1)
----lvl2
-data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe({["metalplate"]=8,["crystal_powder"]=4,["blight_plasma"]=1}, {["c_assembler"] = 150}, 1)
-data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["metalplate"]=8,["crystal_powder"]=4,["phase_leaf"]=1}, {["c_assembler"] = 150}, 1)
+data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({["steelblock"]=9,["ic_soul_angry"]=4,["crystal_powder"]=4}, {["c_assembler"] = 150}, 1)
+-- netowkring 
+data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["crystal_powder"]=9}, {["c_assembler"] = 60}, 1)
+data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_large_power_relay.production_recipe = CreateProductionRecipe({steelblock = 4, reinforced_plate = 16, crystal_powder = 9, ic_time_crystal = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_power_transmitter.production_recipe = CreateProductionRecipe({["steelblock"]=16,["wire"]=9, crystal_powder = 9}, {["c_assembler"] = 100}, 1)
+data.components.c_power_transmitter.bandwidth = 5 * data.components.c_power_transmitter.bandwidth
+data.components.c_large_power_transmitter.production_recipe = CreateProductionRecipe({["reinforced_plate"]=4,["wire"]=16, crystal_powder = 16, steelblock = 16, ic_time_crystal = 1}, {["c_assembler"] = 100}, 1)
+data.components.c_large_power_transmitter.bandwidth = 5 * data.components.c_large_power_transmitter.bandwidth
+data.components.c_internal_field.transfer_radius = 20
+data.components.c_internal_field.get_ui = true
+data.components.c_internal_field.race = "robot"
+data.components.c_internal_field.texture = "Main/textures/icons/hidden/integrated_cell.png"
+
+-- Weapons in order of unlock
+data.components.c_repairkit.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["metalplate"]=1}, {["c_assembler"] = 30}, 1)
+data.components.c_repairer.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["steelblock"]=2}, {["c_assembler"] = 30}, 1)
+data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe({["ic_soul_angry"]=1,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
+data.components.c_melee_pulse.production_recipe = CreateProductionRecipe({steelblock = 4, datakey_robot = 1, crystal = 4}, {['c_assembler'] = 25},1 )
+data.components.c_adv_portable_turret.production_recipe = CreateProductionRecipe({steelblock = 4, datakey_robot = 1, crystal = 4}, {["c_assembler"] = 60}, 1)
+data.components.c_pulselasers.production_recipe = CreateProductionRecipe({steelblock = 9, datakey_robot = 2, crystal_powder = 4}, {["c_assembler"] = 60}, 1)
+data.components.c_pulse_disrupter.production_recipe = CreateProductionRecipe({steelblock = 9, datakey_robot = 2, crystal_powder = 4}, {["c_assembler"] = 60}, 1)
+data.components.c_repairport.production_recipe = CreateProductionRecipe({steelblock = 16, datakey_robot = 6, crystal_powder = 1}, {["c_assembler"] = 60}, 1)
+data.components.c_turret.production_recipe = CreateProductionRecipe({steelblock = 9, wire = 8, crystal_powder = 4}, {["c_assembler"] = 60}, 1)
+data.components.c_repairer_small_aoe.production_recipe = CreateProductionRecipe({steelblock = 4, wire = 12, crystal_powder = 8}, {["c_assembler"] = 60}, 1)
+data.components.c_twin_autocannons.production_recipe = CreateProductionRecipe({reinforced_plate = 4, wire = 8, datakey_robot = 2}, {["c_assembler"] = 60}, 1)
+data.components.c_human_missilelauncher.production_recipe = CreateProductionRecipe({reinforced_plate = 16,wire = 6, crystal_powder = 6}, {["c_assembler"] = 60}, 1)
+data.components.c_plasma_cannon.production_recipe = CreateProductionRecipe({reinforced_plate = 9, ic_soul_angry = 1, wire = 9}, {["c_assembler"] = 60}, 1)
+data.components.c_plasma_turret.production_recipe = CreateProductionRecipe({reinforced_plate = 4, ic_soul_angry = 1, wire = 12}, {["c_assembler"] = 60}, 1)
+data.components.c_railgun.production_recipe = CreateProductionRecipe({reinforced_plate = 16, ic_soul_angry = 9, ic_time_crystal = 4}, {["c_assembler"] = 60}, 1)
+data.components.c_light_cannon.production_recipe = CreateProductionRecipe({reinforced_plate = 4, ic_soul_angry = 1, ic_time_crystal = 1}, {["c_assembler"] = 60}, 1)
+data.components.c_laser_turret.production_recipe = CreateProductionRecipe({reinforced_plate = 9, ic_soul_angry = 4, ic_time_crystal = 4, ldframe = 1}, {["c_assembler"] = 60}, 1)
+data.components.c_missile_turret.production_recipe = CreateProductionRecipe({reinforced_plate = 16, ic_soul_angry = 4, ic_time_crystal = 2, ldframe = 1}, {["c_assembler"] = 60}, 1)
+
+data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["phase_leaf"]=4,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
+-- storages 
+data.components.c_internal_storage.production_recipe = CreateProductionRecipe({["metalplate"]=1, wire = 2}, {["c_assembler"] = 50}, 1)
+data.components.c_small_storage.production_recipe = CreateProductionRecipe({["metalplate"]=4,["steelblock"]=4}, {["c_assembler"] = 50}, 1)
+data.components.c_medium_storage.production_recipe = CreateProductionRecipe({steelblock = 9, reinforced_plate = 9, wire = 9}, {["c_assembler"] = 50}, 1)
+data.components.c_large_storage.production_recipe = CreateProductionRecipe({ic_soul_happy = 1, reinforced_plate = 16, wire = 16}, {["c_assembler"] = 50}, 1)
+
+-- Radar 
+data.components.c_small_radar.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
+-- Radios 
+data.components.c_radio_transmitter.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_radio_receiver.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=1,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
 -- drone ports 
 data.components.c_drone_comp.production_recipe = CreateProductionRecipe({metalplate=9,c_portable_radar=1, wire = 1}, {["c_assembler"] = 150}, 1)
 data.components.c_drone_comp.race = "robot"
 data.components.c_drone_port.production_recipe = CreateProductionRecipe({reinforced_plate=16,c_portable_radar=2, wire = 2}, {["c_assembler"] = 150}, 1)
 data.components.c_drone_launcher.production_recipe = CreateProductionRecipe({reinforced_plate=25,c_portable_radar=3, wire = 6}, {["c_assembler"] = 150}, 1)
 data.components.c_drone_launcher.race = "robot"
-
--- Improved Weapons 1 
-data.components.c_repairkit.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["metalplate"]=1}, {["c_assembler"] = 30}, 1)
-data.components.c_repairer.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["steelblock"]=2}, {["c_assembler"] = 30}, 1)
-data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe({["ic_soul_angry"]=1,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
-data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["phase_leaf"]=4,["steelblock"]=4, wire = 2}, {["c_assembler"] = 50}, 1)
--- storages 
-data.components.c_internal_storage.production_recipe = CreateProductionRecipe({["metalplate"]=1, wire = 2}, {["c_assembler"] = 50}, 1)
-data.components.c_small_storage.production_recipe = CreateProductionRecipe({["metalplate"]=4,["steelblock"]=4}, {["c_assembler"] = 50}, 1)
-data.components.c_medium_storage.production_recipe = CreateProductionRecipe({["aluminiumrod"]=16, reinforced_plate = 16, wire = 4}, {["c_assembler"] = 50}, 1)
-data.components.c_large_storage.production_recipe = CreateProductionRecipe({["reinforced_plate"]=40,["fused_electrodes"]=8, aluminiumrod = 12}, {["c_assembler"] = 50}, 1)
--- netowkring 
-data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_power_transmitter.production_recipe = CreateProductionRecipe({["steelblock"]=16,["wire"]=9, crystal_powder = 9}, {["c_assembler"] = 100}, 1)
-data.components.c_power_transmitter.bandwidth = 5 * data.components.c_power_transmitter.bandwidth
-data.components.c_large_power_transmitter.bandwidth = 5 * data.components.c_large_power_transmitter.bandwidth
-data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_internal_field.transfer_radius = 20
-data.components.c_internal_field.get_ui = true
-data.components.c_internal_field.race = "robot"
-data.components.c_internal_field.texture = "Main/textures/icons/hidden/integrated_cell.png"
-
-
--- Radios 
-data.components.c_radio_transmitter.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
-data.components.c_radio_receiver.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
-
 -- shields  
 data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['phase_leaf'] = 10, ['wire'] = 4}, {c_assembler = 50})
 
@@ -309,7 +316,7 @@ Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],
 --- Movement Boost 
 cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
-	desc = [[Thursters Increase Unit Speed by 25%
+	desc = [[Thrusters Increase Unit Speed by 25%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Internal",
 	texture = data.components.c_modulespeed.texture,
@@ -321,7 +328,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 })
 cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
 	name = "Small Movement Speed Module",
-	desc = [[Thursters Increase Unit Speed by 50%
+	desc = [[Thrusters Increase Unit Speed by 50%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Small",
 	texture = data.components.c_modulespeed_s.texture,
@@ -334,7 +341,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 })
 cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
 	name = "Medium Movement Speed Module",
-	desc = [[Thursters Increase Unit Speed by 80%
+	desc = [[Thrusters Increase Unit Speed by 80%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Medium",
 	texture = data.components.c_modulespeed_m.texture,
@@ -347,7 +354,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 })
 cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
 	name = "Large Movement Speed Module",
-	desc = [[Thursters Increase Unit Speed by 120%
+	desc = [[Thrusters Increase Unit Speed by 120%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	attachment_size = "Large",
 	texture = data.components.c_modulespeed_l.texture,
@@ -831,7 +838,7 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 local c_blight_magnifier = data.components.c_blight_magnifier
 c_blight_magnifier.name = "Cube Magnifier"
 c_blight_magnifier.activation = "OnAnyItemSlotChange"
-c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nMust be placed inside the bligth"
+c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nRequires the Restless Cube"
 c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},}
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil

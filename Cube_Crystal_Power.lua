@@ -56,7 +56,8 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",
 	desc = [[Produces a small amount of power with the cube and crystals
 		<img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-	]],
+Will Recharge when input register is below units battery %	
+		]],
 	attachment_size = "Small",
 	visual = "v_crystalpower_01_s",
 	race = "robot",
@@ -113,7 +114,8 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
 	desc = [[Requires extreme heat to vaporize crystal powders
-<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>]],
+<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+Will Recharge when input register is below units battery %]],
 	visual = 'v_blightcrystalpower_01_m',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
 	consume_list = {crystal_powder = 10,ic_soul_plasma = 10, ic_cube_red = 1},

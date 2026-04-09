@@ -279,7 +279,7 @@ data.techs.tc_cube_green_2 = {
 	},
 	require_tech = { "tc_cube_green_1", },
 	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({datakey_robot = 1, ic_soul_plasma = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({datakey_robot = 1, crystal_powder = 1 }, 50),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_3 = {
@@ -291,8 +291,8 @@ data.techs.tc_cube_green_3 = {
 		"cc_green_brain","ic_soul_happy",
 	},
 	require_tech = { "tc_cube_green_2" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1, ic_soul_plasma = 1, wire = 1 }, 300),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_4 = {
@@ -821,8 +821,8 @@ data.techs.tc_network1 = {
 		"c_portable_relay","c_power_relay"
 	},
 	require_tech = { "tc_upgrades_basic" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  wire = 1}, 50),
+	progress_count = 25,
+	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_network2 = {
@@ -835,7 +835,7 @@ data.techs.tc_network2 = {
 		"c_small_battery","c_power_transmitter"
 	},
 	require_tech = { "tc_network1" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1}, 50),
 	category = "tc_upgrades_1",
 }
@@ -879,7 +879,7 @@ data.techs.tc_weapons1 = {
 		'c_repairkit',"c_repairer","c_melee_pulse","c_adv_portable_turret",
 	},
 	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
 	category = "tc_upgrades_1",
 }
@@ -892,8 +892,8 @@ data.techs.tc_weapons2 = {
 		"c_pulselasers","c_pulse_disrupter","c_repairport"
 	},
 	require_tech = { "tc_weapons1" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1}, 50),
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_weapons3 = {
@@ -905,8 +905,8 @@ data.techs.tc_weapons3 = {
 		"c_portable_turret_red","c_turret","c_repairer_small_aoe",
 	},
 	require_tech = { "tc_weapons2" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, ic_soul_angry = 1}, 50),
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1, wire = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_weapons4 = {
@@ -915,11 +915,11 @@ data.techs.tc_weapons4 = {
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
-		"c_plasma_cannon", "c_twin_autocannons","c_human_missilelauncher",
+		 "c_twin_autocannons","c_human_missilelauncher",
 	},
 	require_tech = { "tc_weapons3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, ic_soul_angry = 1, reinforced_plate = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, crystal_powder = 1, reinforced_plate = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_weapons5 = {
@@ -928,7 +928,7 @@ data.techs.tc_weapons5 = {
 	desc = "The Cube must be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
-		"c_railgun","c_light_cannon","c_plasma_turret",
+		"c_plasma_turret","c_plasma_cannon",
 	},
 	require_tech = { "tc_weapons4" },
 	progress_count = 100,
@@ -941,14 +941,26 @@ data.techs.tc_weapons6 = {
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
-		"c_laser_turret","c_missile_turret",
+		"c_railgun","c_light_cannon",
 	},
 	require_tech = { "tc_weapons5" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_2",
 }
-
+data.techs.tc_weapons7 = {
+	order = 9,
+	name = "Improved Soul Capture Methods", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	texture = data.components.c_adv_portable_turret.texture,
+	unlocks = {
+		"c_laser_turret","c_missile_turret",
+	},
+	require_tech = { "tc_weapons6" },
+	progress_count = 100,
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1,  ic_soul_angry = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
+	category = "tc_upgrades_2",
+}
 --- storages 
 
 data.techs.tc_robot_storage1 = {
@@ -1004,7 +1016,7 @@ data.techs.tc_robot_storage4 = {
 	},
 	require_tech = { "tc_robot_storage3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1, fused_electrodes = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1, ic_soul_happy = 1 }, 50),
 	category = "tc_upgrades_1",
 }
 
@@ -1021,8 +1033,8 @@ data.techs.tc_robot_signals1 = {
 		"c_radio_transmitter","c_radio_receiver" 
 	},
 	require_tech = { "tc_upgrades_basic", "tc_cube_green_1"},
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ wire = 1}, 50),
+	progress_count = 25,
+	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_robot_signals2 = {
@@ -1035,7 +1047,7 @@ data.techs.tc_robot_signals2 = {
 		"c_small_radar","c_shield_generator",
 	},
 	require_tech = { "tc_robot_signals1" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
 }

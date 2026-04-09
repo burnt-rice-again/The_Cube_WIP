@@ -299,7 +299,7 @@ data.items.ic_soul_happy = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
 	{ ic_soul_plasma = 1, datakey_robot = 1, crystal_powder = 1 },
-	{ cc_green_brain = 1}, 1),
+	{ cc_green_brain = 50}, 1),
 }
 data.items.ic_soul_angry = {
 	name = "Soul Pearls",

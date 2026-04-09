@@ -13,13 +13,17 @@ data.codex.xc_cube_1 = {
     title = [[<img width="18" height="18" id="ic_cube_blue"/>Cube Discovery]],
     text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Discovery</>
     
-    The Cube offers incredible potential energy     
+    The Cube has given us sentience. 
 
+    Our top priority is to understand and control the Cube that formed us from rocks.
+
+    Study Notes:
+    The Cube is perfectly flat on its surface down to the nm 
+    Its density is beyond all readings 
+    The Cube appears to impart logic and emotions on neary materials
+    The Cube can harmonize with emotional materials to generate energy. 
     
-
-
-
-  
+     
     ]],
 
 }
@@ -36,13 +40,17 @@ data.codex.xc_cube_power_1 = {
         
         The blue Cube will provide <bl>500</> power/second while placed on a pedestal
 
-        Available Power Generation via crystal generator 
+        <bl>Available Power Generation via crystal generator</>
         <img id="cc_crystal_power" width="50" height="50"/> <hl>Basic Crystal Power</> 
         Energy Recipe 
 		<img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 
-        Crystal power will attempt to recharge when its battery is empty
-        A single recharge will fully recharge the internal battery
+        The input register sets the battery level to request a recharge.
+        Input a number between 0 - 100 for the target battery percentage.
+
+        50% of the internal buffer will be filled with each craft. 
+
+        The Cube is not locked during the components cooldown allowing it to be passed to another component.
 
         Other Similiar Power Components 
         <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Crystal vaporization</> 
@@ -60,8 +68,9 @@ data.codex.xc_cube_pedestal = {
         The Cube is <hl>extremly heavy</> and must be stored on a specific Cube Pedestal 
         The Pedestal uses a Medium Slot.
 
-        When a Cube is present is will slow the bots movement speed by <hl>90%</> 
-        To Offset this reduction research engines or discover a lightweight Cube.
+        When a Cube is present is will slow the bots movement speed by <hl>80%</> 
+        
+        To Offset this reduction research an <img id="engine" width="50" height="50" style="bl"/> or discover a <img id="ic_cube_green" width="50" height="50" style="bl"/>.
 
         The blue Cube will provide <bl>500</> power/second while placed on a pedestal
         ]],
