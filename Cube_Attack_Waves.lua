@@ -25,6 +25,13 @@ local frame_cost_list <const> = {
         f_building1x1h = 10,
         f_building2x2e = 30,
         f_building2x2f = 15,
+        f_building2x1g = 1,
+        f_building2x2d = 1,
+        f_building2x2b = 1,
+        f_building3x2b = 1,
+        f_building2x2c = 1,
+        f_building3x2a = 1,
+        f_building1x1d = 1,
 }
 local comp_cost_list <const> = {
     i ={
@@ -84,7 +91,17 @@ for key, _ in pairs(frame_cost_list) do
     table.insert(frame_keys, key)
 end
 
-local function random_key(list)
+local function random_key(list, filter)
+    if filter ~= nil then
+        local check = 3
+        while check > 0 do
+            local id = list[math.random(1,#list)]
+            if string.find(id,filter) ~= nil then 
+                return id
+            end
+            check = check - 1
+        end
+    end
     return list[math.random(1,#list)]
 end
 
@@ -108,11 +125,11 @@ function cc_damage_check:on_take_damage(comp, amount)
 end
 
 -- create a randomized bot 
-local function build_random_bot(faction)
+local function build_random_bot(faction, frame_filter)
 
     local cost = 0
 
-    local bot = Map.CreateEntity(faction, random_key(frame_keys))
+    local bot = Map.CreateEntity(faction, random_key(frame_keys, frame_filter))
     cost = cost + frame_cost_list[bot.id]
     bot:AddComponent("c_integrated_power_cell")
 
@@ -153,7 +170,7 @@ local function build_random_bot(faction)
 end 
 
 function Delay.Place_random_bot(arg)
-        local bot, bot_cost = build_random_bot(arg.faction)
+        local bot, bot_cost = build_random_bot(arg.faction, arg.frame_filter)
         bot:Place(arg.cord.x + math.random(-arg.range, arg.range),arg.cord.y + math.random(-arg.range, arg.range), math.random(0,3))
         bot:PlayEffect("fx_pulse")
         --print('spawning', bot.location)
@@ -165,7 +182,7 @@ local function spawn_robot_attack(owner, cost, options)
     local cord = owner.location
     local i = 5
     while cost > 0 do 
-        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range})
+        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot"})
         cost = cost - 1
         i = i + 5
     end
@@ -339,30 +356,31 @@ local ruined_visuals = { "v_simulator_ruined", "v_2x2_a_ruined","v_explorable_bu
 
 function Place_enemy_fort(x,y,cost)
 
-	local start_area_size = 8
+	local start_area_size = math.min(math.max(cost,1),5)
     local faction = "time_bots"
     if cost < 1 then cost = 1 end 
     
-	CreateFoundationsFromCentre(x+1, y+1, start_area_size,start_area_size,"f_human_foundation_basic",faction)
+	CreateFoundationsFromCentre(x, y, start_area_size,start_area_size,"f_human_foundation_basic",faction)
 	--spawn wals 
 	for n = -start_area_size, start_area_size do 
-		if n > 2 or n < -2 then 
+		if math.random() > 0.05 then 
 			--horizontal
-			local wall = Map.CreateEntity(faction, "f_wall")
+			local wall = Map.CreateEntity(faction, "f_wall_bli")
 			wall:Place(x + n, y+start_area_size, false)
-			wall = Map.CreateEntity(faction, "f_wall")
+			wall = Map.CreateEntity(faction, "f_wall_bli")
 			wall:Place(x + n, y-start_area_size, false)
 			--vertical
-			wall = Map.CreateEntity(faction, "f_wall")
+			wall = Map.CreateEntity(faction, "f_wall_bli")
 			wall:Place(x + start_area_size, y+n, false)
-			wall = Map.CreateEntity(faction, "f_wall")
+			wall = Map.CreateEntity(faction, "f_wall_bli")
 			wall:Place(x - start_area_size, y+n, false)
 
 		end
 	end
+    start_area_size = start_area_size - 1
     -- storage with souls 
-    local storage = Map.CreateEntity(faction,"f_building1x1h")
-    storage:AddItem("ic_souls",cost)
+    local storage = Map.CreateEntity(faction,"f_building1x1g")
+    storage:AddItem("ic_souls",cost*cost)
     storage:Place(x,y,math.random(0,3))
 
     local anti_cost = 10 - cost
@@ -370,16 +388,19 @@ function Place_enemy_fort(x,y,cost)
         Delay.Place_random_bot({
             faction = "time_bots",
             cord = {x = x, y = y},
-            range = 7,
+            range = start_area_size,
+            frame_filter = "f_building",
         })
         cost = cost - 1
     end
     -- place derelict structures 
     while anti_cost > 0 do 
-        PlaceResourceNode({x = x, y = y}, "concreteslab", math.random(100,2000),"f_resourcenode_concrete",
+        PlaceResourceNode({x = math.random(-start_area_size,start_area_size) + x, y = math.random(-start_area_size,start_area_size) + y},
+            "concreteslab", math.random(100,2000),"f_resourcenode_concrete",
             ruined_visuals[math.random(1,#ruined_visuals)])
         anti_cost = anti_cost - 1
     end
+
 end
 
 

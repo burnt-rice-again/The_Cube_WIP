@@ -94,9 +94,10 @@ function ec_fort:GetRelevancy(x, y, info)
 	if info.elevation_delta > -0.02 then return 0.0 end
 	if info.blightness_delta > 0 then return 0.0 end
 
-	return 0.05
+    -- dont place near spawn 
+    if x < 200 and y < 200 then return 0 end 
 
-
+	return 0.01
 end
 
 function ec_fort:SpawnExplorable(x, y)
