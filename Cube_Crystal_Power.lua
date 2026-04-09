@@ -77,7 +77,6 @@ function cc_crystal_power:on_update(comp, cause)
 	if comp.is_working then
 		return comp:SetStateContinueWork()
 	end
-	print(comp:CauseToString(cause))
     local target = comp:GetRegisterNum(1)
     if (target or 1) >= comp.stored_power / self.power_storage * 100 then
         -- Perform Recharge
@@ -86,7 +85,7 @@ function cc_crystal_power:on_update(comp, cause)
 			-- wait for materials 
 			print(missing, no_space)
             comp:FlagRegisterError(1)
-            comp:SetStateSleep()
+            comp:SetStateSleep(50)
             return
         end
 		-- recharge now
@@ -100,7 +99,7 @@ function cc_crystal_power:on_update(comp, cause)
         comp:CancelProcess()
 		comp:FlagRegisterError(1,false)
 		-- check every 10 seconds if power is below target 
-        comp:SetStateSleep(50)
+        comp:SetStateSleep()
     end
 end
 function cc_crystal_power:on_add(comp)
@@ -123,7 +122,7 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	cube_out = "ic_cube_empty",
 	wait_ticks = 100,
 	power_storage = 500000,
-	drain_rate = 2000,
+	drain_rate = 5000,
 })
 -- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 -- 	name = "Soul Consumption", --"Crystal Power Extractor",

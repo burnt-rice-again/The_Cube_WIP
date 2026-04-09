@@ -46,12 +46,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	-- for key, val in pairs(data.techs) do 
-	-- 	if "tc_" == string.sub(key, 1, 3) then 
-	-- 		faction:Unlock(key)
-	-- 	end
-	-- end
-	
+	for key, val in pairs(data.techs) do 
+		if "tc_" == string.sub(key, 1, 3) then 
+			faction:Unlock(key)
+		end
+	end
 	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
@@ -66,7 +65,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	--addfoundations for start
 	local start_area_size = 8
 	CreateFoundationsFromCentre(loc.x+1, loc.y+1, start_area_size,start_area_size,"f_human_foundation_basic",faction)
-
 	loc.x = loc.x + 1
 	loc.y = loc.y + 1
 

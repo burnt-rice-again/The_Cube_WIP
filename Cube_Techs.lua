@@ -187,12 +187,12 @@ data.techs.tc_cube_red_1 = {
 }
 data.techs.tc_cube_red_2 = {
 	order = 1,
-	name = "Crystal Vaporization", -- recovered database etc.
+	name = "Emotional Processing", -- recovered database etc.
 	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power/nA byproduct of this process is some crystal powder that wasnt able to react",
 	texture = data.components.cc_crystal_power_red.texture,
 	unlocks = {
 		-- new resources
-		"cc_crystal_power_red",
+		"cc_crystal_power_red","ic_soul_angry",
 	},
 	require_tech = { "tc_cube_red_1" },
 	progress_count = 100,
@@ -206,7 +206,7 @@ data.techs.tc_cube_red_3 = {
 	texture = data.items.ic_soul_angry.texture,
 	unlocks = {
 		-- new resources
-		"ic_soul_angry",
+		"c_blight_magnifier",
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
@@ -257,14 +257,11 @@ data.techs.tc_cube_red_6 = {
 }
 data.techs.tc_cube_green_1= {
 	order = 3,
-	name = "Farming",
+	name = "Cube ",
 	desc = "Grow seeds",
 	texture = data.items.ic_cube_green.texture,
 	unlocks = {
-		-- new resources
 		"ic_cube_green","xc_cube_green",
-		"wire",
-		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 50,
@@ -277,8 +274,8 @@ data.techs.tc_cube_green_2 = {
 	desc = "A Brain in a jar set to ponder its own existence",
 	texture = data.components.cc_green_brain.texture,
 	unlocks = {
-		-- new resources
-		"cc_green_brain","ic_soul_happy",
+		"wire",
+		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
 	},
 	require_tech = { "tc_cube_green_1", },
 	progress_count = 50,
@@ -291,7 +288,7 @@ data.techs.tc_cube_green_3 = {
 	desc = "pick the worlds wounds",
 	texture = data.items.ic_cube_green.texture,
 	unlocks = {
-		"c_blight_magnifier",--"c_blight_terraformer",
+		"cc_green_brain","ic_soul_happy",
 	},
 	require_tech = { "tc_cube_green_2" },
 	progress_count = 100,

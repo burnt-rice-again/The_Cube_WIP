@@ -270,13 +270,13 @@ data.items.ic_soul_plasma = {
 	slot_type = "anomaly",
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, ic_souls = 50 },
+	{ic_cube_blue = 1, ic_souls = 20, crystal_powder = 5 },
 	{ cc_soul_refinery = 400 },
 	100, {ic_cube_blue = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_souls = 40, phase_leaf = 1 }, 
+	{ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, 
 	{cc_soul_refinery = 25,},
 	100,
 	{ic_cube_empty = 1}),
