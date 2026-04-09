@@ -1,4 +1,21 @@
 
+-- power calculations 
+-- manifest is -1000 / tick 
+--- cube log takes 25 ticks to craft 
+--- 25 000 power needed per craft 
+--- -- base 500 p/t from cube 
+---  
+--- Crystal power should be able to handle 1 craft 
+--- so 500p/t for 25 s
+--- 10000 
+
+--- Red Power 
+--- Should be able to take 50 crafts?
+--- 500000
+
+
+
+
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------
 local function battery_get_ui(self, comp)
@@ -51,8 +68,8 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	cube_out = "ic_cube_blue",
 	wait_ticks = 30,
 	-- battery
-	power_storage = 20000,
-	drain_rate = 400,
+	power_storage = 10000,
+	drain_rate = 500,
     registers = {{filter = "number", ui_icon = "icon_small_battery" , tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"}}
 }) -- "Main/skin/Icons/Common/32x32/Battery.png"
 function cc_crystal_power:on_update(comp, cause)
@@ -78,12 +95,12 @@ function cc_crystal_power:on_update(comp, cause)
         comp.owner:AddItem(self.cube_out)
         comp.stored_power = comp.stored_power + self.power_storage / 2
         comp:SetStateStartWork(self.wait_ticks)
-	else 
+	else
 		-- go to sleep until it needs to charge
         comp:CancelProcess()
 		comp:FlagRegisterError(1,false)
-		-- check every 5 seconds if power is below target 
-        comp:SetStateSleep(25)
+		-- check every 10 seconds if power is below target 
+        comp:SetStateSleep(50)
     end
 end
 function cc_crystal_power:on_add(comp)
@@ -94,23 +111,20 @@ end
 function cc_crystal_power:get_reg_error(comp)
     return "Missing Inputs to produce power"
 end
-
-
--- cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
--- 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
--- 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
--- 	desc = [[Requires extreme heat to vaporize crystal powders
--- <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>]],
--- 	visual = 'v_blightcrystalpower_01_m',
--- 	power_storage = 500000,
--- 	drain_rate = 2000,
--- 	consume_item = "crystal_powder",
--- 	consume_amount = 10,
--- 	cube_in = "ic_cube_red",
--- 	attachment_size = "Small",
--- 	wait_ticks = 100,
--- 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60})
--- })
+cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
+	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
+	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
+	desc = [[Requires extreme heat to vaporize crystal powders
+<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>]],
+	visual = 'v_blightcrystalpower_01_m',
+	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
+	consume_list = {crystal_powder = 20, ic_cube_red = 1},
+	output_list = {ic_soul_angry = 1},
+	cube_out = "ic_cube_empty",
+	wait_ticks = 100,
+	power_storage = 500000,
+	drain_rate = 2000,
+})
 -- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 -- 	name = "Soul Consumption", --"Crystal Power Extractor",
 -- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',

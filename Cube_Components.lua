@@ -413,7 +413,6 @@ local function anti_cube_explosion(comp)
 			if id ~= "ic_cube_sphere" then 
 				val:SetItemAndStack(replace_cube_with[id],1)
 			end
-			
 		end
 	end 
 	local range = 10
