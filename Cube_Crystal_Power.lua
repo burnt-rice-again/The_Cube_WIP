@@ -2,7 +2,7 @@
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------
 local function battery_get_ui(self, comp)
-	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color=ui_light bgcolor=ui_dark/></Box>]], {
+	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color={color} bgcolor=ui_dark/></Box>]], {
 		compicon = comp.def.texture,
 		update = function(w)
 			local comp_def, comp_details = comp.def, comp.power_details
@@ -11,6 +11,20 @@ local function battery_get_ui(self, comp)
 				if w.tt then
 					w.tt.text = L((comp_details.change ~= 0 and "%s: %.0f/%.0f (%+.0f)" or "%s: %.0f/%.0f"), "Stored", comp_details.stored, comp_def.power_storage, comp_details.change*TICKS_PER_SECOND)
 				end
+                local target = comp:GetRegisterNum(1)
+                if (target or 1) >= comp.stored_power / self.power_storage * 100 then
+                    -- below target
+                    w.color = "yellow"
+                    if w.tt then w.tt.text = w.tt.text .. "Battery Below Percentage: Requesting Recharge" end 
+                else 
+					if comp.stored_power > self.power_storage / 2 then 
+						w.color = "ui_light"
+						if w.tt then w.tt.text = w.tt.text .. "Battery above 50% does not need to recharge" end
+					else 
+						w.color = "green"
+						if w.tt then w.tt.text = w.tt.text .. "Battery above target percentage but below 50%" end
+					end
+                end
 			end
 		end,
 		tooltip = function(w)
@@ -32,40 +46,50 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 10 }, { c_assembler = 20 }),
 	activation = "OnPowerStoredEmpty|OnComponentRegisterChange",
 	get_ui = battery_get_ui,
-	consume_item = "crystal",
-	consume_amount = 1,
-	cube_in = "ic_cube_blue",
+	consume_list = {ic_cube_blue = 1, crystal = 1},
+	output_list = {ic_souls = 1},
 	cube_out = "ic_cube_blue",
 	wait_ticks = 30,
 	-- battery
-	power_storage = 10000,
+	power_storage = 20000,
 	drain_rate = 400,
-    registers = {{filter = "number", icon = "icon_number", tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"}}
-})
-
+    registers = {{filter = "number", ui_icon = "icon_small_battery" , tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"}}
+}) -- "Main/skin/Icons/Common/32x32/Battery.png"
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
 	if comp.is_working then
 		return comp:SetStateContinueWork()
 	end
+	print(comp:CauseToString(cause))
     local target = comp:GetRegisterNum(1)
     if (target or 1) >= comp.stored_power / self.power_storage * 100 then
         -- Perform Recharge
-        local can_make = comp:PrepareConsumeProcess({[self.consume_item] = self.consume_amount, [self.cube_in] = 1}, 2)
+        local can_make, missing, no_space = comp:PrepareProduceProcess(self.consume_list,self.output_list,2)
         if not can_make then
+			-- wait for materials 
+			print(missing, no_space)
             comp:FlagRegisterError(1)
-            comp:SetStateSleep(50)
+            comp:SetStateSleep()
             return
         end
+		-- recharge now
         comp:FlagRegisterError(1,false)
         comp:FulfillProcess()
         comp.owner:AddItem(self.cube_out)
-        comp.stored_power = self.power_storage
+        comp.stored_power = comp.stored_power + self.power_storage / 2
         comp:SetStateStartWork(self.wait_ticks)
-	elseif comp.has_prepared_process == true then 
+	else 
+		-- go to sleep until it needs to charge
         comp:CancelProcess()
-        comp:SetStateSleep(50)
-    end 
+		comp:FlagRegisterError(1,false)
+		-- check every 5 seconds if power is below target 
+        comp:SetStateSleep(25)
+    end
+end
+function cc_crystal_power:on_add(comp)
+    if comp:RegisterIsEmpty(1) == true then 
+		comp:SetRegisterNum(1,50) 
+	end
 end
 function cc_crystal_power:get_reg_error(comp)
     return "Missing Inputs to produce power"

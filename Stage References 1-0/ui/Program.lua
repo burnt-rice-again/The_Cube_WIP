@@ -78,7 +78,7 @@ local Program_layout<const> = [[
 					</Canvas>
 					<HorizontalList>
 						<HorizontalList id=help_panel child_padding=16>
-							<Button id=help_button on_click={on_help_popup} icon=icon_question color=ui_light tooltip="Show Explanation" active=true/>
+							<Button id=help_button on_click={on_help_popup} icon=icon_question color= tooltip="Show Explanation" active=true/>
 							<Text size=20 valign=center id=help_inst_name text="Select Node for help on that instruction" margin_right=8/>
 						</HorizontalList>
 						<Spacer fill=true/>
@@ -2801,7 +2801,7 @@ The second button lets you select which behavior controller of your units to ins
 		local sample = Tool.StringToTable(code_str)
 		w.templates:Add([[<Button on_click={on_click_template}>
 				<HorizontalList halign=left child_align=center child_padding=3>
-					<Image image=icon_small_behavior color=ui_light/>
+					<Image image=icon_small_behavior color=/>
 					<VerticalList child_padding=3 child_align=top fill=true><Text text={name} size=14 style=bl/><Text text={desc} size=10 style=bl/></VerticalList>
 				</HorizontalList>
 			</Button>]], { code = sample , load_text = "Load", name = sample.name, desc = sample.desc })

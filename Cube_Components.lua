@@ -383,6 +383,12 @@ local function check_for_anti_cube(comp)
 	end
 	return false
 end
+local function activate_other_comps(comp)
+	local owner = comp.owner
+	local find = owner.FindComponent("cc_crystal_power", true)
+	-- activate cube power generators 
+	if find ~= nil then find:Activate() end 
+end
 
 local replace_cube_with <const> = {
     ic_cube_blue = 'ic_cube_empty',
@@ -473,6 +479,7 @@ local function Update_Cube_Effects(self, comp, cause)
 		comp.extra_data.boost_active = true
 		self:update_boost(comp, boost_polarity)
 		anti_cube_explosion(comp)
+		activate_other_comps(comp)
 	else
 		comp:StopEffects() 
 		print("stop effects")
@@ -518,6 +525,7 @@ function cc_cube_storage:on_remove(comp)
 	local slot = comp:GetSlot(1)
 	if slot.id == "ic_cube_sphere" then Place_Anti_Cube(comp.owner,true) end
 end
+
 -------------------------------------------------------
 ----- Boosting Tower Component -----------------------------------
 

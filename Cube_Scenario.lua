@@ -163,8 +163,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	local transport = Map.CreateEntity(faction, "f_bot_1m_a")
 	transport:AddComponent("cc_cube_storage")
 	--transport:AddItem("ic_cube_empty")
-	transport.GetSlot(1):SetLockedItem()
-	transport.GetSlot(2):SetLockedItem()
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
 	transport.logistics_carrier = true
 	transport.disconnected = false
 	transport:Place(loc.x+4,loc.y+4)
