@@ -111,7 +111,7 @@ data.components.c_medium_storage.production_recipe = CreateProductionRecipe({ste
 data.components.c_large_storage.production_recipe = CreateProductionRecipe({ic_soul_happy = 1, reinforced_plate = 16, wire = 16}, {["c_assembler"] = 50}, 1)
 
 -- Radar 
-data.components.c_small_radar.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_small_radar.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1, wire = 1}, {["c_assembler"] = 50}, 1)
 data.components.c_radar.production_recipe = CreateProductionRecipe({["reinforced_plate"]=4,["wire"]=4,ic_soul_happy = 1}, {["c_assembler"] = 50}, 1)
 -- Radios 
 data.components.c_radio_transmitter.production_recipe = CreateProductionRecipe({["metalplate"]=1,["crystal_powder"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
@@ -124,13 +124,16 @@ data.components.c_drone_launcher.production_recipe = CreateProductionRecipe({rei
 data.components.c_drone_launcher.race = "robot"
 -- shields  
 data.components.c_shield_generator.production_recipe = CreateProductionRecipe({['crystal_powder'] = 4, ['wire'] = 4, metalplate = 4}, {c_assembler = 50})
-data.components.c_shield_generator2.production_recipe = CreateProductionRecipe({['crystal_powder'] = 9, ['ic_soul_happy'] = 4, steelblock = 4}, {c_assembler = 50})
-data.components.c_shield_generator3.production_recipe = CreateProductionRecipe({['crystal_powder'] = 4, ['wire'] = 4, metalplate = 4}, {c_assembler = 50})
+data.components.c_shield_generator2.production_recipe = CreateProductionRecipe({['crystal_powder'] = 4, ['ic_soul_happy'] = 4, steelblock = 4, wire = 9}, {c_assembler = 50})
+data.components.c_shield_generator3.production_recipe = CreateProductionRecipe({['crystal_powder'] = 4, ['wire'] = 16, reinforced_plate = 4, ldframe = 1, ic_soul_happy = 4}, {c_assembler = 50})
 
 --cube 
 data.components.c_advanced_refinery.name = "Soul Forge"
 data.components.c_advanced_refinery.desc = "Melt Away Until Only The Essentials Remain"
 data.components.c_advanced_refinery.slots = {anomaly = 1}
+--light 
+data.components.c_light.production_recipe = CreateProductionRecipe({metalplate=1,crystal=1}, {c_assembler = 50})
+data.components.c_light_rgb.production_recipe = CreateProductionRecipe({metalplate=1,crystal=1}, {c_assembler = 50})
 
 --- Buff Batteries and capacitors
 local battery_modifier <const> = 2

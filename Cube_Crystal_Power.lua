@@ -114,7 +114,7 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
 	desc = [[Requires extreme heat to vaporize crystal powders
-<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Will Recharge when input register is below units battery %]],
 	visual = 'v_blightcrystalpower_01_m',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
@@ -125,19 +125,19 @@ Will Recharge when input register is below units battery %]],
 	power_storage = 500000,
 	drain_rate = 5000,
 })
--- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
--- 	name = "Soul Consumption", --"Crystal Power Extractor",
--- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
--- 	desc = [[Consumes Soul Plasma for energy 
--- <img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
--- Requires drastically less Cube time compared to crystal power]],
--- 	visual = "v_power_cell_01_s",
--- 	power_storage = 5000,
--- 	drain_rate = 50,
--- 	consume_item = "ic_soul_plasma",
--- 	wait_ticks = 11,
--- 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
--- })
+data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
+	name = "Soul Consumption", --"Crystal Power Extractor",
+	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+	desc = [[Consumes Soul Plasma for energy 
+<img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+Requires drastically less Cube time compared to crystal power]],
+	visual = "v_power_cell_01_s",
+	power_storage = 10000,
+	drain_rate = 500,
+	consume_item = "ic_soul_plasma",
+	wait_ticks = 25,
+	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+})
 -- data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
 -- 	name = "Phase Fuel Generator", --"Crystal Power Extractor",
 -- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',

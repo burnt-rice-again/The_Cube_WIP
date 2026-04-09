@@ -106,7 +106,7 @@ data.visuals.v_explorable_blightanomaly_03.scale = {0.4,0.4,0.4}
 
 -- plants 
 data.visuals.vc_souls ={
-	mesh = "StaticMesh'/Game/Cai/Resources/Silica/Pickup_01/SM_Resource_Silica_Pickup_01.SM_Resource_Silica_Pickup_01'",
+	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 2, 2, 2, },
 	-- materials = {

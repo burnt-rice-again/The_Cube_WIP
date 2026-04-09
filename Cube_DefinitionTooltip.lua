@@ -61,7 +61,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_range", def.minimum_range, "Min. Range") then goto full end
 		end
 		if def.repair then
-			local boost, rpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.repair*(TICKS_PER_SECOND/def.duration)
+			local boost, rpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.repair*(TICKS_PER_SECOND/def.charge_time)
 			if boost > 100 then
 				if AddStat("icon_tiny_damage", string.format("%.1f <gl>(%.1f)</>", rpsval, math.floor(boost * 0.01 * rpsval + 0.5)), "Repair/sec") then goto full end
 			elseif boost < 100 then
@@ -71,7 +71,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			end
 		end
 		if def.shoot_speed then
-			local boost, dpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.damage*(TICKS_PER_SECOND/def.duration)
+			local boost, dpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.damage*(TICKS_PER_SECOND/def.charge_time)
 			if boost > 100 then
 				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", dpsval, math.floor(boost * 0.01 * dpsval + 0.5)), "DPS") then goto full end
 			elseif boost < 100 then
@@ -95,7 +95,16 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			local target = def.shoot_target == "ground" and "Ground Only" or (def.shoot_target == "air" and "Air Only") or "Air/Ground"
 			if AddStat("icon_tiny_damage", target, "Targeting") then goto full end
 		end
-
+		if def.charge_time then
+			local boost = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100
+			if boost == 100 then
+				if AddStat("icon_tiny_duration", string.format("%.1fs", def.charge_time/TICKS_PER_SECOND), "Charge Time") then goto full end
+			else
+				local boost_color = boost > 100 and "gl" or "rl"
+				local tick_boost = ((def.charge_time * 100 + boost - 1) // boost) / TICKS_PER_SECOND
+				if AddStat("icon_tiny_duration", string.format("%.1fs <%s>(%.1fs)</>", def.charge_time/TICKS_PER_SECOND, boost_color, tick_boost), "Charge Time") then goto full end
+			end
+		end
 		if def.damage then
 			if AddStat("icon_tiny_damage", def.damage, "Damage") then goto full end
 			local attack_pattern = "Single Target"
@@ -132,6 +141,12 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 		end
 		if def.bandwidth then
 			if AddStat("icon_tiny_energy_transmit", def.bandwidth*TICKS_PER_SECOND, "Bandwidth") then goto full end
+		end
+		if def.consume_item then
+			local itemdef = data.all[def.consume_item]
+			if itemdef then
+				if AddStat("icon_tiny_inventory", itemdef.name, "Consumed") then goto full end
+			end
 		end
 		if def.uplink_rate then
 			if AddStat("icon_tiny_energy_transmit", string.format("%d%%", 100.0//def.uplink_rate), "Uplink Speed") then goto full end
