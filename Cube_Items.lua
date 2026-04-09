@@ -260,7 +260,7 @@ data.items.ic_souls = {
 	desc = "",
 	tag = "resource",
 	texture = "The_Cube_WIP/textures/soul3.png",
-	visual = "v_bot_ai_core", -- "v_scaramar1",
+	visual = "vc_souls", -- "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
 }
@@ -299,7 +299,7 @@ data.items.ic_soul_happy = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
 	{ ic_soul_plasma = 1, datakey_robot = 1, crystal_powder = 1 },
-	{ cc_green_brain = 50}, 1),
+	{ cc_green_brain = 100}, 1),
 }
 data.items.ic_soul_angry = {
 	name = "Soul Pearls",

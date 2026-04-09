@@ -109,6 +109,7 @@ data.visuals.vc_souls ={
 	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 2, 2, 2, },
+	bob_speed = 1.0
 	-- materials = {
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/MI_Resource_Blight_Pickup_01.MI_Resource_Blight_Pickup_01'",
 	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/Impostors/MI_Resource_Blight_Small_01_Impostor.MI_Resource_Blight_Small_01_Impostor'",}

@@ -125,6 +125,9 @@ Will Recharge when input register is below units battery %]],
 	power_storage = 500000,
 	drain_rate = 5000,
 })
+
+-----------------------------------------------------------------------------
+-- these ones dont need the cube so are just a copy of crystal power base game
 data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 	name = "Soul Consumption", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',

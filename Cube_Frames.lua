@@ -279,5 +279,5 @@ Frame:RegisterFrame("fc_mug",{
 Frame:RegisterFrame("fc_testing_observer",{
 	visual = "v_beacon_l",
 	name = "obeserving tower",
-	visibility_range = 100,
+	visibility_range = 150,
 })

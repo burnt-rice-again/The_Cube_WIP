@@ -139,6 +139,32 @@ local metal_patch_size = 0.93 -- richness width from edge -1 -> 1
 local metal_dist_falloff = 0.3 -- distance
 local metal_edge = 1
 
+local crystal_richness_min = math.floor(40*rich_mul) -- 24
+local crystal_richness_max = math.floor(48*rich_mul) -- 32
+local crystal_coverage = 0.35
+
+local crystal_dropped_coverage = 0.38
+local crystal_dropped_patch_size = 0.8
+local crystal_dropped_falloff = 0.1
+
+local crystal_patch_falloff = 0.1
+local crystal_patch_size = 1.2
+
+local crystal_richness_falloff = 0.05
+
+local crystal_edge = -1 -- patch edge
+
+local blight_crystal_patch_falloff = 0.03
+local blight_crystal_richness_min = math.floor(20*rich_mul) -- 2
+local blight_crystal_richness_max = math.floor(28*rich_mul)-- 4
+
+local obsidian_richness_min = math.floor(40*rich_mul)
+local obsidian_richness_max = math.floor(50*rich_mul)
+local obsidian_coverage = 0.4 -- Variation coverage
+local obsidian_patch_size = 0.53 -- richness width from edge -1 -> 1
+local obsidian_patch_falloff = 0.3 -- richness falloff
+local obsidian_dist_falloff = 0.3 -- distance
+local obsidian_edge = 1
 -- table.insert(data.land_features,{
 -- 	exclusive = true,
 -- 	frame = "f_resourcenode_pixel",
@@ -172,6 +198,23 @@ table.insert(data.land_features,{
 			visuals = {"v_2x2_a_ruined"},
 			--visuals = { "v_simulator_ruined", "v_2x2_a_ruined","v_crashedship_2x2_moss","v_crashedship_2x2_desert","v_explorable_building_4","v_explorable_building_6","v_explorable_building_3", "v_battery_01_l_ruined", "v_missile_launcher_m_ruined","v_transporter_01_m_ruined","v_crashedship_2x1_moss","v_crashedship_2x1_desert","v_explorable_glitchbuilding","v_explorable_brokenship_1" },
 			resource = { concreteslab = resource_inf and {REG_INFINITE ,REG_INFINITE } or { metal_richness_min*45, metal_richness_max*90 } },
+		},
+	}
+})
+table.insert(data.land_features,{
+	--exclusive = true,
+	frame = "f_feature",
+	min_spawn_distance = 5,
+	functions = {
+		
+		{ func = "Threshold", param = "Blightness", range = { blight_threshold+0.02, 1 }, falloff = blight_crystal_patch_falloff },
+		{ func = "Threshold", param = "Variation", range = { obsidian_edge-obsidian_coverage, obsidian_edge }, falloff = obsidian_dist_falloff, },
+		{ func = "Threshold", param = "Richness", falloff = 0.1, range = { -1, -1+obsidian_patch_size }, chance = 0.7},
+
+	},
+	nodes = {
+		{
+			visuals = {"v_obsidian_large",'v_obsidian_medium'},
 		},
 	}
 })
