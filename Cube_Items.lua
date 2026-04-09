@@ -18,13 +18,13 @@ end
 -- create slot for cube
 data.item_slot_icons["cube"] = "Main/skin/Icons/Special/Technologies/Robots.png"
 -- add cube category 
-data.categories[#data.categories+1] = { name = "Cube", tab = "item",  defs = data.items,  filter_field = "tag", filter_val = "cube"   }
-
+table.insert(data.categories, 1, { name = "Cube", tab = "item",  defs = data.items,  filter_field = "tag", filter_val = "cube"   } )
 --------------------------------------
 ---- Update Cube Existing Items -----------
 
 -- Blue Cube items 
 data.items.crystal_powder.production_recipe = CreateProductionRecipeWithWaste({ic_cube_blue = 1, crystal = 40,  }, {cc_manifest = 100}, 20, {ic_cube_empty = 1})
+data.items.crystal_powder.tag = "simple_material"
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
@@ -37,10 +37,11 @@ data.items.datakey_robot = {
 	name = "Cube Log",
 	index = 1010,
 	desc = "The Cube holds histories of the past.  There is surely knowladge to be gained there",
-	tag = "research",
+	tag = "simple_material",
 	texture = "Main/textures/icons/items/datakey_robot.png",
 	visual = "v_gears",
 	slot_type = "storage",
+	race = "robot",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 25, cc_green_brain = 5 }, 5, {ic_cube_blue = 1}),
 }
@@ -52,6 +53,7 @@ create_alt_recipe("datakey_robot",
 	{desc = "Bulk Cube Log Filling"}
 )
 -- Red Cube items
+data.items.reinforced_plate.race = "robot"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 {ic_cube_red = 1, steelblock = 100, crystal_powder = 10, wire = 10  }, 
 {cc_manifest = 120, cc_red_furnace = 50}, 20, {ic_cube_empty = 1})
@@ -66,11 +68,14 @@ create_alt_recipe("reinforced_plate",
 data.items.phase_leaf.production_recipe = false
 data.items.phase_leaf.tag = "resource"
 data.items.phase_leaf.race = "virus"
+data.items.phase_leaf.desc = "An unstable leaf that shimmers in place\nUseful for many alternative crafting recipes"
 
 data.items.wire.name = "Neurotic Reed Fibre"
 data.items.wire.desc = "Conductive reed fibre, wound and ready for higher conceptualization"
 data.items.wire.production_recipe = false
 data.items.wire.race = "virus"
+data.items.wire.index = 1011
+data.items.wire.tag = "resource"
 --- AntiCube 
 data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
@@ -91,7 +96,7 @@ data.items.steelblock.desc = "The Trusty I beam. A Pylon of Civilization"
 data.items.steelblock.production_recipe = CreateProductionRecipe(
 {metalplate = 4, crystal = 1  }, {c_fabricator = 30, cc_red_furnace = 10}, 2)
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
-data.items.steelblock.race = nil
+data.items.steelblock.race = "robot"
 data.items.steelblock.tag = "simple_material"
 create_alt_recipe("steelblock",
 	CreateProductionRecipeWithWaste(
@@ -104,6 +109,7 @@ create_alt_recipe("steelblock",
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
 data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 4)
 data.items.concreteslab.tag = "simple_material"
+data.items.concreteslab.race = "robot"
 create_alt_recipe("concreteslab", 
 	CreateProductionRecipe(
 	{laterite = 4, steelblock = 1}, 
@@ -251,7 +257,6 @@ data.items.ic_cube_sphere = {
 data.items.ic_souls = {
 	name = "Lingering Souls",
 	index = 1010,
-	race = "robot",
 	desc = "",
 	tag = "resource",
 	texture = "The_Cube_WIP/textures/soul3.png",
@@ -262,9 +267,9 @@ data.items.ic_souls = {
 data.items.ic_soul_plasma = {
 	name = "Ectoplasma",
 	index = 1010,
-	race = "anomaly",
+	race = "robot",
 	desc = "Refined Soul Energy\nCan only be transferred through tansmission towers",
-	tag = "simple_material",
+	tag = "advanced_material",
 	texture = "Main/textures/icons/items/anomaly_particle.png",
 	--visual = "v_scaramar1",
 	slot_type = "anomaly",
@@ -300,14 +305,14 @@ data.items.ic_soul_angry = {
 	name = "Soul Pearls",
 	index = 1011,
 	race = "robot",
-	desc = "Left at the bottom of the soul forge, Crystalized emotinal baggage\n\nSoul pearls provide a strong focus for energy, allowing for destructive lasers and incredible power systems",
+	desc = "Residual emotinal baggage found at the bottom of the soul forge\n\nSoul pearls provide a strong focus for energy, allowing for destructive lasers and incredible power systems",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/soul4.png",
 	visual = "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_soul_plasma = 100, ic_cube_red = 1 }, 
+	{ ic_soul_plasma = 100, ic_cube_red = 1, crystal_powder = 20 }, 
 	{ cc_soul_refinery = 10, cc_red_furnace = 5},
 	5, {ic_cube_empty = 1}),
 }
@@ -341,6 +346,7 @@ data.items.ic_time_crystal = {
 	name = 'Chrono Crystal',
 	index = 10,
 	tag = 'advanced_material',
+	race = "robot",
 	desc = 'Stabilized Chrono Crystal\nTrapped by Joy then caged in wire\n\nChrono crystals are used to create pockets of distorted time',
 	stack_size = 20,
 	slot_type = 'storage',

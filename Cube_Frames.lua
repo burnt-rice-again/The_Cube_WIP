@@ -146,7 +146,7 @@ Frame:RegisterFrame("fc_pipe", {
 	--slots = {anomaly = 1 },
 	construction_recipe = CreateConstructionRecipe({steelblock = 6, concreteslab = 4, crystal_powder = 1},1),
 	--construction_recipe = CreateConstructionRecipe({ concreteslab = 9, steelblock = 20, phase_leaf = 10 }, 40),
-	texture = "Main/textures/icons/components/Component_Blight1.png",
+	texture = "The_Cube_WIP/textures/PowerPylon.png",
 	trigger_channels = "building",
 	visual = "vc_tower1",--'v_blight_stabilizer',
     components = {

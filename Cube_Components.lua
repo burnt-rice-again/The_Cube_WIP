@@ -79,8 +79,10 @@ data.components.c_portable_turret_red.production_recipe = CreateProductionRecipe
 data.components.c_portable_turret_green.production_recipe = CreateProductionRecipe({["metalplate"]=8,["crystal_powder"]=4,["phase_leaf"]=1}, {["c_assembler"] = 150}, 1)
 -- drone ports 
 data.components.c_drone_comp.production_recipe = CreateProductionRecipe({metalplate=9,c_portable_radar=1, wire = 1}, {["c_assembler"] = 150}, 1)
+data.components.c_drone_comp.race = "robot"
 data.components.c_drone_port.production_recipe = CreateProductionRecipe({reinforced_plate=16,c_portable_radar=2, wire = 2}, {["c_assembler"] = 150}, 1)
 data.components.c_drone_launcher.production_recipe = CreateProductionRecipe({reinforced_plate=25,c_portable_radar=3, wire = 6}, {["c_assembler"] = 150}, 1)
+data.components.c_drone_launcher.race = "robot"
 
 -- Improved Weapons 1 
 data.components.c_repairkit.production_recipe = CreateProductionRecipe({["datakey_robot"]=1,["metalplate"]=1}, {["c_assembler"] = 30}, 1)
@@ -102,6 +104,11 @@ data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["m
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2}, {["c_assembler"] = 50}, 1)
+data.components.c_internal_field.transfer_radius = 20
+data.components.c_internal_field.get_ui = true
+data.components.c_internal_field.race = "robot"
+data.components.c_internal_field.texture = "Main/textures/icons/hidden/integrated_cell.png"
+
 
 -- Radios 
 data.components.c_radio_transmitter.production_recipe = CreateProductionRecipe({["metalplate"]=4,["wire"]=2,datakey_robot = 1}, {["c_assembler"] = 50}, 1)
@@ -446,7 +453,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			comp.extra_data.boost_active = true
 			self:update_boost(comp)
 			update_cube_location(comp,"ic_cube_blue" )
-			comp.extra_power = 400
+			comp.extra_power = 401
 			return 
 			--comp.light_color = { 0.6,0.1,0,1 }
 		elseif owner:CountItem("ic_cube_blue") == 1 then 
@@ -474,7 +481,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			return
 		end
 		-- when any cube has been added 
-		comp.extra_power = 200
+		comp.extra_power = 201
 		comp.extra_data.boost_active = true
 		self:update_boost(comp, boost_polarity)
 		anti_cube_explosion(comp)
@@ -804,7 +811,7 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 	explorable_fix = "datakey_robot",
 	on_solved = function(comp, explorable_race, faction)
 		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
-		if not faction:IsUnlocked("tc_cube_green_1") then faction:Unlock("tc_cube_green_1") end
+		if not faction:IsUnlocked("tc_cube_green_2") then faction:Unlock("tc_cube_green_2") end
 		Map.Defer(function ()
 			comp.owner:AddItem("cc_planter_wire")
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
@@ -812,7 +819,12 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 			comp:Destroy()
 		end)
 	end,
+	on_remove = function(comp, cause)
+		Map.DropItemAt(comp.owner.location, "cc_planter_wire",1, "f_dropped_resource")
+		Map.DropItemAt(comp.owner.location, "wire",5, "f_dropped_resource")
+	end
 })
+
 --Resource Rejeneration 
 -- via green cube or anti-cube 
 

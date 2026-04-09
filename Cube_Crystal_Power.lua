@@ -64,9 +64,9 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	activation = "OnPowerStoredEmpty|OnComponentRegisterChange",
 	get_ui = battery_get_ui,
 	consume_list = {ic_cube_blue = 1, crystal = 1},
-	output_list = {ic_souls = 1},
+	--output_list = {ic_souls = 1},
 	cube_out = "ic_cube_blue",
-	wait_ticks = 30,
+	wait_ticks = 60,
 	-- battery
 	power_storage = 10000,
 	drain_rate = 500,
@@ -83,7 +83,6 @@ function cc_crystal_power:on_update(comp, cause)
         local can_make, missing, no_space = comp:PrepareProduceProcess(self.consume_list,self.output_list,2)
         if not can_make then
 			-- wait for materials 
-			print(missing, no_space)
             comp:FlagRegisterError(1)
             comp:SetStateSleep(50)
             return
@@ -108,7 +107,7 @@ function cc_crystal_power:on_add(comp)
 	end
 end
 function cc_crystal_power:get_reg_error(comp)
-    return "Missing Inputs to produce power"
+    return "Missing Inputs to produce power or no space for output"
 end
 cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
@@ -117,7 +116,7 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>]],
 	visual = 'v_blightcrystalpower_01_m',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
-	consume_list = {crystal_powder = 20, ic_cube_red = 1},
+	consume_list = {crystal_powder = 10,ic_soul_plasma = 10, ic_cube_red = 1},
 	output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
 	wait_ticks = 100,

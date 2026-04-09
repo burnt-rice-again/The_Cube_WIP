@@ -90,8 +90,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:AddComponent("cc_cube_storage")
 	home_entity:AddComponent("cc_manifest")
 	home_entity:AddComponent("c_higrade_capacitor")
-	home_entity:AddComponent("cc_pipe_output_i")
-
+	home_entity:AddComponent("c_internal_field")
+	
 	home_entity:AddItem("ic_cube_blue")
 	home_entity:AddItem("datakey_robot", 40)
 	home_entity:AddItem("cc_cube_storage", 2)
@@ -129,11 +129,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	--new_entity:AddItem("ic_cube_empty", 1)
 	new_entity:AddItem("crystal", 80)
 	new_entity:Place(loc.x+5, loc.y-5)
-
-	--spawn relay 
-	new_entity = Map.CreateEntity(faction, "f_building1x1b")
-	new_entity:AddComponent("c_large_power_relay")
-	new_entity:Place(loc.x+3, loc.y)	
 
 	-- resource metal
 	new_entity = Map.CreateEntity("world", "f_resourcenode_metal", "v_2x2_a_ruined")

@@ -31,7 +31,7 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     activation = 'Manual',
 
     attachment_size = "Hidden",
-    race = 'robot',
+    race = 'virus',
     --visual = "v_generic_i",
 
 	registers = {
@@ -153,7 +153,7 @@ local fc_crop = Frame:RegisterFrame('fc_crop',{
     name = 'Planted Crop',
     desc = 'Budding Growth',
     size = 'Other',
-    race = "alien",
+    race = "virus",
     minimap_color = { 0, 1, 0 },
     visual = "v_succulent_01",
     texture = "The_Cube_WIP/textures/phase_seed.png",
@@ -239,7 +239,8 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     texture = "The_Cube_WIP/textures/phase_seed.png",
     desc = "Plants the contained seed at nearby unobstructed tiles, Select for seeds with higher yields",
     visual = "v_succulent_01",
-    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1 }, { cc_manifest = 30 },1, {ic_cube_blue = 1}),
+    race = "virus",
+    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
     range = 2,
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',

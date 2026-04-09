@@ -151,7 +151,7 @@ data.techs.tc_cube_blue_2 = {
 		"cc_soul_refinery","fc_pipe","cc_power_souls",'cc_pipe_output_i',
 	},
 	require_tech = { "tc_cube_blue_1" },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1 }, 50),
 	category = "Cube_Curiosity",
 }
@@ -189,21 +189,21 @@ data.techs.tc_cube_red_2 = {
 	order = 1,
 	name = "Emotional Processing", -- recovered database etc.
 	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power/nA byproduct of this process is some crystal powder that wasnt able to react",
-	texture = data.components.cc_crystal_power_red.texture,
+	texture = data.items.ic_soul_angry.texture,
 	unlocks = {
 		-- new resources
 		"cc_crystal_power_red","ic_soul_angry",
 	},
 	require_tech = { "tc_cube_red_1" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({crystal_powder = 1, reinforced_plate = 1 }, 300),
+	progress_count = 25,
+	uplink_recipe = CreateUplinkRecipe({crystal_powder = 1, ic_soul_plasma = 1 }, 300),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_red_3 = {
 	order = 1,
-	name = "Emotional Processing", 
+	name = "Resource Regeneration", 
 	desc = "",
-	texture = data.items.ic_soul_angry.texture,
+	texture = data.components.c_blight_magnifier.texture,
 	unlocks = {
 		-- new resources
 		"c_blight_magnifier",
@@ -257,36 +257,36 @@ data.techs.tc_cube_red_6 = {
 }
 data.techs.tc_cube_green_1= {
 	order = 3,
-	name = "Cube ",
-	desc = "Grow seeds",
+	name = "Cube Haste",
+	desc = "Energize the Cube to move faster",
 	texture = data.items.ic_cube_green.texture,
 	unlocks = {
 		"ic_cube_green","xc_cube_green",
 	},
 	require_tech = { "tc_cube_basic" },
-	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
+	progress_count = 10,
+	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1 }, 50),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_2 = {
 	order = 3,
-	name = "Outsourced Introspection", -- recovered database etc.
-	desc = "A Brain in a jar set to ponder its own existence",
-	texture = data.components.cc_green_brain.texture,
+	name = "Wire Weed Farming", -- recovered database etc.
+	desc = "Conductive Wire Weed used for",
+	texture = data.items.wire.texture,
 	unlocks = {
 		"wire",
 		"cc_planter_wire",'fc_crop_wire_seed0','fc_crop_wire_plant'
 	},
 	require_tech = { "tc_cube_green_1", },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({datakey_robot = 1, ic_soul_plasma = 1 }, 50),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_green_3 = {
 	order = 3,
-	name = "Resource Regeneration", -- recovered database etc.
-	desc = "pick the worlds wounds",
-	texture = data.items.ic_cube_green.texture,
+	name = "Outsourced Introspection", -- recovered database etc.
+	desc = "A Brain in a jar set to ponder its own existence",
+	texture = data.components.cc_green_brain.texture,
 	unlocks = {
 		"cc_green_brain","ic_soul_happy",
 	},
