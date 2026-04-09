@@ -335,9 +335,52 @@ end
 
 -- TODO known bug is the requirement will change on uneqip/requip of the components
 
+local ruined_visuals = { "v_simulator_ruined", "v_2x2_a_ruined","v_explorable_building_4","v_explorable_building_6","v_explorable_building_3", "v_battery_01_l_ruined", "v_missile_launcher_m_ruined","v_transporter_01_m_ruined","v_crashedship_2x1_moss","v_crashedship_2x1_desert","v_explorable_glitchbuilding" }
 
+function Place_enemy_fort(x,y,cost)
 
+	local start_area_size = 8
+    local faction = "time_bots"
+    if cost < 1 then cost = 1 end 
+    
+	CreateFoundationsFromCentre(x+1, y+1, start_area_size,start_area_size,"f_human_foundation_basic",faction)
+	--spawn wals 
+	for n = -start_area_size, start_area_size do 
+		if n > 2 or n < -2 then 
+			--horizontal
+			local wall = Map.CreateEntity(faction, "f_wall")
+			wall:Place(x + n, y+start_area_size, false)
+			wall = Map.CreateEntity(faction, "f_wall")
+			wall:Place(x + n, y-start_area_size, false)
+			--vertical
+			wall = Map.CreateEntity(faction, "f_wall")
+			wall:Place(x + start_area_size, y+n, false)
+			wall = Map.CreateEntity(faction, "f_wall")
+			wall:Place(x - start_area_size, y+n, false)
 
+		end
+	end
+    -- storage with souls 
+    local storage = Map.CreateEntity(faction,"f_building1x1h")
+    storage:AddItem("ic_souls",cost)
+    storage:Place(x,y,math.random(0,3))
+
+    local anti_cost = 10 - cost
+    while cost > 0 do 
+        Delay.Place_random_bot({
+            faction = "time_bots",
+            cord = {x = x, y = y},
+            range = 7,
+        })
+        cost = cost - 1
+    end
+    -- place derelict structures 
+    while anti_cost > 0 do 
+        PlaceResourceNode({x = x, y = y}, "concreteslab", math.random(100,2000),"f_resourcenode_concrete",
+            ruined_visuals[math.random(1,#ruined_visuals)])
+        anti_cost = anti_cost - 1
+    end
+end
 
 
 

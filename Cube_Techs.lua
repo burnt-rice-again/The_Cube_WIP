@@ -99,9 +99,6 @@ data.techs.tc_robot_basic = {
 		"x_tc_unit", "x_tc_transport_route", "x_tc_introduction", "x_tc_the_interface", "x_tc_virus", "x_tc_blight",
 		
 		"x_bugs","x_behaviors",
-
-
-	
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
@@ -331,8 +328,6 @@ data.techs.tc_cube_green_6 = {
 	desc = "Uses phase fuel to make power",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
-		-- new resources
-		-- power from fuel
 		'cc_power_phase',
 	},
 	require_tech = { "tc_cube_green_5" },
@@ -346,7 +341,6 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	desc = "Find",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
-		-- new resources
 		"blight_crystal","ic_time_crystal","xc_cube_anti","xc_cube_time_crystal",
 	},
 	require_tech = { "tc_cube_blue_3", },

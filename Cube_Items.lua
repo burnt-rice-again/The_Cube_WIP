@@ -197,8 +197,7 @@ data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
 	index = 1004,
 	desc = [[<hl>Heresey, there is a sphere inside the cube!</>
-<rl>WARNING: extremly unstable around the Cube</>
-	]],
+<rl>WARNING: extremly unstable around the Cube</>]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,

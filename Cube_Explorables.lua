@@ -83,6 +83,34 @@ function ec_wire_weed:SpawnExplorable(x, y)
 end
 
 data.explorables.ec_wire_weed = ec_wire_weed
+
+local ec_fort = {
+    name = "Fort",
+}
+
+function ec_fort:GetRelevancy(x, y, info)
+    --return (info.blightness_delta < 0 and info.elevation > -0.3 and info.elevation < 0.1 and 0.3) or 0.0
+	if info.elevation < -0.15 then return 0.0 end -- we want it on grass
+	if info.elevation_delta > -0.02 then return 0.0 end
+	if info.blightness_delta > 0 then return 0.0 end
+
+	return 0.05
+
+
+end
+
+function ec_fort:SpawnExplorable(x, y)
+
+    Place_enemy_fort(x,y,math.random(1,10))
+    print("placing fort",x,y)
+end
+
+data.explorables.ec_fort = ec_fort
+
+
+
+
+
 --------------  Ruined Cities 
 ---
 
