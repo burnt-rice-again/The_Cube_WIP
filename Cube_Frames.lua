@@ -34,17 +34,17 @@ data.frames.f_building2x1e.construction_recipe = CreateConstructionRecipe({ stee
 data.frames.f_building2x1e.component_boost = 0
 data.frames.f_wall.construction_recipe = CreateConstructionRecipe({ metalplate = 1, concreteslab = 4 }, 20)
 data.frames.f_gate.construction_recipe = CreateConstructionRecipe({ metalplate = 2, concreteslab = 4, crystal = 2 }, 20)
-data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
-data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, }, 40)
+data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, steelblock = 12, wire = 9, datakey_robot = 4 }, 40)
+data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, metalplate = 16, steelblock = 9 }, 40)
 -- f_building1x1h
 -- lvl2 
-data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, phase_leaf = 9 }, 40)
+data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, datakey_robot = 2 }, 40)
 data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x1c.component_boost = 0
 data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
 data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x1d.component_boost = 0
-data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, wire = 12, steelblock = 16, datakey_robot = 5 }, 40)
 data.frames.f_building2x2b.component_boost = 0
 data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building3x2b.components = {{"cc_moduleefficiency_s","hidden"}}

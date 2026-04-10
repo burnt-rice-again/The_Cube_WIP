@@ -2,7 +2,7 @@
 
 
 
-local Get GetCoord, Set, BeginBlock = InstGet, InstGetCoord, InstSet, InstBeginBlock
+local Get, GetCoord, Set, BeginBlock = InstGet, InstGetCoord, InstSet, InstBeginBlock
 
 -- from instructions file 
 local function GetSeenEntityOrSelf(comp, state, ent)
@@ -81,7 +81,7 @@ data.instructions.get_cube_type = {
         if not faction.has_extra_data or faction.extra_data.cube_type == nil then 
             --no cube data
             Set(comp, state, out_result)
-            return 
+            return
         end
         local cube_id = faction.extra_data.cube_type
         -- check valid id 
