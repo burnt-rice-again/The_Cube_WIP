@@ -28,6 +28,7 @@ package.includes = {
 	'Cube_Instructions.lua',
 	"Cube_DefinitionTooltip.lua",
 	"Cube_Codex.lua",
+	"Cube_UI_Box.lua"
 }
 
 -- called when mod is initializing

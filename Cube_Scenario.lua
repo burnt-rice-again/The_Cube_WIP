@@ -16,7 +16,7 @@ end
 
 -- called when starting up a new game
 function package:on_world_spawn()
-
+	UI.AddLayout("cube_location	")
 	local bug_faction = GetBugsFaction()
 
 	local faction_time_bots = Map.CreateFaction("time_bots")
