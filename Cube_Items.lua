@@ -36,7 +36,7 @@ create_alt_recipe("crystal_powder",
 data.items.datakey_robot = {
 	name = "Cube Log",
 	index = 1010,
-	desc = "Material manifested into basic cognition by the Cube",
+	desc = "Material manifested into a basic cognition pattern by the Cube",
 	tag = "simple_material",
 	texture = "Main/textures/icons/items/datakey_robot.png",
 	visual = "v_gears",

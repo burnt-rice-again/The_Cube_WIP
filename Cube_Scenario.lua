@@ -16,7 +16,6 @@ end
 
 -- called when starting up a new game
 function package:on_world_spawn()
-	UI.AddLayout("cube_location	")
 	local bug_faction = GetBugsFaction()
 
 	local faction_time_bots = Map.CreateFaction("time_bots")
@@ -46,11 +45,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	-- for key, val in pairs(data.techs) do 
-	-- 	if "tc_" == string.sub(key, 1, 3) then 
-	-- 		faction:Unlock(key)
-	-- 	end
-	-- end
+	for key, val in pairs(data.techs) do 
+		if "tc_" == string.sub(key, 1, 3) then 
+			faction:Unlock(key)
+		end
+	end
 	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
@@ -210,11 +209,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 
 
-	-- recharger = Map.CreateEntity(faction, "f_building2x2c")
-	-- recharger:AddComponent("cc_red_furnace")
-	-- recharger:AddComponent("cc_cube_storage")
-	-- recharger:AddComponent("c_power_cell")
-	-- recharger:Place(loc.x-3,loc.y+10)
+	local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	recharger:AddComponent("cc_red_furnace")
+	recharger:AddComponent("cc_cube_storage")
+	recharger:AddItem("ic_cube_red")
+	recharger:Place(loc.x-3,loc.y+10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- recharger:AddComponent("cc_time_travel_machine")
