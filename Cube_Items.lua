@@ -187,11 +187,11 @@ data.items.ic_cube_green = {
 }
 create_alt_recipe("ic_cube_green", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_empty = 1, ic_soul_plasma = 16}, 
-	{cc_manifest = 25,},
+	{ic_cube_empty = 1, ic_soul_plasma = 1}, 
+	{cc_manifest = 5},
 	1,
-	{ic_cube_empty = 1}),
-	{desc = "Alternative Soul Plasma Conversion"}
+	{ic_cube_green = 1}),
+	{desc = "Lightning Fast Restless Cube Forming"}
 )
 data.items.ic_cube_sphere = {
 	name = "ANTI-CUBE",
