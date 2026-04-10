@@ -131,7 +131,7 @@ data.visuals.vc_tower1 = {
 	--mesh = "The_Cube_WIP/textures/tower2.T3D",
 	mesh_offset = { 0, 0, 98 },
 	mesh_sockets = { ["fx"] = {0,0,22000}, },
-	scale = {0.004,0.004,0.004}
+	scale = {0.008,0.008,0.008}
 	--placement = "Max",
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
