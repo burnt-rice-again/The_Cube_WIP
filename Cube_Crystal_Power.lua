@@ -96,6 +96,16 @@ function cc_crystal_power:on_update(comp, cause)
         comp:FlagRegisterError(1,false)
         comp:FulfillProcess()
         AddCubeThroughFixed(comp.owner,self.cube_out)
+
+		--local energy = comp.stored_power + self.power_storage / 2
+		-- add power to connected batteries first 
+		-- for i,bat in ipairs(comp.owner.components) do 
+		-- 	if bat.power_storage > 0 and bat.base_id ~= comp.base_id  and bat.base_id ~= "c_crystal_power" then 
+		-- 		local delta = math.min( bat.power_storage - bat.stored_power, energy)
+		-- 	end
+		-- end
+
+
         comp.stored_power = comp.stored_power + self.power_storage / 2
 		comp.light_color = {0,1,1,comp.stored_power / self.power_storage * 4}
         comp:SetStateStartWork(self.wait_ticks,true)

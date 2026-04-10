@@ -23,7 +23,8 @@ data.codex.xc_cube_1 = {
     The Cube appears to impart logic and emotions on neary materials
     The Cube can harmonize with emotional materials to generate energy. 
     
-     
+    Tips
+    - If the Cube changes form inside a locked slot it will unlock the slot. wa
     ]],
 
 }

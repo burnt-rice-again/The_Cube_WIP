@@ -2,8 +2,16 @@
 
 
 
-local  GetCoord, Set, BeginBlock = InstGetCoord, InstSet, InstBeginBlock
+local Get GetCoord, Set, BeginBlock = InstGet, InstGetCoord, InstSet, InstBeginBlock
 
+-- from instructions file 
+local function GetSeenEntityOrSelf(comp, state, ent)
+	if not ent then return comp.owner end
+	local reg = Get(comp, state, ent)
+	if reg.is_empty then return nil end
+	local entity = reg.entity
+	return entity and comp.faction:IsSeen(entity) and entity or nil
+end
 
 
 ----------- Extra Instructions for the CUBE 
@@ -37,7 +45,35 @@ data.instructions.get_foundation_at = {
 	icon = "Main/skin/Icons/Common/56x56/Distance.png",
 	explain = [[Returns the Foundation located at a specific coordinate if visible.]],
 }
+-- there isnt an easy way to get stored battiers. even the Ui loops through tehm all.
+-- data.instructions.grid_battery = {
+--     func = function(comp, state, cause, entity, battery)
 
+--         local ent = GetSeenEntityOrSelf(comp, state, in_target)
+
+--         if ent ~= nil then 
+--             local grid_index = ent.power_grid_index
+--             if grid_index then 
+--                 local grid = comp.faction:GetPowerGrid(grid_index)
+--                 print(grid)
+--             end
+--         end
+
+-- 	end,
+-- 	args = {
+-- 		{ 'in', "Unit", "Coordinate to get Foundation from", nil , true },
+-- 		{ 'out', "Percentage", "Battery of grid [0 - 100]" },
+-- 	},
+-- 	name = "Get Grid Battery",
+-- 	desc = "Returns the <hl>total battery percentage</> of the grid the unit is in",
+-- 	category = "Math",
+-- 	icon = "Main/skin/Icons/Common/32x32/Battery.png",
+-- 	explain = [[Returns the <hl>total battery percentage</> of the grid the unit is in
+-- Optionally retrun the grid target unit is in. 
+-- Target entity must be visible
+
+-- Returns a number between 0 - 100 inclusive]],
+-- }
 data.instructions.get_cube_type = {
     func = function(comp, state, cause, out_result)
 		local faction = comp.faction
@@ -112,7 +148,7 @@ data.instructions.get_cube_entity = {
 }
 
 data.instructions.get_cube_location = {
-    func = function(comp, state, cause, out_result, out_no_result)
+    func = function(comp, state, cause, out_result)
 
         -- begins the same as get entity 
 		local faction = comp.faction

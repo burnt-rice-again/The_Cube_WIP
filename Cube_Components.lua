@@ -526,7 +526,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>500</> power while holding a CUBE",
 	visual = "vc_cube_storage",
 	race = "robot",
-	boost = -80,
+	boost = -50,
 	boost_id = "move_boost",
 	power = -1,
 	slots = { cube = 1, },

@@ -170,7 +170,7 @@ data.techs.tc_cube_blue_3 = {
 data.techs.tc_cube_red_1 = {
 	order = 1,
 	name = "Hidden Fury", -- recovered database etc.
-	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\nUnlock this technology by finding a place to melt the Cube",
+	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\n<hl>Unlock this technology by finding a place to melt the Cube</>",
 	texture = data.items.ic_cube_red.texture,
 	unlocks = {
 		-- new resources
