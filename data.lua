@@ -49,3 +49,4 @@ end
 --fx_EMP - huge emp blast  
 --fx_alien_miner for a cool effect around the centre
 --fx_bug_attack for planter?
+--fx_simulator - black debri like obsideon minning 

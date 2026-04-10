@@ -405,7 +405,7 @@ local function check_for_anti_cube(comp)
 end
 local function activate_other_comps(comp)
 	local owner = comp.owner
-	local find = owner.FindComponent("cc_crystal_power", true)
+	local find = owner:FindComponent("cc_crystal_power",true)
 	-- activate cube power generators 
 	if find ~= nil then find:Activate() end 
 end

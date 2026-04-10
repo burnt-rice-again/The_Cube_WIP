@@ -46,11 +46,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	for key, val in pairs(data.techs) do 
-		if "tc_" == string.sub(key, 1, 3) then 
-			faction:Unlock(key)
-		end
-	end
+	-- for key, val in pairs(data.techs) do 
+	-- 	if "tc_" == string.sub(key, 1, 3) then 
+	-- 		faction:Unlock(key)
+	-- 	end
+	-- end
 	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
@@ -228,37 +228,37 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- test_enemy:Place(loc.x-6,loc.y-12)
 
 
-	local pipe = Map.CreateEntity(faction, "fc_pipe")
-	--recharger:AddItem("ic_soul_plasma",20)
-	pipe:Place(loc.x-12,loc.y)
-	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",9)
-	pipe:Place(loc.x-8,loc.y+10)
+	-- local pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- --recharger:AddItem("ic_soul_plasma",20)
+	-- pipe:Place(loc.x-12,loc.y)
+	-- pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- pipe:AddItem("ic_soul_plasma",9)
+	-- pipe:Place(loc.x-8,loc.y+10)
 
-	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",1)
-	pipe:Place(loc.x-8,loc.y+4)
+	-- pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- pipe:AddItem("ic_soul_plasma",1)
+	-- pipe:Place(loc.x-8,loc.y+4)
 
-	-- --testing soul refinery 
-	pipe = Map.CreateEntity(faction, "f_building2x2c")
-	pipe:AddComponent("cc_soul_refinery")
-	pipe:AddComponent("cc_cube_storage")
-	pipe:AddComponent("cc_modulespeed")
-	pipe:AddComponent("cc_modulespeed")
-	--pipe:AddComponent("cc_pipe_output")
-	pipe:AddItem("ic_souls",200)
-	pipe:AddItem("ic_soul_angry",20)
-	pipe:AddItem("ic_soul_happy",20)
-	pipe:AddItem("ic_time_crystal",20)
-	pipe:AddItem("ic_cube_blue",1)
+	-- -- --testing soul refinery 
+	-- pipe = Map.CreateEntity(faction, "f_building2x2c")
+	-- pipe:AddComponent("cc_soul_refinery")
+	-- pipe:AddComponent("cc_cube_storage")
+	-- pipe:AddComponent("cc_modulespeed")
+	-- pipe:AddComponent("cc_modulespeed")
+	-- --pipe:AddComponent("cc_pipe_output")
+	-- pipe:AddItem("ic_souls",200)
+	-- pipe:AddItem("ic_soul_angry",20)
+	-- pipe:AddItem("ic_soul_happy",20)
+	-- pipe:AddItem("ic_time_crystal",20)
+	-- pipe:AddItem("ic_cube_blue",1)
 
-	pipe:Place(loc.x-8,loc.y)
+	-- pipe:Place(loc.x-8,loc.y)
 
-	pipe = Map.CreateEntity(faction, "f_building2x1f")
-	pipe:AddComponent("cc_power_souls")
-	pipe:AddComponent("cc_pipe_output")
-	--pipe:AddComponent("cc_pipe_output")
-	pipe:Place(loc.x-11,loc.y+8)
+	-- pipe = Map.CreateEntity(faction, "f_building2x1f")
+	-- pipe:AddComponent("cc_power_souls")
+	-- pipe:AddComponent("cc_pipe_output")
+	-- --pipe:AddComponent("cc_pipe_output")
+	-- pipe:Place(loc.x-11,loc.y+8)
 
 
 	-- local defence_block = Map.CreateEntity(faction, "f_building1x1h")
@@ -278,6 +278,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
 
-	tester_spawn_observers(faction, loc.x,loc.y)
+	--tester_spawn_observers(faction, loc.x,loc.y)
 end
 

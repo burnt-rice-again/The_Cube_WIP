@@ -57,14 +57,11 @@ local meshes = {
 -- cube component
 data.visuals.vc_cube_blue = { 
     mesh = meshes.cube_blue, 
-    --scale = { 4, 4, 4 },
-	--materials = { "MaterialInstanceConstant'/Game/Meshes/BaseBuildings/Materials/Component_Miner_Advanced_01_S/Component_Miner_Advanced_01_S.Component_Miner_Advanced_01_S'" },
 }
 data.visuals.vc_cube_empty = { 
     mesh = meshes.cube_blue, 
     --scale = { 4, 4, 4 },
 	flags = "NoMainPass",
-	--materials = { "MaterialInstanceConstant'/Game/Meshes/BaseBuildings/Materials/Component_Miner_Advanced_01_S/Component_Miner_Advanced_01_S.Component_Miner_Advanced_01_S'" },
 }
 data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Containers_Blight_Data.Containers_Blight_Data'"}
 -- data.visualmeshes.cube_storage = {{
@@ -78,18 +75,18 @@ data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Conta
 -- }
 --"NiagaraSystem'/Game/Meshes/Foliage/Blight/BlightRock_Pieces_02/NS_Blight_RockFragments_Floating.NS_Blight_RockFragments_Floating'"
 --"NiagaraSystem'/Game/Cai/Effects/BlightVent/NS_BlightVent.NS_BlightVent'"
-data.fx.vc_cube_steam = {
-	{
-		particle ={ "NiagaraSystem'/Game/Meshes/Foliage/Blight/BlightRock_Pieces_02/NS_Blight_RockFragments_Floating.NS_Blight_RockFragments_Floating'", flags = "Preload"},
-		flags = "Infinite"
-		--transform = { { -274.1640625, 216.6713867, 350.1871338 }, { 31.2168312, -164.5661774, 110.6963120 }, { 1.0000000, 1.0000000, 1.0000000 }, },
-	},
-}
+-- data.fx.vc_cube_steam = {
+-- 	{
+-- 		particle ={ "NiagaraSystem'/Game/Meshes/Foliage/Blight/BlightRock_Pieces_02/NS_Blight_RockFragments_Floating.NS_Blight_RockFragments_Floating'", flags = "Preload"},
+-- 		flags = "Infinite"
+-- 		--transform = { { -274.1640625, 216.6713867, 350.1871338 }, { 31.2168312, -164.5661774, 110.6963120 }, { 1.0000000, 1.0000000, 1.0000000 }, },
+-- 	},
+-- }
 -- components 
 data.visuals.vc_cube_storage = { 
     mesh = meshes.storage_single, 
     scale = { 4.5, 4.5, 4.5 },
-	mesh_sockets = { ["fx"] = {50,50,-100}, },
+	mesh_sockets = { ["fx"] = {50,50,-100} },
 	light_radius = 2,
 	light_color = {0,0,0,1},
 	light_offset = { 0.0, 0.0, 2 },
@@ -104,15 +101,10 @@ data.visuals.vc_cube_storage = {
 -- console / cc_manifest
 data.visuals.v_explorable_blightanomaly_03.scale = {0.4,0.4,0.4}
 
--- plants 
 data.visuals.vc_souls ={
 	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 2, 2, 2, },
-	bob_speed = 1.0
-	-- materials = {
-	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/MI_Resource_Blight_Pickup_01.MI_Resource_Blight_Pickup_01'",
-	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/Impostors/MI_Resource_Blight_Small_01_Impostor.MI_Resource_Blight_Small_01_Impostor'",}
 }
 
 data.visuals.vc_mug_anim = {
@@ -125,7 +117,7 @@ data.visuals.vc_mug_anim = {
 	--placement = "AtCenter",
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
-
+-- text visual 
 data.visuals.vc_mug = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/Pixels Small 1/pixels_s_1.glb",
 	--mesh_offset = { 0, 0, 1000000},
@@ -143,39 +135,39 @@ data.visuals.vc_tower1 = {
 	--placement = "Max",
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
-data.visuals.vc_gyroscope = {
-	animesh = "The_Cube_WIP/textures/customanim.glb",
-	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
-	bob_speed = 0,
-	sockets = {
-		{ "", "Small" },
-		{ "", "Internal" },
-		{ "", "Internal" },
-	},
-	--scale = { 4.5, 4.5, 4.5 },
-	--mesh_offset = { -400, 2400, 20 },
-}
+-- data.visuals.vc_gyroscope = {
+-- 	animesh = "The_Cube_WIP/textures/customanim.glb",
+-- 	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
+-- 	bob_speed = 0,
+-- 	sockets = {
+-- 		{ "", "Small" },
+-- 		{ "", "Internal" },
+-- 		{ "", "Internal" },
+-- 	},
+-- 	--scale = { 4.5, 4.5, 4.5 },
+-- 	--mesh_offset = { -400, 2400, 20 },
+-- }
 
-data.visuals.vc_pixel_ore_1 = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/Pixels Small 1/pixels_s_1.glb",
-	--mesh_offset = { 0, 0, 0},
-	--scale = {0.2,0.2,0.2},
-	tile_size = {3,3},
-	flags = "RandomRotation"
-	--mesh_sockets = { ["fx"] = {50,50,100}, },
-	--placement = "AtCenter",
-	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
-}
-data.visuals.vc_pixel_ore_2 = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/Squares_8.glb",
-	--mesh_offset = { 0, 0, 0},
-	scale = {0.8,0.8,0.8},
-	tile_size = {2,2},
-	flags = "RandomRotation"
-	--mesh_sockets = { ["fx"] = {50,50,100}, },
-	--placement = "AtCenter",
-	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
-}
+-- data.visuals.vc_pixel_ore_1 = {
+-- 	mesh = "The_Cube_WIP/textures/In Progress Blender/Pixels Small 1/pixels_s_1.glb",
+-- 	--mesh_offset = { 0, 0, 0},
+-- 	--scale = {0.2,0.2,0.2},
+-- 	tile_size = {3,3},
+-- 	flags = "RandomRotation"
+-- 	--mesh_sockets = { ["fx"] = {50,50,100}, },
+-- 	--placement = "AtCenter",
+-- 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
+-- }
+-- data.visuals.vc_pixel_ore_2 = {
+-- 	mesh = "The_Cube_WIP/textures/In Progress Blender/Squares_8.glb",
+-- 	--mesh_offset = { 0, 0, 0},
+-- 	scale = {0.8,0.8,0.8},
+-- 	tile_size = {2,2},
+-- 	flags = "RandomRotation"
+-- 	--mesh_sockets = { ["fx"] = {50,50,100}, },
+-- 	--placement = "AtCenter",
+-- 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
+-- }
 data.visuals.vc_cube_blue = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/Cube_3.glb",
 	--mesh_offset = { 0, 0, 1000000},
@@ -223,7 +215,7 @@ data.visuals.vc_crop_phase_seed3.scale = {1.4,1.4,1.4}
 data.visuals.vc_crop_phase_seed4 = Tool.Copy(data.visuals.vc_crop_phase_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_phase_seed4.scale = {1.7,1.7,1.7}
 
------------ Cubes 
+----------- Cubes as
 data.visuals.vc_cube_sphere_item = Tool.Copy(data.visuals.v_explorable_blightanomaly_02)
 data.visuals.vc_cube_sphere_item.scale = {0.1,.1,.1}
 data.visuals.vc_cube_sphere_item.tile_size = nil
@@ -232,5 +224,8 @@ data.visuals.vc_cube_sphere_frame = Tool.Copy(data.visuals.vc_cube_sphere_item)
 data.visuals.vc_cube_sphere_frame.scale = {.45,.45,.45}
 --data.visuals.vc_cube_sphere.mesh_offset = {0,0,-400}
 
-
+--- add light to crystal power
+data.visuals.v_crystalpower_01_s.light_radius = 2
+data.visuals.v_crystalpower_01_s.light_color = {0,0,1,0}
+--data.visuals.v_crystalpower_01_s.light_offset = {0,0,1}
 

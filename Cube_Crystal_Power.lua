@@ -64,6 +64,7 @@ Will Recharge when input register is below units battery %
 	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 10 }, { c_assembler = 20 }),
 	activation = "OnPowerStoredEmpty|OnComponentRegisterChange",
 	get_ui = battery_get_ui,
+	adjust_light_color = true,
 	consume_list = {ic_cube_blue = 1, crystal = 1},
 	--output_list = {ic_souls = 1},
 	cube_out = "ic_cube_blue",
@@ -75,6 +76,8 @@ Will Recharge when input register is below units battery %
 }) -- "Main/skin/Icons/Common/32x32/Battery.png"
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
+	comp.light_color = {0,1,1,comp.stored_power / self.power_storage * 4}
+	
 	if comp.is_working then
 		return comp:SetStateContinueWork()
 	end
@@ -86,6 +89,7 @@ function cc_crystal_power:on_update(comp, cause)
 			-- wait for materials 
             comp:FlagRegisterError(1)
             comp:SetStateSleep(50)
+			--comp:StopEffects()
             return
         end
 		-- recharge now
@@ -93,13 +97,16 @@ function cc_crystal_power:on_update(comp, cause)
         comp:FulfillProcess()
         comp.owner:AddItem(self.cube_out)
         comp.stored_power = comp.stored_power + self.power_storage / 2
+		comp.light_color = {0,1,1,comp.stored_power / self.power_storage * 4}
         comp:SetStateStartWork(self.wait_ticks)
+		--comp:PlayWorkEffect('fx_power_core')
 	else
 		-- go to sleep until it needs to charge
         comp:CancelProcess()
 		comp:FlagRegisterError(1,false)
 		-- check every 10 seconds if power is below target 
         comp:SetStateSleep()
+		--comp:StopEffects()
     end
 end
 function cc_crystal_power:on_add(comp)
