@@ -250,7 +250,7 @@ function cc_cube_fabrication:on_update(comp, cause)
 	local order_count = (count + production_recipe.amount - 1) // production_recipe.amount
 	--ADDITION Replace Alternative Recipes 
 	for key, val in pairs(outputs) do
-		if data.items[key].alt_item then 
+		if data.items[key] and data.items[key].alt_item then 
 			outputs[data.items[key].alt_item] = val
 			outputs[key] = nil
 		end
@@ -323,7 +323,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	visual = "v_adv_refinery_01_m",  --"v_scienceanalyzer_l",
 	production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
 	power = -250,
-	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_fabricator"] = 150}, 1),
+	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
 	range = 3,
 	--pipe_input = data.components.cc_pipe_input.on_update

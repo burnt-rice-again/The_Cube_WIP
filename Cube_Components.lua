@@ -65,7 +65,7 @@ data.components.c_extractor.race = 'robot'
 ---non cube 
 data.components.c_landing_pad.production_recipe = CreateProductionRecipe({["metalplate"]=40,["concreteslab"]=20,["c_portable_radar"]=1}, {["c_assembler"] = 150}, 1)
 -- batteries and capacitors 
-data.components.c_small_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=9,["wire"]=2}, {["c_assembler"] = 150}, 1)
+data.components.c_small_battery.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=9}, {["c_assembler"] = 150}, 1)
 data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=9,["crystal_powder"]=9,["ic_soul_angry"]=1}, {["c_assembler"] = 150}, 1)
 data.components.c_large_battery.production_recipe = CreateProductionRecipe({["reinforced_plate"]=16,["crystal_powder"]=16,["ic_time_crystal"]=2, ic_soul_happy = 2}, {["c_assembler"] = 150}, 1)
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )

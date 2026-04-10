@@ -812,7 +812,7 @@ data.techs.tc_network1 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_portable_relay","c_power_relay"
+		"c_portable_relay","c_power_relay","c_small_battery"
 	},
 	require_tech = {"tc_cube_blue_1" },
 	progress_count = 25,
@@ -826,7 +826,7 @@ data.techs.tc_network2 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_small_battery","c_power_transmitter"
+		"c_power_transmitter"
 	},
 	require_tech = { "tc_network1" },
 	progress_count = 50,
