@@ -310,7 +310,8 @@ function  cc_time_travel_machine:on_update(comp, cause)
             -- replace CUBE
             local new_id = replace_cube_with[order]
             if new_id ~= nil then 
-                owner:AddItem(new_id)
+                AddCubeThroughFixed(owner,new_id)
+                --owner:AddItem(new_id)
             end 
 
             -- work again

@@ -322,7 +322,8 @@ function cc_planter:on_update(comp, cause)
         if is_pos_plantable(comp,cord.x ,cord.y ,self.range) then 
             -- Fufill Process 
             comp:FulfillProcess()
-            comp.owner:AddItem(self.output_cube)
+            AddCubeThroughFixed(comp.owner, self.output_cube)
+            --comp.owner:AddItem(self.output_cube)
             
         
             --place crop 

@@ -91,3 +91,23 @@ function PlaceResourceNode(cord, resource, amt, frame, visual)
 	end)
 end
 
+function AddCubeThroughFixed(entity, id)
+
+	if entity:AddItem(id,true) == nil then 
+		-- could not add cube 
+		local slots = entity:GetSlotsByType("cube")
+		Debug.Assert(#slots > 0, "ERROR cant add cube to an entity with no cube slots")
+		if #slots > 0 then  
+			-- no cube slots 
+			for i, slot in ipairs(slots) do 
+				if slot.stack == 0 and slot.locked == true then 
+					slot.locked = false 
+					slot:Clear()
+					slot:SetItemAndStack(id,1)
+					--print("Added Cube through locked slot", id, slot)
+					break
+				end
+			end
+		end
+	end
+end

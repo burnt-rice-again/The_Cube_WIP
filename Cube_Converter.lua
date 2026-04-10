@@ -161,7 +161,7 @@ function cc_scrap_converter:on_update(comp, cause)
 				
 				if recipe.cube_out ~= nil then 
 					--print("Add Cube")
-					comp.owner:AddItem(recipe.cube_out)
+					AddCubeThroughFixed(comp.owner,recipe.cube_out)
 				end
 				break
 			end

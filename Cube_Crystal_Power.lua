@@ -76,8 +76,8 @@ Will Recharge when input register is below units battery %
 }) -- "Main/skin/Icons/Common/32x32/Battery.png"
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
-	local intesity = comp.stored_power / self.power_storage * 4
-	comp.light_color = {0,1,1,comp.stored_power / self.power_storage * 4}
+	local intesity = comp.stored_power / self.power_storage 
+	comp.light_color = {0,intesity,1,intesity * 4}
 	if comp.is_working then
 		return comp:SetStateContinueWork()
 	end
@@ -95,7 +95,7 @@ function cc_crystal_power:on_update(comp, cause)
 		-- recharge now
         comp:FlagRegisterError(1,false)
         comp:FulfillProcess()
-        comp.owner:AddItem(self.cube_out)
+        AddCubeThroughFixed(comp.owner,self.cube_out)
         comp.stored_power = comp.stored_power + self.power_storage / 2
 		comp.light_color = {0,1,1,comp.stored_power / self.power_storage * 4}
         comp:SetStateStartWork(self.wait_ticks,true)

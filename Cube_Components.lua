@@ -405,10 +405,16 @@ local function check_for_anti_cube(comp)
 end
 local function activate_other_comps(comp)
 	local owner = comp.owner
-	local find = owner:FindComponent("cc_crystal_power",true)
-	-- activate cube power generators 
-	if find ~= nil then find:Activate() end 
+	local i = 0
+	while i < 5 do 
+		i = i + 1
+		local find = owner:FindComponent("cc_crystal_power",true, i)
+		-- activate cube power generators 
+		if find ~= nil then find:Activate() 
+		else break end
+	end
 end
+
 
 local replace_cube_with <const> = {
     ic_cube_blue = 'ic_cube_empty',
@@ -434,7 +440,7 @@ local function anti_cube_explosion(comp)
 				val:SetItemAndStack(replace_cube_with[id],1)
 			end
 		end
-	end 
+	end
 	local range = 10
 	-- explosion 
 	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
@@ -499,6 +505,7 @@ local function Update_Cube_Effects(self, comp, cause)
 		self:update_boost(comp, boost_polarity)
 		anti_cube_explosion(comp)
 		activate_other_comps(comp)
+		--comp.slots[1].locked = false
 	else
 		comp:StopEffects() 
 		print("stop effects")

@@ -16,7 +16,7 @@ local function replace_cube(recipe, entity)
 				-- special placement of anticube in area
 				anti_count = anti_count + 1
 			else
-				entity:AddItem(waste)
+				AddCubeThroughFixed(entity,waste)
 			end
 		end
 		while anti_count > 0 do 
