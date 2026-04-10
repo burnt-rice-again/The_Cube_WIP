@@ -203,7 +203,7 @@ data.techs.tc_cube_red_3 = {
 	texture = data.components.c_blight_magnifier.texture,
 	unlocks = {
 		-- new resources
-		"c_blight_magnifier",
+		"c_blight_magnifier","crystal_powder_alt","xc_cube_alt"
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
@@ -485,7 +485,7 @@ data.techs.tc_robot_beacons2 = {
 	texture = data.components.cc_manifest.texture,
 	unlocks = {
 		-- new resources
-		"datakey_robot_alt","crystal_powder_alt","xc_cube_alt"
+		"datakey_robot_alt","xc_cube_alt"
 	},
 	require_tech = { "tc_robot_beacons1" },
 	progress_count = 25,

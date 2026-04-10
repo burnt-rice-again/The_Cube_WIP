@@ -400,7 +400,6 @@ function Place_enemy_fort(x,y,cost)
             ruined_visuals[math.random(1,#ruined_visuals)])
         anti_cost = anti_cost - 1
     end
-
 end
 
 

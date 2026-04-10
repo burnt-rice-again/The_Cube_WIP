@@ -28,7 +28,7 @@ data.items.crystal_powder.tag = "simple_material"
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, crystal = 100, ic_soul_angry = 5}, 
+	{ic_cube_blue = 1, crystal = 100, ic_soul_angry = 1}, 
 	{cc_manifest = 25, cc_red_furnace = 5},
 	50, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}
@@ -36,7 +36,7 @@ create_alt_recipe("crystal_powder",
 data.items.datakey_robot = {
 	name = "Cube Log",
 	index = 1010,
-	desc = "The Cube holds histories of the past.  There is surely knowladge to be gained there",
+	desc = "Material manifested into basic cognition by the Cube",
 	tag = "simple_material",
 	texture = "Main/textures/icons/items/datakey_robot.png",
 	visual = "v_gears",
@@ -55,7 +55,7 @@ create_alt_recipe("datakey_robot",
 -- Red Cube items
 data.items.reinforced_plate.race = "robot"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
-{ic_cube_red = 1, steelblock = 100, crystal_powder = 10, wire = 10  }, 
+{ic_cube_red = 1, steelblock = 100, crystal_powder = 10, wire = 20  }, 
 {cc_manifest = 120, cc_red_furnace = 50}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
@@ -297,7 +297,7 @@ data.items.ic_soul_happy = {
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
-	{ ic_soul_plasma = 1, datakey_robot = 1, crystal_powder = 1 },
+	{ ic_soul_plasma = 5, datakey_robot = 2, crystal_powder = 1 },
 	{ cc_green_brain = 100}, 1),
 }
 data.items.ic_soul_angry = {
@@ -312,7 +312,7 @@ data.items.ic_soul_angry = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_soul_plasma = 100, ic_cube_red = 1, crystal_powder = 20 }, 
-	{ cc_soul_refinery = 10, cc_red_furnace = 5},
+	{ cc_soul_refinery = 100, cc_red_furnace = 60},
 	5, {ic_cube_empty = 1}),
 }
 -- data.items.ic_living_metal = {

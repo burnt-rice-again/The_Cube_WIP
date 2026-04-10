@@ -118,7 +118,7 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 Will Recharge when input register is below units battery %]],
 	visual = 'v_blightcrystalpower_01_m',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
-	consume_list = {crystal_powder = 10,ic_soul_plasma = 10, ic_cube_red = 1},
+	consume_list = {crystal_powder = 4,ic_soul_plasma = 10, ic_cube_red = 1},
 	output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
 	wait_ticks = 100,
