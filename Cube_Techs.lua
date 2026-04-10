@@ -285,7 +285,7 @@ data.techs.tc_cube_green_3 = {
 	desc = "A Brain in a jar set to ponder its own existence",
 	texture = data.components.cc_green_brain.texture,
 	unlocks = {
-		"cc_green_brain","ic_soul_happy",
+		"cc_green_brain","ic_soul_happy","ic_cube_green_alt"
 	},
 	require_tech = { "tc_cube_green_2" },
 	progress_count = 50,

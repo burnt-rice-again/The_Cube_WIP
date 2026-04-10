@@ -210,8 +210,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 
 	local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	recharger:AddComponent("cc_red_furnace")
+	recharger:AddComponent("cc_pipe_output")
 	recharger:AddComponent("cc_cube_storage")
+	recharger:AddComponent("cc_crystal_power_red")
+	recharger:AddItem("ic_soul_plasma",100)
+	recharger:AddItem("crystal_powder",60)
 	recharger:AddItem("ic_cube_red")
 	recharger:Place(loc.x-3,loc.y+10)
 
