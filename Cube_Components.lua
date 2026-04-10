@@ -522,7 +522,7 @@ end
 local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	name = "Cube Pedastal",
 	attachment_size = "Medium",
-	texture = "Main/textures/icons/components/Component_Storage_01_S.png",
+	texture = "The_Cube_WIP/textures/Cube_Storage.png",
 	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>500</> power while holding a CUBE",
 	visual = "vc_cube_storage",
 	race = "robot",

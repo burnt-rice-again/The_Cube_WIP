@@ -67,10 +67,8 @@ function cc_crop:on_update(comp, cause)
 
         local owner = comp.owner
         -- check if has a next visual
-        print( owner.def.visual_set ~= nil, comp.extra_data.next_visual <= #owner.def.visual_set, #owner.def.visual_set)
         if owner.def.visual_set ~= nil and comp.extra_data.next_visual <= #owner.def.visual_set then
             -- grow visual and reset timer 
-            print("Next Visual For Plant")
             comp.owner:SetVisual(owner.def.visual_set[comp.extra_data.next_visual])
             comp.extra_data.next_visual = comp.extra_data.next_visual+1
             comp:SetStateStartWork(comp.extra_data.growth_time or 100)

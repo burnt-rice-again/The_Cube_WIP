@@ -104,7 +104,7 @@ data.visuals.v_explorable_blightanomaly_03.scale = {0.4,0.4,0.4}
 data.visuals.vc_souls ={
 	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
-	scale = { 2, 2, 2, },
+	scale = { 0.1, 0.1, 0.1, },
 }
 
 data.visuals.vc_mug_anim = {
@@ -131,7 +131,7 @@ data.visuals.vc_tower1 = {
 	--mesh = "The_Cube_WIP/textures/tower2.T3D",
 	mesh_offset = { 0, 0, 98 },
 	mesh_sockets = { ["fx"] = {0,0,22000}, },
-	scale = {0.008,0.008,0.008}
+	scale = {0.004,0.004,0.004}
 	--placement = "Max",
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }

@@ -49,7 +49,7 @@ local function battery_get_ui(self, comp)
 			w:update()
 			return w.tt.parent
 		end,
-	})
+	})  
 end
 local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	name = "Crystal Power", --"Crystal Power Extractor",
@@ -63,32 +63,40 @@ Will Recharge when input register is below units battery %
 	race = "robot",
 	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 10 }, { c_assembler = 20 }),
 	activation = "OnPowerStoredEmpty|OnComponentRegisterChange",
-	get_ui = battery_get_ui,
+	--get_ui = battery_get_ui,
 	adjust_light_color = true,
 	consume_list = {ic_cube_blue = 1, crystal = 1},
 	--output_list = {ic_souls = 1},
 	cube_out = "ic_cube_blue",
-	wait_ticks = 60,
+	wait_ticks = 100,
+	power_production = 100,
+	charge_time = 100,
+	drain_rate = 100,
+	power = 0,
 	-- battery
-	power_storage = 10000,
-	drain_rate = 500,
-    registers = {{filter = "number", ui_icon = "icon_small_battery" , tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"}}
+	adjust_extra_power = true,
+    registers = {{filter = "number", ui_icon = "icon_small_battery" , tip = "Battery Percentage to Request Recharge [ 0 - 100 ]"},
+	{ read_only = true, tip = "Power Production" }}
 }) -- "Main/skin/Icons/Common/32x32/Battery.png"
 function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
-	local intesity = comp.stored_power / self.power_storage 
-	comp.light_color = {0,intesity,1,intesity * 4}
 	if comp.is_working then
+		--print(1 - comp.ticker / comp.ticker_target)
+		comp.light_color = {0,1,1, (1 - comp.ticker / comp.ticker_target) * 3}
 		return comp:SetStateContinueWork()
 	end
+	comp.light_color = {0,0.5,1,0.1}
     local target = comp:GetRegisterNum(1)
-    if (target or 1) >= comp.stored_power / self.power_storage * 100 then
+    if (target or 1) >= comp.owner.battery_percent or 0  then
         -- Perform Recharge
         local can_make, missing, no_space = comp:PrepareProduceProcess(self.consume_list,self.output_list,2)
         if not can_make then
 			-- wait for materials 
             comp:FlagRegisterError(1)
             comp:SetStateSleep(50)
+			comp.extra_power = 0
+			comp:SetRegisterNum(2,0)
+
 			--comp:StopEffects()
             return
         end
@@ -97,25 +105,20 @@ function cc_crystal_power:on_update(comp, cause)
         comp:FulfillProcess()
         AddCubeThroughFixed(comp.owner,self.cube_out)
 
-		--local energy = comp.stored_power + self.power_storage / 2
-		-- add power to connected batteries first 
-		-- for i,bat in ipairs(comp.owner.components) do 
-		-- 	if bat.power_storage > 0 and bat.base_id ~= comp.base_id  and bat.base_id ~= "c_crystal_power" then 
-		-- 		local delta = math.min( bat.power_storage - bat.stored_power, energy)
-		-- 	end
-		-- end
+		comp.extra_power = self.power_production
+		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power * TICKS_PER_SECOND })
 
-
-        comp.stored_power = comp.stored_power + self.power_storage / 2
-		comp.light_color = {0,1,1,comp.stored_power / self.power_storage * 4}
-        comp:SetStateStartWork(self.wait_ticks,true)
+		comp.light_color = {0,1,1,3}
+        comp:SetStateStartWork(self.wait_ticks,5)
 		--comp:PlayWorkEffect('fx_power_core')
 	else
 		-- go to sleep until it needs to charge
         comp:CancelProcess()
 		comp:FlagRegisterError(1,false)
+		comp:SetRegisterNum(2,0)
 		-- check every 10 seconds if power is below target 
-        comp:SetStateSleep()
+        comp:SetStateSleep(100)
+		comp.extra_power = 0
 		--comp:StopEffects()
     end
 end

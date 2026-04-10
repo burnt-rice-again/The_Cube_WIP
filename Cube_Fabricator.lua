@@ -317,7 +317,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	name = "Soul Refinery",
 	desc = "With Fractional Distillation souls can be seperated into thier various emotions",
 	race = "robot",
-	attachment_size = "Large",
+	attachment_size = "Medium",
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	texture = "Main/textures/icons/components/component_adv_refinery_01_l.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
 	visual = "v_adv_refinery_01_m",  --"v_scienceanalyzer_l",

@@ -145,7 +145,7 @@ data.techs.tc_cube_blue_2 = {
 	unlocks = {
 		-- new resources
 		"ic_soul_plasma","xc_cube_plasma",
-		"cc_soul_refinery","fc_pipe","cc_power_souls",'cc_pipe_output_i',
+		"cc_soul_refinery","fc_pipe","cc_power_souls",'cc_pipe_output',
 	},
 	require_tech = { "tc_cube_blue_1" },
 	progress_count = 25,
@@ -686,7 +686,7 @@ data.techs.tc_building4= {
 	},
 	require_tech = {  "tc_building3" },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, concreteslab = 1, reinforced_plate = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, concreteslab = 1, wire = 1}, 50),
 	category = "Independance",
 }
 data.techs.tc_building5= {
