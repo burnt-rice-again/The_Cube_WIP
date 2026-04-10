@@ -45,7 +45,7 @@ data.instructions.get_foundation_at = {
 	icon = "Main/skin/Icons/Common/56x56/Distance.png",
 	explain = [[Returns the Foundation located at a specific coordinate if visible.]],
 }
--- there isnt an easy way to get stored battiers. even the Ui loops through tehm all.
+-- there isnt an easy way to get stored battiers. even the Ui loops through them all.
 -- data.instructions.grid_battery = {
 --     func = function(comp, state, cause, entity, battery)
 
