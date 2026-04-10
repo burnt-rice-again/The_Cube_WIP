@@ -396,7 +396,7 @@ data.techs.tc_cube_anti_4= {
 	desc = "The Final Form",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
-		-- new resources
+		'ic_micro_universe'
 	},
 	require_tech = { "tc_cube_anti_3", },
 	progress_count = 200,

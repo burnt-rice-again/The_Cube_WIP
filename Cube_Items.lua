@@ -355,7 +355,18 @@ data.items.ic_time_crystal = {
 }
 data.items.blight_crystal.name = "Unstable Chrono Crystal"
 data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"
-
+data.items.ic_micro_universe = {
+	name = 'Micro Universe',
+	index = 10,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = 'v_bot_ai_core',
+	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
+	production_recipe = CreateProductionRecipe({ ic_time_crystal = 1, ldframe = 1, ic_cube_sphere = 1,  }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+}
 
 
 

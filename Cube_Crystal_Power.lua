@@ -109,7 +109,7 @@ function cc_crystal_power:on_update(comp, cause)
 		comp.extra_power = self.power_production
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power * TICKS_PER_SECOND })
 
-		comp.light_color = table.insert{self.rgb,3}
+		comp.light_color = table.insert(self.rgb,3)
         comp:SetStateStartWork(self.wait_ticks,5)
 		--comp:PlayWorkEffect('fx_power_core')
 	else

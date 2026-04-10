@@ -119,7 +119,7 @@ data.instructions.get_cube_entity = {
             return 
         end
         local entity = Map.GetEntityFromKey(key)
-        if entity == nil then 
+        if entity.location == nil then 
             -- entity could not be found 
             Set(comp, state, out_result)
             state.counter = out_no_result
