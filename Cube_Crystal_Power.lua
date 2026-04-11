@@ -18,46 +18,46 @@
 
 -------------------------------------------------------
 ----- Crystal Power with Cube -----------------------------------
-local function battery_get_ui(self, comp)
-	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color={color} bgcolor=ui_dark/></Box>]], {
-		compicon = comp.def.texture,
-		update = function(w)
-			local comp_def, comp_details = comp.def, comp.power_details
-			if comp_details then
-				w.progress = comp_details.stored / comp_def.power_storage
-				if w.tt then
-					w.tt.text = L((comp_details.change ~= 0 and "%s: %.0f/%.0f (%+.0f)" or "%s: %.0f/%.0f"), "Stored", comp_details.stored, comp_def.power_storage, comp_details.change*TICKS_PER_SECOND)
-				end
-                local target = comp:GetRegisterNum(1)
-                if (target or 1) >= comp.stored_power / self.power_storage * 100 then
-                    -- below target
-                    w.color = "yellow"
-                    if w.tt then w.tt.text = w.tt.text .. "Battery Below Percentage: Requesting Recharge" end 
-                else 
-					if comp.stored_power > self.power_storage / 2 then 
-						w.color = "ui_light"
-						if w.tt then w.tt.text = w.tt.text .. "Battery above 50% does not need to recharge" end
-					else 
-						w.color = "green"
-						if w.tt then w.tt.text = w.tt.text .. "Battery above target percentage but below 50%" end
-					end
-                end
-			end
-		end,
-		tooltip = function(w)
-			w.tt = UI.New("<Box bg=popup_box_bg padding=12><Text/></Box>", { destruct = function() if w:IsValid() then w.tt = nil end end })[1]
-			w:update()
-			return w.tt.parent
-		end,
-	})  
-end
+-- local function battery_get_ui(self, comp)
+-- 	return UI.New([[<Box padding=4><Progress valign=center width=54 height=54 progress={progress} bg=progress_mask orientation=vertical color={color} bgcolor=ui_dark/></Box>]], {
+-- 		compicon = comp.def.texture,
+-- 		update = function(w)
+-- 			local comp_def, comp_details = comp.def, comp.power_details
+-- 			if comp_details then
+-- 				w.progress = comp_details.stored / comp_def.power_storage
+-- 				if w.tt then
+-- 					w.tt.text = L((comp_details.change ~= 0 and "%s: %.0f/%.0f (%+.0f)" or "%s: %.0f/%.0f"), "Stored", comp_details.stored, comp_def.power_storage, comp_details.change*TICKS_PER_SECOND)
+-- 				end
+--                 local target = comp:GetRegisterNum(1)
+--                 if (target or 1) >= comp.stored_power / self.power_storage * 100 then
+--                     -- below target
+--                     w.color = "yellow"
+--                     if w.tt then w.tt.text = w.tt.text .. "Battery Below Percentage: Requesting Recharge" end 
+--                 else 
+-- 					if comp.stored_power > self.power_storage / 2 then 
+-- 						w.color = "ui_light"
+-- 						if w.tt then w.tt.text = w.tt.text .. "Battery above 50% does not need to recharge" end
+-- 					else 
+-- 						w.color = "green"
+-- 						if w.tt then w.tt.text = w.tt.text .. "Battery above target percentage but below 50%" end
+-- 					end
+--                 end
+-- 			end
+-- 		end,
+-- 		tooltip = function(w)
+-- 			w.tt = UI.New("<Box bg=popup_box_bg padding=12><Text/></Box>", { destruct = function() if w:IsValid() then w.tt = nil end end })[1]
+-- 			w:update()
+-- 			return w.tt.parent
+-- 		end,
+-- 	})  
+-- end
 local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	name = "Crystal Power", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",
 	desc = [[Produces a small amount of power with the cube and crystals
 		<img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-Will Recharge when input register is below units battery %	
-		]],
+Will Recharge when target register is below units battery percentage
+Power output is effected by component effciency boosts.]],
 	attachment_size = "Small",
 	visual = "v_crystalpower_01_s",
 	race = "robot",
@@ -102,12 +102,12 @@ function cc_crystal_power:on_update(comp, cause)
         comp:FlagRegisterError(1,false)
         comp:FulfillProcess()
         AddCubeThroughFixed(comp.owner,self.cube_out)
-
-		comp.extra_power = self.drain_rate
-		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power * TICKS_PER_SECOND })
+		print(comp.effective_boost, self.drain_rate * (comp.effective_boost/100))
+		comp.extra_power = math.floor(self.drain_rate * (comp.effective_boost/100))
+		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power  * TICKS_PER_SECOND })
 
 		comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], 3}
-        comp:SetStateStartWork(self.charge_time/(comp.effective_boost-100),5)
+        comp:SetStateStartWork(self.charge_time,5)
 		-- check batteries are on frame // maybe just give it a small battery?
 		if comp.owner.battery_total == 0 then 
 			comp:FlagRegisterError(1)
@@ -141,10 +141,11 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
 	desc = [[Requires extreme heat to vaporize crystal powders
 <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-Will Recharge when input register is below units battery %]],
+Will Recharge when input register is below units battery %
+Power output is effected by component effciency boosts.]],
 	visual = 'v_blightcrystalpower_01_m',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
-	rgb = {1, 0.5, 0},
+	rgb = {1, 0.3, 0},
 	consume_list = {crystal_powder = 4,ic_soul_plasma = 10, ic_cube_red = 1},
 	output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",

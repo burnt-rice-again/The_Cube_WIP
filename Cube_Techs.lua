@@ -457,7 +457,7 @@ data.techs.tc_robot_metallurgy_4 = {
 	texture = data.components.c_extractor.texture,
 	unlocks = {
 		-- new resources
-		"c_extractor","concreteslab_alt","laterite"
+		"c_extractor","concreteslab_alt"
 	},
 	require_tech = { "tc_robot_metallurgy_3" },
 	progress_count = 100,

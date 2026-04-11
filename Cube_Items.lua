@@ -108,7 +108,7 @@ data.items.steelblock.tag = "simple_material"
 
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
 data.items.concreteslab.production_recipe = CreateProductionRecipe(
-{steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 1)
+{steelblock = 1, metalore = 4  }, {c_fabricator = 30}, 1)
 data.items.concreteslab.tag = "simple_material"
 data.items.concreteslab.race = "robot"
 create_alt_recipe("concreteslab", 

@@ -147,7 +147,7 @@ data.techs.t_human_intel = {
 	uplink_recipe = CreateUplinkRecipe({ transformer = 1 }, 1000),
 	progress_count = 40,
 	require_tech = { "t_robots_human_discovery" },
-	unlocks = { "laterite", "smallreactor", "blightbar", "reinforced_plate" },
+	unlocks = { "smallreactor", "blightbar", "reinforced_plate" },
 	category = "Story",
 }
 
