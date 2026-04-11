@@ -68,10 +68,8 @@ Will Recharge when input register is below units battery %
 	consume_list = {ic_cube_blue = 1, crystal = 1},
 	--output_list = {ic_souls = 1},
 	cube_out = "ic_cube_blue",
-	wait_ticks = 120*5,
-	power_production = 100,
-	charge_time = 120*5,--just for def tooltip
-	drain_rate = 100,--just for def tooltip
+	charge_time = 120*5,--matches def tooltip
+	drain_rate = 100,--matches def tooltip
 	power = 0,
 	rgb = {0,1,1},
 	-- battery
@@ -97,7 +95,6 @@ function cc_crystal_power:on_update(comp, cause)
             comp:SetStateSleep(50)
 			comp.extra_power = 0
 			comp:SetRegisterNum(2,0)
-
 			--comp:StopEffects()
             return
         end
@@ -106,11 +103,15 @@ function cc_crystal_power:on_update(comp, cause)
         comp:FulfillProcess()
         AddCubeThroughFixed(comp.owner,self.cube_out)
 
-		comp.extra_power = self.power_production
+		comp.extra_power = self.drain_rate
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power * TICKS_PER_SECOND })
 
 		comp.light_color = table.insert(self.rgb,3)
-        comp:SetStateStartWork(self.wait_ticks,5)
+        comp:SetStateStartWork(self.charge_time,5)
+		-- check batteries are on frame // maybe just give it a small battery?
+		if comp.owner.battery_percent == nil then 
+			comp:FlagRegisterError(1)
+		end
 		--comp:PlayWorkEffect('fx_power_core')
 	else
 		-- go to sleep until it needs to charge
@@ -129,7 +130,11 @@ function cc_crystal_power:on_add(comp)
 	end
 end
 function cc_crystal_power:get_reg_error(comp)
-    return "Missing Inputs to produce power or no space for output"
+	if comp.owner.battery_percent == nil then 
+		return "Frame has no battery storage therefore will not stop producing"
+	else
+    	return "Missing Inputs to produce power or no space for output"
+	end
 end
 cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
@@ -143,10 +148,8 @@ Will Recharge when input register is below units battery %]],
 	consume_list = {crystal_powder = 4,ic_soul_plasma = 10, ic_cube_red = 1},
 	output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
-	wait_ticks = 300*5,
-	power_production = 2000,
-	charge_time = 300*5,--just for def tooltip
-	drain_rate = 2000,--just for def tooltip
+	charge_time = 300*5,
+	drain_rate = 2000,
 })
 
 -----------------------------------------------------------------------------
