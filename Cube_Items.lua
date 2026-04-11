@@ -56,10 +56,10 @@ create_alt_recipe("datakey_robot",
 data.items.reinforced_plate.race = "robot"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 {ic_cube_red = 1, steelblock = 100, crystal_powder = 10, wire = 20  }, 
-{cc_manifest = 120, cc_red_furnace = 50}, 20, {ic_cube_empty = 1})
+{cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, steelblock = 100, laterite = 60, ic_soul_plasma = 100, wire = 40  }, 
+	{ic_cube_red = 1, steelblock = 100, ic_soul_plasma = 100, wire = 40  }, 
 	{cc_manifest = 50, cc_red_furnace = 5},
 	20, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
@@ -98,24 +98,25 @@ data.items.steelblock.production_recipe = CreateProductionRecipe(
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = "robot"
 data.items.steelblock.tag = "simple_material"
-create_alt_recipe("steelblock",
-	CreateProductionRecipeWithWaste(
-	{laterite = 40, metalplate = 20, ic_cube_red = 1}, 
-	{cc_red_furnace = 25},
-	20, {ic_cube_empty = 1}),
-	{desc = "Laterite Steel Alloy"}
-)
+-- create_alt_recipe("steelblock",
+-- 	CreateProductionRecipeWithWaste(
+-- 	{laterite = 40, metalplate = 20, ic_cube_red = 1}, 
+-- 	{cc_red_furnace = 25},
+-- 	20, {ic_cube_empty = 1}),
+-- 	{desc = "Laterite Steel Alloy"}
+-- )
 
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
-data.items.concreteslab.production_recipe = CreateProductionRecipe({steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 4)
+data.items.concreteslab.production_recipe = CreateProductionRecipe(
+{steelblock = 4, metalore = 4  }, {c_fabricator = 30}, 1)
 data.items.concreteslab.tag = "simple_material"
 data.items.concreteslab.race = "robot"
 create_alt_recipe("concreteslab", 
 	CreateProductionRecipe(
-	{laterite = 4, steelblock = 1}, 
+	{reinforced_plate = 1, wire = 5, metalore = 5}, 
 	{c_fabricator = 25},
 	1),
-	{desc = "Laterite Concrete Mixing"}
+	{desc = "Reinforced Concrete Mixing"}
 )
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40, c_assembler = 30}, 1)
 

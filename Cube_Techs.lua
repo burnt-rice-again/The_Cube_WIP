@@ -159,7 +159,7 @@ data.techs.tc_cube_blue_3 = {
 	texture = data.items.ic_cube_sphere.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_sphere","reinforced_plate_alt","steelblock_alt"
+		"ic_cube_sphere","reinforced_plate_alt",
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
@@ -193,7 +193,7 @@ data.techs.tc_cube_red_2 = {
 	},
 	require_tech = { "tc_cube_red_1" },
 	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({crystal_powder = 1, ic_soul_plasma = 1 }, 300),
+	uplink_recipe = CreateUplinkRecipe({reinforced_plate = 1, ic_soul_plasma = 1 }, 300),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_red_3 = {
@@ -207,7 +207,7 @@ data.techs.tc_cube_red_3 = {
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_plasma = 1, crystal_powder = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_plasma = 1, ic_soul_angry = 1 }, 100),
 	category = "Cube_Curiosity",
 }
 data.techs.tc_cube_red_4 = { 
