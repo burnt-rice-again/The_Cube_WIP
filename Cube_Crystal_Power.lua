@@ -107,7 +107,7 @@ function cc_crystal_power:on_update(comp, cause)
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power * TICKS_PER_SECOND })
 
 		comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], 3}
-        comp:SetStateStartWork(self.charge_time,5)
+        comp:SetStateStartWork(self.charge_time/(comp.effective_boost-100),5)
 		-- check batteries are on frame // maybe just give it a small battery?
 		if comp.owner.battery_total == 0 then 
 			comp:FlagRegisterError(1)

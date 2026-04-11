@@ -261,7 +261,7 @@ function cc_moduleefficiency:on_update(comp, cause)
 		if can_make then 
 			--consume next bit of fuel 
 			comp:FulfillProcess()
-			comp:SetStateStartWork(self.fuel_time/self.boost)
+			comp:SetStateStartWork(self.fuel_time/(comp.effective_boost-100)) 
 			comp.extra_data.boost_active = true 
 			comp:SetRegister(1)
 
