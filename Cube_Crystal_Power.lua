@@ -81,10 +81,10 @@ function cc_crystal_power:on_update(comp, cause)
 	-- on_update is also called when work has finished, only refill stored power when actually on low power
 	if comp.is_working then
 		--print(1 - comp.ticker / comp.ticker_target)
-		comp.light_color = table.insert(self.rgb, (1 - comp.ticker / comp.ticker_target) * 3)
+		comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], (1 - comp.ticker / comp.ticker_target) * 3}
 		return comp:SetStateContinueWork()
 	end
-	comp.light_color = table.insert(self.rgb, 0)
+	comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], 0}
     local target = comp:GetRegisterNum(1)
     if (target or 1) >= comp.owner.battery_percent or 0  then
         -- Perform Recharge
@@ -106,10 +106,10 @@ function cc_crystal_power:on_update(comp, cause)
 		comp.extra_power = self.drain_rate
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power * TICKS_PER_SECOND })
 
-		comp.light_color = table.insert(self.rgb,3)
+		comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], 3}
         comp:SetStateStartWork(self.charge_time,5)
 		-- check batteries are on frame // maybe just give it a small battery?
-		if comp.owner.battery_percent == nil then 
+		if comp.owner.battery_total == 0 then 
 			comp:FlagRegisterError(1)
 		end
 		--comp:PlayWorkEffect('fx_power_core')
@@ -130,10 +130,10 @@ function cc_crystal_power:on_add(comp)
 	end
 end
 function cc_crystal_power:get_reg_error(comp)
-	if comp.owner.battery_percent == nil then 
-		return "Frame has no battery storage therefore will not stop producing"
+	if comp.owner.battery_total == 0 then 
+		return "Building has no battery storage\nTherefore will not stop producing"
 	else
-    	return "Missing Inputs to produce power or no space for output"
+    	return "Missing Inputs to produce power\nor no space for output"
 	end
 end
 cc_crystal_power:RegisterComponent("cc_crystal_power_red",{

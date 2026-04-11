@@ -28,7 +28,6 @@ function cube_locator:goto_cube(btn)
             if ent.location ~= nil then 
                 View.JumpCameraToEntities(ent)
                 View.SelectEntities(ent)
-                print(ent)
             elseif faction.extra_data.cube_cord then 
                 local cord = faction.extra_data.cube_cord
                 View.MoveCamera(cord.x,cord.y)
@@ -36,6 +35,7 @@ function cube_locator:goto_cube(btn)
         end
     end
 end
+-- display the Cubes current form 
 function cube_locator:update()
     local faction = Game.GetLocalPlayerFaction()
     if faction then 
