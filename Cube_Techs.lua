@@ -159,7 +159,7 @@ data.techs.tc_cube_blue_3 = {
 	texture = data.items.ic_cube_sphere.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_sphere",
+		"ic_cube_sphere","reinforced_plate_alt","steelblock_alt"
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
@@ -203,7 +203,7 @@ data.techs.tc_cube_red_3 = {
 	texture = data.components.c_blight_magnifier.texture,
 	unlocks = {
 		-- new resources
-		"c_blight_magnifier","crystal_powder_alt","xc_cube_alt"
+		"c_blight_magnifier","crystal_powder_alt","xc_cube_alt","datakey_robot_alt","xc_cube_alt",
 	},
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
@@ -415,7 +415,7 @@ data.techs.tc_robot_metallurgy_1 = {
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
-		"steelblock",
+		"steelblock","beacon_frame","f_beacon"
 	},
 	require_tech = { "tc_robot_basic" },
 	progress_count = 10,
@@ -443,7 +443,7 @@ data.techs.tc_robot_metallurgy_3 = {
 	texture = data.components.c_adv_miner.texture,
 	unlocks = {
 		-- new resources
-		"c_adv_miner",
+		"c_adv_miner","f_beacon_l",
 	},
 	require_tech = { "tc_robot_metallurgy_2" },
 	progress_count = 100,
@@ -463,62 +463,6 @@ data.techs.tc_robot_metallurgy_4 = {
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1,phase_leaf = 1 }, 25),
 	category = "Independance",
-}
-data.techs.tc_robot_beacons1 = {
-	order = 2,
-	name = "Beacons", -- recovered database etc.
-	desc = "",
-	texture = data.frames.f_beacon.texture,
-	unlocks = {
-		-- new resources
-		"beacon_frame","f_beacon"
-	},
-	require_tech = { "tc_robot_metallurgy_1" },
-	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({steelblock = 1, datakey_robot = 1 }, 50),
-	category = "tc_upgrades_1",
-}
-data.techs.tc_robot_beacons2 = {
-	order = 2,
-	name = "Bulk Recipes", -- recovered database etc.
-	desc = "Alternative Bulk Recipes for basic items",
-	texture = data.components.cc_manifest.texture,
-	unlocks = {
-		-- new resources
-		"datakey_robot_alt","xc_cube_alt"
-	},
-	require_tech = { "tc_robot_beacons1" },
-	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({steelblock = 1, datakey_robot = 1, reinforced_plate = 1 }, 50),
-	category = "tc_upgrades_1",
-}
-data.techs.tc_robot_beacons3 = {
-	order = 2,
-	name = "Beacons", -- recovered database etc.
-	desc = "",
-	texture = data.frames.f_beacon_l.texture,
-	unlocks = {
-		-- new resources
-		"f_beacon_l",
-	},
-	require_tech = { "tc_robot_beacons2" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, datakey_robot = 1, phase_leaf = 1, reinforced_plate = 1 }, 50),
-	category = "tc_upgrades_1",
-}
-data.techs.tc_robot_beacons4 = {
-	order = 2,
-	name = "More Bulk Crafting", -- recovered database etc.
-	desc = "",
-	texture = data.components.cc_manifest.texture,
-	unlocks = {
-		-- new resources
-		"reinforced_plate_alt","steelblock_alt"
-	},
-	require_tech = { "tc_robot_beacons3" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, datakey_robot = 1, phase_leaf = 1, reinforced_plate = 1, ic_soul_angry = 1 }, 50),
-	category = "tc_upgrades_1",
 }
 data.techs.tc_robot_frames_1 = {
 	order = 1,
