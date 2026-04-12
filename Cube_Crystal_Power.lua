@@ -102,7 +102,6 @@ function cc_crystal_power:on_update(comp, cause)
         comp:FlagRegisterError(1,false)
         comp:FulfillProcess()
         AddCubeThroughFixed(comp.owner,self.cube_out)
-		print(comp.effective_boost, self.drain_rate * (comp.effective_boost/100))
 		comp.extra_power = math.floor(self.drain_rate * (comp.effective_boost/100))
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power  * TICKS_PER_SECOND })
 

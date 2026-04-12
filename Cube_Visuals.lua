@@ -191,6 +191,7 @@ data.visuals.vc_crop_wire.flags = "RandomRotation|RandomScale|RandomTranslation"
 
 data.visuals.vc_crop_wire_seed0 = Tool.Copy(data.visuals.v_succulent_01) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed0.scale = {0.5,0.5,0.5}
+data.visuals.vc_crop_wire_seed0.RandomTranslation = {0.3,0.3,0.3}
 data.visuals.vc_crop_wire_seed1 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed1.scale = {0.8,0.8,0.8}
 data.visuals.vc_crop_wire_seed2 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
@@ -206,6 +207,7 @@ data.visuals.vc_crop_phase.flags = "RandomRotation|RandomScale|RandomTranslation
 
 data.visuals.vc_crop_phase_seed0 = Tool.Copy(data.visuals.v_succulent_05_A) -- v_succulent_05_A
 data.visuals.vc_crop_phase_seed0.scale = {0.5,0.5,0.5}
+data.visuals.vc_crop_phase_seed0.RandomTranslation = {0.3,0.3,0.3}
 data.visuals.vc_crop_phase_seed1 = Tool.Copy(data.visuals.vc_crop_phase_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_phase_seed1.scale = {0.8,0.8,0.8}
 data.visuals.vc_crop_phase_seed2 = Tool.Copy(data.visuals.vc_crop_phase_seed0) -- v_succulent_05_A

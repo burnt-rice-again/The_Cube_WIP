@@ -251,7 +251,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     
     registers = {
 		{ read_only = true, type = "Target", tip = "Planting seed at", ui_icon = "icon_target", },
-		{ read_only = true, tip = "Requires",},
+		{ read_only = true, tip = "Fertilzer Required",},
         { read_only = true, ui_icon = "icon_small_time", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
 	},
@@ -293,7 +293,7 @@ function cc_planter:get_reg_error(comp)
         if comp.owner:FindComponent("cc_cube_storage") == nil then 
             return "No CUBE pedastal"
         else
-            return "Missing Items"
+            return "Missing fertilzer"
         end
     end
 end 
@@ -348,7 +348,7 @@ function cc_planter:on_update(comp, cause)
         else 
             comp:FlagRegisterError(2,"Can no longer Plant At Target")
             comp:CancelProcess()
-            comp:Activate()
+            comp:SetStateSleep()
 
         end
     elseif comp.is_working == true then 
