@@ -177,7 +177,7 @@ data.codex.xc_cube_plasma = {
     title = [[<img width="18" height="18" id="ic_soul_plasma"/>Ectoplasma Network]],
     text = [[<img width="100" height="100" id="ic_soul_plasma"/><codex_title>Ectoplasma Network</>
 
-        <img id="ic_souls" width="50" height="50"/>Souls are dropped by enemy units and occasionaly found at defended explroables
+        <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units and occasionaly found at defended explroables
 
         They can be converted into Ectoplasma at the soul refinery <img id="cc_soul_refinery" width="50" height="50"/>
         

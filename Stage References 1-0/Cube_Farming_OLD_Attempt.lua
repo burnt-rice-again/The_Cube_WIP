@@ -133,7 +133,7 @@ cc_plant_seed:RegisterComponent("cc_plant_seed2",{
 	texture = "The_Cube_WIP/textures/plant_seed_reed.png",
 	desc = "Spins Souls Into Wire Perfect for Higher Though Processes",
 	visual = "v_succulent_05_A",
-    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1,ic_souls = 10, phase_leaf = 5 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
+    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1,bug_carapace = 10, phase_leaf = 5 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
     --plant stats 
     growth_max = 90,
     -- plant consumption

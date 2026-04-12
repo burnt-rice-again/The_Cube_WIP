@@ -253,8 +253,9 @@ data.items.ic_cube_sphere = {
 -- "v_hybrid_worker" for final production building ?
 --------------------------------------
 ---- Soul Related Items -----------
-
-data.items.ic_souls = {
+--data.items.bug_carapace = nil
+--data.update_mapping.bug_carapace = "bug_carapace"
+data.items.bug_carapace = {
 	name = "Lingering Souls",
 	index = 1010,
 	desc = "",
@@ -275,13 +276,13 @@ data.items.ic_soul_plasma = {
 	slot_type = "anomaly",
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, ic_souls = 20, crystal_powder = 5 },
+	{ic_cube_blue = 1, bug_carapace = 20, crystal_powder = 5 },
 	{ cc_soul_refinery = 400 },
 	100, {ic_cube_blue = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_souls = 20, phase_leaf = 1 }, 
+	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 1 }, 
 	{cc_soul_refinery = 25,},
 	100,
 	{ic_cube_empty = 1}),

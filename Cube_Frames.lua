@@ -77,11 +77,22 @@ data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({
 data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, fused_electrodes = 1},25)
 
 
+local function on_destroy_drop(self, entity, damager)
+	-- don't do anything unless killed or if this entity belongs to a player controlled faction
+	if not damager or entity.faction.is_player_controlled then return end
+
+	Map.DropItemAt(entity.location, "bug_carapace",1, "f_dropped_resource", "vc_souls")
+end
 
 -- reassign bugs drops
-data.frames.f_trilobyte1.resource_drop = {"ic_souls", "vc_souls"}
-data.frames.f_tetrapuss1.resource_drop = {"ic_souls", "vc_souls"}
-data.frames.f_tripodonte1.resource_drop = {"ic_souls", "vc_souls"}
+data.frames.f_trilobyte1.resource_drop = {"bug_carapace", "vc_souls"}
+data.frames.f_tetrapuss1.resource_drop = {"bug_carapace", "vc_souls"}
+data.frames.f_tripodonte1.resource_drop = {"bug_carapace", "vc_souls"}
+data.frames.f_bug_hole.on_destroy = nil
+data.frames.f_bug_hive.on_destroy = nil
+
+
+
 
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 

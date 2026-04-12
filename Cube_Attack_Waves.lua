@@ -164,7 +164,7 @@ local function build_random_bot(faction, frame_filter)
         --always links to the first weapon
         bot:LinkRegisterFromRegister(6,4,radar)
         -- add a soul 
-        bot:AddItem("ic_souls", 1)
+        bot:AddItem("bug_carapace", 1)
     end
     return bot, cost
 end 
@@ -381,7 +381,7 @@ function Place_enemy_fort(x,y,cost)
     start_area_size = start_area_size - 1
     -- storage with souls 
     local storage = Map.CreateEntity(faction,"f_building1x1g")
-    storage:AddItem("ic_souls",(cost+3)*(cost+1))
+    storage:AddItem("bug_carapace",(cost+3)*(cost+1))
     storage:Place(x,y,math.random(0,3))
 
     local anti_cost = 10 - cost

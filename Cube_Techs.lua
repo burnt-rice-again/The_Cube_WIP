@@ -53,7 +53,7 @@ data.techs.tc_cube_basic = {
 		-- "f_human_foundation5","f_human_foundation6","f_human_foundation7","f_human_foundation8",
 
 		-- starting resources		
-		"ic_cube_blue","datakey_robot","ic_souls",
+		"ic_cube_blue","datakey_robot","bug_carapace",
 		--components
 		"cc_cube_storage","cc_crystal_power","cc_manifest",
 

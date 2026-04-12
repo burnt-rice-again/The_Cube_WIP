@@ -235,7 +235,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 		requires_blight = true ,
 		tech = "tc_cube_green_discovery",
 		},
-		{ 	id = "ic_souls", 
+		{ 	id = "bug_carapace", 
 		amt = {["ic_cube_empty"] = 1, ["ic_soul_plasma"] = 1} , 
 		t = 5, 
 		to = {},
