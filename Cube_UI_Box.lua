@@ -3,7 +3,7 @@ local package = ...
 -- define the layout of the widget
 local cube_locator_layout <const> =
 [[
-	<Box dock=top-left padding=3 margin_top=70 margin_left = 6>
+	<Box dock=top-left padding=3 margin_top=139 margin_left = 6>
 		<Canvas on_click={goto_cube} tooltip={cube_tooltip}>
             <Reg bg=item_default def_id={cube_id} on_click={goto_cube} width=40 height=40/>
         </Canvas>

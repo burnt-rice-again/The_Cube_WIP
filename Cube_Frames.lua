@@ -149,7 +149,7 @@ Frame:RegisterFrame("fc_pipe", {
 	desc = "Channels Electroplamsa to other towers and receiveing Points",
 	race = "robot",
     visibility_range = 10,
-	health_points = 500,
+	health_points = 200,
 	power = -1,
 	start_disconnected = true,
 	--slots = {anomaly = 1 },

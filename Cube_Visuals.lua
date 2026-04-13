@@ -86,7 +86,7 @@ data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Conta
 data.visuals.vc_cube_storage = { 
     mesh = meshes.storage_single, 
     scale = { 4.5, 4.5, 4.5 },
-	mesh_sockets = { ["fx"] = {50,50,-100} },
+	mesh_sockets = { ["fx"] = {0,0,-7} },
 	light_radius = 2,
 	light_color = {0,0,0,1},
 	light_offset = { 0.0, 0.0, 2 },
@@ -128,6 +128,8 @@ data.visuals.vc_mug = {
 }
 data.visuals.vc_tower1 = {
 	mesh = "The_Cube_WIP/textures/PowerPylonColoured.glb",
+	flags = "RandomRotation",
+
 	--mesh = "The_Cube_WIP/textures/tower2.T3D",
 	mesh_offset = { 0, 0, 98 },
 	mesh_sockets = { ["fx"] = {0,0,22000}, },
@@ -191,7 +193,7 @@ data.visuals.vc_crop_wire.flags = "RandomRotation|RandomScale|RandomTranslation"
 
 data.visuals.vc_crop_wire_seed0 = Tool.Copy(data.visuals.v_succulent_01) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed0.scale = {0.5,0.5,0.5}
-data.visuals.vc_crop_wire_seed0.RandomTranslation = {0.3,0.3,0.3}
+data.visuals.vc_crop_wire_seed0.RandomTranslation = {0.1,0.1,0.1}
 data.visuals.vc_crop_wire_seed1 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed1.scale = {0.8,0.8,0.8}
 data.visuals.vc_crop_wire_seed2 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A

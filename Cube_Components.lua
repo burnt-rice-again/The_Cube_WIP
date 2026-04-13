@@ -463,26 +463,28 @@ local function Update_Cube_Effects(self, comp, cause)
 	--will have passed cube only if all change
 	if cause & CC_CHANGED_ITEMSLOT_AMOUNT then-- traded cube 
 		local owner = comp.owner
+		local slot = comp.slots[1]
+		local cube_id = slot.id
 		--self.boost = -90
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
 		local boost_polarity = false
-		if owner:CountItem("ic_cube_red") == 1 then
-			comp:PlayEffect("fx_refinery","fx")
+		if cube_id == "ic_cube_red" then
+			comp:PlayWorkEffect("fx_refinery","fx")
 			comp.extra_data.boost_active = true
 			self:update_boost(comp)
 			update_cube_location(comp,"ic_cube_blue" )
 			comp.extra_power = 401
 			return 
 			--comp.light_color = { 0.6,0.1,0,1 }
-		elseif owner:CountItem("ic_cube_blue") == 1 then 
+		elseif  cube_id == "ic_cube_blue" then 
 			update_cube_location(comp,"ic_cube_blue" )
-		elseif owner:CountItem("ic_cube_empty") == 1 then 
+		elseif cube_id == "ic_cube_empty" then 
 			update_cube_location(comp,"ic_cube_empty" )
-		elseif owner:CountItem("ic_cube_green") == 1 then 
+		elseif cube_id == "ic_cube_green" then 
 			update_cube_location(comp,"ic_cube_green" )
 			boost_polarity = true
-		elseif owner:CountItem("ic_cube_sphere") == 1 then
+		elseif cube_id == "ic_cube_sphere" then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
 			--comp:PlayEffect("fx_alien_liquid")
 		else
@@ -688,7 +690,7 @@ local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 			comp.owner:AddComponent("cc_cube_melter")
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
 			if comp_puzzle then comp_puzzle:Destroy() end
-			if not faction:IsUnlocked("tc_cube_red_refining") then faction:Unlock("tc_cube_red_refining") end
+			if not faction:IsUnlocked("tc_cube_red_1") then faction:Unlock("tc_cube_red_1") end
 			comp:Destroy()
 		end)
 	end,

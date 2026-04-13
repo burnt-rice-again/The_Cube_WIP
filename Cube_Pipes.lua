@@ -26,29 +26,33 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
 
 local function send_plasma(ent_from, ent_to, amt,comp)
     
-    ent_to:TransferFrom(ent_from, "ic_soul_plasma", amt)
-    if comp then 
-        -- is a input/output
+    local transfer = ent_to:TransferFrom(ent_from, "ic_soul_plasma", amt)
+    if comp ~= nil then 
+        --is a input/output
 
-        -- if comp.id == "cc_pipe_input" then 
-        --     comp:RotateComponent(ent_to)
-        --     comp:PlayEffect("fx_alien_monolith_lightning","fx",ent_to)
-        --     return 
-        --     --must be send 
-        -- else
-        --     -- must be recieve
-        --     comp:RotateComponent(ent_from)
-        --     ent_from:PlayEffect("fx_alien_monolith_lightning","fx",comp)
-        --     return 
-        -- end
+        if comp.id ~= "cc_pipe_output" then 
+            comp:RotateComponent(ent_to)
+            comp:PlayEffect("fx_alien_monolith_lightning","fx",ent_to)
+            --must be send 
+        else
+            -- must be recieve
+            comp:RotateComponent(ent_from)
+            ent_from:PlayEffect("fx_alien_monolith_lightning","fx",ent_to)
+        end
         return
     end
     --regular pipe transfer
-    ent_from:PlayEffect("fx_alien_monolith_lightning","fx",ent_to)
+    if transfer > 0 then 
+        ent_from:PlayEffect("fx_alien_monolith_lightning","fx",ent_to)
+    end
 end
     --comp:SetStateSleep(5) 
-
 function cc_pipe_crane:on_update(comp, cause)
+
+    if comp.is_working then 
+        comp:SetStateContinueWork()
+        return
+    end
 
     if cause & CC_CHANGED_ITEMSLOT_AMOUNT or cause & CC_FINISH_SLEEP then 
         local slot = comp:GetSlot(1)
@@ -62,9 +66,11 @@ function cc_pipe_crane:on_update(comp, cause)
                 local difference = holding - ent:CountItem("ic_soul_plasma") 
                 if difference > 1 then 
                     send_plasma(owner,ent,math.floor(math.abs(difference)/2))
+                    comp:SetStateStartWork(20)
                     return 
                 elseif difference < -1 then
                     send_plasma(ent,owner,math.floor(math.abs(difference)/2))
+                    comp:SetStateStartWork(20)
                     return 
                 end 
             end
@@ -78,7 +84,19 @@ function cc_pipe_crane:on_add(comp, cause)
     comp.owner.move_boost = 0
     comp:Activate()
 end
-
+-- TODO this doesnt work. Or its does but the building still drops the item. 
+-- function cc_pipe_crane:on_remove(comp, cause)
+--     -- remove particles so their not on the grpund 
+--     print("Clearing Pipe")
+--     for i, val in ipairs(comp.owner.slots) do 
+--         print(val,val.id)
+--         if val.id == "ic_soul_plasma" then 
+--             val:Clear()
+--             print("Slot Cleared", val)
+--         end
+--     end
+--     print(comp.owner.slots)
+-- end
 local function send_only_plasma(self, comp, cause)
     if cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP) then 
         local slot = comp:GetSlot(1)
@@ -101,7 +119,6 @@ local function send_only_plasma(self, comp, cause)
                     comp:PlayEffect("fx_alien_monolith_lightning","fx",ent)
                     comp:RotateComponent(ent)
                     send_plasma(owner,ent,free_space,comp)
-                    
                     return 
                 end
             end
