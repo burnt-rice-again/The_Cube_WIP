@@ -489,7 +489,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			comp:PlayWorkEffect("fx_refinery","fx")
 			comp.extra_data.boost_active = true
 			self:update_boost(comp)
-			update_cube_location(comp,"ic_cube_blue" )
+			update_cube_location(comp,"ic_cube_red" )
 			comp.extra_power = 401
 			return 
 			--comp.light_color = { 0.6,0.1,0,1 }

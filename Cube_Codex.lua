@@ -24,12 +24,12 @@ data.codex.xc_cube_1 = {
     The Cube can harmonize with emotional materials to generate energy. 
     
     The Cube is extremly heavy and must be placed on a special Cube pedestal 
+    Crafting With the Cube will require a unit with a Cube Pedestal (M) and the desired building
 
-    If you have lost the cube clock the icon in the top left to focus on it.
-    
+    If you have lost the cube click the icon in the top left to focus on it.
     
     Tips
-    - If the Cube changes form inside a locked slot it will unlock the slot. wa
+    - <hl>If the Cube changes form inside a locked slot it will force unlock the slot.</>
     ]],
 
 }
@@ -44,19 +44,22 @@ data.codex.xc_cube_power_1 = {
         The Entropy of all other systems is too high to perform useful work
         Crafting with the cube requires lots of power and will need a suitable buffer as well
         
-        The blue Cube will provide <bl>500</> power/second while placed on a pedestal
+        The blue Cube will provide <bl>1000</> power/second while placed on a pedestal
 
         <bl>Available Power Generation via crystal generator</>
         <img id="cc_crystal_power" width="50" height="50"/> <hl>Basic Crystal Power</> 
         Energy Recipe 
 		<img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 
+        Once crafted with the Cube and fuel the component will produce a constant power output while it works
+        The power output is affected by effciency.
+        The Cube is <bl>not locked</> during the components cooldown allowing it to be passed to another component.
+
         The input register sets the battery level to request a recharge.
         Input a number between 0 - 100 for the target battery percentage.
+        Ensure the building has a battery otherwise it will ignore the target percentage.
 
-        50% of the internal buffer will be filled with each craft. 
-
-        The Cube is not locked during the components cooldown allowing it to be passed to another component.
+        <img image="The_Cube_WIP/textures/Codex_Images/Crystal_Power_Reg.png"/>
 
         Other Similiar Power Components 
         <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Crystal vaporization</> 

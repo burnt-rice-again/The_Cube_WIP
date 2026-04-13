@@ -38,6 +38,7 @@ local function add_volcano(x,y)
 	local fix = volcano:AddComponent("cc_explorable_fix_volcano", "hidden")
 	fix.extra_data.explorable_fix = "ic_cube_empty"
 	volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_empty", num = 1 })
+    volcano.extra_data.auto_destroy = true
 	volcano:Place(x,y,math.random(4)-1)
 end
 

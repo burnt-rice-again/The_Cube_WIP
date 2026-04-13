@@ -47,7 +47,7 @@ data.items.datakey_robot = {
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_empty = 1, reinforced_plate = 20, }, 
+	{ic_cube_empty = 1, reinforced_plate = 2, }, 
 	{cc_green_brain = 25 , cc_red_furnace = 5},
 	20, {ic_cube_blue = 1}),
 	{desc = "Bulk Cube Log Filling"}
