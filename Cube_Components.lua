@@ -461,6 +461,8 @@ local function Update_Cube_Effects(self, comp, cause)
 	--print(comp,cause,comp.owner)
 	--print(comp.CauseToString(comp,cause))
 	--will have passed cube only if all change
+	-- TODO check alt recipe hasnt been requested in slot and change it if need be
+
 	if cause & CC_CHANGED_ITEMSLOT_AMOUNT then-- traded cube 
 		local owner = comp.owner
 		local slot = comp.slots[1]
