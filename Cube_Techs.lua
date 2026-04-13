@@ -784,7 +784,7 @@ data.techs.tc_network3 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_medium_capacitor","c_battery","c_large_power_transmitter"
+		"c_medium_capacitor","c_battery","c_large_power_relay"
 	},
 	require_tech = { "tc_network2" },
 	progress_count = 100,
@@ -798,7 +798,7 @@ data.techs.tc_network4 = {
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_large_power_relay","c_large_battery"
+		"c_large_battery","c_large_power_transmitter"
 	},
 	require_tech = { "tc_network3","tc_cube_green_1" },
 	progress_count = 100,

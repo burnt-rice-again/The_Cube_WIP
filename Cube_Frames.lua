@@ -70,7 +70,7 @@ data.frames.f_drone_defense_a.production_recipe = CreateProductionRecipe({ ldfra
 data.frames.f_beacon_l.construction_recipe = CreateConstructionRecipe({ beacon_frame = 5, ic_soul_happy = 1, phase_leaf = 2},25)
 
 -- foundations 
-data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 1, laterite = 4},25)
+data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_human_foundation_adv.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ crystal_powder = 1, reinforced_plate = 1},25)
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)

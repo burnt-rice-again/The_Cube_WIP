@@ -23,6 +23,11 @@ data.codex.xc_cube_1 = {
     The Cube appears to impart logic and emotions on neary materials
     The Cube can harmonize with emotional materials to generate energy. 
     
+    The Cube is extremly heavy and must be placed on a special Cube pedestal 
+
+    If you have lost the cube clock the icon in the top left to focus on it.
+    
+    
     Tips
     - If the Cube changes form inside a locked slot it will unlock the slot. wa
     ]],

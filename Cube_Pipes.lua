@@ -8,7 +8,6 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
     slots = {anomaly = 1},
     --attachment_size = "Hidden",
     race = "robot",
-    power = -100,
     range = 10,
     trigger_radius = 6,
     trigger_channels = "building",
