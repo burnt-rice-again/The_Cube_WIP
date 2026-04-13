@@ -30,6 +30,7 @@ data.codex.xc_cube_1 = {
     
     Tips
     - <hl>If the Cube changes form inside a locked slot it will force unlock the slot.</>
+    - Lock the normal storage slots for a bot dedicated to transporting only the cube
     ]],
 
 }
@@ -75,14 +76,14 @@ data.codex.xc_cube_pedestal = {
     text = [[<img width="100" height="100" id="cc_cube_storage"/><codex_title>Cube Storage</>
 
         The Cube is <hl>extremly heavy</> and must be stored on a specific Cube Pedestal 
-        The Pedestal uses a Medium Slot.
+        The Pedestal uses a Medium Socket.
 
         When a Cube is present is will slow the bots movement speed by <hl>80%</> 
         
-        To Offset this reduction research an <img id="engine" width="50" height="50" style="bl"/> or discover a <img id="ic_cube_green" width="50" height="50" style="bl"/>.
-
-        The blue Cube will provide <bl>500</> power/second while placed on a pedestal
-        ]],
+        To Offset this reduction discover a <img id="ic_cube_green" width="50" height="50" style="bl"/> or research an <img id="engine" width="50" height="50" style="bl"/>.
+        
+        <img image="The_Cube_WIP/textures/Codex_Images/Cube_Pedestal.png"/>
+]],
 }
 data.codex.xc_cube_recharger = {
     category = "Codex",
@@ -94,6 +95,7 @@ data.codex.xc_cube_recharger = {
 
         The Cube Recharger can renergize the Cube.
         A list of known recipes is found at the resource bar.
+        The Recharger will normally create a Blue Cube.
 
         Some recipes require more resources but craft significantly faster. 
 
@@ -128,27 +130,38 @@ data.codex.xc_cube_green = {
 
         The Restless Cube is useful for farming and transportation
 
-        It can be crafted at the Cube think tank
-        Alternativly recharging the cube inside the blight will produce a Restless Cube
-        <img width="50" height="50" id="cc_cube_recharger"/>
+        <bl>Bots holding the Restless Cube recieve a 80% move speed bonus instead of the penalty from other cubes.</>
 
-        Farming requires the Restless cube to plant new crops 
-        A planter will request the Cube when it has a space available in range
+        It can be crafted at the Cube think tank
+        Alternativly recharging the cube inside the blight will produce a Restless Cube<img width="50" height="50" id="cc_cube_recharger"/>
+        Farming requires the <bl>Restless Cube</> to plant new crops 
+        A planter will request the Cube when it has a plantable position available in range
         
+        <img image="The_Cube_WIP/textures/Codex_Images/Farm_walled.png" width="275" height="245"/>
+
         To plant a crop there must be an unobstructed tile nearby
         There must be <hl>NO foundations</> on that tile
 
         Crops will grow on their own.  The time it takes to grow is in the "grow time" register
-        <bl>Harvestable crops can be idetified using the flower filter</>
+        <bl>Harvestable crops can be identified using the flower filter</>
         <img id="v_is_flower" width="50" height="50"/> <hl>Radar Flower Filter</>
-        Crops will yield the resource in their yield register. 
-        Destroy or dismantle fully grown crops for them to drop their yield.
+        <img image="The_Cube_WIP/textures/Codex_Images/Radar_Flower.png"/>
+
+        Fully grown crops will drop the resource in their yield register when dismantled or destroyed. 
 
         There is a 30% chance to also drop a new planter seed. 
-        The Yield and Growth Time may differ from the original seed.
-        Select for better seeds to increase planter efciency. 
-    
-        Unwanted seeds can be recycled in the assembler
+        The Yield and Growth Time may have mutated from the original seed.
+        <hl>Select for better seeds to increase planter efciency.</>
+        Unwanted planter seeds can be recycled in the assembler
+
+        Planter Registers:
+        4 - Yield - How many resources will drop when the crop is harvested from this seed
+        3 - Seed Grow Time - How long the crop will take to grow when plated with this seed
+        2 - Missing Fertilizer - When the planter requires the Restless Cube or other items
+        1 - Target Location (None if there is not a plantable position in range)
+        <img image="The_Cube_WIP/textures/Codex_Images/Planter_Registers.png"/>  
+
+        <img image="The_Cube_WIP/textures/Codex_Images/Farm_Showing_Range.png"/>  
         ]],
 }
 data.codex.xc_cube_red = {
@@ -159,19 +172,16 @@ data.codex.xc_cube_red = {
 
         The Fury Cube is useful for smelting and power generation 
 
-        The Fury Cube can only be created by melting a dormant cube inside a blight volcano
+        The Fury Cube can be created by melting a cube inside a blight volcano
         <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="fc_volcano"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
 
-        The Cube will cooldown when used for crafting
+        The Cube will cooldown when used for crafting<img width="50" height="50" id="ic_cube_empty"/>
         Alternativly the Fury Cube can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
 
         Available Power Generation via Fury Cube.
         <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Basic Crystal Power</> 
         Energy Recipe 
 		<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-
-        Crystal power will attempt to recharge when its battery is empty.
-        A single recharge will fully recharge the internal battery.
 
         Other Similiar Power Components 
         <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
@@ -191,7 +201,10 @@ data.codex.xc_cube_plasma = {
         
         Ectoplasma is highly unstable and must be transfered through a seperate network<img id="fc_pipe" width="50" height="50"/>
         The Soul refinery will automatically transfer to nearby Pylons. 
-        <img id="cc_pipe_output" width="50" height="50"/>Plasma Coils can take Ectoplasma from nearby pylons to be used by components
+
+        The pylons will then distribute plasma until all connected pylons are at an even level. 
+
+        <img id="cc_pipe_output" width="50" height="50"/>Plasma Coils can take Ectoplasma from nearby pylons to be used for crafting
         Bots carrying ectoplasma will slow down significantly due to its instability 
 
         ]],
