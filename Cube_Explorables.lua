@@ -19,7 +19,8 @@ data.explorables.human_c = nil
 data.explorables.mining_base = nil
 data.explorables.ruined_component = nil
 data.explorables.roaming_bot = nil
-data.explorables.human_c = nil
+data.explorables.m_world_a = nil
+
 
 local ec_volcano = {
     name = "volcano",
