@@ -351,7 +351,7 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 	production_effect = "fx_alien_liquid",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
 	power = -250,
-	production_recipe = CreateProductionRecipeWithWaste({ wire = 100, ic_soul_plasma = 40, ic_cube_green = 1 }, { cc_manifest = 30, }, 1, { ic_cube_green = 1}),
+	production_recipe = CreateProductionRecipe({ wire = 100, ic_soul_plasma = 40, datakey_robot = 20 }, { c_assembler = 100, }),
 })
 
 cc_cube_fabrication:RegisterComponent("cc_scrap_fabricator",{

@@ -471,7 +471,21 @@ local function Update_Cube_Effects(self, comp, cause)
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
 		local boost_polarity = false
-		if cube_id == "ic_cube_red" then
+		if slot.stack == 0 then 
+			-- no cube present 
+			comp:StopEffects()
+			comp.light_color = { 0,0,0,0 }
+			comp.extra_power = 0
+			comp.extra_data.boost_active = false
+			self:update_boost(comp)
+			if comp.faction.extra_data.cube_key == owner.key then 
+				-- lost cube but key hasnt updated
+				-- save cord encase it was thrown on the ground 
+				comp.faction.extra_data.cube_key = nil
+				comp.faction.extra_data.cube_cord = owner.location
+			end
+			return
+		elseif cube_id == "ic_cube_red" then
 			comp:PlayWorkEffect("fx_refinery","fx")
 			comp.extra_data.boost_active = true
 			self:update_boost(comp)
@@ -489,19 +503,6 @@ local function Update_Cube_Effects(self, comp, cause)
 		elseif cube_id == "ic_cube_sphere" then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
 			--comp:PlayEffect("fx_alien_liquid")
-		else
-			comp:StopEffects()
-			comp.light_color = { 0,0,0,0 }
-			comp.extra_power = 0
-			comp.extra_data.boost_active = false
-			self:update_boost(comp)
-			if comp.faction.extra_data.cube_key == owner.key then 
-				-- lost cube but key hasnt updated
-				-- save cord encase it was thrown on the ground 
-				comp.faction.extra_data.cube_key = nil
-				comp.faction.extra_data.cube_cord = owner.location
-			end
-			return
 		end
 		-- when any cube has been added 
 		comp.extra_power = 201

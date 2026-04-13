@@ -290,7 +290,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 		amt = {["ic_cube_blue"] = 1} , 
 		t = 5, 
 		to = {},
-		cube_out = "ic_cube_green",
+		cube_out = "ic_cube_red",
 		--effect = "fx_alien_monolith_lightning"
 		}
 	},
