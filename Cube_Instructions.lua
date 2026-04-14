@@ -2,7 +2,7 @@
 
 
 
-local Get, GetCoord, Set, BeginBlock = InstGet, InstGetCoord, InstSet, InstBeginBlock
+local Get, GetCoord, GetId, Set, BeginBlock = InstGet, InstGetCoord, InstGetId, InstSet, InstBeginBlock
 
 -- from instructions file 
 local function GetSeenEntityOrSelf(comp, state, ent)
@@ -188,4 +188,79 @@ data.instructions.get_cube_location = {
 	icon = "Main/skin/Icons/Common/56x56/Distance.png",
 	explain = [[Returns the last known location of the Cube]],
 }
+data.instructions.is_cube_type = {
+    func = function(comp, state, cause, in_id, out_not_cube)
 
+        local id = GetId(comp, state, in_id)
+        if id and data.items[id] and data.items[id].tag == "cube" then 
+            return 
+        end
+        state.counter = out_not_cube
+	end,
+    exec_arg = { 2, "Cube", "This register is a Cube" },
+	args = {
+        { 'in', "Value", "Value to check if its Id is a Cube id" },
+        { 'exec', "Non Cube", "This register is <hl>not</> a Cube" },
+        
+	},
+	name = "is a Cube",
+	desc = "Check if the input is a Cube",
+	category = "Flow",
+	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	explain = [[Branches Execution based on the id of the input. 
+Will check if the id is a valid Cube]],
+}
+local cube_ids <const> = {
+    ic_cube_blue = 1,
+    ic_cube_green = 2,
+    ic_cube_empty = 3,
+    ic_cube_red = 4,
+    ic_cube_sphere = 5,
+}
+data.instructions.recipe_cube = {
+    func = function(comp, state, cause, in_id, cube_in, cube_out, no_cube_req)
+
+        local id = GetId(comp, state, in_id)
+        if id == nil then state.counter = no_cube_req return  end
+        local item = data.all[id]
+        if item == nil or item.production_recipe == nil then 
+            state.counter = no_cube_req
+            return 
+        end 
+        local check = false 
+        local recipe = item.production_recipe
+        if recipe.ingredients ~= nil then
+            for key,val in pairs(recipe.ingredients) do 
+                if cube_ids[key] ~= nil then 
+                    check = true 
+                    Set(comp, state, cube_in, {id = key, num = val })
+                    break
+                end
+            end
+        end
+        if recipe.byproduct ~= nil then 
+            for key,val in pairs(recipe.byproduct) do 
+                if cube_ids[key] ~= nil then 
+                    check = true 
+                    Set(comp, state, cube_out, {id = key, num = val })
+                    break
+                end
+            end
+        end
+        if check == false then state.counter = no_cube_req return  end 
+
+	end,
+	args = {
+        { 'in', "Recipe", "Item to check the recipe of" },
+        { 'out', "Cube Input", "Cube Input" },
+        { 'out', "Cube Output", "Cube Ouptut" },
+        { 'exec', "No Cube Involved", "This item does not involve the Cube to craft" },
+        
+	},
+	name = "Does Recipe Require Cube",
+	desc = "Checks if a item requires the Cube to Craft",
+	category = "Flow",
+	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	explain = [[Branches Execution based on the id of the input. 
+Will check if the id is a valid Cube]],
+}

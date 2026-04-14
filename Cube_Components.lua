@@ -73,7 +73,7 @@ data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({[
 -- netowkring 
 data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["crystal_powder"]=9}, {["c_assembler"] = 60}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=2}, {["c_assembler"] = 50}, 1)
-data.components.c_large_power_relay.production_recipe = CreateProductionRecipe({steelblock = 4, reinforced_plate = 16, crystal_powder = 9, ic_time_crystal = 1}, {["c_assembler"] = 50}, 1)
+data.components.c_large_power_relay.production_recipe = CreateProductionRecipe({steelblock = 4, reinforced_plate = 16, crystal_powder = 9, ic_soul_angry = 1}, {["c_assembler"] = 50}, 1)
 data.components.c_power_transmitter.production_recipe = CreateProductionRecipe({["steelblock"]=16,["wire"]=9, crystal_powder = 9}, {["c_assembler"] = 100}, 1)
 data.components.c_power_transmitter.bandwidth = 5 * data.components.c_power_transmitter.bandwidth
 data.components.c_large_power_transmitter.production_recipe = CreateProductionRecipe({["reinforced_plate"]=4,["wire"]=16, crystal_powder = 16, steelblock = 16, ic_time_crystal = 1}, {["c_assembler"] = 100}, 1)
@@ -537,7 +537,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>500</> power while holding a CUBE",
 	visual = "vc_cube_storage",
 	race = "robot",
-	boost = -50,
+	boost = -80,
 	boost_id = "move_boost",
 	power = -1,
 	slots = { cube = 1, },
