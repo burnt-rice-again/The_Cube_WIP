@@ -446,13 +446,13 @@ local function anti_cube_explosion(comp)
 	local range = 10
 	-- explosion 
 	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
-		PlaceResourceNode(frame.location,"blight_crystal",100,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		PlaceResourceNode(frame.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		frame:RemoveHealth(300, owner, "plasma_damage")
 	end
 	-- add time crystals 
-	PlaceResourceNode(owner.location,"blight_crystal",10,"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+	--PlaceResourceNode(owner.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 	-- add blight 
-	local num = Map.StartTerraforming(owner, range, 10000)
+	local num = Map.StartTerraforming(owner, range, 100)
 	--does this need to be in a defer?
 	Map.Defer(function()Map.StopTerraforming(num)end)
 	-- notification
