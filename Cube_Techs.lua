@@ -159,7 +159,7 @@ data.techs.tc_cube_blue_3 = {
 	texture = data.items.ic_cube_sphere.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_sphere","reinforced_plate_alt",
+		"ic_cube_sphere","reinforced_plate_alt","fc_cube_sphere"
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,

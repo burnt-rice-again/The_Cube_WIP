@@ -162,7 +162,10 @@ local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nHighly Volatile When Around The Cube\n\nWhen Attacked duplicates will spawn at attackers position (range 3)",
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
-	range = 3
+	range = 3,
+	-- construction_recipe = CreateConstructionRecipe({ic_cube_sphere = 1},25),
+	-- size = "Other",
+	-- no_foundations = true,
 })
 -- on remove covers on_destroy as well + relocation
 function fc_cube_sphere:on_remove(frame)
@@ -171,7 +174,6 @@ function fc_cube_sphere:on_remove(frame)
 	end
 end 
 function fc_cube_sphere:on_destroy(frame, destroyer)
-	print(destroyer)
 	if destroyer then Place_Anti_Cube(destroyer,true) end 
 end 
 data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
