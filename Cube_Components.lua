@@ -802,3 +802,30 @@ function c_blight_magnifier:get_reg_error(comp)
 		end
 	end
 end
+
+local cc_unstable_resource = Comp:RegisterComponent("cc_unstable_resource",{
+	name = "Unstable Resource",
+	desc = "Reduces Resource over time",
+	activation = "Manual",
+	texture = data.items.blight_crystal.texture,
+	wait_ticks = 10,
+})
+function cc_unstable_resource:on_add(comp,cause)
+	comp:Activate()
+end
+function cc_unstable_resource:on_update(comp,cause)
+	
+	if comp.is_working then 
+		comp:SetStateContinueWork()
+	else
+		local owner = comp.owner 
+		local new_number = owner:GetRegisterNum(FRAMEREG_GOTO) - 1
+		if new_number <= 0 then 
+			owner:Destroy()
+			return 
+		end
+		owner:SetRegisterNum(FRAMEREG_GOTO,new_number)
+		comp:SetStateStartWork(self.wait_ticks)
+
+	end
+end
