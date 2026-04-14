@@ -289,17 +289,17 @@ end
 
 -------------------------- other comps ----------------------------------
 
-cc_cube_fabrication:RegisterComponent("cc_refinery",{
-	name = "Cube Refinery",
-	desc = "Non Cubic shapes can be broken down in dust for later rhombic reconstruction",
-	race = "robot",
-	attachment_size = "Medium",
-	texture = "Main/textures/icons/components/Component_Refinery_01_M.png",
-	visual = "v_refinery_01_m",
-	production_effect = "fx_refinery",
-	power = -1000,
-	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_fabricator"] = 150}, 1),
-})	
+-- cc_cube_fabrication:RegisterComponent("cc_refinery",{
+-- 	name = "Cube Refinery",
+-- 	desc = "Non Cubic shapes can be broken down in dust for later rhombic reconstruction",
+-- 	race = "robot",
+-- 	attachment_size = "Medium",
+-- 	texture = "Main/textures/icons/components/Component_Refinery_01_M.png",
+-- 	visual = "v_refinery_01_m",
+-- 	production_effect = "fx_refinery",
+-- 	power = -1000,
+-- 	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_fabricator"] = 150}, 1),
+-- })	
 
 cc_cube_fabrication:RegisterComponent("cc_manifest",{
 	name = "Cube Think Tank",
@@ -325,7 +325,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	power = -250,
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
-	range = 3,
+	range = 8,
 	--pipe_input = data.components.cc_pipe_input.on_update
 })
 
@@ -353,28 +353,3 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 	power = -250,
 	production_recipe = CreateProductionRecipe({ wire = 100, ic_soul_plasma = 40, datakey_robot = 20 }, { c_assembler = 100, }),
 })
-
-cc_cube_fabrication:RegisterComponent("cc_scrap_fabricator",{
-	name = "Scrap Crusher and Sorter",
-	texture = "Main/textures/icons/human/Human_Building_2x2_Refinery.png",
-	desc = "Crushes and Sperates rubble into metallic and non metallic materials",
-	race = "robot",
-	attachment_size = "Hidden",
-	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -20,
-	production_effect = false,
-	production_recipe = false,
-})
-
--- cc_cube_fabrication:RegisterComponent("cc_time_travel_machine",{
--- 	name = "Time Travel Machine",
--- 	desc = "Steal Resources no longer obtanable in our time",
--- 	race = "robot",
--- 	attachment_size = "Large",
--- 	texture = "Main/textures/icons/components/Component_UnitTeleporter_01_L.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
--- 	visual = "v_teleporter_01_l",  --"v_scienceanalyzer_l",
--- 	production_effect = "fx_unit_teleport",
--- 	slots = { garage = 3 },
--- 	power = -1000,
--- 	production_recipe = CreateProductionRecipe({["steelblock"]=100,["concreteslab"]=100,["phase_leaf"]=50,["wire"] = 50}, {["c_fabricator"] = 150}, 1),
--- })	

@@ -271,7 +271,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 -- melt the cube 
 cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 	name = "Cube Furnace",
-	texture = "Main/textures/icons/values/plateau.png",
+	texture = "The_Cube_WIP/textures/Volcano.png",
 	desc = "Melt away everything that isnt essential",
 	attachment_size = "Hidden",
 	--visual = "v_blightpowergenerator_01_m",
@@ -288,6 +288,13 @@ cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 		},
 		{ 	id = "ic_cube_blue", 
 		amt = {["ic_cube_blue"] = 1} , 
+		t = 5, 
+		to = {},
+		cube_out = "ic_cube_red",
+		--effect = "fx_alien_monolith_lightning"
+		},
+		{ 	id = "ic_cube_green", 
+		amt = {["ic_cube_green"] = 1} , 
 		t = 5, 
 		to = {},
 		cube_out = "ic_cube_red",

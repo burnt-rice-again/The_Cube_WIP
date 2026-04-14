@@ -238,7 +238,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     desc = "Plants the contained seed at nearby unobstructed tiles, Select for seeds with higher yields",
     visual = "v_succulent_01",
     race = "virus",
-    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
+    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1 }, { cc_manifest = 100 },1, {ic_cube_green = 1}),
     range = 2,
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',

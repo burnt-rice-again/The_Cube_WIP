@@ -30,8 +30,12 @@ data.codex.xc_cube_1 = {
     If you have lost the cube click the icon in the top left to focus on it.
     <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube.png"/>
 
+    <hl>If the Cube changes form inside a locked slot it will temporarily unlock the slot.</>
+    Once the Cube leaves the slot it will relock it to the desired id.
+
+
     <bl>Tips</>
-    - <hl>If the Cube changes form inside a locked slot it will force unlock the slot.</>
+    - 
     - Lock the normal storage slots for a bot dedicated to transporting only the cube
     - Remember you can adjust the logistic settings to create factory blocks
     <img image="The_Cube_WIP/textures/Codex_Images/Logistic_Menu.png"/>
@@ -215,6 +219,9 @@ data.codex.xc_cube_plasma = {
 
         The Cube recharger can use plasma to recharge extremly quickly. It will automatically use plasma if available from a plasma coil
 
+        
+
+
         ]],
 }
 data.codex.xc_cube_anti = {
@@ -253,6 +260,12 @@ data.codex.xc_cube_time_crystal = {
         Units Killed by the explosion will cause additonal blight crystals to appear. 
 
         In additon the Cube will be transformed into another form. 
+
+        <img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/>
+        <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/>
+        <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+        <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
+
         ]],
 }
 data.codex.xc_cube_boost = {

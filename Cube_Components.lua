@@ -430,6 +430,8 @@ local function anti_cube_explosion(comp)
 	local owner = comp.owner
 	owner:PlayEffect("fx_EMP")
 	local slots = owner:GetSlotsByType("cube")
+	if comp.faction:IsUnlocked("tc_cube_anti_0") == false then 
+		comp.faction:Unlock("tc_cube_anti_0") end
 	-- replace cube and destroy anti cube
 	for i, val in ipairs(slots) do 
 		if val.stack > 0 then 
@@ -455,7 +457,7 @@ local function anti_cube_explosion(comp)
 	Map.Defer(function()Map.StopTerraforming(num)end)
 	-- notification
 	-- need to add an on click method 
-	Notification.Add("cube_explosion", "warning", "CUBE and ANTI-CUBE Annihilation", "The Cube and Anti-Cube where in contact\nThe Anti Cube Exploded leaving behind chrono crystal deposits")
+	--Notification.Add("cube_explosion", "warning", "CUBE and ANTI-CUBE Annihilation", "The Cube and Anti-Cube where in contact\nThe Anti Cube Exploded leaving behind chrono crystal deposits")
 end
 local function Update_Cube_Effects(self, comp, cause)
 	--print(comp,cause,comp.owner)
@@ -483,6 +485,10 @@ local function Update_Cube_Effects(self, comp, cause)
 				-- save cord encase it was thrown on the ground 
 				comp.faction.extra_data.cube_key = nil
 				comp.faction.extra_data.cube_cord = owner.location
+			end
+			if comp.extra_data.locked_id ~= nil then
+				slot:SetLockedItem(comp.extra_data.locked_id)
+				comp.extra_data.locked_id = nil
 			end
 			return
 		elseif cube_id == "ic_cube_red" then

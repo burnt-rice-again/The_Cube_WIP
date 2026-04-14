@@ -177,7 +177,7 @@ data.visuals.vc_cube_blue = {
 }
 data.visuals.vc_time_crystal = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
-	--mesh_offset = {0,0,10000	}
+	mesh_offset = {0,0,100	},
 	mesh_scale = {0,0,0.8}
 }
 

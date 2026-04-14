@@ -143,7 +143,7 @@ data.items.ic_cube_blue = {
 	texture = "Main/textures/icons/items/robot_research_cube.png",
 	visual = "vc_cube_blue",--"v_robot_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_green = 1, crystal = 20 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
+	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
 	--v_robot_data
 }
 
@@ -184,7 +184,7 @@ data.items.ic_cube_green = {
 	texture = "Main/textures/icons/items/virus_research_data.png",
 	visual = "v_virus_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_blue = 1, crystal_powder = 1 }, { cc_manifest = 100, },1, {ic_cube_green = 1}),--phase_leaf = 6
+	{ ic_cube_blue = 1, crystal_powder = 1 }, { cc_manifest = 50, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
 create_alt_recipe("ic_cube_green",
 	CreateProductionRecipeWithWaste(
@@ -278,11 +278,11 @@ data.items.ic_soul_plasma = {
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, bug_carapace = 20, crystal_powder = 5 },
 	{ cc_soul_refinery = 125 },
-	100, {ic_cube_blue = 1}),
+	100, {ic_cube_empty = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 20 }, 
+	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 20, blight_crystal = 5 }, 
 	{cc_soul_refinery = 25,},
 	100,
 	{ic_cube_empty = 1}),

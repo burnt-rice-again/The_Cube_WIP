@@ -34,13 +34,6 @@ package.includes = {
 -- called when mod is initializing
 function package:init()
 
-
-	local All_Mods = Game.GetModPackages("Main")
-
-	for i,mod in ipairs(All_Mods) do 
-		print(mod.id)
-	end
-
 end
 
 

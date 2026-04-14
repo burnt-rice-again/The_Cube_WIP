@@ -104,7 +104,6 @@ function cc_crystal_power:on_update(comp, cause)
         AddCubeThroughFixed(comp.owner,self.cube_out)
 		comp.extra_power = math.floor(self.drain_rate * (comp.effective_boost/100))
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power  * TICKS_PER_SECOND })
-
 		comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], 3}
         comp:SetStateStartWork(self.charge_time,5)
 		-- check batteries are on frame // maybe just give it a small battery?
@@ -141,7 +140,8 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	desc = [[Requires extreme heat to vaporize crystal powders
 <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Will Recharge when input register is below units battery %
-Power output is effected by component effciency boosts.]],
+Power output is effected by component effciency boosts.
+Is a more effcient way to produce Soul Pearls]],
 	visual = 'v_blightcrystalpower_01_m',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, wire = 6 },{c_assembler = 60}),
 	rgb = {1, 0.3, 0},

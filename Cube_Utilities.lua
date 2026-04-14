@@ -100,11 +100,13 @@ function AddCubeThroughFixed(entity, id)
 		if #slots > 0 then  
 			-- no cube slots 
 			for i, slot in ipairs(slots) do 
-				if slot.stack == 0 and slot.locked == true then 
+				if slot.stack == 0 and slot.locked == true then
+					slot.component.extra_data.locked_id = slot.id
 					slot.locked = false 
 					slot:Clear()
 					slot:SetItemAndStack(id,1)
 					--print("Added Cube through locked slot", id, slot)
+					
 					break
 				end
 			end

@@ -44,6 +44,9 @@ data.frames.f_building2x1c.component_boost = 0
 data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
 data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x1d.component_boost = 0
+data.frames.f_wall_bli.construction_recipe = CreateConstructionRecipe({ reinforced_plate = 1, concreteslab = 4, wire = 2}, 20)
+data.frames.f_wall_bli.race = "robot"
+data.frames.f_wall_bli.name = "Reinforced Wall"
 data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, wire = 12, steelblock = 16, datakey_robot = 5 }, 40)
 data.frames.f_building2x2b.component_boost = 0
 data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
@@ -95,29 +98,6 @@ data.frames.f_bug_hive.on_destroy = nil
 
 
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
-
-
--------------------------------------------
-------------- Robot Frames -----------------
--- scrap recycler 
-Frame:RegisterFrame("fc_scrap_recycler", {
-	name = "Scrap recycler",
-	desc = "Sorts Scrap into useful resources",
-	race = "human",
-	minimap_color = { 0.8, 0.8, 0.8 },
-	visibility_range = 10,
-	health_points = 600,
-	power = -5, -- -20
-	slots = { storage = 8 },
-	construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
-	texture = "Main/textures/icons/human/Human_Building_2x2_Refinery.png",
-	trigger_channels = "building",
-	visual = "v_human_refinery",
-	components = {
-		{ "cc_scrap_fabricator", "hidden" },
-	},
-	size = "Human",
-})
 
 -------------------------------------------
 ------------- Custom Frames -----------------
@@ -189,7 +169,8 @@ function Place_Anti_Cube(entity, do_again)
 	-- 		location = location.location
 	-- 	end
 	-- look for frame with space 
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 5, 5, 1, FF_OWNFACTION, entity.faction)
+	local range = 4
+	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, range, range, 1, FF_OWNFACTION, entity.faction)
 	for key, val in pairs(list_nearby) do 
 		if val:HaveFreeSpace("ic_cube_sphere") == true then
 			val:AddItem("ic_cube_sphere")
@@ -203,7 +184,7 @@ function Place_Anti_Cube(entity, do_again)
 	Map.Defer(function()
 	local new_frame = Map.CreateEntity(faction, "fc_cube_sphere")
 	if new_frame ~= nil then
-		new_frame:Place(cord.x + math.random(-6,6), cord.y + math.random(-6,6)) end
+		new_frame:Place(cord.x + math.random(-range,range), cord.y + math.random(-range,range)) end
 	end)
 	if do_again == true then  Place_Anti_Cube(entity, false) end 
 end 
@@ -243,7 +224,7 @@ data.frames.f_explorable:RegisterFrame("fc_volcano", {
 	--power = -5, -- -20a
 	slots = {cube = 1 },
 	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
-	texture = "Main/textures/icons/values/plateau.png",
+	texture = "The_Cube_WIP/textures/Volcano.png",
 	trigger_channels = "building",
 	visual = "blight_set_03",
     components = {

@@ -304,7 +304,7 @@ data.techs.tc_cube_green_4 = {
 	},
 	require_tech = { "tc_cube_green_3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
+	uplink_recipe = CreateUplinkRecipe({ ic_soul_happy = 1 }, 300),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_5 = {
@@ -358,7 +358,7 @@ data.techs.tc_cube_anti_1= {
 		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
 	},
 	require_tech = { "tc_cube_anti_0", },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1 }, 100),
 	category = "Cube_Obsession",
 }
@@ -372,7 +372,7 @@ data.techs.tc_cube_anti_2 = {
 		"fc_boost_tower","xc_cube_boost",
 	},
 	require_tech = { "tc_cube_anti_1"},
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1, phase_leaf = 1 }, 100),
 	category = "Cube_Obsession",
 }
@@ -654,7 +654,7 @@ data.techs.tc_building6= {
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
-		"f_building2x1d","f_building3x2b"
+		"f_building2x1d","f_building3x2b","f_wall_bli"
 	},
 	require_tech = {  "tc_building5" },
 	progress_count = 100,
