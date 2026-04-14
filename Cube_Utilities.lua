@@ -86,7 +86,7 @@ function PlaceResourceNode(cord, resource, amt, frame, visual)
 		local new_entity = Map.CreateEntity("world", frame, visual)
 		if new_entity then 
 			if frame == "f_resourcenode_blightcrystal" then 
-				new_entity:AddComponent("cc_unstable_resource")
+				new_entity:AddComponent("cc_unstable_resource","hidden")
 			end
 			new_entity:SetRegister(FRAMEREG_GOTO, {id=resource,num=amt})
 			new_entity:Place(cord, cord,math.random(0,3))
