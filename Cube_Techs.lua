@@ -219,7 +219,7 @@ data.techs.tc_cube_red_4 = {
 		-- new resources
 		"ldframe",
 	},
-	require_tech = { "tc_cube_red_3"},
+	require_tech = { "tc_cube_anti_0"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
 	category = "Cube_Obsession",

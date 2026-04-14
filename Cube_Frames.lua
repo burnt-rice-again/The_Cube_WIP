@@ -158,36 +158,7 @@ Frame:RegisterFrame("f_resourcenode_concrete",  {
 		minimap_color = { 0.3, 0.3, 0.3 },
 })
 
--- @Entity From frame
--- @Bool True to place two anticubes instead of 1
-function Place_Anti_Cube(entity, do_again)
-	-- location can be entity or location
-	if entity == nil then print("ERROR location is invalid for anticube") end 
-	-- if location.x == nil then
-	-- 	-- not coord is entity 
-	-- 	if location.location ~= nil then 
-	-- 		location = location.location
-	-- 	end
-	-- look for frame with space 
-	local range = 4
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, range, range, 1, FF_OWNFACTION, entity.faction)
-	for key, val in pairs(list_nearby) do 
-		if val:HaveFreeSpace("ic_cube_sphere") == true then
-			val:AddItem("ic_cube_sphere")
-			val:PlayEffect("fx_ping")
-			return 
-		end
-	end
-	-- place as frame 
-	local cord = entity.location
-	local faction = entity.faction
-	Map.Defer(function()
-	local new_frame = Map.CreateEntity(faction, "fc_cube_sphere")
-	if new_frame ~= nil then
-		new_frame:Place(cord.x + math.random(-range,range), cord.y + math.random(-range,range)) end
-	end)
-	if do_again == true then  Place_Anti_Cube(entity, false) end 
-end 
+
 
 local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	name = data.items.ic_cube_sphere.name,

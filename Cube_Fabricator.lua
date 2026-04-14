@@ -105,7 +105,9 @@ function cc_cube_fabrication:on_update(comp, cause)
 
 	-- CUBE pipe input check 
 	if self.pipe_input ~= nil and comp.owner:CountItem("ic_soul_plasma") > 0 then 
+		print("send pipe fabricator")
 		self:pipe_input(comp, cause)
+
 	end
 
 	if not product_def then

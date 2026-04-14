@@ -100,7 +100,8 @@ local function send_only_plasma(self, comp, cause)
     if cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP) then 
         local slot = comp:GetSlot(1)
         local holding = slot.stack
-        if holding <= 1 then 
+        print("holding", holding)
+        if holding <= 0 then 
             --no need to continue
             comp:SetStateSleep(500)
             return  
@@ -109,7 +110,7 @@ local function send_only_plasma(self, comp, cause)
         local owner = comp.owner
 
         local pipes = Map.GetEntitiesInRange(owner,self.range,FF_OWNFACTION)
-
+        print("pipes", pipes)
         for i,ent in ipairs(pipes) do 
             if ent.id == "fc_pipe" then
                 local free_space = ent:CountFreeSpace ("ic_soul_plasma") 
