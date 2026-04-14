@@ -47,9 +47,9 @@ data.items.datakey_robot = {
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_empty = 1, reinforced_plate = 2, }, 
+	{ic_cube_empty = 1, reinforced_plate = 1, }, 
 	{cc_green_brain = 25 , cc_red_furnace = 5},
-	20, {ic_cube_blue = 1}),
+	10, {ic_cube_blue = 1}),
 	{desc = "Bulk Cube Log Filling"}
 )
 -- Red Cube items
@@ -277,12 +277,12 @@ data.items.ic_soul_plasma = {
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, bug_carapace = 20, crystal_powder = 5 },
-	{ cc_soul_refinery = 400 },
+	{ cc_soul_refinery = 125 },
 	100, {ic_cube_blue = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 1 }, 
+	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 20 }, 
 	{cc_soul_refinery = 25,},
 	100,
 	{ic_cube_empty = 1}),
@@ -314,7 +314,7 @@ data.items.ic_soul_angry = {
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_soul_plasma = 100, ic_cube_red = 1, crystal_powder = 20 }, 
-	{ cc_soul_refinery = 100, cc_red_furnace = 60},
+	{cc_manifest = 200, cc_green_brain = 100, cc_red_furnace = 60},
 	5, {ic_cube_empty = 1}),
 }
 -- data.items.ic_living_metal = {

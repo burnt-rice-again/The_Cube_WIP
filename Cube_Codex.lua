@@ -6,6 +6,7 @@
 -- 	["Codex"]     = 4,
 -- 	["How to Play"]  = 5,
 -- }
+data.codex.x_behaviors.category = "How to Play"
 
 data.codex.xc_cube_1 = {
     category = "Codex",
@@ -27,10 +28,13 @@ data.codex.xc_cube_1 = {
     Crafting With the Cube will require a unit with a Cube Pedestal (M) and the desired building
 
     If you have lost the cube click the icon in the top left to focus on it.
-    
-    Tips
+    <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube.png"/>
+
+    <bl>Tips</>
     - <hl>If the Cube changes form inside a locked slot it will force unlock the slot.</>
     - Lock the normal storage slots for a bot dedicated to transporting only the cube
+    - Remember you can adjust the logistic settings to create factory blocks
+    <img image="The_Cube_WIP/textures/Codex_Images/Logistic_Menu.png"/>
     ]],
 
 }
@@ -130,7 +134,7 @@ data.codex.xc_cube_green = {
 
         The Restless Cube is useful for farming and transportation
 
-        <bl>Bots holding the Restless Cube recieve a 80% move speed bonus instead of the penalty from other cubes.</>
+        <bl>Bots holding the Restless Cube recieve a 80% move speed bonus instead.</>
 
         It can be crafted at the Cube think tank
         Alternativly recharging the cube inside the blight will produce a Restless Cube<img width="50" height="50" id="cc_cube_recharger"/>
@@ -205,7 +209,11 @@ data.codex.xc_cube_plasma = {
         The pylons will then distribute plasma until all connected pylons are at an even level. 
 
         <img id="cc_pipe_output" width="50" height="50"/>Plasma Coils can take Ectoplasma from nearby pylons to be used for crafting
-        Bots carrying ectoplasma will slow down significantly due to its instability 
+        Bots carrying a plasma coil will slow down significantly due to its instability.
+
+        <img image="The_Cube_WIP/textures/Codex_Images/Plasma_2.png"/>  
+
+        The Cube recharger can use plasma to recharge extremly quickly. It will automatically use plasma if available from a plasma coil
 
         ]],
 }

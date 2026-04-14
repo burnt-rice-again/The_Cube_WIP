@@ -4,7 +4,7 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
 
     name = "ectoplasma conduit",
     desc = "Sparkly Death",
-    texture = "Main/textures/icons/values/plateau.png",
+    texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
     slots = {anomaly = 1},
     --attachment_size = "Hidden",
     race = "robot",

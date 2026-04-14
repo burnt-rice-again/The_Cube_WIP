@@ -146,7 +146,7 @@ Frame:RegisterFrame("fc_crystal_power_red", {
 --data.visuals.v_starterturret_red_s.scale = {2,2,2.5}
 Frame:RegisterFrame("fc_pipe", {
 	name = "Plasma Relay Tower",
-	desc = "Channels Electroplamsa to other towers and receiveing Points",
+	desc = "Channels Electroplamsa to other towers and coils",
 	race = "robot",
     visibility_range = 10,
 	health_points = 200,
