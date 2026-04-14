@@ -55,11 +55,11 @@ create_alt_recipe("datakey_robot",
 -- Red Cube items
 data.items.reinforced_plate.race = "robot"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
-{ic_cube_red = 1, steelblock = 100, crystal_powder = 10, wire = 20  }, 
+{ic_cube_red = 1, steelblock = 100, crystal_powder = 20, wire = 20  }, 
 {cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, steelblock = 100, ic_soul_plasma = 100, wire = 40  }, 
+	{ic_cube_red = 1, steelblock = 100, ic_soul_plasma = 20, wire = 40  }, 
 	{cc_manifest = 50, cc_red_furnace = 5},
 	20, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
@@ -313,7 +313,7 @@ data.items.ic_soul_angry = {
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_soul_plasma = 100, ic_cube_red = 1, crystal_powder = 20 }, 
+	{ ic_soul_plasma = 50, ic_cube_red = 1, crystal_powder = 20 }, 
 	{cc_manifest = 200, cc_green_brain = 100, cc_red_furnace = 60},
 	5, {ic_cube_empty = 1}),
 }

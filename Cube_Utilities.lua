@@ -130,7 +130,7 @@ function Place_Anti_Cube(entity, do_again)
 	-- 	end
 	-- look for frame with space 
 	local range = 4
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, range, FF_OWNFACTION, entity.faction)
+	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, range, range,1,  FF_OWNFACTION, entity.faction)
 	for key, val in pairs(list_nearby) do 
 		if val:HaveFreeSpace("ic_cube_sphere") == true then
 			val:AddItem("ic_cube_sphere")
