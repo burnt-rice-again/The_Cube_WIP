@@ -94,9 +94,6 @@ data.frames.f_tripodonte1.resource_drop = {"bug_carapace", "vc_souls"}
 data.frames.f_bug_hole.on_destroy = nil
 data.frames.f_bug_hive.on_destroy = nil
 
-
-
-
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 
 -------------------------------------------
@@ -162,15 +159,21 @@ Frame:RegisterFrame("f_resourcenode_concrete",  {
 
 local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	name = data.items.ic_cube_sphere.name,
-	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nHighly Volatile When Around The Cube\n\nCan not be destroyed by conventional means",
+	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nHighly Volatile When Around The Cube\n\nWhen Attacked duplicates will spawn at attackers position (range 3)",
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
+	range = 3
 })
 -- on remove covers on_destroy as well + relocation
-function fc_cube_sphere:on_remove(frame, cause)
-	Place_Anti_Cube(frame,true)
+function fc_cube_sphere:on_remove(frame)
+	if frame.health > 0 then 
+		Place_Anti_Cube(frame,true)
+	end
 end 
-
+function fc_cube_sphere:on_destroy(frame, destroyer)
+	print(destroyer)
+	if destroyer then Place_Anti_Cube(destroyer,true) end 
+end 
 data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
