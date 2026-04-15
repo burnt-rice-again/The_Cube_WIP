@@ -106,7 +106,16 @@ data.visuals.vc_souls ={
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
 }
-
+data.visuals.vc_soul_happy ={
+	mesh = "The_Cube_WIP/textures/Soul_Happy.glb",
+	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	scale = { 0.1, 0.1, 0.1, },
+}
+data.visuals.vc_soul_angry ={
+	mesh = "The_Cube_WIP/textures/Soul_Angry.glb",
+	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	scale = { 0.1, 0.1, 0.1, },
+}
 data.visuals.vc_mug_anim = {
 	animesh = "The_Cube_WIP/textures/In Progress Blender/Cube_test_2.glb",
 	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
