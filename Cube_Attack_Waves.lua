@@ -381,7 +381,7 @@ function Place_enemy_fort(x,y,cost)
     start_area_size = start_area_size - 1
     -- storage with souls 
     local storage = Map.CreateEntity(faction,"f_building1x1g")
-    storage:AddItem("bug_carapace",(cost+3)*(cost+1))
+    storage:AddItem("bug_carapace",(cost+3)*(cost+1)*2)
     storage:Place(x,y,math.random(0,3))
 
     local anti_cost = 10 - cost

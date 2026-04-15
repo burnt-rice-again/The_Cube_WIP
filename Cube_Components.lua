@@ -469,7 +469,7 @@ local function Update_Cube_Effects(self, comp, cause)
 		--self.boost = -90
 		--self:on_update_boosts(comp,{} ,self.boost)
 		--BoostModuleOnAdd(self, comp.id)
-		local boost_polarity = false
+		local boost_polarity, stop_effects = false, true
 		if slot.stack == 0 then 
 			-- no cube present 
 			comp:StopEffects()
@@ -490,10 +490,8 @@ local function Update_Cube_Effects(self, comp, cause)
 			return
 		elseif cube_id == "ic_cube_red" then
 			comp:PlayWorkEffect("fx_refinery","fx")
-			comp.extra_data.boost_active = true
-			self:update_boost(comp)
+			stop_effects = false
 			update_cube_location(owner,"ic_cube_red" )
-			comp.extra_power = 401
 			return 
 			--comp.light_color = { 0.6,0.1,0,1 }
 		elseif  cube_id == "ic_cube_blue" then 
@@ -502,7 +500,9 @@ local function Update_Cube_Effects(self, comp, cause)
 			update_cube_location(owner,"ic_cube_empty" )
 		elseif cube_id == "ic_cube_green" then 
 			update_cube_location(owner,"ic_cube_green" )
+			comp:PlayWorkEffect("fx_blight_shield","fx")
 			boost_polarity = true
+			stop_effects = false
 		elseif cube_id == "ic_cube_sphere" then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
 			--comp:PlayEffect("fx_alien_liquid")
@@ -513,9 +513,11 @@ local function Update_Cube_Effects(self, comp, cause)
 		self:update_boost(comp, boost_polarity)
 		anti_cube_explosion(comp)
 		activate_other_comps(comp)
+		if stop_effects then comp:StopEffects() end
 		--comp.slots[1].locked = false
 	else
-		comp:StopEffects() 
+		comp:StopEffects()
+		
 		print("stop effects")
 		--self.boost = 0
 		--print(self, comp, comp.id)
@@ -694,6 +696,7 @@ local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
 			comp.owner:AddItem(comp.extra_data.explorable_fix)
 			comp.owner:AddComponent("cc_cube_melter")
+			comp.owner:AddComponent("cc_cube_storage","hidden")
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
 			if comp_puzzle then comp_puzzle:Destroy() end
 			if not faction:IsUnlocked("tc_cube_red_1") then faction:Unlock("tc_cube_red_1") end
