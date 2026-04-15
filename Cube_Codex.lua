@@ -264,10 +264,12 @@ data.codex.xc_cube_time_crystal = {
     title = [[<img width="18" height="18" id="blight_crystal"/>Cube Anihillation]],
     text = [[<img width="100" height="100" id="blight_crystal"/><codex_title>Cube Anihillation</>
 
-        Placing the Cube and Anti-Cube into the same frame will cause them to anhillate. 
+        Placing the Cube and <bl>Anti-Cubes</> into the same frame will cause them to anhillate. 
 
-        The Anti-Cube will explode dealing damage to units within range 10. 
-        Blight Crystal Deposits will form neaarby. 
+        The <bl>Anti-Cubes</> will explode dealing damage to units within range 10. 
+
+        Chrono Crystal Deposits will form nearby. 
+
         Units Killed by the explosion will cause additonal blight crystals to appear. 
 
         In additon the Cube will be transformed into another form. 
@@ -276,6 +278,9 @@ data.codex.xc_cube_time_crystal = {
         <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/>
         <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
         <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
+
+        For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once without causing more damage.
+        <img image="The_Cube_WIP/textures/Codex_Images/Anti_4.png"/>  
 
         ]],
 }
