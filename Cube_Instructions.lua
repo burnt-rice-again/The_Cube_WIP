@@ -264,6 +264,7 @@ data.instructions.recipe_cube = {
 	explain = [[Branches Execution based on the id of the input. 
 Will check if the id is a valid Cube]],
 }
+-- Faction get item amount doesnt work for alt items 
 -- need to alter this instruction to not lock with alt recipe 
 data.instructions.lock_slots.func = function(comp, state, cause, c, item_in, num)
     local slot_length = comp.owner.slot_count

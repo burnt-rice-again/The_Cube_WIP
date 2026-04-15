@@ -81,7 +81,7 @@ data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
 data.items.ldframe.race = "robot"
 data.items.ldframe.production_recipe = CreateProductionRecipe(
-{ reinforced_plate = 6, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 2}, { cc_manifest = 20 }, 1)
+{ reinforced_plate = 4, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 2}, { cc_manifest = 20 }, 1)
 
 
 --------------------------------------

@@ -446,7 +446,7 @@ data.techs.tc_robot_metallurgy_3 = {
 		"c_adv_miner","f_beacon_l",
 	},
 	require_tech = { "tc_robot_metallurgy_2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1 }, 25),
 	category = "Independance",
 }
@@ -787,7 +787,7 @@ data.techs.tc_network3 = {
 		"c_medium_capacitor","c_battery","c_large_power_relay"
 	},
 	require_tech = { "tc_network2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1}, 50),
 	category = "tc_upgrades_1",
 }
