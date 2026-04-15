@@ -11,6 +11,7 @@ end
 local function replace_cube(recipe, entity)
 	if recipe.byproduct ~= nil then
 		local anti_count = 0
+		-- add cube back in 
 		for waste,num in pairs(recipe.byproduct) do
 			if waste == "ic_cube_sphere" then
 				-- special placement of anticube in area
@@ -19,10 +20,15 @@ local function replace_cube(recipe, entity)
 				AddCubeThroughFixed(entity,waste)
 			end
 		end
+		-- place anti cubes in output
 		while anti_count > 0 do 
 			Place_Anti_Cube(entity, false)
 			anti_count = anti_count - 1
 		end
+	end
+	-- spawn more anti cubes on craft
+	if recipe.ingredients and recipe.ingredients.ic_cube_sphere ~= nil then 
+		Place_Anti_Cube(entity, true)
 	end
 end
 local function check_waste_and_output(recipe, outputs)

@@ -159,7 +159,7 @@ Frame:RegisterFrame("f_resourcenode_concrete",  {
 
 local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	name = data.items.ic_cube_sphere.name,
-	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nHighly Volatile When Around The Cube\n\nWhen Attacked duplicates will spawn at attackers position (range 3)",
+	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nWhen Attacked duplicates will spawn at attackers position (range 3)\n\n<rl>DANGER: Highly Volatile When Around The Cube</>",
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
 	range = 3,

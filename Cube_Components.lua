@@ -405,7 +405,6 @@ local function activate_other_comps(comp)
 	end
 end
 
-
 local replace_cube_with <const> = {
     ic_cube_blue = 'ic_cube_empty',
     ic_cube_green = 'ic_cube_red',
@@ -423,13 +422,21 @@ local function anti_cube_explosion(comp)
 	if comp.faction:IsUnlocked("tc_cube_anti_0") == false then 
 		comp.faction:Unlock("tc_cube_anti_0") end
 	-- replace cube and destroy anti cube
+	local anti_count = owner:CountItem("ic_cube_sphere") % 2
 	for i, val in ipairs(slots) do 
 		if val.stack > 0 then 
 			--contains cube 
 			local id = val.id
 			val:Clear()
-			if id ~= "ic_cube_sphere" then 
-				val:SetItemAndStack(replace_cube_with[id],1)
+			-- only replace cube if there was an odd number of spheres
+			if id ~= "ic_cube_sphere"  then 
+				if anti_count == 1 then 
+					-- odd number of anti cubes
+					val:SetItemAndStack(replace_cube_with[id],1)
+				else 
+					-- even number of anti cubes
+					val:SetItemAndStack(id,1)
+				end
 			end
 		end
 	end
