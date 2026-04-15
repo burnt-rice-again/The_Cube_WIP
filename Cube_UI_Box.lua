@@ -110,7 +110,7 @@ function cube_locator:goto_cube(btn)
             end
         end
     end
-        -- could not find the cube on the map
+    -- could not find the cube on the map
     print("starting lost cube check")
     lost_cube_check(faction)
 end

@@ -14,9 +14,9 @@ data.codex.xc_cube_1 = {
     title = [[<img width="18" height="18" id="ic_cube_blue"/>Cube Discovery]],
     text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Discovery</>
     
-    The Cube has given us sentience. 
+    The Cube has given us <rl>sentience</>. 
 
-    Our top priority is to understand and control the Cube that formed us from rocks.
+    <hl>Our top priority is to understand and control the Cube that formed us from rocks.</>
 
     Study Notes:
     The Cube is perfectly flat on its surface down to the nm 
@@ -24,20 +24,27 @@ data.codex.xc_cube_1 = {
     The Cube appears to impart logic and emotions on neary materials
     The Cube can harmonize with emotional materials to generate energy. 
     
-    The Cube is extremly heavy and must be placed on a special Cube pedestal 
+    <bl>The Cube is extremly heavy</> and must be placed on a special Cube pedestal 
     Crafting With the Cube will require a unit with a Cube Pedestal (M) and the desired building
 
     If you have lost the cube click the icon in the top left to focus on it.
     <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube.png"/>
 
     <hl>If the Cube changes form inside a locked slot it will temporarily unlock the slot.</>
-    Once the Cube leaves the slot it will relock it to the desired id.
+    <hl>Once the Cube leaves the slot it will relock it to the desired id.</>
 
+    <bl>New Instructions</> are available related to the cube. 
+    - Get Cube Type - Returns the current cube item Type
+    - Get Cube Bearer - Returns the unit holding the Cube if any 
+    - Get Cube Location - Returns the coordinates where the cube was last seen 
+    - Is a Cube - Branches Execution based on if the input is a Cube 
+    - Does Recipe Require Cube - Checks the input to see if it requires the Cube to Craft
+    <img image="The_Cube_WIP/textures/Codex_Images/Instructions.png"/>
 
     <bl>Tips</>
-    - 
     - Lock the normal storage slots for a bot dedicated to transporting only the cube
     - Remember you can adjust the logistic settings to create factory blocks
+
     <img image="The_Cube_WIP/textures/Codex_Images/Logistic_Menu.png"/>
     ]],
 
@@ -128,6 +135,10 @@ data.codex.xc_cube_alt = {
         <img image="The_Cube_WIP/textures/Codex_Images/Alt_Recipe.png"/>
         <img id="datakey_robot" width="50" height="50"/> <hl>Original Recipe</> 
         <img id="datakey_robot_alt" width="50" height="50"/> <hl>Alternative Recipe</> 
+
+        An instruction is available to check if the input is an alternative recipe. Will Return the original item if available. 
+        <img image="The_Cube_WIP/textures/Codex_Images/alt_recipe_block.png"/>
+
         ]],
 }
 data.codex.xc_cube_green = {

@@ -152,7 +152,6 @@ data.instructions.get_cube_location = {
 
         -- begins the same as get entity 
 		local faction = comp.faction
-        print("Faction Check Instruciton", faction.extra_data.cube_type,faction.extra_data.cube_key,faction.extra_data.cube_cord.x,faction.extra_data.cube_cord.y)
 
         if not faction.has_extra_data or faction.extra_data.cube_cord == nil then
             --no cube data
@@ -214,7 +213,7 @@ local cube_ids <const> = {
     ic_cube_red = 4,
     ic_cube_sphere = 5,
 }
-data.instructions.recipe_cube = {
+data.instructions.cube_recipe = {
     func = function(comp, state, cause, in_id, cube_in, cube_out, no_cube_req)
 
         local id = GetId(comp, state, in_id)
@@ -261,6 +260,39 @@ data.instructions.recipe_cube = {
 	explain = [[Branches Execution based on the id of the input. 
 Will check if the id is a valid Cube]],
 }
+
+data.instructions.check_alt_item = {
+    func = function(comp, state, cause, in_id, out_id)
+
+        local input = Get(comp, state, in_id)
+
+        if input and input.id ~= nil then
+            local item = data.items[input.id]
+            if item and item.alt_item then 
+                -- has alt recipe
+                input.id = item.alt_item
+                Set(comp, state, out_id, input)
+                return 
+            end
+        end
+        Set(comp, state, out_id, input)
+	end,
+	args = {
+        { 'in', "Recipe", "Item to check the recipe of" },
+        { 'out', "True Item", "The true item that this recipe will produce or the input parameter" },        
+	},
+	name = "Is Alternative Recipe",
+	desc = "Checks if an item is an alternative recipe and returns the true item",
+	category = "Flow",
+	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	explain = [[Checks if an input item is an alternative recipe and returns the true item
+Will return the input if it has no alternative recipe or input has no item id
+Alternative Input <img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/> True Output
+<img width="50" height="50" id="crystal_powder_alt"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="crystal_powder"/>
+
+]],
+}
+
 -- Faction get item amount doesnt work for alt items 
 -- need to alter this instruction to not lock with alt recipe 
 data.instructions.lock_slots.func = function(comp, state, cause, c, item_in, num)
