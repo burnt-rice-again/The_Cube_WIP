@@ -206,12 +206,12 @@ data.items.ic_cube_sphere = {
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
 	visual = 'vc_cube_sphere_item',
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_red = 1, ic_soul_plasma = 100,  }, 
+	{ ic_cube_red = 1, ic_soul_plasma = 1,  }, 
 	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
 	--production_recipe = CreateProductionRecipeWithWaste(
 	-- { ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
 	-- 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
-	alt_item = "datakey_robot",
+	--alt_item = "datakey_robot",
 }
 -- data.items.ic_cube_yellow = {
 -- 	name = "TEMPERED CUBE",
@@ -277,12 +277,12 @@ data.items.ic_soul_plasma = {
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, bug_carapace = 5, crystal_powder = 5 },
-	{ cc_soul_refinery = 125 },
+	{ cc_soul_refinery = 100 },
 	100, {ic_cube_empty = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 20, blight_crystal = 5 }, 
+	{ic_cube_red = 1, bug_carapace = 5, phase_leaf = 20, blight_crystal = 20 }, 
 	{cc_soul_refinery = 25,},
 	100,
 	{ic_cube_empty = 1}),

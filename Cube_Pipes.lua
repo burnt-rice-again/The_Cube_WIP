@@ -7,6 +7,7 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
     texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
     slots = {anomaly = 1},
     --attachment_size = "Hidden",
+    power = -10,
     race = "robot",
     range = 10,
     trigger_radius = 6,
@@ -100,7 +101,6 @@ local function send_only_plasma(self, comp, cause)
     if cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP) then 
         local slot = comp:GetSlot(1)
         local holding = slot.stack
-        print("holding", holding)
         if holding <= 0 then 
             --no need to continue
             comp:SetStateSleep(500)
@@ -110,7 +110,6 @@ local function send_only_plasma(self, comp, cause)
         local owner = comp.owner
 
         local pipes = Map.GetEntitiesInRange(owner,self.range,FF_OWNFACTION)
-        print("pipes", pipes)
         for i,ent in ipairs(pipes) do 
             if ent.id == "fc_pipe" then
                 local free_space = ent:CountFreeSpace ("ic_soul_plasma") 
@@ -128,10 +127,9 @@ local function send_only_plasma(self, comp, cause)
     end
 end
 local function recieve_only_plasma(self, comp, cause)
-    if cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP) then 
+    if cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP | CC_CHANGED_ITEMSLOT_EXTRA) then 
         local slot = comp:GetSlot(1)
-        local holding = slot.stack
-        if holding >= 100 then 
+        if slot.reserved_stack <= slot.stack then 
             --no need to continue
             return  
         end
