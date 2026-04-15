@@ -104,7 +104,7 @@ local function send_only_plasma(self, comp, cause)
         local holding = slot.stack
         if holding <= 0 then 
             --no need to continue
-            comp:SetStateSleep(500)
+            if comp.is_working == false then comp:SetStateSleep(500) end
             return  
         end
 
@@ -124,7 +124,7 @@ local function send_only_plasma(self, comp, cause)
             end
         end
         --no destinations found
-        comp:SetStateSleep(25)
+        if comp.is_working == false then comp:SetStateSleep(25) end
     end
 end
 local function recieve_only_plasma(self, comp, cause)

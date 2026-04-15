@@ -699,7 +699,7 @@ data.techs.tc_robot_fly_1 = {
 		"f_flyer_bot","f_flyer_m","c_landing_pad",
 	},
 	require_tech = { "tc_robot_frames_4" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1}, 50),
 	category = "Humility",
 }
@@ -713,7 +713,7 @@ data.techs.tc_robot_fly_2 = {
 		"f_drone_miner_a","f_drone_transfer_a","c_drone_comp",
 	},
 	require_tech = { "tc_robot_fly_1" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1}, 50),
 	category = "Humility",
 }
@@ -727,7 +727,7 @@ data.techs.tc_robot_fly_3 = {
 		"f_drone_transfer_a2","c_drone_port",
 	},
 	require_tech = { "tc_robot_fly_2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1}, 50),
 	category = "Humility",
 }
@@ -741,7 +741,7 @@ data.techs.tc_robot_fly_4 = {
 		"f_drone_adv_miner","f_drone_defense_a","c_drone_launcher",
 	},
 	require_tech = { "tc_robot_fly_3" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1, phase_leaf = 1}, 50),
 	category = "Humility",
 }
