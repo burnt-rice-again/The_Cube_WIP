@@ -46,7 +46,6 @@ local function Check_For_Dropped_Cube(location)
         entity_list =  Map.GetFaction("world").entities
     else 
         entity_list = Map.GetEntitiesInRange(location.x,location.y,2,2,1,FF_DROPPEDITEM)
-        print(entity_list)
     end
     if entity_list == nil then print("No Entites") return end 
     for i,ent in ipairs(entity_list) do 
@@ -87,7 +86,6 @@ local function lost_cube_check(player_faction)
         return  
     end
     -- could not find Cube 
-    print("No Cube Popup")
     ConfirmBox("Can Not Find Cube on the Map\n\nIf your save has lost the Cube click okay to spawn a new one", function() Action.SendForLocalFaction("replace_lost_cube", {player_faction}) end , nil, "Cube Lost!") -- 
 end
 
@@ -111,7 +109,6 @@ function cube_locator:goto_cube(btn)
         end
     end
     -- could not find the cube on the map
-    print("starting lost cube check")
     lost_cube_check(faction)
 end
 -- display the Cubes current form 

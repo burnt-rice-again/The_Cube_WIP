@@ -16,7 +16,8 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
     effect_send = "fx_alien_monolith_lightning",
     --activation = "Always"
     get_ui = true,
-    on_remove = function(self, comp) comp.owner.move_boost = 100 end 
+    on_remove = function(self, comp) comp.owner.move_boost = 100 end,
+    wait_ticks = 25,
 })
 
 
@@ -66,11 +67,11 @@ function cc_pipe_crane:on_update(comp, cause)
                 local difference = holding - ent:CountItem("ic_soul_plasma") 
                 if difference > 1 then 
                     send_plasma(owner,ent,math.floor(math.abs(difference)/2))
-                    comp:SetStateStartWork(20)
+                    comp:SetStateStartWork(self.wait_ticks)
                     return 
                 elseif difference < -1 then
                     send_plasma(ent,owner,math.floor(math.abs(difference)/2))
-                    comp:SetStateStartWork(20)
+                    comp:SetStateStartWork(self.wait_ticks)
                     return 
                 end 
             end
@@ -127,34 +128,33 @@ local function send_only_plasma(self, comp, cause)
     end
 end
 local function recieve_only_plasma(self, comp, cause)
-    if true or cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP | CC_FINISH_WORK | CC_CHANGED_ITEMSLOT_EXTRA | CC_CHANGED_ITEMSLOT_ITEM) then 
-        local slot = comp:GetSlot(1)
-        --print(slot.reserved_space  ,slot.stack, slot)
-        if slot.reserved_space <= 0 or comp.is_working then 
-            --no need to continue
-            return  
-        end
-
-        local owner = comp.owner
-
-        local pipes = Map.GetEntitiesInRange(owner,self.range,FF_OWNFACTION)
-
-        for i,ent in ipairs(pipes) do 
-            if ent.id == "fc_pipe" then
-                local stored = ent:CountItem("ic_soul_plasma") 
-                if stored > 0 then
-                    --print('recieve')
-                    send_plasma(ent,owner,slot.reserved_space,comp)
-                    comp:PlayEffect("fx_alien_monolith_lightning","fx",ent)
-                    comp:RotateComponent(ent)
-                    comp:SetStateStartWork(self.wait_ticks)
-                    return
-                end
+    
+    if comp.is_working then comp:SetStateContinueWork() return  end
+    local slot = comp:GetSlot(1)
+    if slot.reserved_space <= 0 then 
+        --no need to continue as it already has required items 
+        --only need to wake up if less then 100 otherwise activation trigger can handle it
+        if slot.stack < 100 then comp:SetStateSleep(25) end
+        return  
+    end
+    -- look for relay to take plasma from 
+    local owner = comp.owner
+    local pipes = Map.GetEntitiesInRange(owner,self.range,FF_OWNFACTION)
+    for i,ent in ipairs(pipes) do 
+        if ent.id == "fc_pipe" then
+            local stored = ent:CountItem("ic_soul_plasma") 
+            if stored > 0 then
+                --print('recieve')
+                send_plasma(ent,owner,slot.reserved_space,comp)
+                comp:PlayEffect("fx_alien_monolith_lightning","fx",ent)
+                comp:RotateComponent(ent)
+                comp:SetStateStartWork(self.wait_ticks)
+                return
             end
         end
-        --no destinations found
-        comp:SetStateSleep(10)
     end
+    --no destinations found
+    comp:SetStateSleep(self.wait_ticks)
 end
 
 local refinery = data.components.cc_soul_refinery

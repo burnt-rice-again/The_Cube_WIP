@@ -204,7 +204,7 @@ data.frames.f_explorable:RegisterFrame("fc_volcano", {
 	trigger_channels = "building",
 	visual = "blight_set_03",
     components = {
-		--{ "cc_explorable_fix", 'hidden' },
+		{ "cc_cube_storage", 'hidden' },
 		--{"c_explorable_netwalk", 'hidden'}
 	},
 	is_explorable = true,
