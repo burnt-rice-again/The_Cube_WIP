@@ -198,7 +198,6 @@ data.frames.f_explorable:RegisterFrame("fc_volcano", {
 	visibility_range = 10,
 	health_points = 60000,
 	--power = -5, -- -20a
-	slots = {cube = 1 },
 	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
 	texture = "The_Cube_WIP/textures/Volcano.png",
 	trigger_channels = "building",

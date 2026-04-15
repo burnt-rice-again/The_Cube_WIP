@@ -489,7 +489,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			end
 			return
 		elseif cube_id == "ic_cube_red" then
-			comp:PlayWorkEffect("fx_refinery","fx")
+			if self.attachment_size ~= "Hidden" then comp:PlayWorkEffect("fx_refinery","fx") end
 			stop_effects = false
 			update_cube_location(owner,"ic_cube_red" )
 			return 
@@ -500,7 +500,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			update_cube_location(owner,"ic_cube_empty" )
 		elseif cube_id == "ic_cube_green" then 
 			update_cube_location(owner,"ic_cube_green" )
-			comp:PlayWorkEffect("fx_blight_shield","fx")
+			if self.attachment_size ~= "Hidden" then comp:PlayWorkEffect("fx_blight_shield","_entity") end
 			boost_polarity = true
 			stop_effects = false
 		elseif cube_id == "ic_cube_sphere" then
@@ -694,9 +694,9 @@ local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
 		Map.Defer(function ()
 			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
-			comp.owner:AddItem(comp.extra_data.explorable_fix)
 			comp.owner:AddComponent("cc_cube_melter")
 			comp.owner:AddComponent("cc_cube_storage","hidden")
+			comp.owner:AddItem(comp.extra_data.explorable_fix)
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
 			if comp_puzzle then comp_puzzle:Destroy() end
 			if not faction:IsUnlocked("tc_cube_red_1") then faction:Unlock("tc_cube_red_1") end
@@ -704,6 +704,7 @@ local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 		end)
 	end,
 	explorable_fix = "ic_cube_empty",
+	slots = {cube = 1}
 })
 function cc_explorable_fix:on_update(comp, cause)
 	local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
