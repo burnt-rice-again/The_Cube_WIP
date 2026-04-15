@@ -500,7 +500,7 @@ local function Update_Cube_Effects(self, comp, cause)
 			update_cube_location(owner,"ic_cube_empty" )
 		elseif cube_id == "ic_cube_green" then 
 			update_cube_location(owner,"ic_cube_green" )
-			if self.attachment_size ~= "Hidden" then comp:PlayWorkEffect("fx_blight_shield","_entity") end
+			if self.attachment_size ~= "Hidden" and owner.has_movement then comp:PlayWorkEffect("fx_blight_shield","_entity") end
 			boost_polarity = true
 			stop_effects = false
 		elseif cube_id == "ic_cube_sphere" then

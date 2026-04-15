@@ -70,6 +70,7 @@ function cc_crop:on_update(comp, cause)
         if owner.def.visual_set ~= nil and comp.extra_data.next_visual <= #owner.def.visual_set then
             -- grow visual and reset timer 
             comp.owner:SetVisual(owner.def.visual_set[comp.extra_data.next_visual])
+            comp:PlayWorkEffect("fx_heal_unit","_entity")
             comp.extra_data.next_visual = comp.extra_data.next_visual+1
             comp:SetStateStartWork(comp.extra_data.growth_time or 100)
             return
