@@ -4,7 +4,6 @@
 ----------------------------------
 
 -- scrap sorter
-
 -- depreceated for other component cc_scrap_fabricator
 local cc_scrap_converter = Comp:RegisterComponent("cc_scrap_converter", {
 	name = "Scrap Recycler",

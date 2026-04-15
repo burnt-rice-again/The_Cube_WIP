@@ -94,9 +94,21 @@ function PlaceResourceNode(cord, resource, amt, frame, visual)
 		end
 	end)
 end
+function Update_cube_location_global(owner, item)
 
+	if item == nil then return end 
+
+	if owner:CountItem(item) > 0 then 
+		local faction = owner.faction
+		faction.extra_data.cube_key = owner.key
+		faction.extra_data.cube_type = item
+		faction.extra_data.cube_cord = owner.location
+	end
+end
+local update_cube_location = Update_cube_location_global
 function AddCubeThroughFixed(entity, id)
 
+	update_cube_location(entity, id)
 	if entity:AddItem(id,true) == nil then 
 		-- could not add cube 
 		local slots = entity:GetSlotsByType("cube")
@@ -109,6 +121,7 @@ function AddCubeThroughFixed(entity, id)
 					slot.locked = false 
 					slot:Clear()
 					slot:SetItemAndStack(id,1)
+					
 					--print("Added Cube through locked slot", id, slot)
 					
 					break
@@ -152,3 +165,24 @@ function Place_Anti_Cube(entity, do_again)
 	end)
 	if do_again == true then  Place_Anti_Cube(entity, false) end 
 end 
+-- @id string checks if id is an alt recipe and returns the original item id if found or input id
+function SwitchAltIdForBase(id)
+	local item = data.items[id]
+	if item and item.alt_item then 
+		return item.alt_item
+	end
+	return id
+end
+
+-- Rebinds SetLockSlot so it doesnt lock to alt recipes
+EntityAction:Unbind("SetSlotLock")
+EntityAction:Bind("SetSlotLock" ,function(entity, arg)
+	local slot = arg.slot
+	if not slot or not slot.exists or slot.owner ~= entity then return end
+	if type(arg.lock) == "boolean" then
+		slot.locked = arg.lock
+	else
+		slot:SetLockedItem(SwitchAltIdForBase(arg.item_id))
+	end
+end)
+

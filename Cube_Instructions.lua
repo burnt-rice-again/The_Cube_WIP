@@ -2,7 +2,7 @@
 
 
 
-local Get, GetCoord, GetId, Set, BeginBlock = InstGet, InstGetCoord, InstGetId, InstSet, InstBeginBlock
+local Get, GetCoord, GetId, GetNum, Set, BeginBlock = InstGet, InstGetCoord, InstGetId, InstGetNum, InstSet, InstBeginBlock
 
 -- from instructions file 
 local function GetSeenEntityOrSelf(comp, state, ent)
@@ -264,3 +264,48 @@ data.instructions.recipe_cube = {
 	explain = [[Branches Execution based on the id of the input. 
 Will check if the id is a valid Cube]],
 }
+-- need to alter this instruction to not lock with alt recipe 
+data.instructions.lock_slots.func = function(comp, state, cause, c, item_in, num)
+    local slot_length = comp.owner.slot_count
+    -- Beacon?
+    if slot_length == 0 then
+        return
+    end
+    local slots = comp.owner.slots
+
+    local item_reg, owner = Get(comp, state, item_in), comp.owner
+    local item_id = SwitchAltIdForBase(item_reg.id)
+
+    if slots then
+        local index = GetNum(comp, state, num)
+
+        if index > 0 and index <= slot_length  then
+            local slot = owner.slots[index]
+            if slot then
+                if c == 2 or slot.locked == false then -- only override locked slots if its set to override
+                    -- if slot already empty or item_in contains nil, then just lock as is
+                    if slot.stack == 0 then slot.locked = false end
+                    if (item_id == nil) then
+                        slot.locked = true
+                    else
+                        slot:SetLockedItem(item_id)
+                    end
+                end
+            end
+        else
+            for _,v in ipairs(slots) do
+                -- Stop "ALL locking" touching the special storage types like, garage drone and gas
+                if v.type == "storage" then
+                    if c == 2 or v.locked == false then -- only override locked slots if its set to override
+                        if v.stack == 0 then v.locked = false end
+                        if (item_id == nil) then
+                            v.locked = true
+                        else
+                            v:SetLockedItem(item_id)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end

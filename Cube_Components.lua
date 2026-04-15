@@ -374,17 +374,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 -------------------------------------------------------
 ----- Cube Pedestal -----------------------------------
 
-local function update_cube_location(comp, item)
-
-	if item == nil then return end 
-
-	if comp.owner:CountItem(item) > 0 then 
-		local faction = comp.faction
-		faction.extra_data.cube_key = comp.owner.key
-		faction.extra_data.cube_type = item
-		faction.extra_data.cube_cord = comp.owner.location
-	end
-end
+local update_cube_location = Update_cube_location_global
 -- checks if both a Cube and Anti Cube are present in the same frame
 local function check_for_anti_cube(comp) 
 	local owner = comp.owner
@@ -495,16 +485,16 @@ local function Update_Cube_Effects(self, comp, cause)
 			comp:PlayWorkEffect("fx_refinery","fx")
 			comp.extra_data.boost_active = true
 			self:update_boost(comp)
-			update_cube_location(comp,"ic_cube_red" )
+			update_cube_location(owner,"ic_cube_red" )
 			comp.extra_power = 401
 			return 
 			--comp.light_color = { 0.6,0.1,0,1 }
 		elseif  cube_id == "ic_cube_blue" then 
-			update_cube_location(comp,"ic_cube_blue" )
+			update_cube_location(owner,"ic_cube_blue" )
 		elseif cube_id == "ic_cube_empty" then 
-			update_cube_location(comp,"ic_cube_empty" )
+			update_cube_location(owner,"ic_cube_empty" )
 		elseif cube_id == "ic_cube_green" then 
-			update_cube_location(comp,"ic_cube_green" )
+			update_cube_location(owner,"ic_cube_green" )
 			boost_polarity = true
 		elseif cube_id == "ic_cube_sphere" then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
