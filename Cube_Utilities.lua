@@ -186,3 +186,14 @@ EntityAction:Bind("SetSlotLock" ,function(entity, arg)
 	end
 end)
 
+--@ entity object Return its cube id if it has one. does not check for sphere
+function EntityHasCube(ent)
+	local cube_ids = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red'}
+	if ent == nil then return end
+	for i,id in ipairs(cube_ids) do 
+		if ent:CountItem(id) > 0 then 
+			return id 
+		end
+	end
+	return false
+end

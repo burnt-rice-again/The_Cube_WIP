@@ -2,7 +2,7 @@
 
 
 
-local Get, GetCoord, GetId, GetNum, Set, BeginBlock = InstGet, InstGetCoord, InstGetId, InstGetNum, InstSet, InstBeginBlock
+local Get, GetCoord, GetId, GetNum, Set, BeginBlock, GetEntityCube = InstGet, InstGetCoord, InstGetId, InstGetNum, InstSet, InstBeginBlock, EntityHasCube
 
 -- from instructions file 
 local function GetSeenEntityOrSelf(comp, state, ent)
@@ -152,32 +152,29 @@ data.instructions.get_cube_location = {
 
         -- begins the same as get entity 
 		local faction = comp.faction
-        
-        if not faction.has_extra_data or faction.extra_data.cube_type == nil then 
+        print("Faction Check Instruciton", faction.extra_data.cube_type,faction.extra_data.cube_key,faction.extra_data.cube_cord.x,faction.extra_data.cube_cord.y)
+
+        if not faction.has_extra_data or faction.extra_data.cube_cord == nil then
             --no cube data
-            Set(comp, state, out_result,faction.extra_data.cube_cord )
+            Set(comp, state, out_result )
             return 
         end
         local key = faction.extra_data.cube_key
-        if key == nil then 
-            Set(comp, state, out_result,faction.extra_data.cube_cord )
-            return 
+        if key ~= nil then 
+            -- check for entity key
+            local entity = Map.GetEntityFromKey(key)
+
+            if entity == nil or GetEntityCube(entity) == false then 
+                -- entity could not be found 
+                Set(comp, state, out_result,{coord = faction.extra_data.cube_cord} )
+                return 
+            else 
+                --entity has the cube
+                Set(comp, state, out_result, {coord = entity.location })
+            end
+        else                 
+            Set(comp, state, out_result,{coord = faction.extra_data.cube_cord} )
         end
-        local entity = Map.GetEntityFromKey(key)
-        if entity == nil then 
-            -- entity could not be found 
-            Set(comp, state, out_result,faction.extra_data.cube_cord )
-            return 
-        end
-        -- check has cube 
-        local cube_id = faction.extra_data.cube_type
-        if entity:CountItem(cube_id) == 0 then
-            -- not holding cube
-            Set(comp, state, out_result,faction.extra_data.cube_cord )
-            return 
-        end
-        -- successfully found id 
-        Set(comp, state, out_result, {coord = entity.location })
 	end,
 	args = {
 		{ 'out', "Coordinate", "The last known location of the Cube" },
