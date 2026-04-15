@@ -138,7 +138,8 @@ cc_crystal_power:RegisterComponent("cc_crystal_power_red",{
 	name = "Fury Cube Power Engine", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_blightcrystalpower_01_m.png",
 	desc = [[Requires extreme heat to vaporize crystal powders
-<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/>x4<img width="50" height="50" id="ic_soul_plasma"/>x8 <img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/>x4<img width="50" height="50" id="ic_soul_plasma"/>x8
+<img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_soul_angry"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Will Recharge when input register is below units battery %
 Power output is effected by component effciency boosts.
 Is a more effcient way to produce Soul Pearls]],

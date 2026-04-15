@@ -127,9 +127,10 @@ local function send_only_plasma(self, comp, cause)
     end
 end
 local function recieve_only_plasma(self, comp, cause)
-    if cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP | CC_CHANGED_ITEMSLOT_EXTRA) then 
+    if true or cause & (CC_CHANGED_ITEMSLOT_AMOUNT | CC_FINISH_SLEEP | CC_FINISH_WORK | CC_CHANGED_ITEMSLOT_EXTRA | CC_CHANGED_ITEMSLOT_ITEM) then 
         local slot = comp:GetSlot(1)
-        if slot.reserved_stack <= slot.stack then 
+        --print(slot.reserved_space  ,slot.stack, slot)
+        if slot.reserved_space <= 0 or comp.is_working then 
             --no need to continue
             return  
         end
@@ -143,15 +144,16 @@ local function recieve_only_plasma(self, comp, cause)
                 local stored = ent:CountItem("ic_soul_plasma") 
                 if stored > 0 then
                     --print('recieve')
-                    send_plasma(ent,owner,stored,comp)
+                    send_plasma(ent,owner,slot.reserved_space,comp)
                     comp:PlayEffect("fx_alien_monolith_lightning","fx",ent)
                     comp:RotateComponent(ent)
+                    comp:SetStateStartWork(self.wait_ticks)
                     return
                 end
             end
         end
         --no destinations found
-        comp:SetStateSleep(5)
+        comp:SetStateSleep(10)
     end
 end
 
