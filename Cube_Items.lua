@@ -28,7 +28,7 @@ data.items.crystal_powder.tag = "simple_material"
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, crystal = 100, ic_soul_angry = 1, phase_leaf = 20}, 
+	{ic_cube_blue = 1, crystal = 60, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 20}, 
 	{cc_manifest = 25, cc_red_furnace = 5},
 	50, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}

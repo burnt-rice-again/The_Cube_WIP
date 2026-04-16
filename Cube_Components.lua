@@ -440,11 +440,28 @@ local function anti_cube_explosion(comp)
 			end
 		end
 	end
-	local range = 10
+	local range = 4
 	-- explosion 
 	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
 		PlaceResourceNode(frame.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		frame:RemoveHealth(300, owner, "plasma_damage")
+		if frame.health > 0 then 
+			-- activate miners
+			local count = frame:CountComponents("c_miner",true)
+			while count > 0 do 
+				local miner = frame:FindComponent("c_miner",true,count) 
+				if miner then 
+					-- Map.Defer(function ()
+					-- 	miner:Activate()
+					-- end )
+					print("Activating", miner, miner.is_updating) 
+
+					--miner:SetRegister(1,miner:GetRegister(1))
+					miner.extra_data = nil
+				end 
+				count = count - 1
+			end
+		end
 	end
 	-- add time crystals 
 	--PlaceResourceNode(owner.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
@@ -503,12 +520,14 @@ local function Update_Cube_Effects(self, comp, cause)
 			if self.attachment_size ~= "Hidden" and owner.has_movement then comp:PlayWorkEffect("fx_blight_shield","_entity") end
 			boost_polarity = true
 			stop_effects = false
-		elseif cube_id == "ic_cube_sphere" then
+		end
+		if cube_id == "ic_cube_sphere" then
 			comp.light_color = { 1.0, 0.05, 0.0, 4.0}
 			--comp:PlayEffect("fx_alien_liquid")
+		else 
+			comp.extra_power = 201
 		end
 		-- when any cube has been added 
-		comp.extra_power = 201
 		comp.extra_data.boost_active = true
 		self:update_boost(comp, boost_polarity)
 		anti_cube_explosion(comp)
@@ -749,7 +768,7 @@ c_blight_magnifier.production_recipe = CreateProductionRecipe(
 
 c_blight_magnifier.on_update = function(self, comp, cause)
 	print("Magnifier is broken")
-	return 
+	if true then return end
 
 	local owner = comp.owner
 	-- local is_in_blight = Map.GetBlightnessDelta(owner, -1) >= 0 or Map.GetSave().dust_storm
