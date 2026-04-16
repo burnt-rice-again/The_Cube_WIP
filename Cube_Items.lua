@@ -60,7 +60,7 @@ data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
 	{ic_cube_red = 1, steelblock = 80, ic_soul_plasma = 20, wire = 40  }, 
-	{cc_manifest = 50, cc_red_furnace = 5},
+	{cc_manifest = 25, cc_red_furnace = 5},
 	20, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
 )

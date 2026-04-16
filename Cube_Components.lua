@@ -198,7 +198,7 @@ local function SumActiveModuleBoosts(owner, id, remove_comp)
 		if boost_comp ~= nil then -- has comp at that socket
 
 			if boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
-			and boost_comp.extra_data.boost_active == true -- is comp active
+			and (boost_comp.extra_data.boost_active == true or boost_comp.extra_data.boost_active == -1)-- is comp active
 			and boost_comp ~= remove_comp --not the comp being removed
 			then
 				sum = sum + boost_comp.def.boost
@@ -235,6 +235,7 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
 function cc_moduleefficiency:on_add(comp, cause)	
 	comp.extra_data.boost_active = false
@@ -319,7 +320,7 @@ Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 16, ic_time_crystal = 4, ic_soul_angry = 16 }, { c_assembler = 60, }),
 	boost = 150,
 })
---- Movement Boost 
+-- Movement Boost 
 cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
 	desc = [[Thrusters Increase Unit Speed by 25%
@@ -574,6 +575,7 @@ function cc_cube_storage:update_boost(comp, reverse_polarity)
 	local owner = comp.owner
 	-- set remove when no nill 
 	if reverse_polarity == true then
+		comp.extra_data.boost_active = -1
 		owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id ) + self.boost * -2,0)
 		return 
 	end
@@ -765,7 +767,7 @@ c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},{read_onl
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil
 c_blight_magnifier.power = -1000
-c_blight_magnifier.magnify_limit = 1000
+c_blight_magnifier.magnify_limit = 2000
 c_blight_magnifier.production_recipe = CreateProductionRecipe(
 {wire = 12, ic_soul_happy = 1, crystal_powder = 4},{c_assembler = 30})
 
@@ -789,7 +791,6 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 	if cause & CC_FINISH_WORK > 0 and ent ~= nil then
 		-- replace cube 
 		comp:CancelProcess()
-		print("mag")
 		ent:SetRegisterNum(FRAMEREG_GOTO,ent:GetRegisterNum(FRAMEREG_GOTO)+self.magnify_limit)
 		comp:SetRegister(2)
 		comp:SetStateSleep(1)
@@ -797,7 +798,6 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 	end
 
 	-- look for new resource
-	print(ent) 
 	if ent == nil then 
 		ent = Map.FindClosestEntity(owner, self.range, function(e)
 			if e:GetRegisterNum(FRAMEREG_GOTO) < self.magnify_limit then
@@ -805,7 +805,6 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 				return true 
 			end
 		end, FF_RESOURCE)
-		print(ent, "looking for")
 		if ent == nil then 
 			comp:SetStateSleep(100)
 			comp:SetRegister(2)

@@ -186,7 +186,13 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	components = {
 		{"cc_boost_tower","hidden"}
 	},
-	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50)
+	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50),
+	trigger_channels = "building",
+	size = "Other",
+	no_integrated_behavior = false,
+	race = "robot",
+	visibility_range = 20,
+
 })
 -------------------------------------------
 ------------- Explorables -----------------
