@@ -28,7 +28,7 @@ data.items.crystal_powder.tag = "simple_material"
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, crystal = 60, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 20}, 
+	{ crystal = 80, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 20, ic_cube_blue = 1}, 
 	{cc_manifest = 25, cc_red_furnace = 5},
 	50, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}
@@ -313,10 +313,18 @@ data.items.ic_soul_angry = {
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_soul_plasma = 50, ic_cube_red = 1, crystal_powder = 20 }, 
+	{ ic_soul_plasma = 50, ic_cube_red = 1, crystal_powder = 10 }, 
 	{cc_manifest = 200, cc_green_brain = 50, cc_red_furnace = 60},
 	5, {ic_cube_empty = 1}),
 }
+create_alt_recipe("ic_soul_angry", 
+	CreateProductionRecipeWithWaste(
+	{ic_cube_red = 1, ic_soul_plasma = 50, ic_fuel = 20, blight_crystal = 20, ic_soul_happy = 5 }, 
+	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
+	10,
+	{ic_cube_empty = 1}),
+	{desc = "Alternative Soul Plasma Extraction"}
+)
 -- data.items.ic_living_metal = {
 -- 	name = "Living Metal",
 -- 	index = 1011,

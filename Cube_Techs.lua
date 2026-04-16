@@ -163,7 +163,7 @@ data.techs.tc_cube_blue_3 = {
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1, ic_soul_angry = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1, ic_soul_plasma = 1 }, 50),
 	category = "Cube_Curiosity",
 }
 
@@ -369,7 +369,7 @@ data.techs.tc_cube_anti_2 = {
 	texture = data.frames.fc_boost_tower.texture,
 	unlocks = {
 		-- new resources
-		"fc_boost_tower","xc_cube_boost",
+		"fc_boost_tower","xc_cube_boost","ic_soul_angry_alt"
 	},
 	require_tech = { "tc_cube_anti_1"},
 	progress_count = 25,

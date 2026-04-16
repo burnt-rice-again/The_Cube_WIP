@@ -68,8 +68,8 @@ Power output is effected by component effciency boosts.]],
 	consume_list = {ic_cube_blue = 1, crystal = 1},
 	--output_list = {bug_carapace = 1},
 	cube_out = "ic_cube_blue",
-	charge_time = 120*5,--matches def tooltip
-	drain_rate = 100,--matches def tooltip
+	charge_time = 240*5,--matches def tooltip
+	drain_rate = 25,--matches def tooltip
 	power = 0,
 	rgb = {0,1,1},
 	-- battery

@@ -513,7 +513,6 @@ local function Update_Cube_Effects(self, comp, cause)
 			if self.attachment_size ~= "Hidden" then comp:PlayWorkEffect("fx_refinery","fx") end
 			stop_effects = false
 			update_cube_location(owner,"ic_cube_red" )
-			return 
 			--comp.light_color = { 0.6,0.1,0,1 }
 		elseif  cube_id == "ic_cube_blue" then 
 			update_cube_location(owner,"ic_cube_blue" )
@@ -765,14 +764,12 @@ c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nRequires the
 c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},{read_only = true, tip = "Target Resource", ui_icon = "icon_target"}}
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil
-c_blight_magnifier.power = -400
+c_blight_magnifier.power = -1000
 c_blight_magnifier.magnify_limit = 1000
 c_blight_magnifier.production_recipe = CreateProductionRecipe(
 {wire = 12, ic_soul_happy = 1, crystal_powder = 4},{c_assembler = 30})
 
 c_blight_magnifier.on_update = function(self, comp, cause)
-	print("Magnifier is broken")
-	if true then return end
 
 	local owner = comp.owner
 	-- local is_in_blight = Map.GetBlightnessDelta(owner, -1) >= 0 or Map.GetSave().dust_storm
@@ -787,37 +784,42 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 		comp:SetStateContinueWork() 
 		return
 	end
-	-- check if finished working and regenerate
-	local is_finished_working = (cause & CC_FINISH_WORK == CC_FINISH_WORK)
-	if is_finished_working then
+	
+	local ent = comp:GetRegisterEntity(2)
+	if cause & CC_FINISH_WORK > 0 and ent ~= nil then
 		-- replace cube 
 		comp:CancelProcess()
-		--comp:AddItem("ic_cube_green")
+		print("mag")
+		ent:SetRegisterNum(FRAMEREG_GOTO,ent:GetRegisterNum(FRAMEREG_GOTO)+self.magnify_limit)
+		comp:SetRegister(2)
+		comp:SetStateSleep(1)
+		ent = nil
+	end
 
-		-- add resource to nearby nodes
-
-		print(check, "mag")
-		if check == nil then 
-			--no resources to regenerate 
-			comp:SetRegister(1)
-			comp:FlagRegisterError(1)
+	-- look for new resource
+	print(ent) 
+	if ent == nil then 
+		ent = Map.FindClosestEntity(owner, self.range, function(e)
+			if e:GetRegisterNum(FRAMEREG_GOTO) < self.magnify_limit then
+				--e:SetRegisterNum(FRAMEREG_STORE, 1) -- mark as magnified (see c_miner:on_update)	
+				return true 
+			end
+		end, FF_RESOURCE)
+		print(ent, "looking for")
+		if ent == nil then 
 			comp:SetStateSleep(100)
+			comp:SetRegister(2)
+			comp:FlagRegisterError(2)
+			comp:CancelProcess()
 			return 
 		end
 	end
-	local ent = comp:GetRegisterEntity(2)
-	if ent == nil then 
-		local check = Map.FindClosestEntity(owner, self.range, function(e)
-			if e:GetRegisterNum(FRAMEREG_GOTO) < self.magnify_limit then
-				--e:SetRegisterNum(FRAMEREG_STORE, 1) -- mark as magnified (see c_miner:on_update)				
-			end
-		end, FF_RESOURCE)
-	end
+	-- check if finished working and regenerate
 
+	-- get resource 
 
-
-
-
+	-- request the cube 
+	comp:SetRegisterEntity(2,ent)
 	local can_make, missing = comp:PrepareConsumeProcess({ic_cube_green = 1})
 	if can_make == false then 
 		comp:SetRegister(1,missing)
@@ -827,20 +829,20 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 		comp:PlayWorkEffect("fx_alien_liquid")
 		comp:SetRegister(1)
 		comp:FlagRegisterError(1,false)
-		return comp:SetStateStartWork(self.magnify_time, false)
+		comp:SetStateStartWork(self.magnify_time, false)
 	end
 end
 function c_blight_magnifier:get_reg_error(comp)
 	if comp:RegisterIsError(1) then
-		if comp:RegisterIsEmpty(1) then 
-			return "No Resources to Regnerate"
-		elseif comp:GetRegisterId(1) == data.values.v_blight.id then 
-			return "Not Inside the Blight"
-		else	
-			return "Missing The Cube"
-		end
+		return "Missing the Cube"
+	elseif	comp:RegisterIsError(2) then 
+		return "No Resource To Regenerate Nearby"
 	end
 end
+function c_blight_magnifier:on_add(comp)
+	comp:Activate()
+end
+
 
 local cc_unstable_resource = Comp:RegisterComponent("cc_unstable_resource",{
 	name = "Unstable Resource",
