@@ -81,7 +81,7 @@ data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
 data.items.ldframe.race = "robot"
 data.items.ldframe.production_recipe = CreateProductionRecipe(
-{ reinforced_plate = 4, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 2}, { cc_manifest = 20 }, 1)
+{ reinforced_plate = 2, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 1, blight_crystal = 9}, { cc_manifest = 20 }, 1)
 
 
 --------------------------------------
@@ -353,7 +353,7 @@ data.items.ic_time_crystal = {
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
 	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ blight_crystal = 4, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	production_recipe = CreateProductionRecipe({ blight_crystal = 12, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
 data.items.blight_crystal.name = "Unstable Chrono Crystal"
 data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"

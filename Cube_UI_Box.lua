@@ -45,7 +45,7 @@ local function Check_For_Dropped_Cube(location)
     if location == nil then
         entity_list =  Map.GetFaction("world").entities
     else 
-        entity_list = Map.GetEntitiesInRange(location.x,location.y,2,2,1,FF_DROPPEDITEM)
+        entity_list = Map.GetEntitiesInRange(location.x,location.y,1,1,2,FF_DROPPEDITEM)
     end
     if entity_list == nil then print("No Entites") return end 
     for i,ent in ipairs(entity_list) do 

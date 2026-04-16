@@ -422,15 +422,17 @@ local function anti_cube_explosion(comp)
 	if comp.faction:IsUnlocked("tc_cube_anti_0") == false then 
 		comp.faction:Unlock("tc_cube_anti_0") end
 	-- replace cube and destroy anti cube
-	local anti_count = owner:CountItem("ic_cube_sphere") % 2
+	local anti_count = owner:CountItem("ic_cube_sphere") 
 	for i, val in ipairs(slots) do 
 		if val.stack > 0 then 
 			--contains cube 
 			local id = val.id
+			val:CancelOrders()
 			val:Clear()
+			--val.RemoveStack(1,true)
 			-- only replace cube if there was an odd number of spheres
 			if id ~= "ic_cube_sphere"  then 
-				if anti_count == 1 then 
+				if anti_count % 2 == 1 then 
 					-- odd number of anti cubes
 					val:SetItemAndStack(replace_cube_with[id],1)
 				else 
@@ -442,8 +444,9 @@ local function anti_cube_explosion(comp)
 	end
 	local range = 4
 	-- explosion 
+
 	for _,frame in ipairs(Map.GetEntitiesInRange(owner.location, range, FF_OPERATING|FF_WALL|FF_GATE|FF_CONSTRUCTION)) do
-		PlaceResourceNode(frame.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		--PlaceResourceNode(frame.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		frame:RemoveHealth(300, owner, "plasma_damage")
 		if frame.health > 0 then 
 			-- activate miners
@@ -454,8 +457,6 @@ local function anti_cube_explosion(comp)
 					-- Map.Defer(function ()
 					-- 	miner:Activate()
 					-- end )
-					print("Activating", miner, miner.is_updating) 
-
 					--miner:SetRegister(1,miner:GetRegister(1))
 					miner.extra_data = nil
 				end 
@@ -464,7 +465,10 @@ local function anti_cube_explosion(comp)
 		end
 	end
 	-- add time crystals 
-	--PlaceResourceNode(owner.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+	while anti_count > 0 do 
+		PlaceResourceNode(owner.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		anti_count = anti_count - 1
+	end
 	-- add blight 
 	local num = Map.StartTerraforming(owner, range, 100)
 	--does this need to be in a defer?

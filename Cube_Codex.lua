@@ -271,6 +271,7 @@ data.codex.xc_cube_time_crystal = {
         Chrono Crystal Deposits will form nearby. 
 
         Units Killed by the explosion will cause additonal blight crystals to appear. 
+        The average yield per anhillated <bl>Anti-Cube</> is 6 Chrono Crystals
 
         In additon the Cube will be transformed into another form. 
 

@@ -35,6 +35,8 @@ data.visuals.samplevisual = {
 
 -- https://sketchfab.com/max5644/models
 
+local CONTAINER_CULL_DIST = 0.5
+
 local meshes = {
     landing_pad = "StaticMesh'/Game/Meshes/BaseBuildings/Component_LandingPad_01_L.Component_LandingPad_01_L'",
 
@@ -105,16 +107,19 @@ data.visuals.vc_souls ={
 	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
+	cull_ratio = CONTAINER_CULL_DIST
 }
 data.visuals.vc_soul_happy ={
 	mesh = "The_Cube_WIP/textures/Soul_Happy.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
+	cull_ratio = CONTAINER_CULL_DIST
 }
 data.visuals.vc_soul_angry ={
 	mesh = "The_Cube_WIP/textures/Soul_Angry.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
+	cull_ratio = CONTAINER_CULL_DIST
 }
 data.visuals.vc_mug_anim = {
 	animesh = "The_Cube_WIP/textures/In Progress Blender/Cube_test_2.glb",
@@ -184,11 +189,20 @@ data.visuals.vc_cube_blue = {
 	--mesh_offset = { 0, 0, 1000000},
 	scale = {0.03,0.03,0.03},
 }
+-- change other cubes cull distance 
+data.visuals.v_gears.cull_ratio = 1 
+data.visuals.v_alien_data.cull_ratio = 1 
+data.visuals.v_virus_data.cull_ratio = 1 
+
+
+
 data.visuals.vc_time_crystal = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
 	mesh_offset = {0,0,100	},
-	mesh_scale = {0,0,0.8}
+	mesh_scale = {0,0,0.8},
+	cull_ratio = CONTAINER_CULL_DIST
 }
+
 
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_sea_grass.scale = {3,3,3}
