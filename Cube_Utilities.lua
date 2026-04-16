@@ -142,9 +142,10 @@ function Place_Anti_Cube(entity, do_again)
 	-- 		location = location.location
 	-- 	end
 	-- look for frame with space 
-	local range = 3
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, range, range,1,  FF_OWNFACTION, entity.faction)
+	local range = 5
+	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 1, 1,range, FF_OWNFACTION, entity.faction)
 	for key, val in pairs(list_nearby) do 
+		
 		if val:AddItem("ic_cube_sphere") ~= nil then
 			val:PlayEffect("fx_ping")
 			if do_again == true then
@@ -152,14 +153,12 @@ function Place_Anti_Cube(entity, do_again)
 				  if val:AddItem("ic_cube_sphere") ~= nil then return end 
 			else return end 
 			-- check if another spot is available
-			
 		end
 	end
 	-- place as frame 
 	local cord = entity.location
-	local faction = entity.faction
 	Map.Defer(function()
-	local new_frame = Map.CreateEntity(faction, "fc_cube_sphere")
+	local new_frame = Map.CreateEntity("world", "fc_cube_sphere")
 	if new_frame ~= nil then
 		new_frame:Place(cord.x + math.random(-range,range), cord.y + math.random(-range,range)) end
 	end)
