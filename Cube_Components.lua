@@ -69,7 +69,7 @@ data.components.c_small_battery.production_recipe = CreateProductionRecipe({["me
 data.components.c_battery.production_recipe = CreateProductionRecipe({["steelblock"]=9,["crystal_powder"]=9,["ic_soul_angry"]=1}, {["c_assembler"] = 150}, 1)
 data.components.c_large_battery.production_recipe = CreateProductionRecipe({["reinforced_plate"]=16,["crystal_powder"]=16,["ic_time_crystal"]=2, ic_soul_happy = 2}, {["c_assembler"] = 150}, 1)
 data.components.c_capacitor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["crystal"] = 10}, {['c_assembler'] = 5},1 )
-data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({["steelblock"]=9,["ic_soul_angry"]=4,["crystal_powder"]=4}, {["c_assembler"] = 150}, 1)
+data.components.c_medium_capacitor.production_recipe = CreateProductionRecipe({["steelblock"]=9,["ic_soul_angry"]=1,["crystal_powder"]=4}, {["c_assembler"] = 150}, 1)
 -- netowkring 
 data.components.c_power_relay.production_recipe = CreateProductionRecipe({["steelblock"]=8,["metalplate"]=4,["crystal_powder"]=9}, {["c_assembler"] = 60}, 1)
 data.components.c_portable_relay.production_recipe = CreateProductionRecipe({["metalplate"]=4,["crystal_powder"]=2}, {["c_assembler"] = 50}, 1)
@@ -739,15 +739,18 @@ local c_blight_magnifier = data.components.c_blight_magnifier
 c_blight_magnifier.name = "Cube Magnifier"
 c_blight_magnifier.activation = "OnAnyItemSlotChange"
 c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nRequires the Restless Cube"
-c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},}
+c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},{read_only = true, tip = "Target Resource", ui_icon = "icon_target"}}
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil
-c_blight_magnifier.power = -200
+c_blight_magnifier.power = -400
 c_blight_magnifier.magnify_limit = 1000
 c_blight_magnifier.production_recipe = CreateProductionRecipe(
 {wire = 12, ic_soul_happy = 1, crystal_powder = 4},{c_assembler = 30})
 
-function c_blight_magnifier:on_update(comp, cause)
+c_blight_magnifier.on_update = function(self, comp, cause)
+	print("Magnifier is broken")
+	return 
+
 	local owner = comp.owner
 	-- local is_in_blight = Map.GetBlightnessDelta(owner, -1) >= 0 or Map.GetSave().dust_storm
 	-- if not is_in_blight or owner.powered_down or not owner.is_placed then
@@ -759,27 +762,39 @@ function c_blight_magnifier:on_update(comp, cause)
 	-- meets requirements 
 	if comp.is_working == true then 
 		comp:SetStateContinueWork() 
+		return
 	end
-	-- check if finished working 
+	-- check if finished working and regenerate
 	local is_finished_working = (cause & CC_FINISH_WORK == CC_FINISH_WORK)
 	if is_finished_working then
 		-- replace cube 
 		comp:CancelProcess()
 		--comp:AddItem("ic_cube_green")
 
-		local check = Map.FindClosestEntity(owner, self.range, function(e)
-			if AddResourceHarvestItemAmount(e, 100, self.magnify_limit) then
-				e:SetRegisterNum(FRAMEREG_STORE, 1) -- mark as magnified (see c_miner:on_update)
-			end
-		end, FF_RESOURCE)
+		-- add resource to nearby nodes
+
+		print(check, "mag")
 		if check == nil then 
 			--no resources to regenerate 
 			comp:SetRegister(1)
 			comp:FlagRegisterError(1)
 			comp:SetStateSleep(100)
-			return
+			return 
 		end
 	end
+	local ent = comp:GetRegisterEntity(2)
+	if ent == nil then 
+		local check = Map.FindClosestEntity(owner, self.range, function(e)
+			if e:GetRegisterNum(FRAMEREG_GOTO) < self.magnify_limit then
+				--e:SetRegisterNum(FRAMEREG_STORE, 1) -- mark as magnified (see c_miner:on_update)				
+			end
+		end, FF_RESOURCE)
+	end
+
+
+
+
+
 	local can_make, missing = comp:PrepareConsumeProcess({ic_cube_green = 1})
 	if can_make == false then 
 		comp:SetRegister(1,missing)

@@ -93,7 +93,7 @@ data.codex.xc_cube_pedestal = {
         The Cube is <hl>extremly heavy</> and must be stored on a specific Cube Pedestal 
         The Pedestal uses a Medium Socket.
 
-        When a Cube is present is will slow the bots movement speed by <hl>80%</> 
+        When a Cube is present is will slow the bots movement speed by <hl>80%</> and provide 1000 <img width="50" height="50" image="Main/textures/icons/values/power.png"/>
         
         To Offset this reduction discover a <img id="ic_cube_green" width="50" height="50" style="bl"/> or research an <img id="engine" width="50" height="50" style="bl"/>.
         
