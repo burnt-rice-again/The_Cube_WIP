@@ -235,7 +235,7 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
+	print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
 function cc_moduleefficiency:on_add(comp, cause)	
 	comp.extra_data.boost_active = false
@@ -262,8 +262,9 @@ function cc_moduleefficiency:on_update(comp, cause)
 		if can_make then 
 			--consume next bit of fuel 
 			comp:FulfillProcess()
-			comp:SetStateStartWork(self.fuel_time/(comp.effective_boost-100)) 
 			comp.extra_data.boost_active = true 
+			comp:SetStateStartWork(self.fuel_time*comp.effective_boost/100) 
+			
 			comp:SetRegister(1)
 
 		else 
@@ -620,7 +621,8 @@ function cc_temp_boost:on_update(comp, cause)
 	if cause & CC_FINISH_WORK ~= 0 then 
 		Map.Defer(function()comp:Destroy()end)
 	else 
-		comp:SetStateStartWork(self.wait_ticks*comp.owner[self.boost_id]/100)
+		comp:SetStateStartWork(math.floor(self.wait_ticks*comp.owner[self.boost_id]/100))
+		print("temp module ", self.wait_ticks*comp.owner[self.boost_id]/100, comp.owner[self.boost_id])
 	end
 end
 
@@ -762,12 +764,12 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 local c_blight_magnifier = data.components.c_blight_magnifier
 c_blight_magnifier.name = "Cube Magnifier"
 c_blight_magnifier.activation = "OnAnyItemSlotChange"
-c_blight_magnifier.desc = "Regenerates nearby resources up to 1000\nRequires the Restless Cube"
+c_blight_magnifier.desc = "Adds 1000 resources to nodes below 1000\nRequires the Restless Cube"
 c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},{read_only = true, tip = "Target Resource", ui_icon = "icon_target"}}
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil
 c_blight_magnifier.power = -1000
-c_blight_magnifier.magnify_limit = 2000
+c_blight_magnifier.magnify_limit = 1000
 c_blight_magnifier.production_recipe = CreateProductionRecipe(
 {wire = 12, ic_soul_happy = 1, crystal_powder = 4},{c_assembler = 30})
 

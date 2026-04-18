@@ -160,7 +160,11 @@ function Place_Anti_Cube(entity, do_again)
 	Map.Defer(function()
 	local new_frame = Map.CreateEntity("world", "fc_cube_sphere")
 	if new_frame ~= nil then
-		new_frame:Place(cord.x + math.random(-range,range), cord.y + math.random(-range,range)) end
+		local x, y = cord.x + math.random(-range,range), cord.y + math.random(-range,range)
+		local check_ent = Map.GetEntityAt(x,y)
+		if check_ent == nil or check_ent.id ~= "fc_cube_sphere" then
+			new_frame:Place(x,y) end
+		end
 	end)
 	if do_again == true then  Place_Anti_Cube(entity, false) end 
 end 

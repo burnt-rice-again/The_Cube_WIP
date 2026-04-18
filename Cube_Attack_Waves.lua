@@ -182,6 +182,7 @@ local function spawn_robot_attack(owner, cost, options)
     local cord = owner.location
     local i = 5
     while cost > 0 do 
+        print(cost, "cost_tt")
         Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot"})
         cost = cost - 1
         i = i + 5
@@ -209,7 +210,7 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
     },
 	get_ui = false,
 	output_item = "fused_electrodes",
-    wait_ticks = 100,
+    wait_ticks = 300,
     range = 10,
 })
 
@@ -255,9 +256,9 @@ function  cc_time_travel_machine:on_update(comp, cause)
 
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse tiem travel machine
+        print("cost__reg", comp:GetRegisterNum(2))
         spawn_robot_attack(comp.owner, comp:GetRegisterNum(2), {range = self.range})
         -- spawn attackers 
-
         comp:SetRegisterNum(2,0)
         comp:SetStateSleep(1000)
         comp:StopEffects()

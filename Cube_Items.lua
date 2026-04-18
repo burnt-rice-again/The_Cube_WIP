@@ -59,7 +59,7 @@ data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 {cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, steelblock = 80, ic_soul_plasma = 20, wire = 40  }, 
+	{ic_cube_red = 1, steelblock = 80, ic_soul_plasma = 5, wire = 40  }, 
 	{cc_manifest = 25, cc_red_furnace = 5},
 	20, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
@@ -278,16 +278,17 @@ data.items.ic_soul_plasma = {
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, bug_carapace = 5, crystal_powder = 10 },
 	{ cc_soul_refinery = 50 },
-	50, {ic_cube_empty = 1}),
+	50, {ic_cube_blue = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, bug_carapace = 5, phase_leaf = 20, blight_crystal = 20 }, 
+	{ic_cube_blue = 1, bug_carapace = 10, phase_leaf = 20, ic_time_crystal = 1 }, 
 	{cc_soul_refinery = 10,},
 	50,
 	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
+
 data.items.ic_soul_happy = {
 	name = "Enlightened Souls",
 	index = 1010,
@@ -319,7 +320,7 @@ data.items.ic_soul_angry = {
 }
 create_alt_recipe("ic_soul_angry", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_soul_plasma = 50, ic_fuel = 20, blight_crystal = 20, ic_soul_happy = 5 }, 
+	{ic_cube_red = 1, ic_soul_plasma = 50, ic_fuel = 20, blight_crystal = 5, ic_soul_happy = 5 }, 
 	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
 	10,
 	{ic_cube_empty = 1}),
@@ -348,7 +349,7 @@ data.items.ic_fuel = {
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
-	{ phase_leaf = 10, crystal_powder = 1}, 
+	{ phase_leaf = 10, crystal_powder = 1, blight_crystal = 2}, 
 	{ cc_soul_refinery = 20, cc_red_furnace = 15 }, 20),
 }
 data.items.ic_time_crystal = {

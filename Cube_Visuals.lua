@@ -250,6 +250,8 @@ data.visuals.vc_cube_sphere_item.tile_size = nil
 data.visuals.vc_cube_sphere_frame = Tool.Copy(data.visuals.vc_cube_sphere_item)
 data.visuals.vc_cube_sphere_frame.scale = {.45,.45,.45}
 data.visuals.vc_cube_sphere_frame.sockets = nil
+--data.visuals.vc_cube_sphere_frame.light_color = nil
+
 
 --data.visuals.vc_cube_sphere.mesh_offset = {0,0,-400}
 
