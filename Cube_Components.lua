@@ -235,7 +235,7 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
+	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
 function cc_moduleefficiency:on_add(comp, cause)	
 	comp.extra_data.boost_active = false
@@ -468,7 +468,7 @@ local function anti_cube_explosion(comp)
 	end
 	-- add time crystals 
 	while anti_count > 0 do 
-		PlaceResourceNode(owner.location,"blight_crystal",math.random(1,12),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		PlaceResourceNode(owner.location,"blight_crystal",math.random(1,24),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		anti_count = anti_count - 1
 	end
 	-- add blight 
@@ -606,7 +606,7 @@ function cc_temp_boost:update_boost(comp, remove)
 	-- set remove when not nil 
 	if remove == true then remove = comp end  
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	print(owner[self.boost_id],owner.def[self.boost_id])
+	--print(owner[self.boost_id],owner.def[self.boost_id])
 end
 function cc_temp_boost:on_add(comp, cause)
 	comp.extra_data.boost_active = true
@@ -622,7 +622,7 @@ function cc_temp_boost:on_update(comp, cause)
 		Map.Defer(function()comp:Destroy()end)
 	else 
 		comp:SetStateStartWork(math.floor(self.wait_ticks*comp.owner[self.boost_id]/100))
-		print("temp module ", self.wait_ticks*comp.owner[self.boost_id]/100, comp.owner[self.boost_id])
+		--print("temp module ", self.wait_ticks*comp.owner[self.boost_id]/100, comp.owner[self.boost_id])
 	end
 end
 

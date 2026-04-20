@@ -118,7 +118,11 @@ function cc_damage_check:on_take_damage(comp, amount)
             local comp2 = owner:GetComponent(i)
             if comp2 ~= nil then 
                 --print(comp2.id, "Destroyed")
-                comp2:Destroy()
+                if comp2.is_updating == true then print("cant destroy updating", comp2)
+                else 
+                    print(comp2) 
+                    comp2:Destroy()
+                end
             end
         end
     end
@@ -147,7 +151,7 @@ local function build_random_bot(faction, frame_filter)
                 cost = cost + comp_cost_list.s[comp_id]
             elseif val[2] == "Internal" then 
                 comp_id = random_key(comp_keys.i)
-                bot:AddComponent(comp_id)
+                bot:AddComponent(comp_id,"hidden")
                 cost = cost + comp_cost_list.i[comp_id]
             elseif val[2] == "Large" then 
                 comp_id = random_key(comp_keys.l)
@@ -182,7 +186,6 @@ local function spawn_robot_attack(owner, cost, options)
     local cord = owner.location
     local i = 5
     while cost > 0 do 
-        print(cost, "cost_tt")
         Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot"})
         cost = cost - 1
         i = i + 5
@@ -234,14 +237,13 @@ local replace_cube_with <const> = {
     ic_cube_green = 'ic_cube_empty',
     ic_cube_empty = 'ic_cube_red',
     ic_cube_red = 'ic_cube_blue',
-    ic_cube_sphere = 'ic_cube_sphere',
 }
 local function new_order_id(comp)
     local req <const> = {
     "ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty","ic_cube_sphere",
     "c_adv_portable_turret","c_shield_generator2","c_shield_generator","c_radio_transmitter","c_radio_receiver",
     "ic_soul_angry","ic_soul_happy","phase_leaf","ic_time_crystal","ic_time_crystal","ic_time_crystal",
-    "f_bot_1s_b","f_bot_1m1s","f_flyer_m","f_drone_transfer_a",
+    "f_bot_1s_b","f_bot_1m1s","f_flyer_m"
     }
     local new_id = req[math.random(1,#req)]
     -- for testing 
@@ -264,7 +266,6 @@ function  cc_time_travel_machine:on_update(comp, cause)
         comp:StopEffects()
         comp:PlayEffect("fx_pulse",'fx')
         -- effect for stopped
-        
     else
         -- check if order has arrived 
         -- reset work timer 
@@ -287,7 +288,7 @@ function  cc_time_travel_machine:on_update(comp, cause)
                 can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = 1})
             else 
                 no_space = comp:PrepareGenerateProcess({fused_electrodes = 1})
-                can_make = no_space
+                can_make = true
                 -- for frame inputs 
             end
         end
@@ -341,14 +342,53 @@ function  cc_time_travel_machine:get_reg_error(comp, cause)
 
     if comp:RegisterIsError(1) then
         if comp.is_working then 
-            return "Supply This Item or Unit before the machine finishes working for the expedition to keep working"
+            return "Supply This Item or Unit before the machine\n finishes working for the expedition to keep working"
         end 
         return "Not enough space for items\nor no slots for the Cube or Ectoplasma"
     elseif comp:RegisterIsError(2) then
         return "Warning Extremly Dangerous Defence Response Detected\nKeep jumping for a safer time to collapse the loop"
     end
 end
-
+function cc_time_travel_machine:get_ui(comp)
+	if comp.owner:FindComponent(comp.base_id, true, 1) ~= comp then return end
+	local reg_ui = UI.New([[
+<Box width=320 blur=true padding=10>
+    <VerticalList child_padding=6>
+        <HorizontalList>
+            <Text valign=center style=hl text="Time Travel Expedition"/><Spacer fill=true/><Text text={cmpimg}/>
+        </HorizontalList>
+        
+        <HorizontalList>
+            <Text text="Current Expedition delta: "/><Text text={years} style="bl"/><Text text=" Years"/>
+        </HorizontalList>
+        <Text text="Invention of Superconductors at year 1024"/>
+        <Text text="Lose 10% progress on portal collapse"/>
+        <HorizontalList>    
+            <Canvas min_width=280>
+                <Progress halign=fill margin_top=5 height=12 id=powerprogress color=ui_light/>
+            </Canvas>
+        </HorizontalList>
+        <HorizontalList> 
+            <Reg def_id="fused_electrodes" num={reward_num}/><Text text="   Superconductor Density" style = "hl"/>
+        </HorizontalList>
+        <HorizontalList> 
+            <Reg def_id="v_alert" num={reward_num}/><Text text="   Threat Level:" style = "hl"/><Text text={alert_text} style = {alert_style}/>
+        </HorizontalList>
+    
+    
+    </VerticalList>
+</Box>]], {
+		cmpimg = '<img id="' .. self.id .. '"/>',
+		tooltip = function(w)end,
+        years = tostring(1234),
+        reward_num = 1,
+        alert_text = "Equivalent",
+        alert_style = "bl"
+	})
+    reg_ui.powerprogress.progress = 0.2
+	return nil, reg_ui, false, nil
+end
+--<Image halign=fill margin=2 margin_top=42 height=8 id=powerexcess color=ui_light image=progress_mask/>
         -- req_comp = {'c_integrated_power_cell'},
         -- items = {fused_electrodes = 1},
 
