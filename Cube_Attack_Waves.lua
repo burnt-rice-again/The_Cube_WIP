@@ -217,11 +217,26 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
     range = 10,
 })
 
+local function time_delta_to_yield (delta)
+
+    local yield = math.min(20, math.ceil())
+
+
+    return 
+end
+
 function  cc_time_travel_machine:on_add(comp, cause)
+    
+    if comp.has_extra_data == false then 
+        comp.extra_data.delta = 0
+    end
+    
     --- set registers 
     if comp:RegisterIsEmpty(2) then 
         comp:SetRegisterNum(2,math.random(0,30))
     end 
+
+
     comp:Activate()
 end
 
@@ -229,6 +244,7 @@ function  cc_time_travel_machine:on_remove(comp, cause)
     -- spawn attack if removed while working 
     if comp.is_working then 
         spawn_robot_attack(comp.owner, comp:GetRegisterNum(2) + 10, {range = self.range})
+        comp.has_extra_data.delta = comp.has_extra_data.delta - 10
     end 
 end
 
@@ -352,7 +368,7 @@ end
 function cc_time_travel_machine:get_ui(comp)
 	if comp.owner:FindComponent(comp.base_id, true, 1) ~= comp then return end
 	local reg_ui = UI.New([[
-<Box width=320 blur=true padding=10>
+<Box width=300 blur=true padding=10>
     <VerticalList child_padding=6>
         <HorizontalList>
             <Text valign=center style=hl text="Time Travel Expedition"/><Spacer fill=true/><Text text={cmpimg}/>
@@ -361,7 +377,7 @@ function cc_time_travel_machine:get_ui(comp)
         <HorizontalList>
             <Text text="Current Expedition delta: "/><Text text={years} style="bl"/><Text text=" Years"/>
         </HorizontalList>
-        <Text text="Invention of Superconductors at year 1024"/>
+        <Text text="Invention of Superconductors at 1024"/>
         <Text text="Lose 10% progress on portal collapse"/>
         <HorizontalList>    
             <Canvas min_width=280>
@@ -386,7 +402,7 @@ function cc_time_travel_machine:get_ui(comp)
         alert_style = "bl"
 	})
     reg_ui.powerprogress.progress = 0.2
-	return nil, reg_ui, false, nil
+	return nil, nil , false, reg_ui
 end
 --<Image halign=fill margin=2 margin_top=42 height=8 id=powerexcess color=ui_light image=progress_mask/>
         -- req_comp = {'c_integrated_power_cell'},
