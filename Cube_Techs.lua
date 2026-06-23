@@ -241,15 +241,16 @@ data.techs.tc_cube_red_5 = {
 data.techs.tc_cube_red_6 = {
 	order = 52,
 	name = "Ultimate Power", 
-	desc = "Massive Power Generation",
-	texture = data.components.cc_red_furnace.texture,
+	desc = "UNLIMITED POWER!\n *Product May contain some limits",
+	texture = "Main/textures/icons/human/Human_Building_2x2_PowerStation.png",
 	unlocks = {
 		-- new resources
 		-- ultimate power? using superconductors 
+		'cc_crystal_power_ultimate',"ic_matter"
 	},
 	require_tech = { "tc_cube_red_5"},
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1, fused_electrodes = 1 }, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_1= {
@@ -326,13 +327,13 @@ data.techs.tc_cube_green_6 = {
 	order = 2,
 	name = "Phase Power",
 	desc = "Uses phase fuel to make power",
-	texture = "Main/textures/icons/items/human/engine.png",
+	texture = "Main/textures/icons/components/Component_PowerCell_01_S.png",
 	unlocks = {
-		'cc_power_phase',
+		'cc_power_phase',"ic_broken_reality"
 	},
 	require_tech = { "tc_cube_green_5" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_fuel = 1}, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
@@ -383,7 +384,7 @@ data.techs.tc_cube_anti_3= {
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		-- new resources
-		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel"
+		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel", "fc_gyro","ic_micro_universe","ic_proto_sent"
 	},
 	require_tech = { "tc_cube_anti_2", },
 	progress_count = 50,
@@ -396,7 +397,7 @@ data.techs.tc_cube_anti_4= {
 	desc = "The Final Form",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
-		'ic_micro_universe'
+		'ic_micro_universe', "fc_gyro"
 	},
 	require_tech = { "tc_cube_anti_3", },
 	progress_count = 200,

@@ -244,7 +244,7 @@ data.codex.xc_cube_anti = {
         The Cube has been split to reveal a terrible secret. 
         There is a <hl>sphere</> inside the Cube!
 
-        This anomalous sphere behaves in opposition to everythin known about the cube. 
+        This anomalous sphere behaves in opposition to everything known about the cube. 
 
         <hl>Interaction with the Anti-Cube will cause it to duplicate</>
         Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 

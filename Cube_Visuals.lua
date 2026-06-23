@@ -194,7 +194,25 @@ data.visuals.v_gears.cull_ratio = 1
 data.visuals.v_alien_data.cull_ratio = 1 
 data.visuals.v_virus_data.cull_ratio = 1 
 
-
+data.visuals.vc_static_gyro = {
+	mesh = "The_Cube_WIP/textures/In Progress Blender/Gyro Self Made/Static_Gyro3.glb",
+	mesh_offset = { 0, 0, 200},
+	mesh_sockets = { ["Medium1"] = {0,0,0}, },
+	sockets = {
+		{ "Medium1", "Medium" },
+		{ "", "Internal" },
+		{ "", "Internal" },
+	},
+	tile_size = { 5, 5 },
+	tile_pattern = {
+		1, 0, 0, 0, 0,
+		0, 1, 1, 1, 0,
+		0, 1, 1, 1, 0,
+		0, 1, 1, 1, 0,
+		0, 0, 0, 0, 1,
+	},
+	scale = {1,1,1},
+}
 
 data.visuals.vc_time_crystal = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	

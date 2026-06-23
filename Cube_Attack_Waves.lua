@@ -120,7 +120,6 @@ function cc_damage_check:on_take_damage(comp, amount)
                 --print(comp2.id, "Destroyed")
                 if comp2.is_updating == true then print("cant destroy updating", comp2)
                 else 
-                    print(comp2) 
                     comp2:Destroy()
                 end
             end
@@ -129,7 +128,7 @@ function cc_damage_check:on_take_damage(comp, amount)
 end
 
 -- create a randomized bot 
-local function build_random_bot(faction, frame_filter)
+local function build_random_bot(faction, frame_filter, bonus)
 
     local cost = 0
 
@@ -159,6 +158,16 @@ local function build_random_bot(faction, frame_filter)
                 cost = cost + comp_cost_list.l[comp_id]
             end
         end
+
+        --- add bonus hidden comps 
+        if bonus > 20 then bonus = 30 end --prevents hidden comps taking all the power
+        while bonus >= 1 do 
+            bonus = bonus - 1
+            local comp_id = random_key(comp_keys.i)
+            bot:AddComponent(comp_id,"hidden")
+        end 
+
+
         bot:AddComponent("cc_damage_check")
         -- add a radar so it can automattically hunt 
         local radar = bot:AddComponent("c_alien_sensor_wide")
@@ -174,23 +183,12 @@ local function build_random_bot(faction, frame_filter)
 end 
 
 function Delay.Place_random_bot(arg)
-        local bot, bot_cost = build_random_bot(arg.faction, arg.frame_filter)
+        local bot, bot_cost = build_random_bot(arg.faction, arg.frame_filter,arg.bonus)
         bot:Place(arg.cord.x + math.random(-arg.range, arg.range),arg.cord.y + math.random(-arg.range, arg.range), math.random(0,3))
         bot:PlayEffect("fx_pulse")
         --print('spawning', bot.location)
 end
 
-local function spawn_robot_attack(owner, cost, options)
-
-    local range = options.range or 20
-    local cord = owner.location
-    local i = 5
-    while cost > 0 do 
-        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot"})
-        cost = cost - 1
-        i = i + 5
-    end
-end
 
 local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
 	name = "Time Travel Machine",
@@ -228,9 +226,10 @@ end
 function  cc_time_travel_machine:on_add(comp, cause)
     
     if comp.has_extra_data == false then 
-        comp.extra_data.delta = 0
+        comp.extra_data.delta = 10
+        comp.extra_data.supplied = {}
     end
-    
+    comp.extra_data.supplied = {}
     --- set registers 
     if comp:RegisterIsEmpty(2) then 
         comp:SetRegisterNum(2,math.random(0,30))
@@ -239,12 +238,26 @@ function  cc_time_travel_machine:on_add(comp, cause)
 
     comp:Activate()
 end
+local function delta_to_output(delta)
+    return math.ceil(10 * delta/1024)
+end
+local function spawn_robot_attack(comp, cost, options)
 
+    local owner = comp.owner
+    local range = options.range or 20
+    local cord = owner.location
+    local i = 5
+    while cost > 0 do 
+        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot", bonus = delta_to_output(comp.extra_data.delta)-1})
+        cost = cost - 1
+        i = i + 5
+    end
+end
 function  cc_time_travel_machine:on_remove(comp, cause)
     -- spawn attack if removed while working 
     if comp.is_working then 
-        spawn_robot_attack(comp.owner, comp:GetRegisterNum(2) + 10, {range = self.range})
-        comp.has_extra_data.delta = comp.has_extra_data.delta - 10
+        spawn_robot_attack(comp, comp:GetRegisterNum(2) + 10, {range = self.range})
+        comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
     end 
 end
 
@@ -254,6 +267,43 @@ local replace_cube_with <const> = {
     ic_cube_empty = 'ic_cube_red',
     ic_cube_red = 'ic_cube_blue',
 }
+
+local function delta_to_warning_text(delta)
+    local delta_lvl = delta_to_output(delta)
+    if delta_lvl <= 1 then 
+        return "Equivalent"
+    elseif delta_lvl <= 2 then 
+        return "Improved"
+    elseif delta_lvl <= 4 then  
+        return "Advanced"
+    elseif delta_lvl <= 6 then  
+        return "Theoretical"
+    elseif delta_lvl <= 9 then  
+        return "Advanced"
+    elseif delta_lvl <= 14 then  
+        return "Alien"
+    elseif delta_lvl <= 20 then  
+        return "Just Magic"
+    elseif delta_lvl <= 30 then  
+        return "Mythical"
+    elseif delta_lvl <= 10 then  
+        return "Impossible"
+    elseif delta_lvl <= 10 then  
+        return "Unfathomable"
+    end
+end
+local function delta_to_warning_text_colour(delta)
+    local delta_lvl = delta_to_output(delta)
+
+    if delta_lvl <= 4 then  
+        return "bl"
+    elseif delta_lvl <= 9 then  
+        return "hl"
+    else
+        return "rl"
+    end
+end
+
 local function new_order_id(comp)
     local req <const> = {
     "ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty","ic_cube_sphere",
@@ -275,7 +325,9 @@ function  cc_time_travel_machine:on_update(comp, cause)
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse tiem travel machine
         print("cost__reg", comp:GetRegisterNum(2))
-        spawn_robot_attack(comp.owner, comp:GetRegisterNum(2), {range = self.range})
+        comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
+        spawn_robot_attack(comp, comp:GetRegisterNum(2), {range = self.range})
+        
         -- spawn attackers 
         comp:SetRegisterNum(2,0)
         comp:SetStateSleep(1000)
@@ -288,7 +340,6 @@ function  cc_time_travel_machine:on_update(comp, cause)
         -- check current order 
         local order = comp:GetRegisterId(1)
         local owner = comp.owner 
-        
 
         if order == nil then 
             -- select new order 
@@ -301,9 +352,9 @@ function  cc_time_travel_machine:on_update(comp, cause)
         local can_make, missing, no_space
         if cause and CC_CHANGED_ITEMSLOT_AMOUNT then 
             if is_frame ~= true then 
-                can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = 1})
+                can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = delta_to_output(comp.extra_data.delta)})
             else 
-                no_space = comp:PrepareGenerateProcess({fused_electrodes = 1})
+                no_space = comp:PrepareGenerateProcess({fused_electrodes = delta_to_output(comp.extra_data.delta)})
                 can_make = true
                 -- for frame inputs 
             end
@@ -325,6 +376,8 @@ function  cc_time_travel_machine:on_update(comp, cause)
                 comp:FulfillProcess()
             end
             -- update tally 
+            comp.extra_data.delta = comp.extra_data.delta + 10
+            comp.extra_data.supplied[order] = (comp.extra_data.supplied[order] or 0) + 1 
             -- replace CUBE
             local new_id = replace_cube_with[order]
             if new_id ~= nil then 
@@ -337,7 +390,7 @@ function  cc_time_travel_machine:on_update(comp, cause)
             comp:SetRegisterNum(2, math.random(0,30))
             if comp:GetRegisterNum(2) > 10 then comp:FlagRegisterError(2) end 
             comp:PlayEffect('fx_unit_teleport','fx')
-            comp:PlayWorkEffect('fx_glitch2',"fx")
+            comp:PlayWorkEffect('fx_power_core',"fx")
             new_order_id(comp)
             return 
             -- add new order
@@ -390,20 +443,27 @@ function cc_time_travel_machine:get_ui(comp)
         <HorizontalList> 
             <Reg def_id="v_alert" num={reward_num}/><Text text="   Threat Level:" style = "hl"/><Text text={alert_text} style = {alert_style}/>
         </HorizontalList>
-    
-    
     </VerticalList>
 </Box>]], {
 		cmpimg = '<img id="' .. self.id .. '"/>',
 		tooltip = function(w)end,
-        years = tostring(1234),
-        reward_num = 1,
-        alert_text = "Equivalent",
-        alert_style = "bl"
+        years = tostring(comp.extra_data.delta),
+        reward_num =  delta_to_output(comp.extra_data.delta),
+        alert_text = delta_to_warning_text(comp.extra_data.delta),
+        alert_style = delta_to_warning_text_colour(comp.extra_data.delta),
+        update = function(w)
+            w.years = tostring(comp.extra_data.delta)
+            w.reward_num =  delta_to_output(comp.extra_data.delta)
+            w.alert_text = delta_to_warning_text(comp.extra_data.delta)
+            w.alert_style = delta_to_warning_text_colour(comp.extra_data.delta)
+            w.powerprogress.progress =  comp.extra_data.delta/1024
+        end,
 	})
-    reg_ui.powerprogress.progress = 0.2
+    
+
 	return nil, nil , false, reg_ui
 end
+
 --<Image halign=fill margin=2 margin_top=42 height=8 id=powerexcess color=ui_light image=progress_mask/>
         -- req_comp = {'c_integrated_power_cell'},
         -- items = {fused_electrodes = 1},

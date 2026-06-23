@@ -366,20 +366,57 @@ data.items.ic_time_crystal = {
 }
 data.items.blight_crystal.name = "Unstable Chrono Crystal"
 data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"
-data.items.ic_micro_universe = {
-	name = 'Micro Universe',
-	index = 10,
+
+
+---- Final ITems 
+data.items.ic_broken_reality = {
+	name = 'Broken Reality',
+	index = 11,
 	tag = 'hitech_material',
 	race = "robot",
 	desc = 'The Final Frontier',
 	stack_size = 20,
 	slot_type = 'storage',
-	visual = 'v_bot_ai_core',
-	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ ic_time_crystal = 1, ldframe = 1, ic_cube_sphere = 1,  }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	visual = data.items.anomaly_cluster.visual,
+	texture = data.items.anomaly_cluster.texture,
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 10, ic_cube_sphere = 1, phase_leaf = 20,  ic_fuel = 10 }, { cc_manifest = 100, cc_red_furnace = 50 }, 1),
 }
-
-
+data.items.ic_proto_sent = {
+	name = 'Proto-Sentinece',
+	index = 11,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = data.items.anomaly_heart.visual,
+	texture = data.items.anomaly_heart.texture,
+	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 100 }, 1, {ic_cube_green = 1}),
+}
+data.items.ic_matter = {
+	name = 'Primordial Matter',
+	index = 11,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = data.items.obsidian.visual,
+	texture = data.items.obsidian.texture,
+	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, reinforced_plate = 20, fused_electrodes = 10,  ic_fuel = 10, ic_cube_red = 1 }, { cc_red_furnace = 100 }, 5, {ic_cube_empty = 1}),
+}
+data.items.ic_micro_universe = {
+	name = 'Micro Universe',
+	index = 12,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = data.items.anomaly_heart.visual,
+	texture = "Main/textures/tech/blight/blight_terra_03_1.png",
+	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 1, ic_proto_sent = 1, ic_matter = 1, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
+}
 
 
 

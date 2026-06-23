@@ -321,58 +321,58 @@ Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 16, ic_time_crystal = 4, ic_soul_angry = 16 }, { c_assembler = 60, }),
 	boost = 150,
 })
--- Movement Boost 
-cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
-	name = "Internal Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 25%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
-	attachment_size = "Internal",
-	texture = data.components.c_modulespeed.texture,
-	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1 }, { c_assembler = 60, }),
-	boost = 25,
-	boost_id = "move_boost", -- or move_boost
-	fuel = "ic_fuel",
-	index = 1052,
-})
-cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
-	name = "Small Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 50%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
-	attachment_size = "Small",
-	texture = data.components.c_modulespeed_s.texture,
-	visual = data.components.c_modulespeed_s.visual,
-	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2 }, { c_assembler = 60, }),
-	boost = 50,
-	boost_id = "move_boost", -- or move_boost	
-	fuel = "ic_fuel",
-	index = 1052,
-})
-cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
-	name = "Medium Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 80%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
-	attachment_size = "Medium",
-	texture = data.components.c_modulespeed_m.texture,
-	visual = data.components.c_modulespeed_m.visual,
-	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4 }, { c_assembler = 60, }),
-	boost = 80,
-	boost_id = "move_boost", -- or move_boost
-	fuel = "ic_fuel",
-	index = 1052,
-})
-cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
-	name = "Large Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 120%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
-	attachment_size = "Large",
-	texture = data.components.c_modulespeed_l.texture,
-	visual = data.components.c_modulespeed_l.visual,
-	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8 }, { c_assembler = 60, }),
-	boost = 120,
-	boost_id = "move_boost", -- or move_boost
-	fuel = "ic_fuel",
-	index = 1052,
-})
+-- Movement Boost - removed from tech tree
+-- cc_moduleefficiency:RegisterComponent("cc_modulespeed",{
+-- 	name = "Internal Movement Speed Module",
+-- 	desc = [[Thrusters Increase Unit Speed by 25%
+-- Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+-- 	attachment_size = "Internal",
+-- 	texture = data.components.c_modulespeed.texture,
+-- 	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1 }, { c_assembler = 60, }),
+-- 	boost = 25,
+-- 	boost_id = "move_boost", -- or move_boost
+-- 	fuel = "ic_fuel",
+-- 	index = 1052,
+-- })
+-- cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
+-- 	name = "Small Movement Speed Module",
+-- 	desc = [[Thrusters Increase Unit Speed by 50%
+-- Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+-- 	attachment_size = "Small",
+-- 	texture = data.components.c_modulespeed_s.texture,
+-- 	visual = data.components.c_modulespeed_s.visual,
+-- 	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2 }, { c_assembler = 60, }),
+-- 	boost = 50,
+-- 	boost_id = "move_boost", -- or move_boost	
+-- 	fuel = "ic_fuel",
+-- 	index = 1052,
+-- })
+-- cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
+-- 	name = "Medium Movement Speed Module",
+-- 	desc = [[Thrusters Increase Unit Speed by 80%
+-- Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+-- 	attachment_size = "Medium",
+-- 	texture = data.components.c_modulespeed_m.texture,
+-- 	visual = data.components.c_modulespeed_m.visual,
+-- 	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4 }, { c_assembler = 60, }),
+-- 	boost = 80,
+-- 	boost_id = "move_boost", -- or move_boost
+-- 	fuel = "ic_fuel",
+-- 	index = 1052,
+-- })
+-- cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
+-- 	name = "Large Movement Speed Module",
+-- 	desc = [[Thrusters Increase Unit Speed by 120%
+-- Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+-- 	attachment_size = "Large",
+-- 	texture = data.components.c_modulespeed_l.texture,
+-- 	visual = data.components.c_modulespeed_l.visual,
+-- 	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8 }, { c_assembler = 60, }),
+-- 	boost = 120,
+-- 	boost_id = "move_boost", -- or move_boost
+-- 	fuel = "ic_fuel",
+-- 	index = 1052,
+-- })
 -------------------------------------------------------
 ----- Cube Pedestal -----------------------------------
 
@@ -468,7 +468,7 @@ local function anti_cube_explosion(comp)
 	end
 	-- add time crystals 
 	while anti_count > 0 do 
-		PlaceResourceNode(owner.location,"blight_crystal",math.random(1,24),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		PlaceResourceNode(owner.location,"blight_crystal",math.random(2,36),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		anti_count = anti_count - 1
 	end
 	-- add blight 

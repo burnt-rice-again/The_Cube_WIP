@@ -27,9 +27,9 @@ local function replace_cube(recipe, entity)
 		end
 	end
 	-- spawn more anti cubes on craft
-	if recipe.ingredients and recipe.ingredients.ic_cube_sphere ~= nil then 
-		Place_Anti_Cube(entity, true)
-	end
+	-- if recipe.ingredients and recipe.ingredients.ic_cube_sphere ~= nil then 
+	-- 	Place_Anti_Cube(entity, true)
+	-- end
 end
 local function check_waste_and_output(recipe, outputs)
 	local cube_names = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red', 'ic_cube_sphere'}
@@ -358,4 +358,16 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
 	power = -250,
 	production_recipe = CreateProductionRecipe({ wire = 100, ic_soul_plasma = 40, datakey_robot = 20 }, { c_assembler = 100, }),
+})
+
+cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
+	name = "Brain Vat",
+	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	desc = "A Brain given self consciousness so it may ponder the cube in our stead",
+	race = "robot",
+	attachment_size = "Hidden",
+	get_ui = true,
+	production_recipe = false,
+	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
+	power = -2000,
 })

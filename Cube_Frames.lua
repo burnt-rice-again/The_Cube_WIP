@@ -254,3 +254,21 @@ Frame:RegisterFrame("fc_testing_observer",{
 	name = "obeserving tower",
 	visibility_range = 150,
 })
+Frame:RegisterFrame("fc_gyro",{
+	name = "gyroscope",
+	health_points = 5,
+	race = "robot",
+	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
+	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	trigger_channels = "building",
+	visual = 'vc_static_gyro',--"v_blight_stabilizer",
+	size = "Large",
+	no_foundations = true,
+	is_explorable = true,
+	slots = {storage = 6 },
+	components = {
+		{ "cc_gyro_fabricator", 'hidden' },
+		--{"c_explorable_netwalk", 'hidden'}
+	},
+})
+

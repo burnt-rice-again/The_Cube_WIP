@@ -152,6 +152,22 @@ Is a more effcient way to produce Soul Pearls]],
 	charge_time = 300*5,
 	drain_rate = 2000,
 })
+cc_crystal_power:RegisterComponent("cc_crystal_power_ultimate",{
+	name = "Ultimate Cube Power", --"Crystal Power Extractor",
+	texture = "Main/textures/icons/human/Human_Building_2x2_PowerStation.png",
+	desc = [[UNLIMITED POWER! *Product May contain some limits
+<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="fused_electrodes"/><img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+Will Recharge when input register is below units battery %
+Power output is effected by component effciency boosts.]],
+	visual = 'v_human_powerplant',
+	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, fused_electrodes = 6, ic_soul_angry = 4 },{c_assembler = 60}),
+	rgb = {1, 0.3, 0},
+	consume_list = {fused_electrodes = 1,ic_time_crystal = 1, ic_cube_red = 1},
+	--output_list = {ic_soul_angry = 1},
+	cube_out = "ic_cube_empty",
+	charge_time = 600*5,
+	drain_rate = 20000,
+})
 
 -----------------------------------------------------------------------------
 -- these ones dont need the cube so are just a copy of crystal power base game
