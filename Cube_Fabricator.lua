@@ -295,18 +295,6 @@ end
 
 -------------------------- other comps ----------------------------------
 
--- cc_cube_fabrication:RegisterComponent("cc_refinery",{
--- 	name = "Cube Refinery",
--- 	desc = "Non Cubic shapes can be broken down in dust for later rhombic reconstruction",
--- 	race = "robot",
--- 	attachment_size = "Medium",
--- 	texture = "Main/textures/icons/components/Component_Refinery_01_M.png",
--- 	visual = "v_refinery_01_m",
--- 	production_effect = "fx_refinery",
--- 	power = -1000,
--- 	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_fabricator"] = 150}, 1),
--- })	
-
 cc_cube_fabrication:RegisterComponent("cc_manifest",{
 	name = "Cube Think Tank",
 	desc = "Dream of the Cube and manifest reality",

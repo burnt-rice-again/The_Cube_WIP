@@ -101,28 +101,6 @@ data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workpl
 -------------------------------------------
 ------------- Custom Frames -----------------
 
-Frame:RegisterFrame("fc_crystal_power_red", {
-	name = "Fury Cube Power Plant",
-	desc = "Uses Extreme heat to vaporize crystals into enormous amounts of power",
-	race = "robot",
-	--minimap_color = data.values.v_color_crimson.color,
-    visibility_range = 10,
-	health_points = 500,
-	--power = 0,
-	slots = {storage = 11,cube = 1 },
-	construction_recipe = CreateConstructionRecipe({ concreteslab = 250, steelblock = 150, datakey_robot = 20 }, 120),
-	texture = "Main/textures/icons/values/plateau.png",
-	trigger_channels = "building",
-	visual = "v_human_powerplant",
-    components = {
-        { "cc_crystal_power_red", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-	},
-})
---data.visuals.v_starterturret_red_s.scale = {2,2,2.5}
 Frame:RegisterFrame("fc_pipe", {
 	name = "Plasma Relay Tower",
 	desc = "Channels Electroplamsa to other towers and coils",
@@ -131,9 +109,7 @@ Frame:RegisterFrame("fc_pipe", {
 	health_points = 200,
 	power = -1,
 	start_disconnected = true,
-	--slots = {anomaly = 1 },
 	construction_recipe = CreateConstructionRecipe({steelblock = 6, concreteslab = 4, crystal_powder = 1},1),
-	--construction_recipe = CreateConstructionRecipe({ concreteslab = 9, steelblock = 20, phase_leaf = 10 }, 40),
 	texture = "The_Cube_WIP/textures/PowerPylon.png",
 	trigger_channels = "building",
 	visual = "vc_tower1",--'v_blight_stabilizer',
@@ -144,12 +120,6 @@ Frame:RegisterFrame("fc_pipe", {
 	no_foundations = true,
 })
 
-Frame:RegisterFrame("f_resourcenode_pixel",  {
-		type = "Resource", index = 1, name = "Voxel Deposit",
-		texture = "Main/textures/icons/values/resource.png",
-		harvest_id = 'metalore',
-		minimap_color = { 0.3, 0.3, 0.3 },
-})
 Frame:RegisterFrame("f_resourcenode_concrete",  {
 		type = "Resource", index = 1, name = "Ruins",
 		texture = "Main/textures/icons/values/resource.png",
@@ -157,15 +127,13 @@ Frame:RegisterFrame("f_resourcenode_concrete",  {
 		minimap_color = { 0.3, 0.3, 0.3 },
 })
 
-
-
+-- Anti Cube 
 local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	name = data.items.ic_cube_sphere.name,
 	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nWhen Attacked duplicates will spawn at attackers position (range 3)\n\n<rl>DANGER: Highly Volatile When Around The Cube</>",
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
 	range = 3,
-	-- construction_recipe = CreateConstructionRecipe({ic_cube_sphere = 1},25),
 	-- size = "Other",
 	-- no_foundations = true,
 })
@@ -178,6 +146,8 @@ end
 function fc_cube_sphere:on_destroy(frame, destroyer)
 	if destroyer then Place_Anti_Cube(destroyer,true) end 
 end 
+
+-- Boost Tower
 data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
@@ -193,7 +163,6 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	no_integrated_behavior = false,
 	race = "robot",
 	visibility_range = 20,
-
 })
 -------------------------------------------
 ------------- Explorables -----------------
@@ -234,6 +203,25 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 	},
 	is_explorable = true,
 })
+
+-- Endgame Building
+Frame:RegisterFrame("fc_gyro",{
+	name = "gyroscope",
+	health_points = 5,
+	race = "robot",
+	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
+	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	trigger_channels = "building",
+	visual = 'vc_static_gyro',--"v_blight_stabilizer",
+	size = "Large",
+	no_foundations = true,
+	is_explorable = true,
+	slots = {storage = 6 },
+	components = {
+		{ "cc_gyro_fabricator", 'hidden' },
+		--{"c_explorable_netwalk", 'hidden'}
+	},
+})
 ----------------------------
 ----- Testing Frames -------
 
@@ -254,21 +242,5 @@ Frame:RegisterFrame("fc_testing_observer",{
 	name = "obeserving tower",
 	visibility_range = 150,
 })
-Frame:RegisterFrame("fc_gyro",{
-	name = "gyroscope",
-	health_points = 5,
-	race = "robot",
-	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
-	texture = "The_Cube_WIP/textures/gyro_texture.png",
-	trigger_channels = "building",
-	visual = 'vc_static_gyro',--"v_blight_stabilizer",
-	size = "Large",
-	no_foundations = true,
-	is_explorable = true,
-	slots = {storage = 6 },
-	components = {
-		{ "cc_gyro_fabricator", 'hidden' },
-		--{"c_explorable_netwalk", 'hidden'}
-	},
-})
+
 

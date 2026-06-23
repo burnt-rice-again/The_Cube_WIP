@@ -335,12 +335,6 @@ function cc_planter:on_update(comp, cause)
                 growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5),
                 next_visual = 1,
             })
-            -- if crop then 
-            --     crop.extra_data.key = comp.owner.key
-            --     crop.extra_data.yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1)
-            --     crop.extra_data.growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5)
-            --     print(crop.extra_data)
-            -- else print("co crop comp") end
 
             plant:Place(cord,comp.owner,false)
             comp:SetRegisterCoord(1, nil)

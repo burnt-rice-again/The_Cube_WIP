@@ -384,7 +384,7 @@ data.techs.tc_cube_anti_3= {
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		-- new resources
-		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel", "fc_gyro","ic_micro_universe","ic_proto_sent"
+		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel","ic_proto_sent"
 	},
 	require_tech = { "tc_cube_anti_2", },
 	progress_count = 50,
