@@ -341,13 +341,23 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 })
 function cc_modulespeed:on_add(comp, cause)	
 	comp.extra_data.boost_active = true
-	self:update_boost(comp,true)
+	self:update_boost(comp,false)
 end
 function cc_modulespeed:on_remove(comp, cause)	
 	comp.extra_data.boost_active = false
 	self:update_boost(comp,true)
 end
-cc_moduleefficiency:RegisterComponent("cc_modulespeed_s",{
+function cc_modulespeed:update_boost(comp, remove)
+	--print(self, comp, remove)
+	local owner = comp.owner
+	--print(comp.id, owner)
+	-- set remove when no nill 
+	if remove == true then remove = comp end 
+	if owner[self.boost_id] == nil then return print("No Boost Id", self.boost_id) end
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
+end
+cc_modulespeed:RegisterComponent("cc_modulespeed_s",{
 	name = "Small Movement Speed Module",
 	desc = [[Thrusters Increase Unit Speed by 50%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
@@ -360,7 +370,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	fuel = false,
 	index = 1052,
 })
-cc_moduleefficiency:RegisterComponent("cc_modulespeed_m",{
+cc_modulespeed:RegisterComponent("cc_modulespeed_m",{
 	name = "Medium Movement Speed Module",
 	desc = [[Thrusters Increase Unit Speed by 80%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
@@ -373,7 +383,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	fuel = false,
 	index = 1052,
 })
-cc_moduleefficiency:RegisterComponent("cc_modulespeed_l",{
+cc_modulespeed:RegisterComponent("cc_modulespeed_l",{
 	name = "Large Movement Speed Module",
 	desc = [[Thrusters Increase Unit Speed by 120%
 Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
