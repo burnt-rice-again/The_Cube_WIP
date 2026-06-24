@@ -753,7 +753,7 @@ data.techs.tc_robot_fly_4 = {
 data.techs.tc_network1 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -767,7 +767,7 @@ data.techs.tc_network1 = {
 data.techs.tc_network2 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -781,7 +781,7 @@ data.techs.tc_network2 = {
 data.techs.tc_network3 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -795,7 +795,7 @@ data.techs.tc_network3 = {
 data.techs.tc_network4 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -904,7 +904,7 @@ data.techs.tc_weapons7 = {
 
 data.techs.tc_robot_storage1 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_small_storage.texture,
 	unlocks = {
@@ -918,7 +918,7 @@ data.techs.tc_robot_storage1 = {
 }
 data.techs.tc_robot_storage2 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_internal_storage.texture,
 	unlocks = {
@@ -932,7 +932,7 @@ data.techs.tc_robot_storage2 = {
 }
 data.techs.tc_robot_storage3 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_medium_storage.texture,
 	unlocks = {
@@ -946,7 +946,7 @@ data.techs.tc_robot_storage3 = {
 }
 data.techs.tc_robot_storage4 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_large_storage.texture,
 	unlocks = {
@@ -967,7 +967,7 @@ data.techs.tc_robot_signals1 = {
 		-- new resources
 		"c_radio_transmitter","c_radio_receiver" 
 	},
-	require_tech = { "tc_cube_green_1"},
+	require_tech = { "tc_cube_blue_1"},
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
@@ -981,7 +981,7 @@ data.techs.tc_robot_signals2 = {
 		-- new resources
 		"c_small_radar","c_shield_generator",
 	},
-	require_tech = { "tc_robot_signals1" },
+	require_tech = { "tc_robot_signals1", "tc_cube_green_2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",

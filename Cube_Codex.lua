@@ -21,7 +21,7 @@ data.codex.xc_cube_1 = {
     Study Notes:
     The Cube is perfectly flat on its surface down to the nm 
     Its density is beyond all readings 
-    The Cube appears to impart logic and emotions on neary materials
+    The Cube appears to impart logic and emotions on nearby materials
     The Cube can harmonize with emotional materials to generate energy. 
     
     <bl>The Cube is extremly heavy</> and must be placed on a special Cube pedestal 

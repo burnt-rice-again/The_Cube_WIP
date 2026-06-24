@@ -234,9 +234,10 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],
 function cc_moduleefficiency:update_boost(comp, remove)
 	--print(self, comp, remove)
 	local owner = comp.owner
-	
+	--print(comp.id, owner)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
+	if owner[self.boost_id] == nil then return print("No Boost Id", self.boost_id) end
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
 	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
@@ -333,7 +334,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	visual = "v_generic_i",
 	texture = data.components.c_modulespeed.texture,
 	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1, ic_fuel = 2 }, { c_assembler = 60, }),
-	boost = 25,
+	boost = 30,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
 	index = 1052,
@@ -569,7 +570,7 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	name = "Cube Pedastal",
 	attachment_size = "Medium",
 	texture = "The_Cube_WIP/textures/Cube_Storage.png",
-	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>500</> power while holding a CUBE",
+	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-90%</>\n\nWill extract <hl>1000</> power while holding a CUBE",
 	visual = "vc_cube_storage",
 	race = "robot",
 	boost = -80,
@@ -584,7 +585,6 @@ local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
 	adjust_light_color = true,
 })
 function cc_cube_storage:update_boost(comp, reverse_polarity)
-	--print(self, comp, remove)
 	local owner = comp.owner
 	-- set remove when no nill 
 	if reverse_polarity == true then
@@ -593,6 +593,7 @@ function cc_cube_storage:update_boost(comp, reverse_polarity)
 		return 
 	end
 	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
+	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0), owner)
 end
 function cc_cube_storage:on_remove(comp)
 	local slot = comp:GetSlot(1)

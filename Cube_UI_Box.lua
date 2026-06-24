@@ -40,11 +40,11 @@ function FactionAction.replace_lost_cube(player_faction)
 end
 -- need to specifically check dropped items
 local function Check_For_Dropped_Cube(location)     
-    -- print("dropped cube check loc")
+    -- print("dropped cube check loc", location)
     local entity_list = nil 
     if location == nil then
         entity_list =  Map.GetFaction("world").entities
-    else 
+    else
         entity_list = Map.GetEntitiesInRange(location.x,location.y,1,1,2,FF_DROPPEDITEM)
     end
     if entity_list == nil then print("No Entites") return end 
@@ -120,7 +120,7 @@ function cube_locator:update()
         self.cube_id = extra_data.cube_type
         -- update cube location if it has no entity 
         if extra_data.cube_key == nil then
-            local ent, id = Check_For_Dropped_Cube(extra_data.cube_cord or 1) 
+            local ent, id = Check_For_Dropped_Cube(extra_data.cube_cord) 
             if ent ~= nil then 
                 Action.SendForLocalFaction("update_cube_location",{ent.key,id,ent.location})
             end
