@@ -91,11 +91,7 @@ data.frames.f_tripodonte1.resource_drop = {"bug_carapace", "vc_souls"}
 data.frames.f_bug_hole.on_destroy = nil
 data.frames.f_bug_hive.on_destroy = nil
 
-
-
-
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
-
 
 -------------------------------------------
 ------------- Robot Frames -----------------

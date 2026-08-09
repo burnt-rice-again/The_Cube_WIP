@@ -248,14 +248,12 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     ingriedents = { ic_cube_green = 1}, -- can add additional inputs here
     output = {}, -- can add additional outputs here
     output_cube = 'ic_cube_green', -- replace cube with
-    
     registers = {
 		{ read_only = true, type = "Target", tip = "Planting seed at", ui_icon = "icon_target", },
 		{ read_only = true, tip = "Fertilzer Required",},
         { read_only = true, ui_icon = "icon_small_time", tip = "<header>Plant Growth Time</>\n\nHow many simulation ticks it will take the crop to grow\n\nDivide by 5 for seconds"},
         { read_only = true, ui_icon = "icon_small_seed", tip = "<header>Plant Yield</>\n\nMultiplies the amount of items produced"},
 	},
-
     -- change these with each new plant
     seed_id = "fc_crop_wire_seed0",
     default_grow_time = 300,

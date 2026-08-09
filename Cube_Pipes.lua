@@ -18,8 +18,6 @@ local cc_pipe_crane = Comp:RegisterComponent("cc_pipe_crane", {
     get_ui = true,
     on_remove = function(self, comp) comp.owner.move_boost = 100 end 
 })
-
-
 -- fx_alien_monolith_lightning - this is cool
 -- fx_turret_3 - single shot looks okay 
 --fx_extractor - better then standard miner
