@@ -35,6 +35,8 @@ data.visuals.samplevisual = {
 
 -- https://sketchfab.com/max5644/models
 
+local CONTAINER_CULL_DIST = 0.5
+
 local meshes = {
     landing_pad = "StaticMesh'/Game/Meshes/BaseBuildings/Component_LandingPad_01_L.Component_LandingPad_01_L'",
 
@@ -69,7 +71,7 @@ data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Conta
 data.visuals.vc_cube_storage = { 
     mesh = meshes.storage_single, 
     scale = { 4.5, 4.5, 4.5 },
-	mesh_sockets = { ["fx"] = {50,50,-100} },
+	mesh_sockets = { ["fx"] = {0,0,-7} },
 	light_radius = 2,
 	light_color = {0,0,0,1},
 	light_offset = { 0.0, 0.0, 2 },
@@ -88,8 +90,20 @@ data.visuals.vc_souls ={
 	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
 	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
+	cull_ratio = CONTAINER_CULL_DIST
 }
-
+data.visuals.vc_soul_happy ={
+	mesh = "The_Cube_WIP/textures/Soul_Happy.glb",
+	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	scale = { 0.1, 0.1, 0.1, },
+	cull_ratio = CONTAINER_CULL_DIST
+}
+data.visuals.vc_soul_angry ={
+	mesh = "The_Cube_WIP/textures/Soul_Angry.glb",
+	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	scale = { 0.1, 0.1, 0.1, },
+	cull_ratio = CONTAINER_CULL_DIST
+}
 data.visuals.vc_mug_anim = {
 	animesh = "The_Cube_WIP/textures/In Progress Blender/Cube_test_2.glb",
 	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
@@ -111,6 +125,8 @@ data.visuals.vc_mug = {
 }
 data.visuals.vc_tower1 = {
 	mesh = "The_Cube_WIP/textures/PowerPylonColoured.glb",
+	flags = "RandomRotation",
+
 	--mesh = "The_Cube_WIP/textures/tower2.T3D",
 	mesh_offset = { 0, 0, 98 },
 	mesh_sockets = { ["fx"] = {0,0,22000}, },
@@ -124,11 +140,38 @@ data.visuals.vc_cube_blue = {
 	--mesh_offset = { 0, 0, 1000000},
 	scale = {0.03,0.03,0.03},
 }
+-- change other cubes cull distance 
+data.visuals.v_gears.cull_ratio = 1 
+data.visuals.v_alien_data.cull_ratio = 1 
+data.visuals.v_virus_data.cull_ratio = 1 
+
+data.visuals.vc_static_gyro = {
+	mesh = "The_Cube_WIP/textures/In Progress Blender/Gyro Self Made/Static_Gyro3.glb",
+	mesh_offset = { 0, 0, 200},
+	mesh_sockets = { ["Medium1"] = {0,0,0}, },
+	sockets = {
+		{ "Medium1", "Medium" },
+		{ "", "Internal" },
+		{ "", "Internal" },
+	},
+	tile_size = { 5, 5 },
+	tile_pattern = {
+		1, 0, 0, 0, 0,
+		0, 1, 1, 1, 0,
+		0, 1, 1, 1, 0,
+		0, 1, 1, 1, 0,
+		0, 0, 0, 0, 1,
+	},
+	scale = {1,1,1},
+}
+
 data.visuals.vc_time_crystal = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
-	--mesh_offset = {0,0,10000	}
-	mesh_scale = {0,0,0.8}
+	mesh_offset = {0,0,100	},
+	mesh_scale = {0,0,0.8},
+	cull_ratio = CONTAINER_CULL_DIST
 }
+
 
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_sea_grass.scale = {3,3,3}
@@ -142,7 +185,7 @@ data.visuals.vc_crop_wire.flags = "RandomRotation|RandomScale|RandomTranslation"
 
 data.visuals.vc_crop_wire_seed0 = Tool.Copy(data.visuals.v_succulent_01) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed0.scale = {0.5,0.5,0.5}
-data.visuals.vc_crop_wire_seed0.RandomTranslation = {0.3,0.3,0.3}
+data.visuals.vc_crop_wire_seed0.RandomTranslation = {0.1,0.1,0.1}
 data.visuals.vc_crop_wire_seed1 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed1.scale = {0.8,0.8,0.8}
 data.visuals.vc_crop_wire_seed2 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
@@ -175,6 +218,10 @@ data.visuals.vc_cube_sphere_item.tile_size = nil
 
 data.visuals.vc_cube_sphere_frame = Tool.Copy(data.visuals.vc_cube_sphere_item)
 data.visuals.vc_cube_sphere_frame.scale = {.45,.45,.45}
+data.visuals.vc_cube_sphere_frame.sockets = nil
+--data.visuals.vc_cube_sphere_frame.light_color = nil
+
+
 --data.visuals.vc_cube_sphere.mesh_offset = {0,0,-400}
 
 --- add light to crystal power

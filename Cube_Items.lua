@@ -28,7 +28,7 @@ data.items.crystal_powder.tag = "simple_material"
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, crystal = 100, ic_soul_angry = 1}, 
+	{ crystal = 80, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 20, ic_cube_blue = 1}, 
 	{cc_manifest = 25, cc_red_furnace = 5},
 	50, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}
@@ -47,20 +47,20 @@ data.items.datakey_robot = {
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_empty = 1, reinforced_plate = 20, }, 
+	{ic_cube_empty = 1, reinforced_plate = 1, }, 
 	{cc_green_brain = 25 , cc_red_furnace = 5},
-	20, {ic_cube_blue = 1}),
+	10, {ic_cube_blue = 1}),
 	{desc = "Bulk Cube Log Filling"}
 )
 -- Red Cube items
 data.items.reinforced_plate.race = "robot"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
-{ic_cube_red = 1, steelblock = 100, crystal_powder = 10, wire = 20  }, 
+{ic_cube_red = 1, steelblock = 80, crystal_powder = 20, wire = 20  }, 
 {cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, steelblock = 100, ic_soul_plasma = 100, wire = 40  }, 
-	{cc_manifest = 50, cc_red_furnace = 5},
+	{ic_cube_red = 1, steelblock = 80, ic_soul_plasma = 5, wire = 40  }, 
+	{cc_manifest = 25, cc_red_furnace = 5},
 	20, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
 )
@@ -81,7 +81,7 @@ data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
 data.items.ldframe.race = "robot"
 data.items.ldframe.production_recipe = CreateProductionRecipe(
-{ reinforced_plate = 6, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 2}, { cc_manifest = 20 }, 1)
+{ reinforced_plate = 2, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 1, blight_crystal = 9}, { cc_manifest = 20 }, 1)
 
 
 --------------------------------------
@@ -143,7 +143,7 @@ data.items.ic_cube_blue = {
 	texture = "Main/textures/icons/items/robot_research_cube.png",
 	visual = "vc_cube_blue",--"v_robot_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_green = 1, crystal = 20 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
+	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
 	--v_robot_data
 }
 
@@ -184,7 +184,7 @@ data.items.ic_cube_green = {
 	texture = "Main/textures/icons/items/virus_research_data.png",
 	visual = "v_virus_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_blue = 1, crystal_powder = 1 }, { cc_manifest = 100, },1, {ic_cube_green = 1}),--phase_leaf = 6
+	{ ic_cube_blue = 1, crystal_powder = 1 }, { cc_manifest = 25, },1, {ic_cube_green = 1}),--phase_leaf = 6
 }
 create_alt_recipe("ic_cube_green",
 	CreateProductionRecipeWithWaste(
@@ -206,12 +206,12 @@ data.items.ic_cube_sphere = {
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
 	visual = 'vc_cube_sphere_item',
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_red = 1, ic_soul_plasma = 100,  }, 
+	{ ic_cube_red = 1, ic_soul_plasma = 1,  }, 
 	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
 	--production_recipe = CreateProductionRecipeWithWaste(
 	-- { ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
 	-- 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
-	alt_item = "datakey_robot",
+	--alt_item = "datakey_robot",
 }
 -- data.items.ic_cube_yellow = {
 -- 	name = "TEMPERED CUBE",
@@ -276,18 +276,19 @@ data.items.ic_soul_plasma = {
 	slot_type = "anomaly",
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, bug_carapace = 20, crystal_powder = 5 },
-	{ cc_soul_refinery = 400 },
-	100, {ic_cube_blue = 1}),
+	{ic_cube_blue = 1, bug_carapace = 5, crystal_powder = 10 },
+	{ cc_soul_refinery = 50 },
+	50, {ic_cube_blue = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, bug_carapace = 20, phase_leaf = 1 }, 
-	{cc_soul_refinery = 25,},
-	100,
+	{ic_cube_blue = 1, bug_carapace = 10, phase_leaf = 20, ic_time_crystal = 1 }, 
+	{cc_soul_refinery = 10,},
+	50,
 	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
+
 data.items.ic_soul_happy = {
 	name = "Enlightened Souls",
 	index = 1010,
@@ -295,7 +296,7 @@ data.items.ic_soul_happy = {
 	desc = "Empowered, Fortified and Self Determined\n\nEnlightened Souls are capable of independant thought. Perfect for operations involving control and automation",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/soul2.png",
-	visual = "v_scaramar1",
+	visual = "vc_soul_happy",
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
@@ -309,14 +310,22 @@ data.items.ic_soul_angry = {
 	desc = "Residual emotinal baggage found at the bottom of the soul forge\n\nSoul pearls provide a strong focus for energy, allowing for destructive lasers and incredible power systems",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/soul4.png",
-	visual = "v_scaramar1",
+	visual = "vc_soul_angry",
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_soul_plasma = 100, ic_cube_red = 1, crystal_powder = 20 }, 
-	{ cc_soul_refinery = 100, cc_red_furnace = 60},
+	{ ic_soul_plasma = 50, ic_cube_red = 1, crystal_powder = 10 }, 
+	{cc_manifest = 200, cc_green_brain = 50, cc_red_furnace = 60},
 	5, {ic_cube_empty = 1}),
 }
+create_alt_recipe("ic_soul_angry", 
+	CreateProductionRecipeWithWaste(
+	{ic_cube_red = 1, ic_soul_plasma = 50, ic_fuel = 20, blight_crystal = 5, ic_soul_happy = 5 }, 
+	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
+	10,
+	{ic_cube_empty = 1}),
+	{desc = "Alternative Soul Plasma Extraction"}
+)
 -- data.items.ic_living_metal = {
 -- 	name = "Living Metal",
 -- 	index = 1011,
@@ -340,7 +349,7 @@ data.items.ic_fuel = {
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
-	{ phase_leaf = 10, crystal_powder = 1}, 
+	{ phase_leaf = 10, crystal_powder = 1, blight_crystal = 2}, 
 	{ cc_soul_refinery = 20, cc_red_furnace = 15 }, 20),
 }
 data.items.ic_time_crystal = {
@@ -353,24 +362,61 @@ data.items.ic_time_crystal = {
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
 	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ blight_crystal = 4, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	production_recipe = CreateProductionRecipe({ blight_crystal = 12, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
 data.items.blight_crystal.name = "Unstable Chrono Crystal"
 data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"
-data.items.ic_micro_universe = {
-	name = 'Micro Universe',
-	index = 10,
+
+
+---- Final ITems 
+data.items.ic_broken_reality = {
+	name = 'Broken Reality',
+	index = 11,
 	tag = 'hitech_material',
 	race = "robot",
 	desc = 'The Final Frontier',
 	stack_size = 20,
 	slot_type = 'storage',
-	visual = 'v_bot_ai_core',
-	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ ic_time_crystal = 1, ldframe = 1, ic_cube_sphere = 1,  }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	visual = data.items.anomaly_cluster.visual,
+	texture = data.items.anomaly_cluster.texture,
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 10, ic_cube_sphere = 1, phase_leaf = 20,  ic_fuel = 10 }, { cc_manifest = 100, cc_red_furnace = 50 }, 1),
 }
-
-
+data.items.ic_proto_sent = {
+	name = 'Proto-Sentinece',
+	index = 11,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = data.items.anomaly_heart.visual,
+	texture = data.items.anomaly_heart.texture,
+	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 100 }, 1, {ic_cube_green = 1}),
+}
+data.items.ic_matter = {
+	name = 'Primordial Matter',
+	index = 11,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = data.items.obsidian.visual,
+	texture = data.items.obsidian.texture,
+	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, reinforced_plate = 20, fused_electrodes = 10,  ic_fuel = 10, ic_cube_red = 1 }, { cc_red_furnace = 100 }, 5, {ic_cube_empty = 1}),
+}
+data.items.ic_micro_universe = {
+	name = 'Micro Universe',
+	index = 12,
+	tag = 'hitech_material',
+	race = "robot",
+	desc = 'The Final Frontier',
+	stack_size = 20,
+	slot_type = 'storage',
+	visual = data.items.anomaly_heart.visual,
+	texture = "Main/textures/tech/blight/blight_terra_03_1.png",
+	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 1, ic_proto_sent = 1, ic_matter = 1, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
+}
 
 
 

@@ -70,6 +70,7 @@ function cc_crop:on_update(comp, cause)
         if owner.def.visual_set ~= nil and comp.extra_data.next_visual <= #owner.def.visual_set then
             -- grow visual and reset timer 
             comp.owner:SetVisual(owner.def.visual_set[comp.extra_data.next_visual])
+            comp:PlayWorkEffect("fx_heal_unit","_entity")
             comp.extra_data.next_visual = comp.extra_data.next_visual+1
             comp:SetStateStartWork(comp.extra_data.growth_time or 100)
             return
@@ -238,7 +239,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     desc = "Plants the contained seed at nearby unobstructed tiles, Select for seeds with higher yields",
     visual = "v_succulent_01",
     race = "virus",
-    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1 }, { cc_manifest = 30 },1, {ic_cube_green = 1}),
+    production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1 }, { cc_manifest = 300 },1, {ic_cube_green = 1}),
     range = 2,
     attachment_size = 'Small',
     activation = 'OnAnyItemSlotChange',
@@ -266,7 +267,7 @@ cc_planter:RegisterComponent('cc_planter_phase_leaf',{
     seed_id = 'fc_crop_phase_seed0',
     drop = 'phase_leaf',
     default_grow_time = 800,
-    ingriedents = { ic_cube_green = 1, crystal_powder = 1},
+    ingriedents = { ic_cube_green = 1},
 })
 
 
@@ -332,12 +333,6 @@ function cc_planter:on_update(comp, cause)
                 growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5),
                 next_visual = 1,
             })
-            -- if crop then 
-            --     crop.extra_data.key = comp.owner.key
-            --     crop.extra_data.yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1)
-            --     crop.extra_data.growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5)
-            --     print(crop.extra_data)
-            -- else print("co crop comp") end
 
             plant:Place(cord,comp.owner,false)
             comp:SetRegisterCoord(1, nil)

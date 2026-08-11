@@ -4,7 +4,6 @@
 ----------------------------------
 
 -- scrap sorter
-
 -- depreceated for other component cc_scrap_fabricator
 local cc_scrap_converter = Comp:RegisterComponent("cc_scrap_converter", {
 	name = "Scrap Recycler",
@@ -226,15 +225,6 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 	power = -500,
 	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 20, datakey_robot = 1 }, { c_fabricator = 30, c_assembler = 20 }),
 	recipes = {
-		{ 	id = "ic_cube_green", 
-		amt = {["ic_cube_empty"] = 1} , 
-		t = 100,
-		to = {},
-		cube_out = "ic_cube_green",
-		effect = "fx_blight_extract",
-		requires_blight = true ,
-		tech = "tc_cube_green_discovery",
-		},
 		{ 	id = "bug_carapace", 
 		amt = {["ic_cube_empty"] = 1, ["ic_soul_plasma"] = 1} , 
 		t = 5, 
@@ -257,7 +247,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 		effect = "fx_blight_extract",
 		desc = "Emergency Cube Cooling"
 		},
-		{ 	id = "ic_cube_empty", 
+		{ 	id = "ic_cube_green", 
 		amt = {["ic_cube_green"] = 1} , 
 		t = 10, 
 		to = {},
@@ -271,7 +261,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 -- melt the cube 
 cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 	name = "Cube Furnace",
-	texture = "Main/textures/icons/values/plateau.png",
+	texture = "The_Cube_WIP/textures/Volcano.png",
 	desc = "Melt away everything that isnt essential",
 	attachment_size = "Hidden",
 	--visual = "v_blightpowergenerator_01_m",
@@ -290,82 +280,15 @@ cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 		amt = {["ic_cube_blue"] = 1} , 
 		t = 5, 
 		to = {},
-		cube_out = "ic_cube_green",
+		cube_out = "ic_cube_red",
+		--effect = "fx_alien_monolith_lightning"
+		},
+		{ 	id = "ic_cube_green", 
+		amt = {["ic_cube_green"] = 1} , 
+		t = 5, 
+		to = {},
+		cube_out = "ic_cube_red",
 		--effect = "fx_alien_monolith_lightning"
 		}
 	},
 })
-
--- cc_scrap_converter:RegisterComponent("cc_red_cube_refinery", {
--- 	name = "Mantle Tear",
--- 	texture = "Main/textures/icons/alien/alienbuilding_alienheart.png",
--- 	desc = "Refined Sadness petrified into a moment of anguish\n\nProvides Alternative Crafting recipes ",
--- 	attachment_size = "Large",
--- 	visual = "v_explorable_blightanomaly_01",
--- 	--power = -500,
--- 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, crystal_powder = 100, aluminiumsheet = 40}, { cc_manifest = 30, }, 1, {ic_cube_red = 1}),
--- 	recipes = {
--- 		{ id = "metalbar", 
--- 		amt = {["ic_cube_red"] = 1, ["metalore"] = 160, } , 
--- 		t = 15, 
--- 		to = {["metalbar"] = 120, ["aluminiumrod"] = 40},
--- 		cube_out = "ic_cube_empty",
--- 		desc = "Scrap Melting",
--- 		effect = "fx_alien_core",
--- 		},
--- 		{ 	id = "reinforced_plate", 
--- 		amt = {["ic_cube_red"] = 1, ["metalbar"] = 80, ["steelblock"] = 80, } , 
--- 		t = 15, 
--- 		to = {["reinforced_plate"] = 160},
--- 		cube_out = "ic_cube_empty",
--- 		desc = "Reinforced Plate Forging",
--- 		effect = "fx_alien_core",
--- 		},
--- 		{ 	id = "steelblock", 
--- 		amt = {["ic_cube_red"] = 1, ["metalbar"] = 80, ["concreteslab"] = 40, } , -- TODO change to biomass?
--- 		t = 15, 
--- 		to = {["steelblock"] = 160}, 
--- 		cube_out = "ic_cube_empty",
--- 		desc = "Steel Mixing",
--- 		effect = "fx_alien_core",
--- 		},
--- 		{ 	id = "fused_electrodes", 
--- 		amt = {["ic_cube_red"] = 1, ["crystal_powder"] = 60, ["aluminiumrod"] = 40, } , -- TODO change to biomass?
--- 		t = 15, 
--- 		to = {["fused_electrodes"] = 40}, 
--- 		cube_out = "ic_cube_empty",
--- 		desc = "Steel Mixing",
--- 		tech = "tc_",
--- 		effect = "fx_alien_core",
--- 		},
-
--- 	},
--- })
-
--- split the cube 
--- cc_scrap_converter:RegisterComponent("cc_cube_splitter", {
--- 	name = "Cube Splitter",
--- 	texture = "Main/textures/icons/values/plateau.png",
--- 	desc = "A ray of distilled emotion can cut into an already molten Cube\n\nThe Power Required is extreme",
--- 	attachment_size = "Large",
--- 	visual = "v_human_powerplant",
--- 	power = -100000,
--- 	production_recipe = CreateProductionRecipe({ reinforced_plate = 64, ic_soul_angry = 16, concreteslab = 10 }, { c_fabricator = 30, }),
--- 	--production_recipe = false,
--- 	recipes = {
--- 		{ 	id = "ic_cube_red", 
--- 		amt = {["ic_cube_red"] = 1} , 
--- 		t = 300, 
--- 		to = {ic_cube_sphere = 1},
--- 		cube_out = "ic_cube_empty",
--- 		},
--- 		{ 	id = "datakey_robot", 
--- 		amt = {["ic_cube_empty"] = 1, ic_soul_happy = 10} , 
--- 		t = 300, 
--- 		to = {datakey_robot = 100},
--- 		cube_out = "ic_cube_blue",
--- 		},
--- 		-- some hidden recipes 
-
--- 	},
--- })

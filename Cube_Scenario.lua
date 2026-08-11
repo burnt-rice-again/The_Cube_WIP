@@ -45,11 +45,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	for key, val in pairs(data.techs) do 
-		if "tc_" == string.sub(key, 1, 3) then 
-			faction:Unlock(key)
-		end
-	end
+	-- for key, val in pairs(data.techs) do 
+	-- 	if "tc_" == string.sub(key, 1, 3) then 
+	-- 		faction:Unlock(key)
+	-- 	end
+	-- end
 	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
@@ -95,6 +95,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:AddItem("datakey_robot", 40)
 	home_entity:AddItem("cc_cube_storage", 2)
 	home_entity:AddItem("cc_crystal_power", 1)
+	home_entity:AddItem("c_assembler", 1)
 	home_entity:AddItem("c_fabricator", 2)
 	home_entity:Place(loc.x-1, loc.y-1)
 	faction.home_entity = home_entity
@@ -148,7 +149,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	-- spawn consturction fliers 
 	local flier = Map.CreateEntity(faction, "f_flyer_bot")
-	flier:AddComponent("c_anomaly_container_i")
 	flier.logistics_carrier = true
 	flier.disconnected = false
 	flier:Place(loc.x+4,loc.y+3)
@@ -211,14 +211,14 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 
 
-	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	-- recharger:AddComponent("cc_pipe_output")
-	-- recharger:AddComponent("cc_cube_storage")
-	-- recharger:AddComponent("cc_crystal_power_red")
-	-- recharger:AddItem("ic_soul_plasma",100)
-	-- recharger:AddItem("crystal_powder",60)
-	-- recharger:AddItem("ic_cube_red")
-	-- recharger:Place(loc.x-3,loc.y+10)
+	local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	recharger:AddComponent("cc_pipe_output")
+	recharger:AddComponent("cc_cube_storage")
+	recharger:AddComponent("cc_crystal_power_red")
+	recharger:AddItem("ic_soul_plasma",100)
+	recharger:AddItem("crystal_powder",60)
+	recharger:AddItem("ic_cube_red")
+	recharger:Place(loc.x-3,loc.y+10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- recharger:AddComponent("cc_time_travel_machine")

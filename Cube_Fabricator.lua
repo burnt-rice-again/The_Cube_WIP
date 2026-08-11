@@ -11,6 +11,7 @@ end
 local function replace_cube(recipe, entity)
 	if recipe.byproduct ~= nil then
 		local anti_count = 0
+		-- add cube back in 
 		for waste,num in pairs(recipe.byproduct) do
 			if waste == "ic_cube_sphere" then
 				-- special placement of anticube in area
@@ -19,11 +20,16 @@ local function replace_cube(recipe, entity)
 				AddCubeThroughFixed(entity,waste)
 			end
 		end
+		-- place anti cubes in output
 		while anti_count > 0 do 
 			Place_Anti_Cube(entity, false)
 			anti_count = anti_count - 1
 		end
 	end
+	-- spawn more anti cubes on craft
+	-- if recipe.ingredients and recipe.ingredients.ic_cube_sphere ~= nil then 
+	-- 	Place_Anti_Cube(entity, true)
+	-- end
 end
 local function check_waste_and_output(recipe, outputs)
 	local cube_names = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red', 'ic_cube_sphere'}
@@ -289,18 +295,6 @@ end
 
 -------------------------- other comps ----------------------------------
 
-cc_cube_fabrication:RegisterComponent("cc_refinery",{
-	name = "Cube Refinery",
-	desc = "Non Cubic shapes can be broken down in dust for later rhombic reconstruction",
-	race = "robot",
-	attachment_size = "Medium",
-	texture = "Main/textures/icons/components/Component_Refinery_01_M.png",
-	visual = "v_refinery_01_m",
-	production_effect = "fx_refinery",
-	power = -1000,
-	production_recipe = CreateProductionRecipe({["steelblock"]=20,["concreteslab"]=20,["datakey_robot"]=2}, {["c_fabricator"] = 150}, 1),
-})	
-
 cc_cube_fabrication:RegisterComponent("cc_manifest",{
 	name = "Cube Think Tank",
 	desc = "Dream of the Cube and manifest reality",
@@ -325,7 +319,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	power = -250,
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
-	range = 3,
+	range = 8,
 	--pipe_input = data.components.cc_pipe_input.on_update
 })
 
@@ -351,30 +345,17 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 	production_effect = "fx_alien_liquid",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
 	power = -250,
-	production_recipe = CreateProductionRecipeWithWaste({ wire = 100, ic_soul_plasma = 40, ic_cube_green = 1 }, { cc_manifest = 30, }, 1, { ic_cube_green = 1}),
+	production_recipe = CreateProductionRecipe({ wire = 100, ic_soul_plasma = 40, datakey_robot = 20 }, { c_assembler = 100, }),
 })
 
-cc_cube_fabrication:RegisterComponent("cc_scrap_fabricator",{
-	name = "Scrap Crusher and Sorter",
-	texture = "Main/textures/icons/human/Human_Building_2x2_Refinery.png",
-	desc = "Crushes and Sperates rubble into metallic and non metallic materials",
+cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
+	name = "Brain Vat",
+	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	desc = "A Brain given self consciousness so it may ponder the cube in our stead",
 	race = "robot",
 	attachment_size = "Hidden",
-	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -20,
-	production_effect = false,
+	get_ui = true,
 	production_recipe = false,
+	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
+	power = -2000,
 })
-
--- cc_cube_fabrication:RegisterComponent("cc_time_travel_machine",{
--- 	name = "Time Travel Machine",
--- 	desc = "Steal Resources no longer obtanable in our time",
--- 	race = "robot",
--- 	attachment_size = "Large",
--- 	texture = "Main/textures/icons/components/Component_UnitTeleporter_01_L.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
--- 	visual = "v_teleporter_01_l",  --"v_scienceanalyzer_l",
--- 	production_effect = "fx_unit_teleport",
--- 	slots = { garage = 3 },
--- 	power = -1000,
--- 	production_recipe = CreateProductionRecipe({["steelblock"]=100,["concreteslab"]=100,["phase_leaf"]=50,["wire"] = 50}, {["c_fabricator"] = 150}, 1),
--- })	

@@ -13,8 +13,10 @@ data.frames.f_transport_bot.production_recipe = CreateProductionRecipe({ ic_soul
 data.frames.f_bot_1m_b.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 4, steelblock = 16 }, { c_robotics_factory = 80 })
 -- lvl2 
 data.frames.f_bot_1s_as.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, ic_soul_happy = 1, datakey_robot = 4 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1s_as.movement_speed = 6
 data.frames.f_bot_1m1s.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 16, reinforced_plate = 16 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1l_a.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 4, reinforced_plate = 32 }, { c_robotics_factory = 80 })
+data.frames.f_bot_1m_c.movement_speed = 6
 data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 4, reinforced_plate = 12, fused_electrodes = 4 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1s_adw.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 1, reinforced_plate = 9, fused_electrodes = 16 }, { c_robotics_factory = 80 })
 data.frames.f_bot_2m_as.production_recipe = CreateProductionRecipe({ ic_soul_happy = 2, engine = 4, reinforced_plate = 16, fused_electrodes = 32 }, { c_robotics_factory = 80 })
@@ -44,6 +46,9 @@ data.frames.f_building2x1c.component_boost = 0
 data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
 data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x1d.component_boost = 0
+data.frames.f_wall_bli.construction_recipe = CreateConstructionRecipe({ reinforced_plate = 1, concreteslab = 4, wire = 2}, 20)
+data.frames.f_wall_bli.race = "robot"
+data.frames.f_wall_bli.name = "Reinforced Wall"
 data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, wire = 12, steelblock = 16, datakey_robot = 5 }, 40)
 data.frames.f_building2x2b.component_boost = 0
 data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
@@ -70,11 +75,11 @@ data.frames.f_drone_defense_a.production_recipe = CreateProductionRecipe({ ldfra
 data.frames.f_beacon_l.construction_recipe = CreateConstructionRecipe({ beacon_frame = 5, ic_soul_happy = 1, phase_leaf = 2},25)
 
 -- foundations 
-data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 1, laterite = 4},25)
+data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_human_foundation_adv.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ crystal_powder = 1, reinforced_plate = 1},25)
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)
-data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, fused_electrodes = 1},25)
+data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 1, fused_electrodes = 1},25)
 
 
 local function on_destroy_drop(self, entity, damager)
@@ -94,63 +99,17 @@ data.frames.f_bug_hive.on_destroy = nil
 data.frames.f_human_warehouse.desc = "Not for safe storage of humans\nSee Workplace incident #110100100"
 
 -------------------------------------------
-------------- Robot Frames -----------------
--- scrap recycler 
-Frame:RegisterFrame("fc_scrap_recycler", {
-	name = "Scrap recycler",
-	desc = "Sorts Scrap into useful resources",
-	race = "human",
-	minimap_color = { 0.8, 0.8, 0.8 },
-	visibility_range = 10,
-	health_points = 600,
-	power = -5, -- -20
-	slots = { storage = 8 },
-	construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
-	texture = "Main/textures/icons/human/Human_Building_2x2_Refinery.png",
-	trigger_channels = "building",
-	visual = "v_human_refinery",
-	components = {
-		{ "cc_scrap_fabricator", "hidden" },
-	},
-	size = "Human",
-})
-
--------------------------------------------
 ------------- Custom Frames -----------------
 
-Frame:RegisterFrame("fc_crystal_power_red", {
-	name = "Fury Cube Power Plant",
-	desc = "Uses Extreme heat to vaporize crystals into enormous amounts of power",
-	race = "robot",
-	--minimap_color = data.values.v_color_crimson.color,
-    visibility_range = 10,
-	health_points = 500,
-	--power = 0,
-	slots = {storage = 11,cube = 1 },
-	construction_recipe = CreateConstructionRecipe({ concreteslab = 250, steelblock = 150, datakey_robot = 20 }, 120),
-	texture = "Main/textures/icons/values/plateau.png",
-	trigger_channels = "building",
-	visual = "v_human_powerplant",
-    components = {
-        { "cc_crystal_power_red", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-		{ "c_internal_transmitter", "hidden" },
-	},
-})
---data.visuals.v_starterturret_red_s.scale = {2,2,2.5}
 Frame:RegisterFrame("fc_pipe", {
 	name = "Plasma Relay Tower",
-	desc = "Channels Electroplamsa to other towers and receiveing Points",
+	desc = "Channels Electroplamsa to other towers and coils",
 	race = "robot",
     visibility_range = 10,
-	health_points = 500,
+	health_points = 200,
 	power = -1,
 	start_disconnected = true,
-	--slots = {anomaly = 1 },
 	construction_recipe = CreateConstructionRecipe({steelblock = 6, concreteslab = 4, crystal_powder = 1},1),
-	--construction_recipe = CreateConstructionRecipe({ concreteslab = 9, steelblock = 20, phase_leaf = 10 }, 40),
 	texture = "The_Cube_WIP/textures/PowerPylon.png",
 	trigger_channels = "building",
 	visual = "vc_tower1",--'v_blight_stabilizer',
@@ -161,12 +120,6 @@ Frame:RegisterFrame("fc_pipe", {
 	no_foundations = true,
 })
 
-Frame:RegisterFrame("f_resourcenode_pixel",  {
-		type = "Resource", index = 1, name = "Voxel Deposit",
-		texture = "Main/textures/icons/values/resource.png",
-		harvest_id = 'metalore',
-		minimap_color = { 0.3, 0.3, 0.3 },
-})
 Frame:RegisterFrame("f_resourcenode_concrete",  {
 		type = "Resource", index = 1, name = "Ruins",
 		texture = "Main/textures/icons/values/resource.png",
@@ -174,47 +127,27 @@ Frame:RegisterFrame("f_resourcenode_concrete",  {
 		minimap_color = { 0.3, 0.3, 0.3 },
 })
 
--- @Entity From frame
--- @Bool True to place two anticubes instead of 1
-function Place_Anti_Cube(entity, do_again)
-	-- location can be entity or location
-	if entity == nil then print("ERROR location is invalid for anticube") end 
-	-- if location.x == nil then
-	-- 	-- not coord is entity 
-	-- 	if location.location ~= nil then 
-	-- 		location = location.location
-	-- 	end
-	-- look for frame with space 
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 5, 5, 1, FF_OWNFACTION, entity.faction)
-	for key, val in pairs(list_nearby) do 
-		if val:HaveFreeSpace("ic_cube_sphere") == true then
-			val:AddItem("ic_cube_sphere")
-			val:PlayEffect("fx_ping")
-			return 
-		end
-	end
-	-- place as frame 
-	local cord = entity.location
-	local faction = entity.faction
-	Map.Defer(function()
-	local new_frame = Map.CreateEntity(faction, "fc_cube_sphere")
-	if new_frame ~= nil then
-		new_frame:Place(cord.x + math.random(-6,6), cord.y + math.random(-6,6)) end
-	end)
-	if do_again == true then  Place_Anti_Cube(entity, false) end 
-end 
-
+-- Anti Cube 
 local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	name = data.items.ic_cube_sphere.name,
-	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nHighly Volatile When Around The Cube\n\nCan not be destroyed by conventional means",
+	desc = "A Self Replicating Anti-Cube\n\nWill Multiply On Interaction with regular Matter\n\nWhen Attacked duplicates will spawn at attackers position (range 3)\n\n<rl>DANGER: Highly Volatile When Around The Cube</>",
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
+	range = 3,
+	-- size = "Other",
+	-- no_foundations = true,
 })
 -- on remove covers on_destroy as well + relocation
-function fc_cube_sphere:on_remove(frame, cause)
-	Place_Anti_Cube(frame,true)
+function fc_cube_sphere:on_remove(frame)
+	if frame.health > 0 then 
+		Place_Anti_Cube(frame,true)
+	end
+end 
+function fc_cube_sphere:on_destroy(frame, destroyer)
+	if destroyer then Place_Anti_Cube(destroyer,true) end 
 end 
 
+-- Boost Tower
 data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
@@ -224,7 +157,12 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	components = {
 		{"cc_boost_tower","hidden"}
 	},
-	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50)
+	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50),
+	trigger_channels = "building",
+	size = "Other",
+	no_integrated_behavior = false,
+	race = "robot",
+	visibility_range = 20,
 })
 -------------------------------------------
 ------------- Explorables -----------------
@@ -237,13 +175,12 @@ data.frames.f_explorable:RegisterFrame("fc_volcano", {
 	visibility_range = 10,
 	health_points = 60000,
 	--power = -5, -- -20a
-	slots = {cube = 1 },
 	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
-	texture = "Main/textures/icons/values/plateau.png",
+	texture = "The_Cube_WIP/textures/Volcano.png",
 	trigger_channels = "building",
 	visual = "blight_set_03",
     components = {
-		--{ "cc_explorable_fix", 'hidden' },
+		{ "cc_cube_storage", 'hidden' },
 		--{"c_explorable_netwalk", 'hidden'}
 	},
 	is_explorable = true,
@@ -266,6 +203,25 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 	},
 	is_explorable = true,
 })
+
+-- Endgame Building
+Frame:RegisterFrame("fc_gyro",{
+	name = "gyroscope",
+	health_points = 5,
+	race = "robot",
+	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
+	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	trigger_channels = "building",
+	visual = 'vc_static_gyro',--"v_blight_stabilizer",
+	size = "Large",
+	no_foundations = true,
+	is_explorable = true,
+	slots = {storage = 6 },
+	components = {
+		{ "cc_gyro_fabricator", 'hidden' },
+		--{"c_explorable_netwalk", 'hidden'}
+	},
+})
 ----------------------------
 ----- Testing Frames -------
 
@@ -286,3 +242,5 @@ Frame:RegisterFrame("fc_testing_observer",{
 	name = "obeserving tower",
 	visibility_range = 150,
 })
+
+

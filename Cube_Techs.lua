@@ -159,11 +159,11 @@ data.techs.tc_cube_blue_3 = {
 	texture = data.items.ic_cube_sphere.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_sphere","reinforced_plate_alt",
+		"ic_cube_sphere","reinforced_plate_alt"
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1, ic_soul_angry = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1, ic_soul_plasma = 1 }, 50),
 	category = "Cube_Curiosity",
 }
 
@@ -219,7 +219,7 @@ data.techs.tc_cube_red_4 = {
 		-- new resources
 		"ldframe",
 	},
-	require_tech = { "tc_cube_red_3"},
+	require_tech = { "tc_cube_anti_0"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
 	category = "Cube_Obsession",
@@ -241,15 +241,16 @@ data.techs.tc_cube_red_5 = {
 data.techs.tc_cube_red_6 = {
 	order = 52,
 	name = "Ultimate Power", 
-	desc = "Massive Power Generation",
-	texture = data.components.cc_red_furnace.texture,
+	desc = "UNLIMITED POWER!\n *Product May contain some limits",
+	texture = "Main/textures/icons/human/Human_Building_2x2_PowerStation.png",
 	unlocks = {
 		-- new resources
 		-- ultimate power? using superconductors 
+		'cc_crystal_power_ultimate',"ic_matter"
 	},
 	require_tech = { "tc_cube_red_5"},
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1, fused_electrodes = 1 }, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_1= {
@@ -304,7 +305,7 @@ data.techs.tc_cube_green_4 = {
 	},
 	require_tech = { "tc_cube_green_3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, ic_soul_plasma = 1, wire = 1 }, 300),
+	uplink_recipe = CreateUplinkRecipe({ ic_soul_happy = 1 }, 300),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_green_5 = {
@@ -326,13 +327,13 @@ data.techs.tc_cube_green_6 = {
 	order = 2,
 	name = "Phase Power",
 	desc = "Uses phase fuel to make power",
-	texture = "Main/textures/icons/items/human/engine.png",
+	texture = "Main/textures/icons/components/Component_PowerCell_01_S.png",
 	unlocks = {
-		'cc_power_phase',
+		'cc_power_phase',"ic_broken_reality"
 	},
 	require_tech = { "tc_cube_green_5" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_fuel = 1}, 100),
 	category = "Cube_Obsession",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
@@ -358,7 +359,7 @@ data.techs.tc_cube_anti_1= {
 		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
 	},
 	require_tech = { "tc_cube_anti_0", },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1 }, 100),
 	category = "Cube_Obsession",
 }
@@ -369,10 +370,10 @@ data.techs.tc_cube_anti_2 = {
 	texture = data.frames.fc_boost_tower.texture,
 	unlocks = {
 		-- new resources
-		"fc_boost_tower","xc_cube_boost",
+		"fc_boost_tower","xc_cube_boost","ic_soul_angry_alt"
 	},
 	require_tech = { "tc_cube_anti_1"},
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1, phase_leaf = 1 }, 100),
 	category = "Cube_Obsession",
 }
@@ -383,7 +384,7 @@ data.techs.tc_cube_anti_3= {
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		-- new resources
-		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel"
+		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel","ic_proto_sent"
 	},
 	require_tech = { "tc_cube_anti_2", },
 	progress_count = 50,
@@ -396,7 +397,7 @@ data.techs.tc_cube_anti_4= {
 	desc = "The Final Form",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
-		'ic_micro_universe'
+		'ic_micro_universe', "fc_gyro"
 	},
 	require_tech = { "tc_cube_anti_3", },
 	progress_count = 200,
@@ -446,7 +447,7 @@ data.techs.tc_robot_metallurgy_3 = {
 		"c_adv_miner","f_beacon_l",
 	},
 	require_tech = { "tc_robot_metallurgy_2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1 }, 25),
 	category = "Independance",
 }
@@ -654,7 +655,7 @@ data.techs.tc_building6= {
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
-		"f_building2x1d","f_building3x2b"
+		"f_building2x1d","f_building3x2b","f_wall_bli"
 	},
 	require_tech = {  "tc_building5" },
 	progress_count = 100,
@@ -699,7 +700,7 @@ data.techs.tc_robot_fly_1 = {
 		"f_flyer_bot","f_flyer_m","c_landing_pad",
 	},
 	require_tech = { "tc_robot_frames_4" },
-	progress_count = 100,
+	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1}, 50),
 	category = "Humility",
 }
@@ -713,7 +714,7 @@ data.techs.tc_robot_fly_2 = {
 		"f_drone_miner_a","f_drone_transfer_a","c_drone_comp",
 	},
 	require_tech = { "tc_robot_fly_1" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1}, 50),
 	category = "Humility",
 }
@@ -727,7 +728,7 @@ data.techs.tc_robot_fly_3 = {
 		"f_drone_transfer_a2","c_drone_port",
 	},
 	require_tech = { "tc_robot_fly_2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1}, 50),
 	category = "Humility",
 }
@@ -741,7 +742,7 @@ data.techs.tc_robot_fly_4 = {
 		"f_drone_adv_miner","f_drone_defense_a","c_drone_launcher",
 	},
 	require_tech = { "tc_robot_fly_3" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ldframe = 1, ic_soul_happy = 1, engine = 1, phase_leaf = 1}, 50),
 	category = "Humility",
 }
@@ -752,7 +753,7 @@ data.techs.tc_robot_fly_4 = {
 data.techs.tc_network1 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -766,7 +767,7 @@ data.techs.tc_network1 = {
 data.techs.tc_network2 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -780,25 +781,25 @@ data.techs.tc_network2 = {
 data.techs.tc_network3 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_medium_capacitor","c_battery",
+		"c_medium_capacitor","c_battery","c_large_power_relay"
 	},
 	require_tech = { "tc_network2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_network4 = {
 	order = 3,
 	name = "Improved Networking", -- recovered database etc.
-	desc = "Start a Linkin Profile",
+	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
-		"c_large_power_relay","c_large_battery","c_large_power_transmitter"
+		"c_large_battery","c_large_power_transmitter"
 	},
 	require_tech = { "tc_network3","tc_cube_green_1" },
 	progress_count = 100,
@@ -817,7 +818,7 @@ data.techs.tc_weapons1 = {
 		'c_repairkit',"c_repairer","c_melee_pulse","c_adv_portable_turret",
 	},
 	require_tech = {"tc_robot_metallurgy_1" },
-	progress_count = 25,
+	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
 	category = "tc_upgrades_1",
 }
@@ -830,7 +831,7 @@ data.techs.tc_weapons2 = {
 		"c_pulselasers","c_pulse_disrupter","c_repairport"
 	},
 	require_tech = { "tc_weapons1" },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
 }
@@ -843,7 +844,7 @@ data.techs.tc_weapons3 = {
 		"c_portable_turret_red","c_turret","c_repairer_small_aoe",
 	},
 	require_tech = { "tc_weapons2" },
-	progress_count = 50,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1, wire = 1}, 50),
 	category = "tc_upgrades_1",
 }
@@ -856,7 +857,7 @@ data.techs.tc_weapons4 = {
 		 "c_twin_autocannons","c_human_missilelauncher",
 	},
 	require_tech = { "tc_weapons3" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, crystal_powder = 1, reinforced_plate = 1}, 50),
 	category = "tc_upgrades_1",
 }
@@ -869,7 +870,7 @@ data.techs.tc_weapons5 = {
 		"c_plasma_turret","c_plasma_cannon",
 	},
 	require_tech = { "tc_weapons4" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_2",
 }
@@ -882,7 +883,7 @@ data.techs.tc_weapons6 = {
 		"c_railgun","c_light_cannon",
 	},
 	require_tech = { "tc_weapons5" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_2",
 }
@@ -903,7 +904,7 @@ data.techs.tc_weapons7 = {
 
 data.techs.tc_robot_storage1 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_small_storage.texture,
 	unlocks = {
@@ -911,13 +912,13 @@ data.techs.tc_robot_storage1 = {
 		"c_small_storage", 
 	},
 	require_tech = {"tc_robot_metallurgy_1" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1}, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_robot_storage2 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_internal_storage.texture,
 	unlocks = {
@@ -925,13 +926,13 @@ data.techs.tc_robot_storage2 = {
 		"c_internal_storage", 
 	},
 	require_tech = { "tc_robot_storage1" },
-	progress_count = 100,
+	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1 }, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_robot_storage3 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_medium_storage.texture,
 	unlocks = {
@@ -939,13 +940,13 @@ data.techs.tc_robot_storage3 = {
 		"c_medium_storage", 
 	},
 	require_tech = { "tc_robot_storage2" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1  }, 50),
 	category = "tc_upgrades_1",
 }
 data.techs.tc_robot_storage4 = {
 	order = 4,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Simple Storage", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_large_storage.texture,
 	unlocks = {
@@ -953,7 +954,7 @@ data.techs.tc_robot_storage4 = {
 		"c_large_storage", 
 	},
 	require_tech = { "tc_robot_storage3" },
-	progress_count = 100,
+	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1, ic_soul_happy = 1 }, 50),
 	category = "tc_upgrades_1",
 }
@@ -966,7 +967,7 @@ data.techs.tc_robot_signals1 = {
 		-- new resources
 		"c_radio_transmitter","c_radio_receiver" 
 	},
-	require_tech = { "tc_cube_green_1"},
+	require_tech = { "tc_cube_blue_1"},
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
@@ -980,7 +981,7 @@ data.techs.tc_robot_signals2 = {
 		-- new resources
 		"c_small_radar","c_shield_generator",
 	},
-	require_tech = { "tc_robot_signals1" },
+	require_tech = { "tc_robot_signals1", "tc_cube_green_2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1}, 50),
 	category = "tc_upgrades_1",
