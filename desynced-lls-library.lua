@@ -2912,7 +2912,7 @@ function Component:SetWorkAnimationSpeed(speed) end
 ---@field logistics_transport_route boolean The 'logistics transport route' flag of this entity sets if the unit will always pick up at GOTO and deliver everything to STORE (default off)
 ---@field logistics_high_priority boolean The 'logistics high priority' flag of this entity sets if orders requested by this entity are flagged as high priority (default off)
 ---@field has_crane boolean The 'has crane' flag of this entity is set if crane_range has been set to a value larger than 0
----@field crane_range integer Set this to a value larger than 0 to enable the crane functionality on an entity
+---@field crane_range integer Set this to a value larger than 0 to enable the crane Functions on an entity
 ---@field is_construction boolean Check if this entity is a construction site
 ---@field state_idle boolean The 'idle' state of this entity is set when an entity does not have its movement controlled for a while
 ---@field state_path_blocked boolean The 'path blocked' state of this entity is set when movement fails to complete a path

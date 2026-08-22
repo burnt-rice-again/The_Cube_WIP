@@ -30,6 +30,8 @@ READ THE CODEX! If you are lost the codex should explain everything. Let me know
 
     Dont forget to read the codex for help
 
+    new assest are a wip as I learn blender
+
 -------------
 
 ## The Cube has given us sentience!

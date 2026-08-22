@@ -32,7 +32,7 @@ data.tech_categories = {
 	{
 		name = "Upgrades",
 		initial_tech = "tc_upgrades_basic",
-		sub_categories = { "Upgrades 1", "Upgrades 2"},
+		sub_categories = { "Expanded Functions", "Maximum Lethality"},
 		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 		--textures = {"Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png"}
 	},
@@ -95,8 +95,8 @@ end
 
 
 data.techs.tc_upgrades_basic = {
-	name = "Upgrades1", -- recovered database etc.
-	desc = "Upgrades1",
+	name = "Basic Components", -- recovered database etc.
+	desc = "essential components for basic tasks",
 	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 	unlocks = {
 		"c_assembler",
@@ -110,6 +110,12 @@ data.techs.tc_upgrades_basic = {
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
 }
+
+
+-- lethality category_idx
+local floor_order = 1
+local order_weapons_1 = 1
+local order_weapons_2 = 222
 
 -------------------------------------------------
 --------- CUBE Techs Category -------------------
@@ -431,8 +437,8 @@ data.techs.tc_robot_metallurgy_2 = {
 }
 data.techs.tc_robot_metallurgy_3 = {
 	order = 2,
-	name = "Adv Miners", -- recovered database etc.
-	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
+	name = "Advanced Utility", -- recovered database etc.
+	desc = "Strike the earth",
 	texture = data.components.c_adv_miner.texture,
 	unlocks = {
 		-- new resources
@@ -445,8 +451,8 @@ data.techs.tc_robot_metallurgy_3 = {
 }
 data.techs.tc_robot_metallurgy_4 = {
 	order = 2,
-	name = "Adv Miners", -- recovered database etc.
-	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
+	name = "Heavy Miners", -- recovered database etc.
+	desc = "Bigger is better",
 	texture = data.components.c_extractor.texture,
 	unlocks = {
 		-- new resources
@@ -459,7 +465,7 @@ data.techs.tc_robot_metallurgy_4 = {
 }
 data.techs.tc_robot_frames_1 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics I", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -473,7 +479,7 @@ data.techs.tc_robot_frames_1 = {
 }
 data.techs.tc_robot_frames_2 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics II", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -487,7 +493,7 @@ data.techs.tc_robot_frames_2 = {
 }
 data.techs.tc_robot_frames_3 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics III", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -500,7 +506,7 @@ data.techs.tc_robot_frames_3 = {
 }
 data.techs.tc_robot_frames_4 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics IV", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -514,7 +520,7 @@ data.techs.tc_robot_frames_4 = {
 }
 data.techs.tc_robot_frames_5 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics V", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -528,7 +534,7 @@ data.techs.tc_robot_frames_5 = {
 }
 data.techs.tc_robot_frames_6 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics VI", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -542,7 +548,7 @@ data.techs.tc_robot_frames_6 = {
 }
 data.techs.tc_robot_frames_7 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics VII", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -556,7 +562,7 @@ data.techs.tc_robot_frames_7 = {
 }
 data.techs.tc_robot_frames_8 = {
 	order = 1,
-	name = "Simple Robotics", -- recovered database etc.
+	name = "Robotics VIII", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -571,8 +577,8 @@ data.techs.tc_robot_frames_8 = {
 --- buildings 
 data.techs.tc_building1 = {
 	order = 3,
-	name = "Buildings Expanded", -- recovered database etc.
-	desc = "",
+	name = "Flat Buildings", -- recovered database etc.
+	desc = "360 degree unobstructed view",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -586,7 +592,7 @@ data.techs.tc_building1 = {
 data.techs.tc_building2 = {
 	order = 3,
 	name = "Steel Reinforced Frames", -- recovered database etc.
-	desc = "",
+	desc = "Steel for building into the sky",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -600,7 +606,7 @@ data.techs.tc_building2 = {
 data.techs.tc_building3= {
 	order = 30,
 	name = "Deep Foundations", -- recovered database etc.
-	desc = "",
+	desc = "Stone for supporting the ground below",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -614,7 +620,7 @@ data.techs.tc_building3= {
 }
 data.techs.tc_building4= {
 	order = 30,
-	name = "Reinforced Walls", -- recovered database etc.
+	name = "Circuited Buildings", -- recovered database etc.
 	desc = "",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
@@ -628,8 +634,8 @@ data.techs.tc_building4= {
 }
 data.techs.tc_building5= {
 	order = 30,
-	name = "Reinforced Walls", -- recovered database etc.
-	desc = "",
+	name = "Disaster Proofing", -- recovered database etc.
+	desc = "Entry 025 The wurms blasted through the steel panel in 3 hits\nFactor of safety needs to be increased to 5",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -642,8 +648,8 @@ data.techs.tc_building5= {
 }
 data.techs.tc_building6= {
 	order = 30,
-	name = "Reinforced Walls", -- recovered database etc.
-	desc = "",
+	name = "Multipurpose buildings", -- recovered database etc.
+	desc = "A gadget for every item",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -656,8 +662,8 @@ data.techs.tc_building6= {
 }
 data.techs.tc_building7= {
 	order = 30,
-	name = "Reinforced Walls", -- recovered database etc.
-	desc = "",
+	name = "Time Dilated Construction", -- recovered database etc.
+	desc = "Chrono crystals can be used to fabricate the impossible",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -670,8 +676,8 @@ data.techs.tc_building7= {
 }
 data.techs.tc_building8= {
 	order = 30,
-	name = "Reinforced Walls", -- recovered database etc.
-	desc = "",
+	name = "Gigantic Buildings", -- recovered database etc.
+	desc = "For the grandest of ambitions",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -684,7 +690,7 @@ data.techs.tc_building8= {
 }
 data.techs.tc_robot_fly_1 = {
 	order = 1,
-	name = "Flying Robots", -- recovered database etc.
+	name = "Flying Robots I", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.frames.f_flyer_bot.texture,
 	unlocks = {
@@ -698,7 +704,7 @@ data.techs.tc_robot_fly_1 = {
 }
 data.techs.tc_robot_fly_2 = {
 	order = 1,
-	name = "Flying Robots", -- recovered database etc.
+	name = "Flying Robots II", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_drone_comp.texture,
 	unlocks = {
@@ -712,7 +718,7 @@ data.techs.tc_robot_fly_2 = {
 }
 data.techs.tc_robot_fly_3 = {
 	order = 1,
-	name = "Flying Robots", -- recovered database etc.
+	name = "Flying Robots III", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_drone_port.texture,
 	unlocks = {
@@ -726,7 +732,7 @@ data.techs.tc_robot_fly_3 = {
 }
 data.techs.tc_robot_fly_4 = {
 	order = 1,
-	name = "Flying Robots", -- recovered database etc.
+	name = "Flying Robots IV", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_drone_launcher.texture,
 	unlocks = {
@@ -744,7 +750,7 @@ data.techs.tc_robot_fly_4 = {
 --- Networking
 data.techs.tc_network1 = {
 	order = 3,
-	name = "Improved Networking", -- recovered database etc.
+	name = "Improved Networking I", -- recovered database etc.
 	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
@@ -754,11 +760,11 @@ data.techs.tc_network1 = {
 	require_tech = {"tc_cube_blue_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_network2 = {
 	order = 3,
-	name = "Improved Networking", -- recovered database etc.
+	name = "Improved Networking II", -- recovered database etc.
 	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
@@ -768,11 +774,11 @@ data.techs.tc_network2 = {
 	require_tech = { "tc_network1" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_network3 = {
 	order = 3,
-	name = "Improved Networking", -- recovered database etc.
+	name = "Improved Networking III", -- recovered database etc.
 	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
@@ -782,11 +788,11 @@ data.techs.tc_network3 = {
 	require_tech = { "tc_network2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_network4 = {
 	order = 3,
-	name = "Improved Networking", -- recovered database etc.
+	name = "Improved Networking IV", -- recovered database etc.
 	desc = "Start a linktin Profile",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
@@ -796,13 +802,13 @@ data.techs.tc_network4 = {
 	require_tech = { "tc_network3","tc_cube_green_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, ic_time_crystal = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 
 --- weapons 
 data.techs.tc_weapons1 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_1,
+	name = "Adv Soul Capture Methods I", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
@@ -812,11 +818,11 @@ data.techs.tc_weapons1 = {
 	require_tech = {"tc_robot_metallurgy_1" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
-	category = "Upgrades 1",
+	category = "Maximum Lethality",
 }
 data.techs.tc_weapons2 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_1,
+	name = "Adv Soul Capture Methods II", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
@@ -825,11 +831,11 @@ data.techs.tc_weapons2 = {
 	require_tech = { "tc_weapons1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1}, 50),
-	category = "Upgrades 1",
+	category = "Maximum Lethality",
 }
 data.techs.tc_weapons3 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_1,
+	name = "Adv Soul Capture Methods III", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
@@ -838,11 +844,11 @@ data.techs.tc_weapons3 = {
 	require_tech = { "tc_weapons2" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1, wire = 1}, 50),
-	category = "Upgrades 1",
+	category = "Maximum Lethality",
 }
 data.techs.tc_weapons4 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_1,
+	name = "Adv Soul Capture Methods IV", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
@@ -851,24 +857,25 @@ data.techs.tc_weapons4 = {
 	require_tech = { "tc_weapons3" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, crystal_powder = 1, reinforced_plate = 1}, 50),
-	category = "Upgrades 1",
+	category = "Maximum Lethality",
 }
+
 data.techs.tc_weapons5 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_2,
+	name = "Adv Soul Capture Methods V", -- recovered database etc.
 	desc = "The Cube must be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_plasma_turret","c_plasma_cannon",
 	},
-	require_tech = { "tc_weapons4" },
+	require_tech = { "tc_weapons1", "tc_weapons4" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
-	category = "Upgrades 2",
+	category = "Maximum Lethality",
 }
 data.techs.tc_weapons6 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_2,
+	name = "Adv Soul Capture Methods VI", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
@@ -877,11 +884,11 @@ data.techs.tc_weapons6 = {
 	require_tech = { "tc_weapons5" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
-	category = "Upgrades 2",
+	category = "Maximum Lethality",
 }
 data.techs.tc_weapons7 = {
-	order = 9,
-	name = "Improved Soul Capture Methods", -- recovered database etc.
+	order = order_weapons_2,
+	name = "Adv Soul Capture Methods VII", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
@@ -890,13 +897,13 @@ data.techs.tc_weapons7 = {
 	require_tech = { "tc_weapons6" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ldframe = 1,  ic_soul_angry = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
-	category = "Upgrades 2",
+	category = "Maximum Lethality",
 }
 --- storages 
 
 data.techs.tc_robot_storage1 = {
 	order = 4,
-	name = "Simple Storage", -- recovered database etc.
+	name = "Simple Storage I", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_small_storage.texture,
 	unlocks = {
@@ -906,11 +913,11 @@ data.techs.tc_robot_storage1 = {
 	require_tech = {"tc_robot_metallurgy_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_storage2 = {
 	order = 4,
-	name = "Simple Storage", -- recovered database etc.
+	name = "Simple Storage II", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_internal_storage.texture,
 	unlocks = {
@@ -920,11 +927,11 @@ data.techs.tc_robot_storage2 = {
 	require_tech = { "tc_robot_storage1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1 }, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_storage3 = {
 	order = 4,
-	name = "Simple Storage", -- recovered database etc.
+	name = "Simple Storage III", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_medium_storage.texture,
 	unlocks = {
@@ -934,11 +941,11 @@ data.techs.tc_robot_storage3 = {
 	require_tech = { "tc_robot_storage2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1  }, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_storage4 = {
 	order = 4,
-	name = "Simple Storage", -- recovered database etc.
+	name = "Simple Storage IV", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_large_storage.texture,
 	unlocks = {
@@ -948,7 +955,7 @@ data.techs.tc_robot_storage4 = {
 	require_tech = { "tc_robot_storage3" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1, ic_soul_happy = 1 }, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_signals1 = {
 	order = 11,
@@ -962,11 +969,11 @@ data.techs.tc_robot_signals1 = {
 	require_tech = { "tc_cube_blue_1"},
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_signals2 = {
 	order = 11,
-	name = "Wireless Action", -- recovered database etc.
+	name = "Wireless Action I", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_radar.texture,
 	unlocks = {
@@ -976,11 +983,11 @@ data.techs.tc_robot_signals2 = {
 	require_tech = { "tc_robot_signals1", "tc_cube_green_2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_signals3 = {
 	order = 11,
-	name = "Wireless Action", -- recovered database etc.
+	name = "Wireless Action II", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_radar.texture,
 	unlocks = {
@@ -990,11 +997,11 @@ data.techs.tc_robot_signals3 = {
 	require_tech = { "tc_robot_signals2" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
 data.techs.tc_robot_signals4 = {
 	order = 11,
-	name = "Wireless Action", -- recovered database etc.
+	name = "Wireless Action III", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_radar.texture,
 	unlocks = {
@@ -1004,12 +1011,13 @@ data.techs.tc_robot_signals4 = {
 	require_tech = { "tc_robot_signals3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1, ldframe = 1}, 50),
-	category = "Upgrades 1",
+	category = "Expanded Functions",
 }
+
 data.techs.tc_robot_floor_1 = {
-	order = 11,
-	name = "Foundations", 
-	desc = "BEEP BOOP",
+	order = floor_order,
+	name = "Foundations I", 
+	desc = "The Foundation tech for Foundations",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
 		"f_human_foundation1","f_human_foundation_adv"
@@ -1017,11 +1025,11 @@ data.techs.tc_robot_floor_1 = {
 	require_tech = { "tc_robot_metallurgy_2"},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1}, 50),
-	category = "Upgrades 2",
+	category = "Maximum Lethality",
 }
 data.techs.tc_robot_floor_2 = {
-	order = 11,
-	name = "Foundations", 
+	order = floor_order,
+	name = "Foundations II", 
 	desc = "BEEP BOOP",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
@@ -1031,11 +1039,11 @@ data.techs.tc_robot_floor_2 = {
 	require_tech = { "tc_robot_floor_1",},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1}, 50),
-	category = "Upgrades 2",
+	category = "Maximum Lethality",
 }
 data.techs.tc_robot_floor_3 = {
-	order = 11,
-	name = "Foundations", 
+	order = floor_order,
+	name = "Foundations III", 
 	desc = "BEEP BOOP",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
@@ -1044,7 +1052,7 @@ data.techs.tc_robot_floor_3 = {
 	require_tech = { "tc_robot_floor_2",},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
-	category = "Upgrades 2",
+	category = "Maximum Lethality",
 }
 
 
