@@ -195,6 +195,8 @@ data.visuals.vc_crop_phase_seed4.scale = {1.7,1.7,1.7}
 data.visuals.vc_cube_sphere_item = Tool.Copy(data.visuals.v_explorable_blightanomaly_02)
 data.visuals.vc_cube_sphere_item.scale = {0.1,.1,.1}
 data.visuals.vc_cube_sphere_item.tile_size = nil
+data.visuals.vc_cube_sphere_item.explorable_name = nil
+
 
 data.visuals.vc_cube_sphere_frame = Tool.Copy(data.visuals.vc_cube_sphere_item)
 data.visuals.vc_cube_sphere_frame.scale = {.45,.45,.45}

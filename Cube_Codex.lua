@@ -58,7 +58,7 @@ data.codex.xc_cube_power_1 = {
         The Cube is <hl>required</> for all power generation. 
         
         The Entropy of all other systems is too high to perform useful work
-        Crafting with the cube requires lots of power and will need a suitable buffer as well
+        Crafting with the cube consumes lots of power and will require a battery buffer
         
         The blue Cube will provide <bl>1000</> power/second while placed on a pedestal
 
@@ -109,14 +109,12 @@ data.codex.xc_cube_recharger = {
         Intense crafting will cause the Cube to become dormant 
 
         The Cube Recharger can renergize the Cube.
-        A list of known recipes is found at the resource bar.
-        The Recharger will normally create a Blue Cube.
+        The Recharger will always result in a <bl>Blue Cube</>
 
-        Some recipes require more resources but craft significantly faster. 
+        Tip: The faster recipe will automatically be used when an electroplasma reciever <img id="cc_pipe_output" width="50" height="50"/> is also slotted on the same building. 
 
-        There are some alternative recipes as well 
-            -- Emergency Cube Cooling can cool the Fury Cube.
-            -- Charging inside the blight can create a Restless Cube. 
+        <img image="The_Cube_WIP/textures/Codex_Images/cube_recharger.png"/>
+
         ]],
 }
 data.codex.xc_cube_alt = {
@@ -139,6 +137,8 @@ data.codex.xc_cube_alt = {
         An instruction is available to check if the input is an alternative recipe. Will Return the original item if available. 
         <img image="The_Cube_WIP/textures/Codex_Images/alt_recipe_block.png"/>
 
+        Functionally all produced items are the original. The alternative only shows up in recipe descriptions.
+
         ]],
 }
 data.codex.xc_cube_green = {
@@ -152,7 +152,6 @@ data.codex.xc_cube_green = {
         <bl>Bots holding the Restless Cube recieve a 80% move speed bonus instead.</>
 
         It can be crafted at the Cube think tank
-        Alternativly recharging the cube inside the blight will produce a Restless Cube<img width="50" height="50" id="cc_cube_recharger"/>
         Farming requires the <bl>Restless Cube</> to plant new crops 
         A planter will request the Cube when it has a plantable position available in range
         
@@ -175,7 +174,7 @@ data.codex.xc_cube_green = {
 
         Planter Registers:
         4 - Yield - How many resources will drop when the crop is harvested from this seed
-        3 - Seed Grow Time - How long the crop will take to grow when plated with this seed
+        3 - Seed Grow Time - How long the crop will take to grow when this seed is planted
         2 - Missing Fertilizer - When the planter requires the Restless Cube or other items
         1 - Target Location (None if there is not a plantable position in range)
         <img image="The_Cube_WIP/textures/Codex_Images/Planter_Registers.png"/>  
@@ -189,15 +188,16 @@ data.codex.xc_cube_red = {
     title = [[<img width="18" height="18" id="ic_cube_red"/>Fury Cube]],
     text = [[<img width="100" height="100" id="ic_cube_red"/><codex_title>Fury Cube</>
 
-        The Fury Cube is useful for smelting and power generation 
+        The <rl>Fury Cube</> is useful for smelting and power generation 
 
-        The Fury Cube can be created by melting a cube inside a blight volcano
+        The <rl>Fury Cube</> can be created by melting a cube inside a blight volcano
         <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="fc_volcano"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+        There does exists two other methods for crafting a <rl>Fury Cube</>
 
         The Cube will cooldown when used for crafting<img width="50" height="50" id="ic_cube_empty"/>
-        Alternativly the Fury Cube can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
+        Alternativly the <rl>Fury Cube</> can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
 
-        Available Power Generation via Fury Cube.
+        Available Power Generation via <rl>Fury Cube</>.
         <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Basic Crystal Power</> 
         Energy Recipe 
 		<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
@@ -214,7 +214,7 @@ data.codex.xc_cube_plasma = {
     title = [[<img width="18" height="18" id="ic_soul_plasma"/>Ectoplasma Network]],
     text = [[<img width="100" height="100" id="ic_soul_plasma"/><codex_title>Ectoplasma Network</>
 
-        <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units and occasionaly found at defended explroables
+        <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units and are occasionaly found at defended explroables
 
         They can be converted into Ectoplasma at the soul refinery <img id="cc_soul_refinery" width="50" height="50"/>
         
@@ -229,8 +229,6 @@ data.codex.xc_cube_plasma = {
         <img image="The_Cube_WIP/textures/Codex_Images/Plasma_2.png"/>  
 
         The Cube recharger can use plasma to recharge extremly quickly. It will automatically use plasma if available from a plasma coil
-
-        
 
 
         ]],
@@ -271,7 +269,7 @@ data.codex.xc_cube_time_crystal = {
         Chrono Crystal Deposits will form nearby. 
 
         Units Killed by the explosion will cause additonal blight crystals to appear. 
-        The average yield per anhillated <bl>Anti-Cube</> is 6 Chrono Crystals
+        The average yield per anhillated <bl>Anti-Cube</> is 6 Chrono Crystals.
 
         In additon the Cube will be transformed into another form. 
 
@@ -280,20 +278,23 @@ data.codex.xc_cube_time_crystal = {
         <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
         <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
 
-        For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once without causing more damage.
+        Tip: For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once.
+            The Cube's form will not be changed due to the reaction happening twice
+            The Explosion damage is the same as 1 anti-cube being destroyed.
+
         <img image="The_Cube_WIP/textures/Codex_Images/Anti_4.png"/>  
 
         ]],
 }
+-- <img id="cc_modulespeed_l" width="50" height="50"/><img id="ic_fuel" width="50" height="50"/>
 data.codex.xc_cube_boost = {
     category = "Codex",
     index = 11,
     title = [[<img width="18" height="18" id="ic_fuel"/>Boost Modules]],
     text = [[<img width="100" height="100" id="ic_fuel"/><codex_title>Boost Modules</>
 
-        Effciency and Movement Speed boost modules now require fuel to operate. 
+        Effciency modules now require fuel to operate. 
         
-        <img id="cc_modulespeed_l" width="50" height="50"/><img id="ic_fuel" width="50" height="50"/>
         <img id="cc_moduleefficiency_l" width="50" height="50"/><img id="ic_time_crystal" width="50" height="50"/>
 
         Modules will automatically request a full stack but only consume 1 at a time.
@@ -304,6 +305,7 @@ data.codex.xc_cube_boost = {
         When the tower is ready it will boost the unit. 
 
         Multiple boost towers affecting the same unit will have diminshing returns 
+            - The time the chrono-boost applies is halved for each existing boost by another chrono tower
         ]],
 }
 data.codex.xc_cube_time_travel = {
@@ -333,8 +335,8 @@ data.codex.xc_cube_time_travel = {
         
         As your raid gets closer to a time delta of 1024 years our future selves become far more advanced
         The threat level shows the relative technology gap between us.
-        However the yield of superconductors increases every 100 years.
-        After a time delta of 1024 the superconductor yield increases significantly 
+        The yield of superconductors increases every 100 years.
+        After a time delta of 1024 years the superconductor yield increases significantly 
         ]]
 }
 data.codex.xc_gyroscope = {

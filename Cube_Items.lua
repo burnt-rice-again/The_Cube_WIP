@@ -195,7 +195,7 @@ create_alt_recipe("ic_cube_green",
 	{desc = "Lightning Fast Restless Cube Forming"}
 )
 data.items.ic_cube_sphere = {
-	name = "ANTI-CUBE",
+	name = "ANTI - CUBE",
 	index = 1004,
 	desc = [[<hl>Heresey, there is a sphere inside the cube!</>
 <rl>WARNING: extremly unstable around the Cube</>]],

@@ -819,7 +819,7 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 		-- replace cube 
 		comp:CancelProcess()
 		ent:SetRegisterNum(FRAMEREG_GOTO,ent:GetRegisterNum(FRAMEREG_GOTO)+self.magnify_limit)
-		ent:PlayEffect("fx_heal_unit","_entity")
+		ent:PlayEffect("fx_heal_unit")
 		comp:SetRegister(2)
 		comp:SetStateSleep(1)
 		ent = nil

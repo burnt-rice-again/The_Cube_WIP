@@ -35,13 +35,13 @@ local frame_cost_list <const> = {
 }
 local comp_cost_list <const> = {
     i ={
-        -- c_repairkit = 1,
-        -- c_modulehealth = 4,
-        -- c_moduleefficiency = 2,
-        -- c_modulespeed = 1,
-        -- c_shield_generator = 1,
-        -- c_shield_generator2 = 2,
-        -- c_shield_generator3 = 3,
+        c_repairkit = 1,
+        c_modulehealth = 4,
+        c_moduleefficiency = 2,
+        c_modulespeed = 1,
+        c_shield_generator = 1,
+        c_shield_generator2 = 2,
+        c_shield_generator3 = 3,
         c_internal_storage = 0, -- dud item
     },
     s ={

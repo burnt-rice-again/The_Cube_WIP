@@ -57,7 +57,7 @@ data.techs.tc_cube_basic = {
 		--components
 		"cc_cube_storage","cc_crystal_power","cc_manifest",
 
-		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal","xc_gyroscope"
+		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal",
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
@@ -75,22 +75,6 @@ data.techs.tc_robot_basic = {
 		-- starting bots 
 		"f_bot_1s_a","f_carrier_bot",
 		-- starting values
-		"v_color_red", "v_color_green", "v_color_blue", "v_color_yellow", "v_color_cyan", "v_color_magenta", "v_ally_faction",
-		"v_color_black", "v_color_brown", "v_color_crimson", "v_color_dark_grey", "v_color_light_green", "v_color_light_grey",
-		"v_color_pink", "v_color_white", "v_color_pastel",
-		"v_own_faction", "v_enemy_faction", "v_world_faction", "v_bot", "v_building", "v_construction", "v_droppeditem", "v_resource", "v_damaged", "v_mineable",
-		"v_alien_faction", "v_solved", "v_unsolved", "v_can_loot", "v_bug_faction", "v_human_faction", "v_robot_faction", "v_blight", "v_not_blight",
-		"v_plateau", "v_valley", "v_in_powergrid", "v_is_foundation", "v_is_grounded", "v_is_flying", "v_is_flower",
-		-- states
-		"v_damaged", "v_infected", "v_broken", "v_unpowered", "v_emergency", "v_powereddown", "v_moving", "v_pathblocked", "v_idle", "v_setnum", "v_maxrange",
-		"v_arrow_up", "v_arrow_down", "v_arrow_left", "v_arrow_right",
-		"v_arrow_upleft", "v_arrow_upright", "v_arrow_downleft", "v_arrow_downright", "v_transport_route",
-		"v_number_0", "v_number_1", "v_number_2", "v_number_3", "v_number_4", "v_number_5", "v_number_6", "v_number_7", "v_number_8", "v_number_9",
-		"v_lock_locked", "v_lock_unlocked", "v_alert", "v_octagon", "v_pentagon", "v_star",
-		"v_letter_A", "v_letter_B", "v_letter_C", "v_letter_D", "v_letter_E", "v_letter_F", "v_letter_G",
-		"v_letter_H", "v_letter_I", "v_letter_J", "v_letter_K", "v_letter_L", "v_letter_M", "v_letter_N",
-		"v_letter_O", "v_letter_P", "v_letter_Q", "v_letter_R", "v_letter_S", "v_letter_T", "v_letter_U",
-		"v_letter_V", "v_letter_W", "v_letter_X", "v_letter_Y", "v_letter_Z",
 	
 		"x_tutorial",
 		-- NEW How to Play entries
@@ -138,6 +122,7 @@ data.techs.tc_cube_blue_1 = {
 	unlocks = {
 		"ic_cube_empty",-- new resources
 		"crystal_powder","cc_cube_recharger",
+		"xc_cube_recharger"
 	},
 	require_tech = { "tc_cube_basic" },
 	progress_count = 10,
@@ -404,7 +389,7 @@ data.techs.tc_cube_anti_4= {
 	desc = "The Final Form",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
-		'ic_micro_universe', "fc_gyro","xc_gyroscope"
+		'ic_micro_universe', "fc_gyro","xc_gyroscope",
 	},
 	require_tech = { "tc_cube_anti_3", },
 	progress_count = 200,

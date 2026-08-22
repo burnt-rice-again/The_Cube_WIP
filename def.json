@@ -5,7 +5,7 @@
     "version_code": 1,
     "author": "Clanker",
     "homepage": "https://www.desyncedgame.com/",
-    "description": "Block to spawn units and buildings with specific registers set on componets or the frame",
+    "description": "The Cube Hypothesis - A Challenge Mod Overhaul",
     "packages": {
         "Data": {
             "name": "Data",
@@ -14,7 +14,7 @@
             "type": "Addon"
         },
         "Scenario": {
-            "name": "Cube Start",
+            "name": "THE CUBE START",
             "entry": "Cube_Scenario.lua",
             "dependencies": [ "Main/Data" ],
             "type": "Scenario"
