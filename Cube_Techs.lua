@@ -25,14 +25,14 @@ data.tech_categories = {
 	{
 		name = "Cube",
 		initial_tech = "tc_cube_basic",
-		sub_categories = { "Cube_Curiosity", "Cube_Obsession",},
+		sub_categories = { "Cube Curiosity", "Cube Obsession",},
 		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 		--textures = { "Main/skin/Icons/Special/Technologies/Basic.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png",},
 	},
 	{
 		name = "Upgrades",
 		initial_tech = "tc_upgrades_basic",
-		sub_categories = { "tc_upgrades_1", "tc_upgrades_2"},
+		sub_categories = { "Upgrades 1", "Upgrades 2"},
 		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 		--textures = {"Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png"}
 	},
@@ -127,7 +127,7 @@ data.techs.tc_cube_blue_1 = {
 	require_tech = { "tc_cube_basic" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
-	category = "Cube_Curiosity"
+	category = "Cube Curiosity"
 }
 data.techs.tc_cube_blue_2 = {
 	order = 2,
@@ -142,7 +142,7 @@ data.techs.tc_cube_blue_2 = {
 	require_tech = { "tc_cube_blue_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1 }, 50),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_blue_3 = {
 	order = 2,
@@ -156,7 +156,7 @@ data.techs.tc_cube_blue_3 = {
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 , crystal_powder = 1, ic_soul_plasma = 1 }, 50),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 
 data.techs.tc_cube_red_1 = {
@@ -172,7 +172,7 @@ data.techs.tc_cube_red_1 = {
 	require_tech = { "tc_cube_basic" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_red_2 = {
 	order = 1,
@@ -186,7 +186,7 @@ data.techs.tc_cube_red_2 = {
 	require_tech = { "tc_cube_red_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({reinforced_plate = 1, ic_soul_plasma = 1 }, 300),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_red_3 = {
 	order = 1,
@@ -200,7 +200,7 @@ data.techs.tc_cube_red_3 = {
 	require_tech = { "tc_cube_red_2", },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_plasma = 1, ic_soul_angry = 1 }, 100),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_red_4 = { 
 	order = 51,
@@ -214,7 +214,7 @@ data.techs.tc_cube_red_4 = {
 	require_tech = { "tc_cube_anti_0"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_red_5 = {
 	order = 52,
@@ -228,7 +228,7 @@ data.techs.tc_cube_red_5 = {
 	require_tech = { "tc_cube_red_4"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_red_6 = {
 	order = 52,
@@ -243,7 +243,7 @@ data.techs.tc_cube_red_6 = {
 	require_tech = { "tc_cube_red_5"},
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1, fused_electrodes = 1 }, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_1= {
 	order = 3,
@@ -256,7 +256,7 @@ data.techs.tc_cube_green_1= {
 	require_tech = { "tc_cube_basic" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1 }, 50),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_green_2 = {
 	order = 3,
@@ -270,7 +270,7 @@ data.techs.tc_cube_green_2 = {
 	require_tech = { "tc_cube_green_1", },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({datakey_robot = 1, crystal_powder = 1 }, 50),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_green_3 = {
 	order = 3,
@@ -283,7 +283,7 @@ data.techs.tc_cube_green_3 = {
 	require_tech = { "tc_cube_green_2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1, ic_soul_plasma = 1, wire = 1 }, 300),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_green_4 = {
 	order = 1,
@@ -298,7 +298,7 @@ data.techs.tc_cube_green_4 = {
 	require_tech = { "tc_cube_green_3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ic_soul_happy = 1 }, 300),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_5 = {
 	order = 2,
@@ -313,7 +313,7 @@ data.techs.tc_cube_green_5 = {
 	require_tech = { "tc_cube_green_4" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_6 = {
 	order = 2,
@@ -326,7 +326,7 @@ data.techs.tc_cube_green_6 = {
 	require_tech = { "tc_cube_green_5" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_fuel = 1}, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	order = 1,
@@ -339,7 +339,7 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
-	category = "Cube_Curiosity",
+	category = "Cube Curiosity",
 }
 data.techs.tc_cube_anti_1= {
 	order = 40,
@@ -353,7 +353,7 @@ data.techs.tc_cube_anti_1= {
 	require_tech = { "tc_cube_anti_0", },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1 }, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_2 = {
 	order = 41,
@@ -367,7 +367,7 @@ data.techs.tc_cube_anti_2 = {
 	require_tech = { "tc_cube_anti_1"},
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1, phase_leaf = 1 }, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_3= {
 	order = 42,
@@ -381,20 +381,20 @@ data.techs.tc_cube_anti_3= {
 	require_tech = { "tc_cube_anti_2", },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_plasma = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_4= {
 	order = 42,
 	name = "Negative Entropy Project", -- recovered database etc.
-	desc = "The amount of useful entropy left in our world is to small\nWith The Cube and all of our combined knowladge new Universes can be spawned\nOur hope is one day they shall also continue the chain",
-	texture = data.items.fused_electrodes.texture,
+	desc = "The amount of useful entropy left in our world is to small\nWith the Cube and all of our combined knowladge new Universes can be spawned\nOur hope is one day they shall also continue the chain",
+	texture = data.items.ic_micro_universe.texture,
 	unlocks = {
 		'ic_micro_universe', "fc_gyro","xc_gyroscope",
 	},
 	require_tech = { "tc_cube_anti_3", },
 	progress_count = 200,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, fused_electrodes = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
-	category = "Cube_Obsession",
+	category = "Cube Obsession",
 }
 
 
@@ -754,7 +754,7 @@ data.techs.tc_network1 = {
 	require_tech = {"tc_cube_blue_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_network2 = {
 	order = 3,
@@ -768,7 +768,7 @@ data.techs.tc_network2 = {
 	require_tech = { "tc_network1" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_network3 = {
 	order = 3,
@@ -782,7 +782,7 @@ data.techs.tc_network3 = {
 	require_tech = { "tc_network2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_network4 = {
 	order = 3,
@@ -796,7 +796,7 @@ data.techs.tc_network4 = {
 	require_tech = { "tc_network3","tc_cube_green_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({  crystal_powder = 1, wire = 1, ic_soul_angry = 1, ic_time_crystal = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 
 --- weapons 
@@ -812,7 +812,7 @@ data.techs.tc_weapons1 = {
 	require_tech = {"tc_robot_metallurgy_1" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_weapons2 = {
 	order = 9,
@@ -825,7 +825,7 @@ data.techs.tc_weapons2 = {
 	require_tech = { "tc_weapons1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_weapons3 = {
 	order = 9,
@@ -838,7 +838,7 @@ data.techs.tc_weapons3 = {
 	require_tech = { "tc_weapons2" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1, wire = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_weapons4 = {
 	order = 9,
@@ -851,7 +851,7 @@ data.techs.tc_weapons4 = {
 	require_tech = { "tc_weapons3" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, crystal_powder = 1, reinforced_plate = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_weapons5 = {
 	order = 9,
@@ -864,7 +864,7 @@ data.techs.tc_weapons5 = {
 	require_tech = { "tc_weapons4" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
-	category = "tc_upgrades_2",
+	category = "Upgrades 2",
 }
 data.techs.tc_weapons6 = {
 	order = 9,
@@ -877,7 +877,7 @@ data.techs.tc_weapons6 = {
 	require_tech = { "tc_weapons5" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
-	category = "tc_upgrades_2",
+	category = "Upgrades 2",
 }
 data.techs.tc_weapons7 = {
 	order = 9,
@@ -890,7 +890,7 @@ data.techs.tc_weapons7 = {
 	require_tech = { "tc_weapons6" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ldframe = 1,  ic_soul_angry = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
-	category = "tc_upgrades_2",
+	category = "Upgrades 2",
 }
 --- storages 
 
@@ -906,7 +906,7 @@ data.techs.tc_robot_storage1 = {
 	require_tech = {"tc_robot_metallurgy_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_storage2 = {
 	order = 4,
@@ -920,7 +920,7 @@ data.techs.tc_robot_storage2 = {
 	require_tech = { "tc_robot_storage1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1 }, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_storage3 = {
 	order = 4,
@@ -934,7 +934,7 @@ data.techs.tc_robot_storage3 = {
 	require_tech = { "tc_robot_storage2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1  }, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_storage4 = {
 	order = 4,
@@ -948,7 +948,7 @@ data.techs.tc_robot_storage4 = {
 	require_tech = { "tc_robot_storage3" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1, wire = 1, reinforced_plate = 1, ic_soul_happy = 1 }, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_signals1 = {
 	order = 11,
@@ -962,7 +962,7 @@ data.techs.tc_robot_signals1 = {
 	require_tech = { "tc_cube_blue_1"},
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_signals2 = {
 	order = 11,
@@ -976,7 +976,7 @@ data.techs.tc_robot_signals2 = {
 	require_tech = { "tc_robot_signals1", "tc_cube_green_2" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_signals3 = {
 	order = 11,
@@ -990,7 +990,7 @@ data.techs.tc_robot_signals3 = {
 	require_tech = { "tc_robot_signals2" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_signals4 = {
 	order = 11,
@@ -1004,7 +1004,7 @@ data.techs.tc_robot_signals4 = {
 	require_tech = { "tc_robot_signals3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1, crystal_powder = 1, ic_soul_happy = 1, ldframe = 1}, 50),
-	category = "tc_upgrades_1",
+	category = "Upgrades 1",
 }
 data.techs.tc_robot_floor_1 = {
 	order = 11,
@@ -1017,7 +1017,7 @@ data.techs.tc_robot_floor_1 = {
 	require_tech = { "tc_robot_metallurgy_2"},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1}, 50),
-	category = "tc_upgrades_2",
+	category = "Upgrades 2",
 }
 data.techs.tc_robot_floor_2 = {
 	order = 11,
@@ -1031,7 +1031,7 @@ data.techs.tc_robot_floor_2 = {
 	require_tech = { "tc_robot_floor_1",},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1}, 50),
-	category = "tc_upgrades_2",
+	category = "Upgrades 2",
 }
 data.techs.tc_robot_floor_3 = {
 	order = 11,
@@ -1044,7 +1044,7 @@ data.techs.tc_robot_floor_3 = {
 	require_tech = { "tc_robot_floor_2",},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
-	category = "tc_upgrades_2",
+	category = "Upgrades 2",
 }
 
 

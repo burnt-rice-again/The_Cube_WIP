@@ -206,7 +206,8 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 
 -- Endgame Building
 Frame:RegisterFrame("fc_gyro",{
-	name = "gyroscope",
+	name = "The Anti Entropy Loom",
+	desc = "Just Imagine it spinning\nIt would look so cool",
 	health_points = 5,
 	race = "robot",
 	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),

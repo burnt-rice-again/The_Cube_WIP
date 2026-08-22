@@ -655,7 +655,7 @@ end
 local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	name = "Chrono Field Module",
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
-	texture = data.frames.f_beacon_l.texture,
+	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
 	get_ui = true,
 	power = -100,
 	--visual = data.frames.f_beacon_l.visual,

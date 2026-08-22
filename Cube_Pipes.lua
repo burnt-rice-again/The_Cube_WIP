@@ -175,7 +175,7 @@ cc_pipe_crane:RegisterComponent("cc_pipe_input",{
 cc_pipe_crane:RegisterComponent("cc_pipe_output",{
 
     name = "Ectoplasma Reciever",
-    desc = "Recieves Ectoplasma From Nearby Relays",
+    desc = "Recieves Ectoplasma From Nearby Relays\n\nFragile equipment will force bots to move slowly",
     power = -50,
     texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
     attachment_size = "Small",
@@ -186,9 +186,9 @@ cc_pipe_crane:RegisterComponent("cc_pipe_output",{
 })
 
 cc_pipe_crane:RegisterComponent("cc_pipe_output_h",{
-
     name = "Ectoplasma Reciever",
     desc = "Takes Ectoplasma In",
+    race = "Human",
     power = -50,
     texture = "Main/textures/icons/components/Component_HackingTool_01_S.png",
     attachment_size = "Hidden",

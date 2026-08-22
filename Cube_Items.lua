@@ -88,8 +88,11 @@ data.items.ldframe.production_recipe = CreateProductionRecipe(
 --------------------------------------
 ---- Update Non Cube Existing Items -----------
 data.items.crystal.name = "Resonance Crystal"
+data.items.crystal.desc = "A Crystal chunk capable of emotional resonance with the cube or vaporized for energy"
 
 data.items.metalplate.production_recipe = CreateProductionRecipe({metalore = 2}, {c_fabricator = 30}, 1)
+data.items.metalplate.desc = "Fighting against entropy homogenzied matter can be smelted"
+
 data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_miner = 15})
 
 data.items.steelblock.name = "Steel Beams"
@@ -124,6 +127,8 @@ data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock =
 data.items.engine.production_recipe = CreateProductionRecipe(
 {reinforced_plate = 4, wire = 6 , datakey_robot = 1, ic_soul_angry = 1}, {c_assembler = 120, cc_green_brain = 80}, 1)
 data.items.engine.race = "robot"
+data.items.engine.desc = "Entry 012 What a waste of entropy for a few tiles per hour"
+
 
 data.items.fused_electrodes.name = "Superconductor"
 data.items.fused_electrodes.desc = "This Material is beyond our current understanding\n1024 years into the future we will invent a way to manufacture it"
@@ -259,7 +264,7 @@ data.items.ic_cube_sphere = {
 data.items.bug_carapace = {
 	name = "Lingering Souls",
 	index = 1010,
-	desc = "",
+	desc = "Incorporeal Friends\n\nDropped by defeated enemies",
 	tag = "resource",
 	texture = "The_Cube_WIP/textures/soul3.png",
 	visual = "vc_souls", -- "v_scaramar1",
@@ -343,7 +348,7 @@ data.items.ic_fuel = {
 	name = "Rocket Fuel",
 	index = 1020,
 	race = "robot",
-	desc = "3,2,1 Liftoff\nFuel for engines",
+	desc = "3,2,1 Liftoff",
 	tag = "advanced_material",
 	texture = "The_Cube_WIP/textures/fuel.png",
 	visual = "v_scaramar1",

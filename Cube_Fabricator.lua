@@ -351,7 +351,7 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	name = "The Anti Entropy Loom",
 	texture = "The_Cube_WIP/textures/gyro_texture.png",
-	desc = "The Knot in the tapestry\nTo continue this string of Universes so the World shall never truly end",
+	desc = "The knot in the tapestry\nTo continue this string of universes so the World shall never truly end",
 	race = "robot",
 	attachment_size = "Hidden",
 	get_ui = true,
