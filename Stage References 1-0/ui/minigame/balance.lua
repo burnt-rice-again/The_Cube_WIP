@@ -22,7 +22,7 @@ local Balance_layout<const> =
 local Balance = {}
 UI.Register("ExplorableGameBalance", Balance_layout, Balance)
 
-local LinkColors = { "white", "#6DFF49", "#FF7070", "#7098FF", "#FFF970", "#70FFFF", "#DE70FF","#FFA671", }
+local LinkColors = { 'white', '#6DFF49', '#FF7070', '#7098FF', '#FFF970', '#70FFFF', '#DE70FF','#FFA671', }
 local amounts = { v_signal_a = 2, v_signal_b = 3, v_signal_c = 5, v_signal_d = 7, v_signal_e = 13 }
 
 function Balance:construct()
@@ -71,7 +71,7 @@ function Balance:Recalculate()
 end
 
 function Balance:target_on_click(reg, mousebtn)
-	if mousebtn ~= "RIGHTMOUSEBUTTON" or not reg.def_id then return end
+	if mousebtn ~= 'RIGHTMOUSEBUTTON' or not reg.def_id then return end
 	reg.def_id, reg.srcreg = nil, nil
 	self:Recalculate()
 end

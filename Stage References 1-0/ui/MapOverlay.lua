@@ -186,11 +186,11 @@ local healthbar_colors = {
 
 local DamageText = {
 	color_table = {
-		energy_damage = "cyan",
-		physical_damage = "orange",
-		full_damage = "white",
-		plasma_damage = "light_purple",
-		electromag_damage = "light_blue",
+		energy_damage = 'cyan',
+		physical_damage = 'orange',
+		full_damage = 'white',
+		plasma_damage = 'light_purple',
+		electromag_damage = 'light_blue',
 	}
 }
 UI.Register("DamageText", "Text", DamageText)
@@ -206,7 +206,7 @@ function DamageText:construct()
 	if color == nil then
 		print("unknown damage type", self.damage_type)
 	end
-	self.color = color or "red"
+	self.color = color or 'red'
 end
 
 function DamageText:every_frame_update(dt)
@@ -285,7 +285,7 @@ function MapOverlay:every_frame_update(dt)
 		local scale = ignorescale and 1 or math.max(1.0 - ((z - 1900) / 4000.0), 0.3)
 		for j=1,regtablecount,3 do
 			local reg, ofs_x, ofs_y = regtable[j], regtable[j+1], regtable[j+2]
-			local item = reg and (data.all[reg.id] or (reg.entity and reg.entity.def))
+			local item = reg and (data.all[reg.id] or (reg.raw_entity and (reg.raw_entity.def or data.values.v_destroyed)))
 			if item or (state_string and j == 1) then
 				local ui, w, h
 				if item == c_signpost and entity.extra_data.signpost then
@@ -569,7 +569,7 @@ function OverlayOptions:on_click_itemtext(txt)
 end
 
 function OpenOverlayOptions(btn)
-	UI.MenuPopup(OverlayOptions_layout, OverlayOptions, btn, "LEFT", "BOTTOM", -10, 500)
+	UI.MenuPopup(OverlayOptions_layout, OverlayOptions, btn, 'LEFT', 'BOTTOM', -10, 500)
 end
 
 function Quickview_ToggleMovePaths()

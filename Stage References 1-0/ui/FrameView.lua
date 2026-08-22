@@ -18,9 +18,12 @@ local FrameViewInfoBoxLayout<const> =
 		<Canvas height=101>
 			<Image id=frame_image on_mouse_enter={hlent} on_mouse_leave={unhlent} on_click={on_click_frame_image} dock=center width=80 height=80/>
 			<Canvas id=logibtns dock=bottom-right width=68 height=68 on_mouse_enter={on_actionbuttons_enter} on_mouse_leave={on_actionbuttons_leave}>
-				<Button dock=top-right width=32 height=32 on_click={toggle_transfer} id=action_transport icon=icon_transport/>
+				<Button dock=bottom-right width=32 height=32 on_click={toggle_transfer} id=action_transport icon=icon_transport/>
 				<Button dock=bottom-left width=32 height=32 on_click={toggle_power} id=action_power icon=icon_power/>
-				<Button dock=bottom-right width=32 height=32 on_click={toggle_disconnected} id=action_connect icon=icon_carry/>
+				<HorizontalList dock=top-left>
+					<Button width=32 height=32 on_click={toggle_disconnected} id=action_connect icon=icon_carry/>
+					<Button on_click={on_dropdown} width=16 id=drp icon=icon_small_arrow_down/>
+				</HorizontalList>
 			</Canvas>
 			<Text id=mode size=10 color=light_gray tooltip={mode_tooltip} clip=true margin=4/>
 			<Wrap margin=4 margin_top=24 id=stateicons child_padding=2/>
@@ -56,7 +59,14 @@ local FrameViewLayout<const> =
 			<FrameViewInfoBox id=infobox entity={entity}/>
 		</VerticalList>
 		<VerticalList id=inventories child_padding=4>
-			<HorizontalList id=components/>
+			<HorizontalList>
+				<HorizontalList id=components/>
+				<Box height=66 valign=bottom>
+					<Button color=ui_dark id=int_behavior on_click={add_integrated_controller} hidden=true tooltip="Set Integrated Behavior">
+						<Image image="Main/textures/icons/generalicons/add_behavior.png" margin=2 padding=2 width=20 height=20/>
+					</Button>
+				</Box>
+			</HorizontalList>
 			<Box padding=4 blur=true id=inventorybox halign=left>
 				<Box bg=tech_tree_pattern>
 					<VerticalList min_width=233>
@@ -175,11 +185,11 @@ function EntityAction.SortInventory(entity, arg)
 	local function GetCat(def)
 		if not def then return nil end
 		local tag = def.tag
-		if tag == "resource"             then return 9 end
-		if tag == "simple_material"      then return 8 end
-		if tag == "advanced_material"    then return 7 end
-		if tag == "hitech_material"      then return 6 end
-		if tag == "research"             then return 5 end
+		if tag == 'resource'             then return 9 end
+		if tag == 'simple_material'      then return 8 end
+		if tag == 'advanced_material'    then return 7 end
+		if tag == 'hitech_material'      then return 6 end
+		if tag == 'research'             then return 5 end
 		local attachment_size = def.attachment_size
 		if attachment_size == "Internal" then return 4 end
 		if attachment_size == "Small"    then return 3 end
@@ -225,6 +235,16 @@ function EntityAction.SortInventory(entity, arg)
 	end
 end
 
+function EntityAction.RequestItem(entity, arg)
+	local slot, id, num, channel = arg.slot, arg.id, arg.num, arg.channel
+	if slot then
+		if slot.owner ~= entity then error("Invalid item slot") end
+		slot:OrderItem(id, num, 'AutoEquipComponent', channel and (1 << (channel-1)) or nil)
+	else
+		entity:OrderItem(id, num, (arg.recurring and "Recurring" or 'AutoEquipComponent'), channel and (1 << (channel-1)) or nil)
+	end
+end
+
 -- instance
 local open_frame_view
 
@@ -238,7 +258,7 @@ local function CheckExplorableWidget(parent, explorable_entity)
 	end
 end
 
-function ShowLogisticsSettings(button, entity, entities)
+local function ShowLogisticsSettings(button, entity, entities)
 	local have_construction
 	for i=1,(entities and #entities or 1) do if (entities and entities[i] or entity).is_construction then have_construction = true break end end
 	local function check(btn, on) btn.on, btn.icon = on, (on == true and "icon_small_confirm") or (on == 2 and "icon_small_durability") or nil end
@@ -287,7 +307,7 @@ function ShowLogisticsSettings(button, entity, entities)
 			for _,v in ipairs(data.logistics_flags) do
 				local flag = v.flag
 				if flag then
-					local hl = (flag == "transport_route" and list2 or list):Add("<HorizontalList child_padding=8><Text fill=true on_click={toggle}/><Button width=24 height=24 id=togglebtn on_click={toggle}/></HorizontalList>")
+					local hl = (flag == 'transport_route' and list2 or list):Add("<HorizontalList child_padding=8><Text fill=true on_click={toggle}/><Button width=24 height=24 id=togglebtn on_click={toggle}/></HorizontalList>")
 					hl.flag, hl.tooltip, hl[1].text = flag, v.tooltip, v.label
 					btns[flag] =  hl[2]
 				else
@@ -296,13 +316,11 @@ function ShowLogisticsSettings(button, entity, entities)
 			end
 
 			local can_carry = IsBot(entity) or entity.has_crane
-			if not can_carry then btns.can_construction.parent.hidden = true end
-
 			for i=2,(entities and #entities or 0) do
 				if can_carry ~= (IsBot(entities[i]) or entities[i].has_crane) then can_carry = 2 break end
 			end
-			if not can_carry then btns.carrier.parent.hidden, menu.transportbox.hidden = true, true end
-			if can_carry == 2 then btns.carrier.parent.disabled, menu.transportbox.disabled = true, true end
+			if not can_carry then btns.carrier.parent.hidden, btns.can_construction.parent.hidden, menu.transportbox.hidden = true, true, true end
+			if can_carry == 2 then btns.carrier.parent.disabled, btns.can_construction.parent.disabled, menu.transportbox.disabled = true, true, true end
 
 			if have_construction then
 				for i,hl in ipairs(list) do if hl.flag == "high_priority" then break else hl.hidden = true end end -- hide up until high priority
@@ -312,28 +330,28 @@ function ShowLogisticsSettings(button, entity, entities)
 			list:Add('<Button text="Reset Settings" on_click={reset}/>')
 		end,
 		connect = function(menu, btn)
-			send("SetDisconnected", { val = not not btn.on })
+			send('SetDisconnected', { val = not not btn.on })
 		end,
 		toggle = function(menu, hl, btn)
 			local newval, flag = not btn.on, hl.flag
 			if newval then
-				if flag == "transport_route" and menu.togglebtn.on then
-					send("SetDisconnected", { val = true })
+				if flag == 'transport_route' and menu.togglebtn.on then
+					send('SetDisconnected', { val = true })
 				end
-				if flag == "crane_only" then
+				if flag == 'crane_only' then
 					if IsBuilding(entity) and not entity.has_crane then
 						Notification.Warning("Building does not have an Item Transporter equipped")
 					end
 				end
 			end
 
-			send("SetLogisticsFlag", { flag = flag, set = newval })
+			send('SetLogisticsFlag', { flag = flag, set = newval })
 		end,
 		reset = function(menu)
 			for _,v in ipairs(data.logistics_flags) do
 				if v.flag then
-					if v.flag ~= "transport_route" and menu.btns[v.flag].on ~= v.default then
-						send("SetLogisticsFlag", { flag = v.flag, set = v.default })
+					if v.flag ~= 'transport_route' and menu.btns[v.flag].on ~= v.default then
+						send('SetLogisticsFlag', { flag = v.flag, set = v.default })
 					end
 				end
 			end
@@ -354,10 +372,132 @@ function ShowLogisticsSettings(button, entity, entities)
 					if entities[i][logistics_flag] ~= val then val = 2 break end
 				end
 				check(btn, val)
-				btn.active = val == true and flag == "transport_route"
+				btn.active = val == true and flag == 'transport_route'
 			end
 		end,
-	}, button, "UP")
+	}, button, 'UP')
+end
+
+local function ShowRequestItems(button, filter_slot_type, solo_entity, entities)
+	local largest_socket
+	if solo_entity then
+		for i,v in ipairs(solo_entity.visual_def.sockets or {}) do
+			if not solo_entity:GetComponent(i) then -- check free sockets only
+				largest_socket = math.max(largest_socket or 0, GetAttachmentSize(v[2]))
+			end
+		end
+	end
+
+	UI.MenuPopup([[
+			<Box bg=popup_box_bg padding=4 blur=true>
+				<VerticalList>
+					<VerticalList id=activebox hidden=true>
+						<Text text="Active Requests (click to cancel)" halign=center/>
+						<Wrap margin_left=4 id=orders min_height=60 child_padding=4/>
+						<Image height=2 color=ui_light margin=8/>
+					</VerticalList>
+					<Text text="Request an Item to be Delivered" halign=center/>
+					<Box bg=popup_pattern id=listbox>
+						<VerticalList>
+							<HorizontalList child_padding=8 margin_top=8 margin_left=8 margin_right=4>
+								<Text valign=center text="Request Type:" min_width=160/>
+								<Combo id=type fill=true/>
+							</HorizontalList>
+							<HorizontalList child_padding=8 margin_top=8 margin_left=8 margin_right=4>
+								<Text valign=center text="Request Channel:" min_width=160/>
+								<Combo id=channel fill=true/>
+							</HorizontalList>
+						</VerticalList>
+					</Box>
+					<RegisterSelection width=626 max_height=600 on_set={on_request} def_filter={def_filter} hide_clear_button=true apply_text="Request Item - Hold Shift to keep window open"/>
+				</VerticalList>
+			</Box>
+		]], {
+		construct = function(menu)
+			menu:TweenFromTo("sy", 0, 1, 100)
+			menu.type.texts = { "Single Request", "Recurring Request (Keep Filled Up to Amount)" }
+			menu.channel.texts = { "Default Channel(s)", "On Channel 1", "On Channel 2", "On Channel 3", "On Channel 4" }
+		end,
+		update = solo_entity and function(menu) -- show active orders only when requesting for a single entity
+			local e, orders = solo_entity, Game.GetLocalPlayerFaction():GetActiveOrders(solo_entity)
+			for _,o in ipairs(orders) do o.age = 0 end -- exclude age from hash
+			local hash = Tool.Hash(orders)
+			if hash == menu.hash then return end
+			menu.hash = hash
+			menu.orders:Clear()
+			for i,o in ipairs(orders) do
+				if o.source_entity == e or o.carry_entity == e or o.target_entity == e then
+					local r = menu.orders:Add("Reg", {
+						def_id = o.item_id, num = o.amount,
+						bg = o.carry_entity and "item_default" or "item_disabled",
+						on_click = function(reg)
+							Action.SendForLocalFaction("CancelOrder", { id = o.id })
+							reg:RemoveFromParent()
+						end,
+					})
+					if o.recurring then r:Add('<Image dock=top-right width=22 height=22 color=ui_light image=icon_processing tooltip="Recurring Request (Keep Filled Up to Amount)"/>') end
+					if o.channel_bitmask then r:Add('<Image dock=top-left width=22 height=22 color=ui_light/>', data.order_channel_bit_images[o.channel_bitmask]) end
+				end
+			end
+			menu.activebox.hidden = #menu.orders == 0
+		end,
+		def_filter = function(def, cat)
+			return (filter_slot_type[def.slot_type] and cat.defs ~= data.frames and def.attachment_size ~= "Hidden") or (largest_socket and def.attachment_size and GetAttachmentSize(def.attachment_size) <= largest_socket) or cat.number_panel
+		end,
+		on_request = function(menu, regsel, res)
+			local id = res.id
+			local item_def = data.all[id]
+			if not item_def then return end
+			local base_num, recurring, requested = (res.num and res.num > 0 and res.num) or 1, menu.type.value == 2
+			local slot_type, stack_size = item_def.slot_type or "storage", item_def.stack_size or 1
+			local channel = menu.channel.value and menu.channel.value > 1 and (menu.channel.value - 1) or nil
+			for i=1,(entities and #entities or 1) do
+				local entity, num = entities and entities[i] or solo_entity, base_num
+				local entity_slots, have_partial_space = entity:GetSlotsByType(slot_type) or {}
+				if recurring then
+					local max = (#entity_slots * stack_size)
+					if num > max then num = max end
+					if num > 0 then
+						Action.SendForEntity("RequestItem", entity, { id = id, num = num, channel = channel, recurring = true })
+						requested = true
+					end
+				else
+					for _,v in ipairs(entity_slots) do
+						local unreserved_space = (v.id == id and v.unreserved_space or 0)
+						if (unreserved_space > 0 and unreserved_space >= math.min(num, stack_size)) or (v.id == nil and v.type == slot_type and not v.locked) then
+							Action.SendForEntity("RequestItem", entity, { id = id, num = math.min(num, stack_size), slot = v, channel = channel })
+							num, requested = num - math.min(num, stack_size), true
+							if num == 0 then break end
+						elseif unreserved_space > 0 then
+							have_partial_space = true
+						end
+					end
+					if num > 0 and have_partial_space then
+						for _,v in ipairs(entity_slots) do
+							local unreserved_space = (v.id == id and v.unreserved_space or 0)
+							if unreserved_space > 0 then
+								Action.SendForEntity("RequestItem", entity, { id = id, num = math.min(num, unreserved_space), slot = v, channel = channel })
+								num, requested = num - math.min(num, unreserved_space), true
+								if num == 0 then break end
+							end
+						end
+					end
+					if num == 1 and entity:GetFreeSocket(id) then
+						Action.SendForEntity("RequestItem", entity, { id = id, num = math.min(num, stack_size), channel = channel })
+						num, requested = 0, true
+					end
+				end
+			end
+			if requested then
+				Notification.Warning(L("Requested %s", item_def.name))
+				if not Input.IsShiftDown() then
+					UI.CloseMenuPopup()
+				end
+			else
+				MessagePopup(nil, "No free slots available for reservation")
+			end
+		end,
+	}, button, 'UP')
 end
 
 local FrameViewInfoBox = {}
@@ -403,15 +543,15 @@ function FrameViewInfoBox:update(first_update, force_update)
 				end
 			elseif mode == "STORE"     then modetxt = (entity.logistics_transport_route and "Transport Route" or "Store Inventory")
 			elseif mode == "MOVE"      then modetxt = "Moving"
-			elseif mode == "RETURN"    then modetxt = "Returning Home"
+			elseif mode == 'RETURN'    then modetxt = "Returning Home"
 			elseif mode == "COMPONENT" then modetxt = "Controlled by Component"
 			elseif mode == "DROP"      then modetxt = "Dropping item"
-			elseif mode == "ORDER"     then
+			elseif mode == 'ORDER'     then
 				local active_order = entity.active_order
 				modetxt = not active_order and "" or (active_order.target_entity ~= entity
 					and L("Order Delivery to %s", GetEntityName(active_order.target_entity))
 					or L("Order Pickup from %s", GetEntityName(active_order.source_entity)))
-			elseif mode == "INTERACT"  then
+			elseif mode == 'INTERACT'  then
 				local goto_entity = entity:GetRegisterEntity(FRAMEREG_GOTO)
 				if goto_entity and goto_entity.exists then
 					modetxt = L(entity.is_moving and "Moving to %s" or "Interacting with %s", GetEntityName(goto_entity))
@@ -431,7 +571,7 @@ function FrameViewInfoBox:update(first_update, force_update)
 			self.allstateshash = allstateshash
 			stateicons:Clear()
 			for i,v in ipairs(entity.all_states) do
-				local tip, order = data.state_names[v], (v == "StaleOrder")
+				local tip, order = data.state_names[v], (v == 'StaleOrder')
 				stateicons:Add("<Image width=25 height=25/>", {
 					image = data.state_icons[v], tooltip = order and L("%s (%s)", tip, "Click for more details") or tip,
 					on_click = order and function() OpenMainWindow("Faction", { show_entity_orders = true }) end,
@@ -459,7 +599,7 @@ function FrameViewInfoBox:update(first_update, force_update)
 	if self.last_transport ~= entity.logistics_transport_route then
 		self.last_transport = entity.logistics_transport_route
 		self.action_transport.active = entity.logistics_transport_route
-		self.action_transport.tooltip = L('%s (Transport Route)\n\nCarry items from the Goto sources to the Store targets', entity.logistics_transport_route and "Transferring" or "Not Transferring")
+		self.action_transport.tooltip = L("%s (Transport Route)\n\nCarry items from the Goto sources to the Store targets", entity.logistics_transport_route and "Transferring" or "Not Transferring")
 		self.action_transport.hidden = not entity.def.movement_speed and not entity.has_crane
 	end
 end
@@ -478,7 +618,7 @@ function FrameViewInfoBox:on_click_options(w, btn)
 end
 
 function FrameViewInfoBox:on_click_frame_image(w, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" and not self.foreign then
+	if mousebtn == 'RIGHTMOUSEBUTTON' and not self.foreign then
 		Frameview_OpenContextMenu(self.entity, w)
 	else
 		View.JumpCameraToEntities(self.entity)
@@ -525,33 +665,33 @@ function FrameViewInfoBox:mode_tooltip()
 	local text_detail = '<Text halign=center color=light_gray/>'
 	return UI.New("<Box bg=popup_box_bg padding=12 blur=true><VerticalList child_padding=4><Text id=mode color=title halign=center/><VerticalList id=details child_padding=4/></VerticalList></Box>", {
 		update = function(w)
+			if not entity.exists then return end
 			local mode, disconnected, active_order, controlling_component, goto_entity, store_entity = entity.idle_mode, entity.disconnected, entity.active_order, entity.controlling_component, entity:GetRegisterEntity(FRAMEREG_GOTO), entity:GetRegisterEntity(FRAMEREG_STORE)
 			local queue = entity:HaveRegisterQueue(FRAMEREG_GOTO) and entity:RegisterQueueGetAll(FRAMEREG_GOTO)
 			local hash = Tool.Hash(mode, disconnected, active_order, controlling_component, goto_entity, store_entity, queue)
 			if w.hash == hash then return end
 			w.hash = hash
-			w.hidden = mode == "IDLE"
 			w.details:Clear()
 			if mode == "STORE" then
 				w.mode.text = "Storing Inventory"
 				if store_entity and store_entity.exists then w.details:Add(reg_detail, { text = "Store:", entity = store_entity }) end
 			elseif mode == "MOVE" then
 				w.mode.text = "Moving"
-				-- print(w.details:Add(text_detail, { text = "Moving to designated location" }))
-			elseif mode == "RETURN" then
+				--w.details:Add(text_detail, { text = "Moving to designated location" })
+			elseif mode == 'RETURN' then
 				w.mode.text = "Returning Home"
 			elseif mode == "COMPONENT" then
 				w.mode.text = "Controlled by Component"
 				w.details:Add(reg_detail, { text = "Component:", def_id = controlling_component.id })
 			elseif mode == "DROP" then
 				w.mode.text = "Dropping item"
-			elseif mode == "ORDER" then
+			elseif mode == 'ORDER' then
 				w.mode.text = "Order Delivery"
 				w.details:Add(text_detail, { text = (active_order.source_entity and "Picking up item from source" or "Dropping off item at target") })
 				w.details:Add(reg_detail, { text = "Item:", def_id = active_order.item_id, num = active_order.amount })
 				if active_order.source_entity then w.details:Add(reg_detail, { text = "Source:", entity = active_order.source_entity }) end
 				if active_order.target_entity then w.details:Add(reg_detail, { text = "Target:", entity = active_order.target_entity }) end
-			elseif mode == "INTERACT" then
+			elseif mode == 'INTERACT' then
 				w.mode.text = goto_entity and goto_entity.exists and L(entity.is_moving and "Moving to %s" or "Interacting with %s", GetEntityName(goto_entity)) or ""
 				w.details:Add(reg_detail, { text = "Goto:", entity = goto_entity })
 			end
@@ -570,6 +710,7 @@ function FrameViewInfoBox:mode_tooltip()
 					end
 				end
 			end
+			--w.hidden = mode == "IDLE"
 			w.hidden = #w.details == 0
 		end,
 	})
@@ -590,7 +731,7 @@ end
 function FrameViewInfoBox:start_deconstruct()
 	if not self.deconstruct_text or self.entity.is_damaged then return end
 	self.deconstruct_timer = 0.0
-	self.healthnum.color, self.healthbar.color, self.healthbar.every_frame_update = "red", "red", function(healthbar, dt)
+	self.healthnum.color, self.healthbar.color, self.healthbar.every_frame_update = 'red', 'red', function(healthbar, dt)
 		self.deconstruct_timer = self.deconstruct_timer + (dt * 0.5)
 		healthbar.progress = self.deconstruct_timer
 		if self.entity.is_damaged then
@@ -604,22 +745,21 @@ end
 
 function FrameViewInfoBox:stop_deconstruct()
 	if not self.healthbar.every_frame_update or not self.entity.exists then return end
-	self.healthnum.color, self.healthbar.color, self.healthbar.progress, self.healthbar.every_frame_update = "healthbar", "healthbar", (self.entity.health / self.entity.max_health), nil
+	self.healthnum.color, self.healthbar.color, self.healthbar.progress, self.healthbar.every_frame_update = 'healthbar', 'healthbar', (self.entity.health / self.entity.max_health), nil
 	self.deconstruct_timer = nil
 end
 
 function FrameViewInfoBox:healthbar_tooltip()
-	local entity = self.entity
+	local entity, deconstruct_err = self.entity, self.deconstruct_err
 	return UI.New("<Box bg=popup_box_bg padding=12 blur=true><Text text={txt}/></Box>", { update = function(w)
 		if not entity.exists then return end
-		local deconstruct_err = self.deconstruct_err
 		w.txt = L("%s: %d/%d%s", "Health", entity.health, entity.max_health,
 			deconstruct_err and L("\n%s: %s", "Deconstruction unavailable", deconstruct_err) or "")
 	end })
 end
 
 function FrameViewInfoBox:powerbar_tooltip()
-	local tooltip = UI.New("<Box bg=popup_box_bg padding=12 blur=true><VerticalList width=320 child_padding=4/></Box>", { destruct = function() self.powerbar_tooltip_list = nil end })
+	local tooltip = UI.New("<Box bg=popup_box_bg padding=12 blur=true><VerticalList width=320 child_padding=4/></Box>", { destruct = function() if self:IsValid() then self.powerbar_tooltip_list = nil end end })
 	self.powerbar_tooltip_list = tooltip[1]
 	self:powerbar_refresh(true)
 	return tooltip
@@ -649,9 +789,9 @@ function FrameViewInfoBox:powerbar_refresh(force_refresh)
 	if hash == self.powerhash and not force_refresh then return end
 	self.powerhash = hash
 
-	local batterycolor = (powered_down and "red" or (efficiency and ((efficiency < 20) and "red" or (efficiency < 100 and "yellow"))))
-	self.batterybar.color = batterycolor or "powerbar"
-	self.batterynum.color = batterycolor or "powerbar"
+	local batterycolor = (powered_down and 'red' or (efficiency and ((efficiency < 20) and 'red' or (efficiency < 100 and 'yellow'))))
+	self.batterybar.color = batterycolor or 'powerbar'
+	self.batterynum.color = batterycolor or 'powerbar'
 	if battery_total > 0 then
 		self.batterybar.progress = battery_stored / battery_total
 		self.batterynum.text = string.format("%d", battery_stored)
@@ -672,7 +812,7 @@ function FrameViewInfoBox:powerbar_refresh(force_refresh)
 	end
 
 	if powered_down then
-		tooltip_list:Add("<Text text='Powered Down' textalign=center color=red/>")
+		tooltip_list:Add('<Text text="Powered Down" textalign=center color=red/>')
 		return
 	end
 
@@ -761,9 +901,9 @@ function FrameViewInfoBox:powerbar_refresh(force_refresh)
 	end
 
 	if details.grid_index then
-		tooltip_list:Add("<Text text='In Power Grid' color=yellow halign=center/>")
+		tooltip_list:Add('<Text text="In Power Grid" color=yellow halign=center/>')
 	else
-		tooltip_list:Add("<Text text='Not In Power Grid' color=red halign=center/>")
+		tooltip_list:Add('<Text text="Not In Power Grid" color=red halign=center/>')
 	end
 end
 
@@ -789,6 +929,7 @@ function FrameView:construct()
 	for i,v in ipairs(entity.visual_def.sockets or {}) do
 		self.components:Add("ComponentColumn", { entity = entity, socket = i, socket_size = v[2]}) --, hidden = not entity:GetComponent(i) })
 	end
+
 
 	self.regs = {}
 	if entity.register_count > 0 then
@@ -845,12 +986,22 @@ function FrameView:toggle_side(btn, mousebtn, load_profile)
 	if leftframeview then
 		for i,w in ipairs(self.frameregs) do w.hidden = show_link_editor and i > 1 end
 		side.dock, side.margin_bottom = 'bottom-left', show_link_editor and 206 or 318
-		if show_link_editor and show_dock_boxes then side[1].valign, side[2].valign, side[2].margin_left, side[2].margin_bottom = "bottom", "bottom", 4, 107 end
+		if show_link_editor and show_dock_boxes then side[1].valign, side[2].valign, side[2].margin_left, side[2].margin_bottom = 'bottom', 'bottom', 4, 107 end
 	end
 
 	if load_profile then return end
 	self:update(false)
 	if offer_linkeditor then self.links.on_draw = function(draw) self:UpdateLinks(draw) end end
+end
+
+function FrameView:add_integrated_controller(btn)
+	if self.foreign then return end
+	local entity = self.entity
+	UILibrarySelect(btn, 'C',
+		function(item) Action.SendForEntity("Behavior", entity, { add_integrated = true, set_id = item.id, debug = "STOP" }) UI.CloseMenuPopup() end, -- select
+		nil, -- no clear option
+		function(folder) Action.SendForEntity("Behavior", entity, { folder = folder, add_integrated = true, create = true }) UI.CloseMenuPopup() end, -- create
+		nil, 'c_integrated_behavior')
 end
 
 function FrameView:toggle_leftframeview()
@@ -874,14 +1025,6 @@ function FrameView:update(first_update, force_update)
 		return
 	end
 
-	if force_update then
-		local new_regs = {}
-		for i=1,#data.frame_regs do
-			new_regs[i] = self.regs[i]
-		end
-		self.regs = new_regs
-	end
-
 	if not foreign then
 		-- show/hide explorable window
 		local explorable_entity = GetInteractingExplorable(entity)
@@ -902,12 +1045,23 @@ function FrameView:update(first_update, force_update)
 			hiddencount = (hiddencount or 0) + 1
 			local compblock = hiddencomps[i]
 			if not compblock or not compblock:IsValid() then
-				compblock = self.components:Add("ComponentColumn", { entity = entity, hiddencomp = i, socket_size = "hidden", })
+				compblock = self.components:Add("<ComponentColumn socket_size=Hidden/>", { entity = entity, hiddencomp = i })
 				compblock.child_index = hiddencount
 				hiddencomps[i] = compblock
 			end
 		end
 	end
+
+	local extra_width = 0
+	if not foreign then
+		local frame_def = entity.def
+		local can_have_integrated_behavior = not frame_def.type and frame_def.race == "robot" and not frame_def.no_integrated_behavior
+		local have_integrated_behavior = can_have_integrated_behavior and entity:CountComponents("c_integrated_behavior") > 0
+		local show_button = not can_have_integrated_behavior or have_integrated_behavior
+		self.int_behavior.hidden = show_button
+		extra_width = not show_button and 28 or 0
+	end
+
 
 	-- Fill out changed components at the bottom and in the register panel
 	local components, noregs, changed_components, removed_compblocks = self.components, self.link_editor and true
@@ -923,13 +1077,14 @@ function FrameView:update(first_update, force_update)
 
 			-- force update effects/inventory slot hovers
 			if self.hovering_component then
-				self:on_hover_component(false, nil)
+				self:on_hover_component(nil)
 			end
 
 			v:SetComp(comp)
 			v.progress.hidden, v.progressbg.hidden = true, true
 			v.regs:Clear()
 			v.regs2:Clear()
+			v.hideregs_table = nil
 			if v.bigbtn then v.bigbtn:RemoveFromParent() v.bigbtn = nil end
 			v.customui:Clear()
 			v.customui.hidden = true
@@ -948,20 +1103,19 @@ function FrameView:update(first_update, force_update)
 						v.bigbtn = self.bigbtns:Add(sidebigbtn_ui)
 						sidebigbtn_ui.compbox = v
 					end
+					v.hideregs_table = hideregs and type(hideregs) == "table" and hideregs
 				end
 
 				if not hideregs and not noregs then
 					local regdefs = comp_def.registers
-					local abs_index = comp.register_index - 1
-					local regcnt = math.min(comp.register_count, 10)
 					local behavior_asm = comp.base_id == "c_behavior" and comp.has_extra_data and GetFactionBehaviorAsmById(comp.faction, comp.extra_data.main_id)
 					local behavior_pnames = behavior_asm and behavior_asm.code.pnames
 					local reglayout = "<Reg on_drag_start={link_on_drag_start} on_drag_cancel={link_on_drag_cancel} on_drag_complete={link_on_drag_complete} on_drop={link_on_drop}/>"
 					local regminilayout = "<MiniReg on_drag_start={link_on_drag_start} on_drag_cancel={link_on_drag_cancel} on_drag_complete={link_on_drag_complete} on_drop={link_on_drop}/>"
-					for j=regcnt,1,-1 do
+					for j=math.min(comp.register_count, 10),1,-1 do
 						local regdef = regdefs and regdefs[j]
-						local tt = regdef and regdef.tip
-						self.regs[abs_index + j] = (j>4 and v.regs2 or v.regs):Add(j>4 and regminilayout or reglayout, {
+						local regsw, tt = (j>4 and v.regs2 or v.regs), regdef and regdef.tip
+						regsw:Add(j>4 and regminilayout or reglayout, {
 							ent = entity,
 							comp = comp,
 							comp_index = i,
@@ -975,16 +1129,8 @@ function FrameView:update(first_update, force_update)
 
 				if reg_ui then v.regs:Add(reg_ui) end
 
-				if hideregs and type(hideregs) == "table" then
-					-- hook up regs
-					local abs_index = comp.register_index - 1
-					for _,reg in ipairs(hideregs) do
-						self.regs[abs_index + reg.reg_index] = reg
-					end
-				end
-
-				v.on_mouse_enter = function(w) self:on_hover_component(true, w.comp) end
-				v.on_mouse_leave = function(w) self:on_hover_component(false, w.comp) end
+				v.on_mouse_enter = function(w) self:on_hover_component(w) end
+				v.on_mouse_leave = function() self:on_hover_component(nil) end
 			elseif v.hiddencomp then
 				removed_compblocks = removed_compblocks or {}
 				removed_compblocks[#removed_compblocks+1] = v
@@ -1008,6 +1154,14 @@ function FrameView:update(first_update, force_update)
 	if changed_components or first_update then
 		if removed_compblocks then
 			for _,v in ipairs(removed_compblocks) do v:RemoveFromParent() end
+		end
+
+		local regs = self.regs
+		for i=#data.frame_regs+1,math.max(#regs,entity.register_count) do regs[i] = false end -- avoid nil gaps
+		for _,v in ipairs(components) do
+			for _,regw in ipairs(v.regs)  do local ri = regw.abs_index if ri then regs[ri] = regw end end
+			for _,regw in ipairs(v.regs2) do local ri = regw.abs_index if ri then regs[ri] = regw end end
+			if v.hideregs_table then for _,regw in ipairs(v.hideregs_table) do regs[regw.abs_index] = regw end end
 		end
 	end
 
@@ -1034,7 +1188,7 @@ function FrameView:update(first_update, force_update)
 		self.inv_hash = inv_hash
 		local inv_counts, allslottypes, lastcomp, counttxt, countslottypes = self.inv_counts, {}, false
 		self.inventorybox.hidden = numslots == 0
-		self.inventorybox.min_width = (#components * (56+36))
+		self.inventorybox.min_width = (#components * (56+36)) + extra_width
 		self.allslottypes = allslottypes
 		if dock_boxes then dock_boxes:Clear() end
 		inv_list:Clear()
@@ -1050,8 +1204,8 @@ function FrameView:update(first_update, force_update)
 					comp = lastcomp,
 					tooltip = "Number of Inventory slots\n\n<hl>Shift-Click</> to toggle locking of slots",
 					countslottypes = countslottypes,
-					on_mouse_enter = function(img) self:on_hover_component(true, img.comp) end,
-					on_mouse_leave = function(img) self:on_hover_component(false, img.comp) end,
+					on_mouse_enter = function(w) self:on_hover_component(w) end,
+					on_mouse_leave = function() self:on_hover_component(nil) end,
 				}).count
 			end
 			counttxt.text = tostring(counttxt.text + 1)
@@ -1063,8 +1217,8 @@ function FrameView:update(first_update, force_update)
 			inv_list:Add("ItemSlotWithBar", {
 				slot = slot,
 				orig_i = i,
-				on_mouse_enter = function(img) self:on_hover_itemslot(true, img) end,
-				on_mouse_leave = function(img) self:on_hover_itemslot(false, img) end,
+				on_mouse_enter = function(w) self:on_hover_itemslot(w.slot) end,
+				on_mouse_leave = function() self:on_hover_itemslot(nil) end,
 			})
 
 			-- add docked inventory boxes
@@ -1082,7 +1236,8 @@ function FrameView:update(first_update, force_update)
 						end
 					end,
 					update = function(dbox)
-						local visual_id = dbox.entity:GetRegisterId(FRAMEREG_VISUAL)
+						local ent = dbox.entity
+						local visual_id = ent:GetRegisterId(FRAMEREG_VISUAL)
 						if visual_id then
 							dbox.visual.image = data.all[visual_id].texture
 							dbox.visual.hidden = false
@@ -1090,8 +1245,8 @@ function FrameView:update(first_update, force_update)
 							dbox.visual.hidden = true
 						end
 						-- update logistics button
-						dbox.action_docked_manual.active = not dbox.entity.disconnected
-						dbox.hlt.progress = (entity.health / entity.max_health)
+						dbox.action_docked_manual.active = not ent.disconnected
+						dbox.hlt.progress = (ent.health / ent.max_health)
 					end
 				})
 
@@ -1147,14 +1302,9 @@ function FrameView:update(first_update, force_update)
 end
 
 function FrameView:UpdateEffects(clear)
-	if self.fxvis    then View.StopEffect(self.fxvis)   self.fxvis   = nil end
-	if self.fxpower  then View.StopEffect(self.fxpower) self.fxpower = nil end
-	if self.fxrange  then View.StopEffect(self.fxrange) self.fxrange = nil end
-	if self.fxrangem then View.StopEffect(self.fxrangem) self.fxrangem = nil end
-	if self.order_in then for _,k in ipairs(self.order_in) do View.StopEffect(k) end self.order_in = nil end
-
+	if self.fxvis then View.StopEffect(self.fxvis) self.fxvis = nil end
+	if self.fxpower then View.StopEffect(self.fxpower) self.fxpower = nil end
 	if clear then return end
-
 	local entity = self.entity
 	if not entity.exists then return end
 
@@ -1171,34 +1321,33 @@ function FrameView:UpdateEffects(clear)
 			self.fxpower = View.PlayEffect("fx_range", entity, { Color = "#00AAAA", Range = power_range })
 		end
 	end
+end
 
-	if self.hovering_component and self.hovering_component.exists then
-		local def = self.hovering_component.def
-		local comprange = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.light_radius or def.terraforming_range
+function FrameView:UpdateSlotEffects(component, itemslot)
+	if self.fxslot1 then View.StopEffect(self.fxslot1) self.fxslot1 = nil end
+	if self.fxslot2 then View.StopEffect(self.fxslot2) self.fxslot2 = nil end
+	local entity = self.entity
+	if not entity.exists then return end
+
+	if component then
+		local def = component.def
+		local comprange = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.terraforming_range
 		if comprange then
-			self.fxrange = View.PlayEffect("fx_range", entity, { Color = "#00AA22", Range = comprange })
+			self.fxslot1 = View.PlayEffect("fx_range", entity, { Color = "#00AA22", Range = comprange })
 			if def.minimum_range then
-				self.fxrangem = View.PlayEffect("fx_range", entity, { Color = "#00AA22", Range = def.minimum_range })
+				self.fxslot2 = View.PlayEffect("fx_range", entity, { Color = "#00AA22", Range = def.minimum_range })
 			end
 		end
-	end
-
-	local hovering_itemslot = self.hovering_itemslot
-	local drone_ent = hovering_itemslot and (hovering_itemslot.slot.entity or hovering_itemslot.slot.reserved_entity)
-	if drone_ent then
-		local range = drone_ent.def.drone_range
-		if range then
-			self.fxrange = View.PlayEffect("fx_range", entity, { Color = "#00AA22", Range = range })
+	elseif itemslot then
+		local drone_ent = itemslot.entity or itemslot.reserved_entity
+		local drone_range = drone_ent and drone_ent.def.drone_range
+		if drone_range then
+			self.fxslot1 = View.PlayEffect("fx_range", entity, { Color = "#00AA22", Range = drone_range })
 		end
-	elseif hovering_itemslot then
-		-- show line
-		local orders = Game.GetLocalPlayerFaction():GetActiveOrders(entity)
-		local e_pairs = {}
-		for i,o in ipairs(orders) do
-			if o.target_entity == entity and o.source_entity and not e_pairs[o.source_entity.key] then
-				e_pairs[o.source_entity.key] = true
-				if not self.order_in then self.order_in = {} end
-				self.order_in[#self.order_in+1] = View.PlayEffect("fx_line", o.source_entity, entity, { Color = "#009A13" })
+		for _,o in ipairs(Game.GetLocalPlayerFaction():GetActiveOrders(itemslot)) do
+			if o.source_entity then
+				self.fxslot2 = View.PlayEffect("fx_line", o.source_entity, o.target_entity, { Color = "#009A13" })
+				break
 			end
 		end
 	end
@@ -1224,122 +1373,7 @@ function EntityAction.IssueDumpingOrders(entity, arg)
 end
 
 function FrameView:request_items(btn)
-	local filter_slot_type, entity = self.allslottypes, self.entity
-	local largest_socket, currsize = 0
-	for i,v in ipairs(entity.visual_def.sockets or {}) do
-		-- get free sockets only
-		if not entity:GetComponent(i) then
-			currsize = GetAttachmentSize(v[2])
-			if largest_socket < currsize then
-				largest_socket = currsize
-			end
-		end
-	end
-	UI.MenuPopup([[
-			<Box bg=popup_box_bg padding=4 blur=true>
-				<VerticalList>
-					<VerticalList id=activebox>
-						<Text text="Active Requests (click to cancel)" halign=center/>
-						<Wrap margin_left=4 id=orders min_height=60 child_padding=4/>
-						<Image height=2 color=ui_light margin=8/>
-					</VerticalList>
-					<Text text="Request an Item to be Delivered" halign=center/>
-					<Box bg=popup_pattern id=listbox>
-						<VerticalList>
-							<HorizontalList child_padding=8 margin_top=8 margin_left=8 margin_right=4>
-								<Text valign=center text="Request Type:" min_width=160/>
-								<Combo id=type fill=true/>
-							</HorizontalList>
-							<HorizontalList child_padding=8 margin_top=8 margin_left=8 margin_right=4>
-								<Text valign=center text="Request Channel:" min_width=160/>
-								<Combo id=channel fill=true/>
-							</HorizontalList>
-						</VerticalList>
-					</Box>
-					<RegisterSelection width=626 max_height=600 on_set={on_request} def_filter={def_filter} hide_clear_button=true apply_text="Request Item - Hold Shift to keep window open"/>
-				</VerticalList>
-			</Box>
-		]], {
-		construct = function(menu)
-			menu:TweenFromTo("sy", 0, 1, 100)
-			menu.type.texts = { "Single Request", "Recurring Request (Keep Filled Up to Amount)" }
-			menu.channel.texts = { "Default Channel(s)", "On Channel 1", "On Channel 2", "On Channel 3", "On Channel 4" }
-		end,
-		update = function(menu)
-			local e = self.entity
-			local orders = Game.GetLocalPlayerFaction():GetActiveOrders(e)
-			for _,o in ipairs(orders) do o.age = 0 end -- exclude age from hash
-			local hash = Tool.Hash(orders)
-			if hash == menu.hash then return end
-			menu.hash = hash
-			menu.orders:Clear()
-			for i,o in ipairs(orders) do
-				if o.source_entity == e or o.carry_entity == e or o.target_entity == e then
-					local r = menu.orders:Add("Reg", {
-						def_id = o.item_id, num = o.amount,
-						bg = o.carry_entity and "item_default" or "item_disabled",
-						on_click = function(reg)
-							Action.SendForLocalFaction("CancelOrder", { id = o.id })
-							reg:RemoveFromParent()
-						end,
-					})
-					if o.recurring then r:Add('<Image dock=top-right width=22 height=22 color=ui_light image=icon_processing tooltip="Recurring Request (Keep Filled Up to Amount)"/>') end
-					if o.channel_bitmask then r:Add('<Image dock=top-left width=22 height=22 color=ui_light/>', data.order_channel_bit_images[o.channel_bitmask]) end
-				end
-			end
-			menu.activebox.hidden = #menu.orders == 0
-		end,
-		def_filter = function(def, cat)
-			return (filter_slot_type[def.slot_type] and cat.defs ~= data.frames and def.attachment_size ~= "Hidden") or cat.number_panel or (largest_socket and def.attachment_size and (GetAttachmentSize(def.attachment_size) <= largest_socket))
-		end,
-		on_request = function(menu, regsel, res)
-			local id = res.id
-			local item_def = data.all[id]
-			if not item_def then return end
-			local num = (res.num and res.num > 0 and res.num) or 1
-			local slot_type, stack_size = item_def.slot_type or "storage", item_def.stack_size or 1
-			local entity_slots, have_partial_space = self.entity:GetSlotsByType(slot_type) or {}
-			local channel = menu.channel.value and menu.channel.value > 1 and (menu.channel.value - 1) or nil
-			if menu.type.value == 2 then
-				local max = #entity_slots * stack_size
-				if num > max then num = max end
-				if num > 0 then Action.SendForEntity("ManualReserveItem", self.entity, { id = id, num = num, channel = channel, recurring = true }) end
-			else
-				for _,v in ipairs(entity_slots) do
-					local unreserved_space = (v.id == id and v.unreserved_space or 0)
-					if (unreserved_space > 0 and unreserved_space >= math.min(num, stack_size)) or (v.id == nil and v.type == slot_type and not v.locked) then
-						Action.SendForEntity("ManualReserveItem", self.entity, { id = id, num = math.min(num, stack_size), slot = v, channel = channel })
-						num = num - math.min(num, stack_size)
-						if num == 0 then break end
-					elseif unreserved_space > 0 then
-						have_partial_space = true
-					end
-				end
-				if num > 0 and have_partial_space then
-					for _,v in ipairs(entity_slots) do
-						local unreserved_space = (v.id == id and v.unreserved_space or 0)
-						if unreserved_space > 0 then
-							Action.SendForEntity("ManualReserveItem", self.entity, { id = id, num = math.min(num, unreserved_space), slot = v, channel = channel })
-							num = num - math.min(num, unreserved_space)
-							if num == 0 then break end
-						end
-					end
-				end
-				if num == 1 and self.entity:GetFreeSocket(id) then
-					Action.SendForEntity("ManualReserveItem", self.entity, { id = id, num = math.min(num, stack_size), channel = channel })
-					num = 0
-				end
-				if num == 0 then
-					Notification.Warning(L("Requested %s", item_def.name))
-				else
-					Notification.Error("No free slots available for reservation")
-				end
-			end
-			if not Input.IsShiftDown() then
-				UI.CloseMenuPopup()
-			end
-		end,
-	}, btn, "UP")
+	ShowRequestItems(btn, self.allslottypes, self.entity)
 end
 
 function FrameView:sort_items()
@@ -1360,10 +1394,16 @@ function FrameViewInfoBox:toggle_power()
 	end
 end
 
+function FrameViewInfoBox:on_dropdown(button, mousebtn)
+	if self.foreign then return end
+	local entity = self.entity
+	ShowLogisticsSettings(button, entity)
+end
+
 function FrameViewInfoBox:toggle_disconnected(button, mousebtn)
 	if self.foreign then return end
 	local entity = self.entity
-	if mousebtn == "LEFTMOUSEBUTTON" and not entity.is_construction then
+	if mousebtn == 'LEFTMOUSEBUTTON' and not entity.is_construction then
 		Action.SendForEntity("SetDisconnected", entity, { val = not entity.disconnected })
 	else
 		ShowLogisticsSettings(button, entity)
@@ -1374,7 +1414,7 @@ function FrameView:toggle_docked_disconnected(box, button, mousebtn)
 	if self.foreign then return end
 
 	local entity = box.entity
-	if mousebtn == "LEFTMOUSEBUTTON" then
+	if mousebtn == 'LEFTMOUSEBUTTON' then
 		Action.SendForEntity("SetDisconnected", entity, { val = not entity.disconnected })
 		return
 	end
@@ -1386,11 +1426,11 @@ function FrameViewInfoBox:toggle_transfer(button, mousebtn)
 	if self.foreign then return end
 	local entity = self.entity
 
-	if mousebtn == "LEFTMOUSEBUTTON" then
+	if mousebtn == 'LEFTMOUSEBUTTON' then
 		if not entity.logistics_transport_route then
 			Action.SendForSelectedEntities("SetDisconnected", { val = true })
 		end
-		Action.SendForSelectedEntities("SetLogisticsFlag", { flag = "transport_route", set = not entity.logistics_transport_route })
+		Action.SendForSelectedEntities("SetLogisticsFlag", { flag = 'transport_route', set = not entity.logistics_transport_route })
 		if not entity.logistics_transport_route then
 			local function SelectStoreReg()
 				if entity:GetRegisterEntity(FRAMEREG_STORE) == nil then
@@ -1417,35 +1457,34 @@ function FrameViewInfoBox:toggle_transfer(button, mousebtn)
 	ShowLogisticsSettings(button, entity)
 end
 
-function FrameView:on_hover_component(lit, comp)
-	self.hovering_component = lit and comp or nil
+function FrameView:on_hover_component(compw)
+	local comp = compw and compw.comp
+	self.hovering_component = comp
 
 	local have_slots
 	for i,w in ipairs(self.inv_list) do
-		local match = w.slot.component == comp
-		w.bg.color = (match and lit and "highlight" or "white")
+		local match = compw and w.slot.component == comp
+		w.bg.color = (match and 'highlight' or 'white')
 		have_slots = have_slots or match
 	end
 
 	-- Only highlight components with slots, registers or a range effect
-	if lit and not have_slots and comp and comp.register_count == 0 then
+	if comp and not have_slots and comp.register_count == 0 then
 		local def = comp.def
-		local comprange = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.light_radius or def.terraforming_range
+		local comprange = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.terraforming_range
 		if not comprange then comp = nil end
 	end
 
 	for _,v in ipairs(self.components) do
-		local vcomp = lit and v.comp
-		v.hlimg.color = vcomp and vcomp == comp and "ui_dark" or "ui_bg"
+		v.hlimg.color = comp and v.comp == comp and 'ui_dark' or 'ui_bg'
 	end
 
-	self:UpdateEffects()
+	self:UpdateSlotEffects(comp, nil)
 	self.links.on_draw = function(draw) self:UpdateLinks(draw) end
 end
 
-function FrameView:on_hover_itemslot(lit, itemslot)
-	self.hovering_itemslot = lit and itemslot or nil
-	self:UpdateEffects()
+function FrameView:on_hover_itemslot(itemslot)
+	self:UpdateSlotEffects(nil, itemslot)
 end
 
 function FrameView:frameregs_mouse_enter()
@@ -1532,7 +1571,7 @@ function FrameView:on_click_inventory_box_icon(counticon)
 					Action.SendForEntity("ItemSlotGroup", entity, { comp = comp, lockto = id })
 					UI.CloseMenuPopup()
 				end,
-			}, counticon, "UP")
+			}, counticon, 'UP')
 		end,
 		on_unfix = function()
 			Action.SendForEntity("ItemSlotGroup", entity, { comp = comp, unlock = true })
@@ -1542,7 +1581,7 @@ function FrameView:on_click_inventory_box_icon(counticon)
 			Action.SendForEntity("ItemSlotGroup", entity, { comp = comp, drop = true })
 			UI.CloseMenuPopup()
 		end,
-	}, counticon, "UP")
+	}, counticon, 'UP')
 end
 
 -- This function is also used in LinkEditor (so self can be FrameView or LinkEditor)
@@ -1563,7 +1602,7 @@ end
 
 -- This function is also used in LinkEditor (so self can be FrameView or LinkEditor)
 function FrameView:link_on_drag_cancel(payload, visual, drag_was_aborted)
-	if not self.dragsource then return end -- copy value
+	if not self:IsValid() or not self.dragsource then return end -- copy value
 	self.dragsource = nil
 	if drag_was_aborted then return end -- drag aborted by pressing right-click
 	if payload.read_only then return Notification.Error("Can't set a read-only register") end
@@ -1592,7 +1631,7 @@ function FrameView:link_on_drop(droppedon, payload, visual)
 		-- copy value
 		if droppedon.read_only then return Notification.Error("Can't set a read-only register") end
 		local dragtype = payload.dragtype
-		local payload_slot = dragtype == "ITEM" and payload.slot
+		local payload_slot = dragtype == 'ITEM' and payload.slot
 		local set_id = (payload_slot and payload_slot.id) or (dragtype == "COMPONENT" and payload.comp and payload.comp.id) or payload.def_id
 		local set_entity = (dragtype ~= "COMPONENT" and payload.entity) or (payload_slot and (payload_slot.entity or payload_slot.reserved_entity))
 		droppedon:SendSet({ id = (not set_entity and set_id or nil), entity = (set_entity or nil), num = payload.num or 1, coord = payload.coord })
@@ -1644,7 +1683,7 @@ function FrameView:UpdateLinks(draw)
 	for i=1,#entity_links+1 do
 		local link = entity_links[i]
 		local next_source, link_index = link and link.source_index, link and link.index
-		if source ~= next_source and source then
+		if source ~= next_source and numtargets > 0 then
 			local sreg = regs[source]
 			if sreg and sreg:IsValid() then
 				local sx, sy, sw = sreg:GetViewportPosition(draw)
@@ -1657,7 +1696,7 @@ function FrameView:UpdateLinks(draw)
 
 					for pass=1,2 do
 						local thick = (pass == 1 and 2.0 or 0.0)
-						local col = (pass == 1 and "#44EE" or "white")
+						local col = (pass == 1 and "#44EE" or 'white')
 						if pass == 2 then
 							col = link_colors[1 + (col_idx % #link_colors)]
 							col_idx = col_idx + 1
@@ -1720,7 +1759,7 @@ function FrameView:UpdateLinks(draw)
 			local curve = math.max(50, math.abs(sx - tx) / 5)
 
 			for pass=1,2 do
-				local col = (pass == 1 and "#44EE" or "white")
+				local col = (pass == 1 and "#44EE" or 'white')
 				local thick = (pass == 1 and 2.0 or 0.0)
 				draw:AddTriangle(sx,     sy, 12.5+thick, 0 + flip, col)
 				draw:AddTriangle(tx - 1, ty,  8.5+thick, 180, col)
@@ -1958,7 +1997,6 @@ local FrameViewExplorableLayout =
 		<VerticalList child_padding=8>
 			<Text style=hl text="Explorable"/>
 			<Inventory id=inventory entity={entity} hidden=true/>
-			<Text id=hint text="Right click to investigate"/>
 		</VerticalList>
 	</Box>
 ]]
@@ -1974,7 +2012,6 @@ function FrameViewExplorable:update()
 		return
 	end
 	self.inventory.hidden = not self.entity.lootable
-	self.hint.hidden = self.entity.extra_data.solved
 end
 
 -------------------------------------------- other faction frame view
@@ -2031,11 +2068,16 @@ local layout_multi =
 					<HorizontalList child_align=center id=frameregs child_padding=4 hidden=true/>
 					<HorizontalList id=buttons child_padding=4/>
 					<HorizontalList margin=4 child_padding=4 halign=right id=controlbox hidden=true on_mouse_enter={on_actionbuttons_enter} on_mouse_leave={on_actionbuttons_leave}>
-						<Button width=44 height=44 icon=icon_stop on_click={run_behaviors} tooltip="Stop All Behaviors" id=behav_stop hidden=true/>
-						<Button width=44 height=44 icon=icon_play on_click={run_behaviors} tooltip="Start All Behaviors" id=behav_start hidden=true/>
+						<VerticalList>
+							<Button width=24 height=24 icon=icon_stop on_click={run_behaviors} tooltip="Stop All Behaviors" id=behav_stop hidden=true/>
+							<Button width=24 height=24 icon=icon_play on_click={run_behaviors} tooltip="Start All Behaviors" id=behav_start hidden=true/>
+						</VerticalList>
 						<Button width=44 height=44 icon=icon_small_request on_click={request_items} tooltip="Request Item" id=requestbtn/>
 						<Button width=44 height=44 on_click={toggle_power} id=action_power icon=icon_power/>
-						<Button width=44 height=44 on_click={toggle_disconnected} id=action_connect icon=icon_carry/>
+						<HorizontalList>
+							<Button width=44 height=44 on_click={toggle_disconnected} id=action_connect icon=icon_carry/>
+							<Button on_click={on_dropdown} width=16 id=drp icon=icon_small_arrow_down/>
+						</HorizontalList>
 					</HorizontalList>
 					<Canvas id=deconbox height=25 tooltip="Hold to deconstruct" hidden=true halign=fill child_fill=true on_mouse_button_down={start_deconstruct} on_mouse_button_up={stop_deconstruct}>
 						<Image color=ui_bg/>
@@ -2131,18 +2173,15 @@ function FrameViewMulti:construct()
 
 			if entity.has_component_list then
 				for _,comp in ipairs(entity.components) do
-					local comp_reg_count = comp.register_count
-					if comp_reg_count > 0 then
-						local comp_def = comp.def
-						local key = comp_def.base_id == "c_behavior" and comp.extra_data.main_id or comp_def
-						local comparr = comparrays[key]
-						if comparr then comparr[#comparr+1] = comp -- add this to list
-						elseif comparr == false then -- known as not shown
-						elseif not comp_def.get_ui and comp.is_hidden then comparrays[key] = false -- remember as not shown
-						else
-							comparrays[key] = { comp, comp_def = comp_def, key = key, reg_count = comp_reg_count }
-							have_behavior = have_behavior or (key ~= comp_def)
-						end
+					local comp_def = comp.def
+					local key = comp_def.base_id == "c_behavior" and comp.extra_data.main_id or comp_def
+					local comparr = comparrays[key]
+					if comparr then comparr[#comparr+1] = comp -- add this to list
+					elseif comparr == false then -- known as not shown
+					elseif not comp_def.get_ui and comp.is_hidden then comparrays[key] = false -- remember as not shown
+					else
+						comparrays[key] = { comp, comp_def = comp_def, key = key, reg_count = comp.register_count }
+						have_behavior = have_behavior or (key ~= comp_def)
 					end
 				end
 			end
@@ -2150,7 +2189,7 @@ function FrameViewMulti:construct()
 
 		if #addlist < 120 then -- limit to some number to not slow down and because more don't fit on the screen anyway
 			local newentry = addlist:Add(layout_multi_child, { entity = entity, frameid = entity.id })
-			local faction_access = (is_owned or entity_faction:GetTrust(player_faction) == "ALLY")
+			local faction_access = (is_owned or entity_faction:IsAlly(player_faction))
 			local may_see_inventory = (faction_access or entity.lootable) and not is_construction
 			if not may_see_inventory then
 				newentry.visual:RemoveFromParent()
@@ -2173,10 +2212,13 @@ function FrameViewMulti:construct()
 		table.move(sortedcomps, #sortedcomps+1, #sortedcomps+#sortedcomps-10, 10+1) -- trim to 10 items
 		for _,comparr in ipairs(sortedcomps) do
 			local comp_def, key, compcol = comparr.comp_def, comparr.key, self.components:Add([[<VerticalList>
-					<VerticalList id=regs halign=right child_padding=4 margin_bottom=4/>
+					<VerticalList id=regs halign=right child_padding=4 margin_bottom=4 margin_right=8/>
 					<Box padding=5>
 						<HorizontalList>
-							<Image id=hlimg color=ui_bg width=22 height=56 margin_left=1 margin_right=1/>
+							<Canvas width=22 height=56 margin_left=1 margin_right=1>
+								<Image color=ui_bg fill=true/>
+								<Text id=numtxt textalign=center width=0 dock=top x=-1 size=10/>
+							</Canvas>
 							<SocketBox id=box entity={entity} socket_size=false halign=center margin_right=2 tooltip={comp_tooltip} on_click={comp_on_click}/>
 						</HorizontalList>
 					</Box>
@@ -2184,20 +2226,23 @@ function FrameViewMulti:construct()
 			local compbox = compcol.box
 			compbox:SetCompDef(comp_def)
 			compbox.comps = comparr
-			local behavior_code = key ~= comp_def and player_faction.extra_data.library[key]
-			local behavior_pnames = behavior_code and behavior_code.pnames
-			if behavior_code then compbox.behavior_code = behavior_code end
-			local comp_regdefs = comp_def.registers
-			for idx=comparr.reg_count,1,-1 do
-				local regdef = comp_regdefs and comp_regdefs[idx]
-				local read_only = (regdef and regdef.read_only)
-				local regw = compcol.regs:Add(read_only and "<Reg read_only=true/>" or "<Reg on_click={reg_on_click} on_drag_start={link_on_drag_start} on_drag_cancel={link_on_drag_cancel} on_set={reg_on_set}/>")
-				regw.compidx, regw.compbox = idx, compbox
-				regw.ui_icon = (regdef and regdef.ui_icon)
-				regw.comp = #comparr == 1 and comparr[1]
-				regw.warning = (regdef and regdef.warning)
-				regw.empty_tooltip = (regdef and regdef.tip and L("%s\n\n<desc>A Register that holds a value</>", regdef.tip)) or (behavior_pnames and behavior_pnames[idx])
-				regw.no_num_txt = (behavior_pnames and behavior_pnames[idx]) or (behavior_code and NOLOC("P" .. idx)) or nil
+			compcol.numtxt.text = tostring(#comparr)
+			if comparr.reg_count > 0 then
+				local behavior_code = key ~= comp_def and player_faction.extra_data.library[key]
+				local behavior_pnames = behavior_code and behavior_code.pnames
+				if behavior_code then compbox.behavior_code = behavior_code end
+				local comp_regdefs = comp_def.registers
+				for idx=comparr.reg_count,1,-1 do
+					local regdef = comp_regdefs and comp_regdefs[idx]
+					local read_only = (regdef and regdef.read_only)
+					local regw = compcol.regs:Add(read_only and "<Reg read_only=true/>" or "<Reg on_click={reg_on_click} on_drag_start={link_on_drag_start} on_drag_cancel={link_on_drag_cancel} on_set={reg_on_set}/>")
+					regw.compidx, regw.compbox = idx, compbox
+					regw.ui_icon = (regdef and regdef.ui_icon)
+					regw.comp = #comparr == 1 and comparr[1]
+					regw.warning = (regdef and regdef.warning)
+					regw.empty_tooltip = (regdef and regdef.tip and L("%s\n\n<desc>A Register that holds a value</>", regdef.tip)) or (behavior_pnames and behavior_pnames[idx])
+					regw.no_num_txt = (behavior_pnames and behavior_pnames[idx]) or (behavior_code and NOLOC("P" .. idx)) or nil
+				end
 			end
 		end
 		self.components.hidden = (#self.components == 0)
@@ -2288,10 +2333,16 @@ function FrameViewMulti:toggle_power()
 	Action.SendForSelectedEntities("SetPowerDown", { val = self.action_power.active })
 end
 
+function FrameViewMulti:on_dropdown(button, mousebtn)
+	if self.foreign then return end
+	local all_entities = self.all_entities
+	ShowLogisticsSettings(button, all_entities[1], all_entities)
+end
+
 function FrameViewMulti:toggle_disconnected(button, mousebtn)
 	local all_entities = self.all_entities
 
-	if mousebtn == "LEFTMOUSEBUTTON" then
+	if mousebtn == 'LEFTMOUSEBUTTON' then
 		Action.SendForSelectedEntities("SetDisconnected", { val = button.active })
 		return
 	end
@@ -2300,31 +2351,13 @@ function FrameViewMulti:toggle_disconnected(button, mousebtn)
 end
 
 function FrameViewMulti:request_items(btn)
-	UI.MenuPopup([[
-			<Box bg=popup_box_bg padding=4 blur=true>
-				<VerticalList>
-					<Text text="Request an Item to be Delivered" halign=center/>
-					<RegisterSelection width=626 max_height=600 on_set={on_request} def_filter={def_filter} hide_clear_button=true apply_text="Request Item"/>
-				</VerticalList>
-			</Box>
-		]], {
-		construct = function(menu)
-			menu:TweenFromTo("sy", 0, 1, 100)
-		end,
-		def_filter = function(def, cat)
-			return (cat.defs ~= data.frames and def.attachment_size ~= "Hidden") or cat.number_panel
-		end,
-		on_request = function(menu, regsel, res)
-			local id = res.id
-			local item_def = data.all[id]
-			if not item_def then return end
-			local stack_size = item_def.stack_size or 1
-			local num = (res.num and res.num > 0 and res.num) or (res.num and res.num < 0 and stack_size) or 1
-
-			Action.SendForSelectedEntities("ManualReserveItem", { id = id, num = math.min(num, stack_size) })
-			UI.CloseMenuPopup()
-		end,
-	}, btn, "UP")
+	local allslottypes = {}
+	for _,entity in ipairs(self.all_entities) do
+		for _,slot in ipairs(entity.slots or {}) do
+			allslottypes[slot.type] = true
+		end
+	end
+	ShowRequestItems(btn, allslottypes, nil, self.all_entities)
 end
 
 function FrameViewMulti:on_actionbuttons_enter() Quickview_ShowPower() end
@@ -2420,7 +2453,7 @@ function FrameViewMulti:update()
 		-- set frame registers
 		for _,w in ipairs(self.frameregs) do
 			local reg, opacity = regs[w.frameidx], regdiffs[w.frameidx] and 0.4 or 1.0
-			if reg and not reg.is_empty then w.def_id, w.entity, w.coord, w.num = reg.id, reg.entity, reg.coord, reg.num else w.def_id, w.entity, w.coord, w.num = nil end
+			if reg and not reg.is_empty then w.def_id, w.entity, w.coord, w.num = reg.id, reg.raw_entity, reg.coord, reg.num else w.def_id, w.entity, w.coord, w.num = nil end
 			w.image.opacity, w.numbox.opacity = opacity, opacity
 		end
 
@@ -2460,7 +2493,7 @@ function FrameViewMulti:update()
 						if regdiff then break end
 					end
 				end
-				if reg and not reg.is_empty then w.def_id, w.entity, w.coord, w.num = reg.id, reg.entity, reg.coord, reg.num else w.def_id, w.entity, w.coord, w.num = nil end
+				if reg and not reg.is_empty then w.def_id, w.entity, w.coord, w.num = reg.id, reg.raw_entity, reg.coord, reg.num else w.def_id, w.entity, w.coord, w.num = nil end
 				w.image.opacity, w.numbox.opacity = regdiff and 0.4 or 1.0, regdiff and 0.4 or 1.0
 			end
 		end
@@ -2533,6 +2566,7 @@ function FrameViewMulti:comp_on_click(box, mousebtn, hashfilter)
 	if mousebtn == 'RIGHTMOUSEBUTTON' then
 		local pop = UI.MenuPopup([[<Box padding=5><ScrollList max_height=900/></Box>]], {
 			item_on_click = function(pop,btn)
+				UI.CloseMenuPopup(pop)
 				self:comp_on_click(box, nil, btn.hash)
 			end,
 		}, box)
@@ -2548,11 +2582,11 @@ function FrameViewMulti:comp_on_click(box, mousebtn, hashfilter)
 			local thisseen = seen[hash]
 			if thisseen then
 				seen[hash] = thisseen + do_count
-			elseif not reg.is_empty then
+			elseif reg and not reg.is_empty then
 				seen[hash] = 1
 				local btn = list:Add('<Button on_click={item_on_click}><HorizontalList><Text text="Select" valign=center margin=8/><MiniReg no_interact=true/><Text valign=center margin=8/></HorizontalList></Button>')
 				local w = btn[1][2]
-				btn.hash, w.def_id, w.entity, w.coord, w.num = hash, reg.id, reg.entity, reg.coord, reg.num
+				btn.hash, w.def_id, w.entity, w.coord, w.num = hash, reg.id, reg.raw_entity, reg.coord, reg.num
 			end
 		end
 
@@ -2584,7 +2618,7 @@ end
 function FrameViewMulti:reg_on_click(regw, mousebtn)
 	if Input.IsShiftDown() then
 		regw.class.on_click(regw, mousebtn) -- go to entity/coord
-	elseif mousebtn == "RIGHTMOUSEBUTTON" then
+	elseif mousebtn == 'RIGHTMOUSEBUTTON' then
 		self:reg_on_set(regw, nil)
 	elseif regw and (regw.frameidx == -FRAMEREG_GOTO or regw.frameidx == -FRAMEREG_STORE) and not Input.IsControlDown() then
 		CursorChooseEntity((regw.frameidx == -FRAMEREG_GOTO and "Select what to set as Goto target" or "Select what to set as Store target"), function (target)
@@ -2616,7 +2650,7 @@ function FrameViewMulti:reg_on_set(regw, new_reg_val)
 		for _,comp in ipairs(regw.compbox.comps) do
 			local creg = comp:GetRegister(idx)
 			if vreg ~= creg then
-				Action.SendForSelectedEntities("SetRegister", { idx = idx, reg = new_reg_val, comp = comp })
+				Action.SendForEntity("SetRegister", comp.owner, { idx = idx, reg = new_reg_val, comp = comp })
 			end
 		end
 	end
@@ -2634,7 +2668,7 @@ function FrameViewMulti:link_on_drag_start(payload, is_click_drag)
 end
 
 function FrameViewMulti:link_on_drag_cancel(payload, visual, drag_was_aborted, a, b, c)
-	if not self.dragsource then return end
+	if not self:IsValid() or not self.dragsource then return end
 	self.dragsource = nil
 	if drag_was_aborted then return end -- drag aborted by pressing right-click
 	if UI.IsMouseOverUI() then return end
@@ -2664,7 +2698,7 @@ function FrameViewMulti:UpdateLinks(draw)
 		sx = sx + (REG_WIDTH / 2)
 
 		for pass=1,2 do
-			local col = (pass == 1 and "#44EE" or "white")
+			local col = (pass == 1 and "#44EE" or 'white')
 			local thick = (pass == 1 and 2.0 or 0.0)
 			draw:AddTriangle(sx, sy, 12.5+thick, 180, col)
 			draw:AddTriangle(tx - 1, ty, 8.5+thick, 180, col)
@@ -2684,7 +2718,7 @@ function UIMsg.OnEntitySelected(entities)
 		if #entities == 1 then
 			local entity = entities[1]
 			local entity_faction, player_faction = entity.faction, Game.GetLocalPlayerFaction()
-			if entity_faction == player_faction or entity_faction:GetTrust(player_faction) == "ALLY" then
+			if entity_faction == player_faction or entity_faction:IsAlly(player_faction) then
 				if entity.is_construction then
 					if entity:CountComponents("c_construction", true) > 0 then
 						open_frame_view = UI.AddLayout("FrameviewConstruction", { entity = entity })
@@ -2820,7 +2854,7 @@ function Frameview_OpenContextMenu(entity_or_entities, open_above, focused_entit
 				if not bp then return Notification.Warning("Unable to copy settings") end
 				StartBuildCursor(bp, #list > 1 and 0 or list[1].rotation)
 			end,
-		}, open_above, open_above and "UP" or "DOWN")
+		}, open_above, open_above and 'UP' or 'DOWN')
 		return
 	end
 
@@ -2832,9 +2866,9 @@ function Frameview_OpenContextMenu(entity_or_entities, open_above, focused_entit
 			<Button id=rotatebtn text='Rotate Building (<Key action="RotateConstructionSite"/>)' on_click={on_rotate}/>
 			<Button id=copybtn text='Copy Settings (<Key action="UnitCopy"/>)' on_click={on_copy}/>
 			<Button id=pastebtn text='Paste Settings (<Key action="UnitPaste"/>)' on_click={on_paste}/>
-			<Button id=upgradebtn text='Upgrade with Copied Settings' on_click={on_upgrade}/>
-			<Button id=addbehaviorbtn text='Set Integrated Behavior' hidden=true on_click={on_click_add_behavior}/>
-			<Button id=removebehaviorbtn text='Remove Integrated Behavior' hidden=true on_click={on_click_remove_behavior}/>
+			<Button id=upgradebtn text="Upgrade with Copied Settings" on_click={on_upgrade}/>
+			<Button id=addbehaviorbtn text="Set Integrated Behavior" hidden=true on_click={on_click_add_behavior}/>
+			<Button id=removebehaviorbtn text="Remove Integrated Behavior" hidden=true on_click={on_click_remove_behavior}/>
 			<Button id=gotobtn text="Select Goto Targets" entities_field=goto_entities on_click={on_select}/>
 			<Button id=storebtn text="Select Store Targets" entities_field=store_entities on_click={on_select}/>
 			<Button id=eggbtn text="Select Sending Time Eggs" entities_field=egg_entities on_click={on_select}/>
@@ -2952,7 +2986,7 @@ function Frameview_OpenContextMenu(entity_or_entities, open_above, focused_entit
 			if not bp then return Notification.Warning("Unable to copy settings") end
 			StartBuildCursor(bp, entity.rotation)
 		end,
-	}, open_above, open_above and "UP" or "DOWN")
+	}, open_above, open_above and 'UP' or 'DOWN')
 end
 
 function FrameView_BlockGotoAction(args)
@@ -2996,7 +3030,7 @@ Input.BindAction("QuickAction", "Released", function()
 	elseif open_frame_view and open_frame_view.entity and open_frame_view.toggle_side then
 		open_frame_view:toggle_side(open_frame_view.linkedbtn)
 	elseif hovered and hovered.faction == local_faction and not hovered.is_construction and hovered.register_count > 0 then
-		UI.MenuPopup("LinkEditor", { entity = hovered, }, nil, "RIGHT", "BOTTOM")
+		UI.MenuPopup("LinkEditor", { entity = hovered, }, nil, 'RIGHT', 'BOTTOM')
 	else
 		UI.CloseMenuPopup()
 	end

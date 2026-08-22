@@ -19,6 +19,7 @@ package.includes = {
 	"Codex.lua",
 	"Tech.lua",
 	"Program.lua",
+	"behavior_guides.lua",
 	"RegisterSelection.lua",
 	"BuildView.lua",
 	"FrameView.lua",
@@ -54,7 +55,7 @@ function UIMsg.OnSetup(local_faction)
 	UI.AddLayout("SideBar")
 	UI.AddLayout("ResourceBar")
 	UI.AddLayout("MapOverlay", -1)
-	UI.AddLayout("TextChat")
+	UI.AddLayout("TextChat", 2)
 	if Action.IsReplayPlayback() then UI.AddLayout("ReplayPlayer", 9) end
 
 	local profile = Game.GetProfile()
@@ -79,9 +80,9 @@ local gameOverDialog
 function UIMsg.OnGameOver()
 	if gameOverDialog then return end
 	local is_multiplayer = Game.GetNetMode() ~= "offline"
-	gameOverDialog = UI.AddLayout("<ConfirmDialog title='Game Over' ok_text='Start Over'/>", {
-		body        = is_multiplayer and 'Do you want to start over?\n\nUse the menu to leave the game or switch to a different player faction.' or 'Do you want to start over or leave the game and go back to the main menu?',
-		cancel_text = is_multiplayer and 'Dismiss' or 'Leave Game',
+	gameOverDialog = UI.AddLayout('<ConfirmDialog title="Game Over" ok_text="Start Over"/>', {
+		body        = is_multiplayer and "Do you want to start over?\n\nUse the menu to leave the game or switch to a different player faction." or "Do you want to start over or leave the game and go back to the main menu?",
+		cancel_text = is_multiplayer and "Dismiss" or "Leave Game",
 		cancel = function()
 			if is_multiplayer then
 				gameOverDialog:RemoveFromParent()
@@ -250,7 +251,7 @@ function UIMsg.OnExecuteAction(entities, target, x, y)
 	elseif #entities == 0 then
 		return
 	elseif resource_id and not can_mine then
-		return Notification.Error(L("Cannot mine %s", data.all[resource_id].name or "resource"))
+		return Notification.Error(L("Cannot mine %s", data.all[resource_id].name or "Resource"))
 	end
 
 	if set_store then
@@ -285,7 +286,7 @@ function Chat.PlayerPing(arg, player_id)
 	local x, y = arg[1], arg[2]
 	View.PlayEffect("fx_ping", x, y)
 	local minimap = UI.FindWidgetWithTag("Minimap")
-	if minimap then minimap:AddPing(x, y, Game.IsLocalPlayer(player_id) and "green" or "yellow", 2000) end -- show for 2000 ms
+	if minimap then minimap:AddPing(x, y, Game.IsLocalPlayer(player_id) and 'green' or 'yellow', 2000) end -- show for 2000 ms
 
 	if Game.IsLocalPlayer(player_id) or not IsShowNotification("multiplayer_ping") then return end
 	Notification.Add("ping", "info", "Pinged Here",
@@ -295,63 +296,64 @@ end
 
 InputDefaultActionMappings, InputDefaultAxisMappings, InputTooltips = {}, {}, {}
 local action, axis, tooltip = InputDefaultActionMappings, InputDefaultAxisMappings, InputTooltips
-action.SelectAction            = { "LEFTMOUSEBUTTON", "GAMEPAD_FACEBUTTON_BOTTOM" }
-action.ExecuteAction           = { "RIGHTMOUSEBUTTON", "GAMEPAD_FACEBUTTON_LEFT" }
-action.DragCamera              = "RIGHTMOUSEBUTTON"
-action.RotateAction            = "MIDDLEMOUSEBUTTON"
-action.AttackAction            = "MIDDLEMOUSEBUTTON"
-action.InGameMenu              = { "ESCAPE", "GAMEPAD_SPECIAL_RIGHT" }
-action.Build                   = { "B", "GAMEPAD_DPAD_UP" }
-action.Tech                    = { "T", "GAMEPAD_DPAD_RIGHT" }
-action.Codex                   = { "X", "GAMEPAD_DPAD_DOWN" }
-action.FactionView             = { "F", "GAMEPAD_DPAD_LEFT" }
+action.SelectAction            = { 'LEFTMOUSEBUTTON', 'GAMEPAD_FACEBUTTON_BOTTOM' }
+action.ExecuteAction           = { 'RIGHTMOUSEBUTTON', 'GAMEPAD_FACEBUTTON_LEFT' }
+action.DragCamera              = 'RIGHTMOUSEBUTTON'
+action.RotateAction            = 'MIDDLEMOUSEBUTTON'
+action.AttackAction            = 'MIDDLEMOUSEBUTTON'
+action.InGameMenu              = { 'ESCAPE', 'GAMEPAD_SPECIAL_RIGHT' }
+action.Build                   = { "B", 'GAMEPAD_DPAD_UP' }
+action.Tech                    = { "T", 'GAMEPAD_DPAD_RIGHT' }
+action.Codex                   = { "X", 'GAMEPAD_DPAD_DOWN' }
+action.FactionView             = { "F", 'GAMEPAD_DPAD_LEFT' }
 action.Chat                    = "K"
-action.Accept                  = "ENTER"
+action.Accept                  = 'ENTER'
 action.SystemIndex             = "I"
 action.Library                 = "L"
 action.Progress                = "O"
-action.PauseGame               = "SPACEBAR"
-action.Select1                 = "ONE"
-action.Select2                 = "TWO"
-action.Select3                 = "THREE"
-action.Select4                 = "FOUR"
-action.Select5                 = "FIVE"
-action.Select6                 = "SIX"
-action.Select7                 = "SEVEN"
-action.Select8                 = "EIGHT"
-action.Select9                 = "NINE"
-action.Select0                 = "ZERO"
-action.ShortcutRowNext         = "ALT+UP"
-action.ShortcutRowPrev         = "ALT+DOWN"
-action.SelectPrevious          = "BACKSPACE"
-action.CameraHome              = "HOME"
-action.CameraReset             = "END"
-action.FactionHome             = "CTRL+HOME"
+action.PauseGame               = 'SPACEBAR'
+action.Select1                 = 'ONE'
+action.Select2                 = 'TWO'
+action.Select3                 = 'THREE'
+action.Select4                 = 'FOUR'
+action.Select5                 = 'FIVE'
+action.Select6                 = 'SIX'
+action.Select7                 = 'SEVEN'
+action.Select8                 = 'EIGHT'
+action.Select9                 = 'NINE'
+action.Select0                 = 'ZERO'
+action.ShortcutRowNext         = 'ALT+UP'
+action.ShortcutRowPrev         = 'ALT+DOWN'
+action.SelectPrevious          = 'BACKSPACE'
+action.CameraHome              = 'HOME'
+action.CameraReset             = 'END'
+action.FactionHome             = 'CTRL+HOME'
 action.CameraZero              = ""
 action.HideUserInterface       = "U"
 action.Camera_FollowTarget     = "N"
 action.PowerInfo_Toggle        = "P"
 action.CursorGrid_Toggle       = "G"
 action.RotateConstructionSite  = "R"
-action.Relocate                = "PERIOD"
+action.Relocate                = 'PERIOD'
 action.ShowPath                = "J"
-action.MapOverlay              = "TAB"
+action.MapOverlay              = 'TAB'
 action.OverlaySettings         = "Y"
 action.Map                     = "M"
-action.ToggleGamepadMouse      = "GAMEPAD_RIGHTTHUMBSTICK"
-action.CaptureFeedbackShot     = "F8"
+action.CaptureFeedbackShot     = 'F8'
+action.ToggleGamepadMouse      = 'GAMEPAD_RIGHTTHUMBSTICK'
+action.SimulationStep          = 'CTRL+SPACEBAR'
 action.UnitCopy                = "C"
 action.UnitPaste               = "V"
 action.QuickAction             = "E"
 action.AttackMove              = "Q"
 action.HoldPosition            = "H"
-action.Ping                    = "ALT+LEFTMOUSEBUTTON"
+action.Ping                    = 'ALT+LEFTMOUSEBUTTON'
 
-axis.CameraX                   = { 20.0, "GAMEPAD_LEFTX",  { "D", "RIGHT" }, { "A", "LEFT" } }
-axis.CameraY                   = { 20.0, "GAMEPAD_LEFTY",  { "W", "UP" },    { "S", "DOWN" } }
-axis.CameraRotate              = {  4.0, "GAMEPAD_RIGHTX", "INSERT",         "DELETE"      }
-axis.CameraPitch               = {  4.0, "GAMEPAD_RIGHTY", "PAGEUP",         "PAGEDOWN"      }
-axis.CameraZoom                = {  0.2, "MOUSEWHEELAXIS", "GAMEPAD_RIGHTSHOULDER", "GAMEPAD_LEFTSHOULDER" }
+axis.CameraX                   = { 20.0, 'GAMEPAD_LEFTX',  { "D", 'RIGHT' }, { "A", 'LEFT' } }
+axis.CameraY                   = { 20.0, 'GAMEPAD_LEFTY',  { "W", 'UP' },    { "S", 'DOWN' } }
+axis.CameraRotate              = {  4.0, 'GAMEPAD_RIGHTX', 'INSERT',         'DELETE'      }
+axis.CameraPitch               = {  4.0, 'GAMEPAD_RIGHTY', 'PAGEUP',         'PAGEDOWN'      }
+axis.CameraZoom                = {  0.2, 'MOUSEWHEELAXIS', 'GAMEPAD_RIGHTSHOULDER', 'GAMEPAD_LEFTSHOULDER' }
 
 tooltip.SelectAction           = { sort =  1, label = "Select", tooltip = "Click: Select one unit or building on the map\nDrag: Select a group of units and buildings" }
 tooltip.ExecuteAction          = { sort =  2, label = "Move Unit", tooltip = "Move the selected unit(s) or give them a target" }
@@ -404,6 +406,7 @@ tooltip.Ping                   = { sort = 48, label = "Ping",     tooltip = "Pin
 tooltip.HideUserInterface      = { sort = 49, label = "Hide User Interface", tooltip = "Toggles on/off the user interface" }
 tooltip.CaptureFeedbackShot    = { sort = 50, label = "Feedback with Screenshot", tooltip = "Capture the screen and open the form to send feedback to the developers" }
 tooltip.ToggleGamepadMouse     = { sort = 51, label = "Toggle Gamepad Mouse", tooltip = "Gives controllers added mouse support" }
+tooltip.SimulationStep         = { sort = 52, label = "Simulation Stepping", tooltip = "Run one simulation tick then pause the game again" }
 tooltip.CameraY                = { sort =  1, label_var = "Move Camera Up/Down",    label_pos = "Move Camera Up",      label_neg = "Move Camera Down",   }
 tooltip.CameraX                = { sort =  2, label_var = "Move Camera Right/Left", label_pos = "Move Camera Right",   label_neg = "Move Camera Left",   }
 tooltip.CameraRotate           = { sort =  3, label_var = "Rotate Camera",          label_pos = "Rotate Camera Right", label_neg = "Rotate Camera Left", }
@@ -411,25 +414,25 @@ tooltip.CameraPitch            = { sort =  4, label_var = "Pitch Camera",       
 tooltip.CameraZoom             = { sort =  5, label_var = "Zoom Camera" ,           label_pos = "Zoom Camera In",      label_neg = "Zoom Camera Out",    }
 
 -- left click
-Input.BindAction("SelectAction", "Pressed", "SelectActionDown")
-Input.BindAction("SelectAction", "Released", "SelectActionUp")
+Input.BindAction("SelectAction", "Pressed", 'SelectActionDown')
+Input.BindAction("SelectAction", "Released", 'SelectActionUp')
 
 -- right click
-Input.BindAction("ExecuteAction", "Pressed", "ExecuteActionDown")
-Input.BindAction("ExecuteAction", "Released", "ExecuteActionUp")
-Input.BindAction("DragCamera", "Pressed", "DragCameraDown")
-Input.BindAction("DragCamera", "Released", "DragCameraUp")
+Input.BindAction("ExecuteAction", "Pressed", 'ExecuteActionDown')
+Input.BindAction("ExecuteAction", "Released", 'ExecuteActionUp')
+Input.BindAction("DragCamera", "Pressed", 'DragCameraDown')
+Input.BindAction("DragCamera", "Released", 'DragCameraUp')
 
 -- middle click
-Input.BindAction("AttackAction", "Pressed", "AttackActionDown")
-Input.BindAction("AttackAction", "Released", "AttackActionUp")
-Input.BindAction("RotateAction", "Pressed", "RotateCameraDown")
-Input.BindAction("RotateAction", "Released", "RotateCameraUp")
+Input.BindAction("AttackAction", "Pressed", 'AttackActionDown')
+Input.BindAction("AttackAction", "Released", 'AttackActionUp')
+Input.BindAction("RotateAction", "Pressed", 'RotateCameraDown')
+Input.BindAction("RotateAction", "Released", 'RotateCameraUp')
 
-Input.BindAction("Accept", "Pressed", "UIAccept")
-Input.BindAction("InGameMenu", "Pressed", "UICancel")
-Input.BindAction("ToggleGamepadMouse", "Released", "ToggleGamepadMouse")
-Input.BindAction("CaptureFeedbackShot", "Released", "CaptureFeedbackShot")
+Input.BindAction("Accept", "Pressed", 'UIAccept')
+Input.BindAction("InGameMenu", "Pressed", 'UICancel')
+Input.BindAction("CaptureFeedbackShot", "Released", 'CaptureFeedbackShot')
+Input.BindAction("ToggleGamepadMouse", "Released", 'ToggleGamepadMouse')
 
 UnitCopyPaste = {}
 
@@ -578,7 +581,7 @@ Input.BindAction("FactionHome", "Released", function()
 	end
 end)
 
-Input.BindAction("Chat", "Pressed", function() OpenMainWindow("Chat") end)
+Input.BindAction("Chat", "Pressed", function() OpenMainWindow("TextChat") end)
 Input.BindAction("Build", "Released", function() OpenMainWindow("BuildView") end)
 Input.BindAction("Tech", "Released", function() OpenMainWindow("Tech") end)
 Input.BindAction("Map", "Released", function() OpenMainWindow("ScreenMap") end)
@@ -628,8 +631,8 @@ function UIMsg.OnSetupInputMapping()
 	Input.BindAction("OverlaySettings", "Pressed", Quickview_OpenOverlaySettings)
 
 	-- Currently not remappable
-	Input.AddAxisMapping("GamepadCursorX", "GAMEPAD_RIGHTX", 1.0)
-	Input.AddAxisMapping("GamepadCursorY", "GAMEPAD_RIGHTY", 1.0)
+	Input.AddAxisMapping("GamepadCursorX", 'GAMEPAD_RIGHTX', 1.0)
+	Input.AddAxisMapping("GamepadCursorY", 'GAMEPAD_RIGHTY', 1.0)
 
 	---- Debug keys
 	--local s = 0
@@ -668,8 +671,8 @@ end
 
 function UIMsg.OnFactionTrustChange(other_faction, new_trust, old_trust)
 	Notification.Add("trustchange" .. other_faction.id, "info", "Faction Settings", L("%S changed you from %s to %s", other_faction.name, old_trust, new_trust),
-		{ on_click = function() OpenMainWindow("Faction", { show_tab = "faction" }) return true end })
-	if other_faction.id == "alien" and new_trust == "ENEMY" then
+		{ on_click = function() OpenMainWindow("Faction", { show_tab = 'faction' }) return true end })
+	if other_faction.id == "alien" and new_trust == 'ENEMY' then
 		Game.GetLocalPlayerFaction():UnlockAchievement("ALIEN_TRUST")
 	end
 end

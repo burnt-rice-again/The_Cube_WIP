@@ -142,7 +142,7 @@ function FactionAction.JoinAlliance(invited_faction, arg)
 	local alliance = GetAllianceFactions(inviting_faction)
 	alliance[#alliance+1] = inviting_faction
 	for _,f in ipairs(alliance) do
-		f:SetTrust(invited_faction, "ALLY", true)
+		f:SetTrust(invited_faction, 'ALLY', true)
 	end
 
 	-- Share visibility between the inviting faction (and everyone already in the alliance) with the newly joining member
@@ -162,7 +162,7 @@ function FactionAction.JoinAlliance(invited_faction, arg)
 		f:RunUI(function()
 			Notification.Add("alliance_changed", "warning", "Alliance Changed", L("%S has joined the alliance", invited_faction.name), {
 				on_click = function(id)
-					OpenMainWindow("Faction", { show_tab = "faction" })
+					OpenMainWindow("Faction", { show_tab = 'faction' })
 					return true
 				end
 			})
@@ -176,7 +176,7 @@ function FactionAction.LeaveAlliance(faction)
 		other_faction:RunUI(function()
 			Notification.Add("alliance_changed", "warning", "Alliance Changed", L("%S has left the alliance", faction.name), {
 				on_click = function(id)
-					OpenMainWindow("Faction", { show_tab = "faction" })
+					OpenMainWindow("Faction", { show_tab = 'faction' })
 					return true
 				end
 			})
@@ -212,7 +212,7 @@ function FactionAction.InviteToAlliance(inviting_faction, arg)
 					for i,invite in ipairs(Game.GetLocalPlayerFaction().extra_data.alliance_invites or {}) do -- make sure the invite still exists
 						if invite == inviting_faction.id then
 							Action.SendForLocalFaction("JoinAlliance", { faction_id = inviting_faction.id })
-							OpenMainWindow("Faction", { show_tab = "faction" })
+							OpenMainWindow("Faction", { show_tab = 'faction' })
 							return
 						end
 					end
@@ -227,7 +227,7 @@ end
 function Faction:construct()
 	self.faction = Game.GetLocalPlayerFaction()
 	if self.show_item_id then
-		self:switch_tab("items")
+		self:switch_tab('items')
 		self.window[1]:show_item(self.show_item_id)
 	elseif self.show_frame_id then
 		self:switch_tab("base")
@@ -494,7 +494,7 @@ function Faction:activate_tab_power()
 									self:switch_tab("base")
 									self.window[1]:show_frame(w.def.id)
 								else
-									self:switch_tab("items")
+									self:switch_tab('items')
 									self.window[1]:show_item(w.def.id)
 								end
 							end,
@@ -531,7 +531,7 @@ function Faction:activate_tab_power()
 end
 
 local base_last_string_filter, base_last_entity_filters, base_last_visual_filter, base_hide_buildings, base_hide_units, base_hide_satellites
-local function base_regsel_entityfilter(def) return def and (def.data_name == "frames" or def.tag == "entityfilter" or def.data_name == "components") and def ~= data.values.v_setnum end
+local function base_regsel_entityfilter(def) return def and (def.data_name == 'frames' or def.tag == 'entityfilter' or def.data_name == 'components') and def ~= data.values.v_setnum end
 local function base_regsel_visualfilter(def, cat) return not (cat.entity_panel or cat.number_panel or cat.coord_panel) end
 
 function Faction:activate_tab_base()
@@ -623,7 +623,7 @@ function Faction:activate_tab_base()
 		end,
 
 		reg_on_click = function(view, reg, key)
-			if key == "RIGHTMOUSEBUTTON" then
+			if key == 'RIGHTMOUSEBUTTON' then
 				reg.def_id, reg.num = nil, nil
 				view:update(true)
 				return
@@ -825,10 +825,10 @@ function Faction:activate_tab_items()
 			view.wrap_list = {}
 			view.graph =
 			{
-				field_in = "total_added",
-				field_out = "total_removed",
-				color_in = "yellow",
-				color_out = "red",
+				field_in = 'total_added',
+				field_out = 'total_removed',
+				color_in = 'yellow',
+				color_out = 'red',
 				graph_draw = view.graph_draw,
 				graph_max = view.graph_max,
 			}
@@ -1029,7 +1029,7 @@ function Faction:graph_init(g)
 		local day_count = 1 + w // day_width
 		for i=1,day_count do
 			local x = time_x - (i-1) * day_width
-			draw:SetLine(i, x, 0, x, x > 0 and h or 0, "gray", 1)
+			draw:SetLine(i, x, 0, x, x > 0 and h or 0, 'gray', 1)
 		end
 
 		local max_y = 10
@@ -1047,7 +1047,7 @@ local Faction_filter_orders = false
 function Faction:activate_tab_orders()
 	self.window:SetContent([[
 		<VerticalList>
-			<Text id=orders_info style="hl"/>
+			<Text id=orders_info style=hl/>
 			<VerticalList id=warnings margin_bottom=4/>
 			<ScrollList id=list fill=true/>
 			<HorizontalList height=32 child_padding=5 child_align=center margin_top=4>
@@ -1126,41 +1126,35 @@ function Faction:activate_tab_orders()
 				local o = orders[i - ofs + 1]
 				local reg_item, reg_src, reg_trg, reg_carry, txt_age, img_recur, img_channel, img_disconn, img_powerdown, txt_msg = hl[2], hl[3], hl[5], hl[6], hl[7], hl[8], hl[9], hl[10], hl[11], hl[12]
 				local source_entity, target_entity, carry_entity, item_id, amount = o.source_entity, o.target_entity, o.carry_entity, o.item_id, o.amount
-				local item_avail = source_entity or faction:GetItemAmount(item_id) > 0
 				local channel_image = order_channel_bit_images[o.channel_bitmask]
+				local item_avail = carry_entity
 
-				local msg, msgcolor = "", "white"
-				if (source_entity and source_entity.logistics_crane_only) or target_entity.logistics_crane_only then
-					msg, msgcolor = "Only Item Transporters", "yellow"
-				elseif (source_entity and source_entity.logistics_flying_only) or target_entity.logistics_flying_only then
-					msg, msgcolor = "Only Flying Carriers", "yellow"
-				elseif not item_avail then
-					msg, msgcolor = "Item not available", "yellow"
-				elseif carry_entity and carry_entity.state_path_blocked then
-					msg, msgcolor = "Carry Unit Blocked", "yellow"
-				elseif source_entity and not source_entity.logistics_supplier then
-					msg, msgcolor = "Source not set to Supply Items", "red"
-				elseif not target_entity.logistics_requester then
-					msg, msgcolor = "Target not set to Request Items", "red"
-				elseif not carry_entity then
-					-- check channels
-					local match = source_entity and ((source_entity.logistics_channel_1 and target_entity.logistics_channel_1)
-						or (source_entity.logistics_channel_2 and target_entity.logistics_channel_2)
-						or (source_entity.logistics_channel_3 and target_entity.logistics_channel_3)
-						or (source_entity.logistics_channel_4 and target_entity.logistics_channel_4)) or false
-					if source_entity and not match then
-						msg, msgcolor = "No Carrier assigned, logistics channels mismatch", "red"
+				local msg, msgcolor = "", 'white'
+				if not carry_entity then
+					item_avail = (source_entity or faction:GetItemAmount(item_id) > 0)
+					if not target_entity.is_placed then
+						msg, msgcolor = "Target is docked", 'red'
+					elseif source_entity and not source_entity.is_placed then
+						msg, msgcolor = "Source is docked", 'red'
 					elseif o.recurring and target_entity:CountItem(item_id, true) >= amount then
-						msg, msgcolor = "Target is filled up to amount", "white"
+						msg, msgcolor = "Target is filled up to amount", 'white'
+					elseif target_entity.logistics_crane_only or (source_entity and source_entity.logistics_crane_only) then
+						msg, msgcolor = "Only Item Transporters", 'yellow'
+					elseif target_entity.logistics_flying_only or (source_entity and source_entity.logistics_flying_only) then
+						msg, msgcolor = "Only Flying Carriers", 'yellow'
+					elseif not item_avail then
+						msg, msgcolor = "Item not available", 'yellow'
 					elseif source_entity then
-						msg, msgcolor = "No Carrier assigned", "white"
+						msg, msgcolor = "No Carrier assigned", 'white'
 					else
-						msg, msgcolor = "No Carrier or source available", "white"
+						msg, msgcolor = "No Carrier or source available", 'white'
 					end
+				elseif carry_entity.state_path_blocked then
+					msg, msgcolor = "Carry Unit Blocked", 'yellow'
 				end
 
 				hl.order_id = o.id
-				reg_item.def_id, reg_item.num, reg_item.numtxt.color = item_id, amount, item_avail and "white" or "red"
+				reg_item.def_id, reg_item.num, reg_item.numtxt.color = item_id, amount, item_avail and 'white' or 'red'
 				reg_src.entity = source_entity
 				reg_trg.entity = target_entity
 				reg_carry.entity, reg_carry.disabled = carry_entity, not carry_entity
@@ -1191,7 +1185,7 @@ function Faction:activate_tab_faction()
 					<Text text="Faction Name:" width=160 textalign=right/>
 					<InputText text={name} id=txtname fill=true on_change={on_change_name} on_enter={on_set_name}/>
 					<Button text="Change Name" id=btnchange disabled=true on_click={on_set_name}/>
-					<Button icon="icon_locked" id=btnlock on_click={on_lock} tooltip='Lock switching to this faction'/>
+					<Button icon=icon_locked id=btnlock on_click={on_lock} tooltip="Lock switching to this faction"/>
 				</HorizontalList>
 				<HorizontalList child_padding=20 child_align=center>
 					<Text text="Faction Color:" width=160 textalign=right/>
@@ -1309,12 +1303,12 @@ function Faction:activate_tab_faction()
 						hlist.faction_name = "Aliens"
 						hlist.faction_icon = "Main/textures/icons/values/alien.png"
 						hlist.alliancelist.hidden = true
-						--hlist.hidden = hlist.other_trust ~= "ENEMY"
+						--hlist.hidden = hlist.other_trust ~= 'ENEMY'
 					elseif faction_id == "anomaly" then
 						hlist.faction_name = "Anomaly"
 						hlist.faction_icon = "Main/textures/icons/values/anomaly.png"
 						hlist.alliancelist.hidden = true
-						--hlist.hidden = hlist.other_trust ~= "ENEMY"
+						--hlist.hidden = hlist.other_trust ~= 'ENEMY'
 					elseif faction_id == "human" then
 						hlist.faction_name = "Human"
 						hlist.faction_icon = "Main/textures/icons/values/human.png"
@@ -1324,17 +1318,17 @@ function Faction:activate_tab_faction()
 						if not this_faction.is_player_controlled or not faction.is_player_controlled then hlist.alliancelist.hidden = true end
 					end
 
-					if hlist.other_trust == "ENEMY" then
-						hlist.trust.style = "rl"
-					elseif hlist.other_trust == "ALLY" then
-						hlist.trust.style = "gl"
-					elseif hlist.other_trust == "NEUTRAL" then
-						hlist.trust.style = "bl"
+					if hlist.other_trust == 'ENEMY' then
+						hlist.trust.style = 'rl'
+					elseif hlist.other_trust == 'ALLY' then
+						hlist.trust.style = 'gl'
+					elseif hlist.other_trust == 'NEUTRAL' then
+						hlist.trust.style = 'bl'
 					end
 
-					hlist.btn_ally.disabled    = (trust[1] == "ALLY"   )
-					hlist.btn_neutral.disabled = (trust[1] == "NEUTRAL")
-					hlist.btn_enemy.disabled   = (trust[1] == "ENEMY"  )
+					hlist.btn_ally.disabled    = (trust[1] == 'ALLY'   )
+					hlist.btn_neutral.disabled = (trust[1] == 'NEUTRAL')
+					hlist.btn_enemy.disabled   = (trust[1] == 'ENEMY'  )
 				end
 			end,
 

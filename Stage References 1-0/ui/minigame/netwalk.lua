@@ -128,13 +128,13 @@ function NetWalk:Finalize(w, h, conns, oks)
 end
 
 function NetWalk:clicked(w, mousebtn)
-	local right = mousebtn == "RIGHTMOUSEBUTTON"
+	local right = mousebtn == 'RIGHTMOUSEBUTTON'
 	local c = (self.conns[w.i] << (right and 3 or 1))
 	self.conns[w.i] = (c & ALLDIRS) | ((c & ~ALLDIRS) >> 4)
 	w.rot = w.rot + (right and -1 or 1)
-	w:TweenFromTo("sx", .9, 1, 150, "InOutElastic")
-	w:TweenFromTo("sy", .9, 1, 150, "InOutElastic")
-	w:TweenTo("angle", w.rot * 90, 200, "InOutBounce", function() self:Recalculate() end)
+	w:TweenFromTo("sx", .9, 1, 150, 'InOutElastic')
+	w:TweenFromTo("sy", .9, 1, 150, 'InOutElastic')
+	w:TweenTo("angle", w.rot * 90, 200, 'InOutBounce', function() self:Recalculate() end)
 end
 
 function NetWalk:Recalculate(first_time)
@@ -146,7 +146,7 @@ function NetWalk:Recalculate(first_time)
 		local ok = self.oks[i]
 		if i then
 			local n = nodes[self.conns[i]]
-			w.image = gfx[n[1] .. (ok and "_on" or "_off")]
+			w.image = gfx[n[1] .. (ok and '_on' or '_off')]
 			w.angle = n[2] * 90
 			w.rot = n[2]
 		end

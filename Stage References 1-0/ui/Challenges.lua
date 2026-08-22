@@ -30,7 +30,7 @@ function UIMsg.EndChallenge(score_profile_key, title, icon, next_challenge)
 		newbest = true
 	end
 
-	UI.AddLayout("<ConfirmDialog ok_text='Next Challenge' cancel_text='Back to Main Menu' buttons_width=600/>", {
+	UI.AddLayout('<ConfirmDialog ok_text="Next Challenge" cancel_text="Back to Main Menu" buttons_width=600/>', {
 		title = title,
 		body = L('<img image="%S"/>\n%s\n%s: %s', icon, newbest and L(" ** %s **", "New Best") or "", "Time", Tool.GetTimeDurationStr(tick_count//TICKS_PER_SECOND)),
 		ok = next_challenge and function()

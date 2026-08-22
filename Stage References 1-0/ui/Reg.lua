@@ -16,7 +16,7 @@ local RegNoNum_layout<const> = [[
 ]]
 
 local MiniReg_layout<const> = [[
-	<Canvas width=36 height=36>
+	<Canvas width=36 height=36 clip=true>
 		<Image id=base dock=fill hide_no_image=true/>
 		<Image id=image dock=fill margin=2 hide_no_image=true/>
 		<Box id=numbox dock=bottom-left margin_left=1 margin_bottom=1 blocking=false bg=label_left color=ui_bg>
@@ -72,7 +72,7 @@ function Reg:construct()
 	end
 
 	self.image.image = self.ui_icon
-	self.image.color = "ui_light"
+	self.image.color = 'ui_light'
 
 	if self.no_interact then
 		self.on_click = nil
@@ -97,7 +97,7 @@ function Reg:ChangeSource(entity, comp, reg_index)
 	self.render             = not entity and Reg.render
 	self.read_only          = not entity
 	self.hash               = nil
-	if self.background then self.background.color   = "white" end
+	if self.background then self.background.color = 'white' end
 end
 
 function Reg:SetNum(n)
@@ -137,14 +137,14 @@ function Reg:render()
 	if not img then
 		entity = self.entity
 		def = def or data.all[self.def_id]
-		img = def and def.texture or (entity and entity.exists and entity.def.texture)
+		img = def and def.texture or (entity and (entity.def or data.values.v_destroyed).texture)
 	end
 	if not img and self.ui_icon then
 		self.image.image = self.ui_icon
-		self.image.color = "ui_light"
+		self.image.color = 'ui_light'
 	else
 		self.image.image = img
-		self.image.color = "white"
+		self.image.color = 'white'
 	end
 	if self.bg == nil then
 		self.base.image = self.read_only and "reg_base_ro" or (entity and "reg_entity" or "reg_base")
@@ -161,10 +161,10 @@ end
 function Reg:on_mouse_wheel(wheel)
 	if self.read_only then return end
 	local ctrl, shift = Input.IsControlDown(), Input.IsShiftDown()
-	local change = (wheel > 0 and 1 or -1) * (ctrl and 10 or 1) * (shift and 5 or 1)
-	local n = math.max(math.max(self.num or 0, -1) + change, -1)
+	local num, change = self.num, (wheel > 0 and 1 or -1) * (ctrl and 10 or 1) * (shift and 5 or 1)
+	local n = math.max(math.max(tonumber(num) and num or 0, -1) + change, -1)
 	if n < 0 then n = REG_INFINITE end
-	if n == self.num then return end
+	if n == num then return end
 	UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_INCREMENT")
 	self:SendSet({ id = self.def_id, entity = self.entity, coord = self.coord, num = n }, false)
 end
@@ -183,7 +183,7 @@ end
 local function ClickOnCoordOrEntity(regw, mousebtn, shift, ctrl, on_clear, no_append)
 	if shift then
 		local entity = regw.entity
-		if entity and entity.exists then
+		if entity and entity.exists and Game.GetLocalPlayerFaction():IsSeen(entity) then
 			SelectEntity(entity, mousebtn, no_append)
 		elseif regw.coord then
 			View.PlayEffect("fx_ping", regw.coord.x, regw.coord.y)
@@ -192,24 +192,31 @@ local function ClickOnCoordOrEntity(regw, mousebtn, shift, ctrl, on_clear, no_ap
 	else
 		if not ctrl and regw.entity and regw.entity.exists then
 			UI.MenuPopup([[<Box padding=5><VerticalList>
-						<Button text='Select Unit/Building (Shift+<key id="LEFTMOUSEBUTTON"/>)' on_click={on_select}/>
-						<Button text='View Unit/Building (Shift+<key id="RIGHTMOUSEBUTTON"/>)' on_click={on_camera} hidden={unplaced}/>
+						<Button text='Select Unit/Building (Shift+<key id="LEFTMOUSEBUTTON"/>)' on_click={on_select} id=btnselect/>
+						<Button text='View Unit/Building (Shift+<key id="RIGHTMOUSEBUTTON"/>)' on_click={on_camera} id=btncamera/>
 						<Button text='Clear Value (Ctrl+<key id="RIGHTMOUSEBUTTON"/>)' on_click={on_clear} hidden={read_only}/>
 					</VerticalList></Box>]], { read_only = regw.read_only, unplaced = not regw.entity.is_on_map,
 				construct = function(menu) menu:TweenFromTo("sy", 0, 1, 100) end,
+				update = function(menu)
+					local e, f = regw.entity, Game.GetLocalPlayerFaction()
+					if e and not e.exists then e = nil end
+					local unseen = (e and not f:IsSeen(e))
+					menu.btnselect.hidden, menu.btncamera.hidden = (not e), (not e or not e.is_on_map)
+					menu.btnselect.disabled, menu.btncamera.disabled = unseen, unseen
+				end,
 				on_select = function(menu) UI.CloseMenuPopup(menu) View.SelectEntities(regw.entity) end,
-				on_camera = function(menu) UI.CloseMenuPopup(menu) View.JumpCameraToEntities(regw.entity) end,
+				on_camera = function(menu) View.JumpCameraToEntities(regw.entity) end,
 				on_clear = function(menu)  UI.CloseMenuPopup(menu) on_clear() end,
-			}, regw, "UP")
+			}, regw, 'UP')
 		elseif not ctrl and regw.coord then
 			UI.MenuPopup([[<Box padding=5><VerticalList>
 						<Button text='View Coordinate (Shift+<key id="RIGHTMOUSEBUTTON"/>)' on_click={on_camera}/>
 						<Button text='Clear Value (Ctrl+<key id="RIGHTMOUSEBUTTON"/>)' on_click={on_clear} hidden={read_only}/>
 					</VerticalList></Box>]], {
 				construct = function(menu) menu:TweenFromTo("sy", 0, 1, 100) end, read_only = regw.read_only,
-				on_camera = function(menu) UI.CloseMenuPopup(menu) View.MoveCamera(regw.coord.x, regw.coord.y, false) end,
+				on_camera = function(menu) View.MoveCamera(regw.coord.x, regw.coord.y, false) end,
 				on_clear = function(menu)  UI.CloseMenuPopup(menu) on_clear() end,
-			}, regw, "UP")
+			}, regw, 'UP')
 		else
 			on_clear()
 		end
@@ -218,11 +225,11 @@ end
 
 function Reg:on_click(mousebtn)
 	local abs_index, ctrl, shift = self.abs_index, Input.IsControlDown(), Input.IsShiftDown()
-	if self.click_action and mousebtn == "LEFTMOUSEBUTTON" and not ctrl and not shift then
+	if self.click_action and mousebtn == 'LEFTMOUSEBUTTON' and not ctrl and not shift then
 		self.comp.def:action_click(self.comp, self)
 	elseif self.read_only or shift then
 		ClickOnCoordOrEntity(self, mousebtn, true, ctrl, nil, not self.read_only)
-	elseif mousebtn == "RIGHTMOUSEBUTTON" then
+	elseif mousebtn == 'RIGHTMOUSEBUTTON' then
 		ClickOnCoordOrEntity(self, mousebtn, false, ctrl, function() self:SendSet(nil) end)
 		self:on_mouse_leave()
 	elseif (abs_index == -FRAMEREG_STORE or abs_index == -FRAMEREG_GOTO or self.queueicon) and not ctrl then
@@ -243,9 +250,9 @@ function Reg:tooltip()
 
 	if self.abs_index then
 		local regval = self.ent:GetRegister(self.abs_index)
-		local id, entity = regval.id, regval.entity
+		local id, entity = regval.id, regval.raw_entity
 		local product_def, blueprint_def = GetProduction(id, comp, true)
-		local def = blueprint_def or product_def or entity and entity.def
+		local def = blueprint_def or product_def or (entity and (entity.def or data.values.v_destroyed))
 		local behavior_code = comp and comp.base_id == "c_behavior" and comp.has_extra_data and GetFactionBehaviorAsmById(comp.faction, comp.extra_data.main_id)
 		behavior_code = behavior_code and behavior_code.code
 		local behavior_pnames = behavior_code and behavior_code.pnames
@@ -262,7 +269,7 @@ function Reg:tooltip()
 		end
 	else
 		local entity = self.entity
-		local def = self.def_blueprint or self.def or data.all[self.def_id] or (entity and entity.def)
+		local def = self.def_blueprint or self.def or data.all[self.def_id] or (entity and (entity.def or data.values.v_destroyed))
 		if def then return BuildDefinitionTooltip(def, { clearreg = self.clearreg or nil, entity = entity, warning = warning }) end
 	end
 
@@ -295,7 +302,7 @@ function Reg:update()
 	local regval = ent:GetRegister(abs_index)
 	if not regval then return end
 
-	-- If the player modifies the register locally, wait with updating the register until all the players "SetRegister" actions have been executed
+	-- If the player modifies the register locally, wait with updating the register until all the players 'SetRegister' actions have been executed
 	if wait and not Action.HasPendingAction("SetRegister") then wait, self.wait = nil, nil end
 
 	local entity, is_error, is_queue = regval.entity, regval.is_error, regval.is_queue
@@ -303,20 +310,20 @@ function Reg:update()
 	if newhash ~= self.hash and not wait then
 		self.hash = newhash
 
-		local id, num, is_empty, def = not entity and regval.id, regval.num, regval.is_empty
-		local coord = not id and not entity and regval.coord
+		local is_empty, num, def, id, coord = not entity and regval.is_empty, regval.num
+		if not is_empty and not entity then id = regval.id if not id then coord = regval.coord if not coord then entity = regval.raw_entity end end end
 
 		local dropimgs, dropidx = self.dropimgs, 1
 		if id then
 			def = data.all[id]
 			self.image.image = def and def.texture
-			self.image.color = "white"
+			self.image.color = 'white'
 		elseif entity then
 			local entity_def = entity.def
-			self.image.image = entity_def.texture or (entity.is_construction and data.values.v_construction.texture)
-			self.image.color = "white"
+			self.image.image = entity_def and (entity_def.texture or (entity.is_construction and data.values.v_construction.texture)) or data.values.v_destroyed.texture
+			self.image.color = 'white'
 
-			if entity_def.type == "DroppedItem" then
+			if entity_def and entity_def.type == 'DroppedItem' and Game.GetLocalPlayerFaction():IsSeen(entity) then
 				if not dropimgs then
 					dropimgs = {
 						self:Add("<Image margin=8 width=22 height=22 hide_no_image=true dock=top-left/>"),
@@ -339,7 +346,7 @@ function Reg:update()
 			end
 		else
 			self.image.image = self.ui_icon
-			self.image.color = "ui_light"
+			self.image.color = 'ui_light'
 		end
 
 		if dropimgs then
@@ -453,13 +460,14 @@ function Reg:SendSet(reg, custom_blueprint)
 		if new_id then
 			local def = data.all[new_id]
 			self.image.image = def and def.texture
-			self.image.color = "white"
+			self.image.color = 'white'
 		elseif new_entity then
-			self.image.image = new_entity.def.texture or (new_entity.is_construction and data.values.v_construction.texture)
-			self.image.color = "white"
+			local entity_def = new_entity.def
+			self.image.image = entity_def and (entity_def.texture or (new_entity.is_construction and data.values.v_construction.texture)) or data.values.v_destroyed.texture
+			self.image.color = 'white'
 		else
 			self.image.image = self.ui_icon
-			self.image.color = "ui_light"
+			self.image.color = 'ui_light'
 		end
 		if self.bg == nil then self.base.image = new_entity and "reg_entity" or "reg_base" end
 	end
@@ -494,11 +502,11 @@ function Reg:ShowQueuePopup()
 		end,
 		add = function(w, reg, mousebtn, forceadd)
 			local ctrl, shift = Input.IsControlDown(), Input.IsShiftDown()
-			if forceadd or (not ctrl and not shift and mousebtn == "LEFTMOUSEBUTTON") then
+			if forceadd or (not ctrl and not shift and mousebtn == 'LEFTMOUSEBUTTON') then
 				local msg = (abs_index == -FRAMEREG_GOTO and "Select target to set as Goto") or (abs_index == -FRAMEREG_STORE and "Select target to set as Store") or "Select the object on the map"
 				Notification.Warning(msg)
 				UI.StartDrag(reg, UI.New("<Image image=icon_add/>")) -- use drag to keep popup open on next click
-			elseif ctrl and mousebtn == "LEFTMOUSEBUTTON" then
+			elseif ctrl and mousebtn == 'LEFTMOUSEBUTTON' then
 				local rsel = ShowRegisterSelection(reg, function(rsel, new_reg_val) w:set(reg, new_reg_val) end)
 				if rsel then rsel:SetRegister({ id = reg.def_id, entity = reg.entity, coord = reg.coord, num = reg.num }) end
 			elseif reg.queue_idx then
@@ -528,11 +536,12 @@ function Reg:ShowQueuePopup()
 			Action.SendForEntity("SetQueue", entity, { idx = abs_index, set_idx = (queue_idx and (queue_idx > 1 or multi) and queue_idx or nil), reg = newreg })
 			if not queue_idx and Input.IsShiftDown() then w:add(reg, nil, true) end -- add another store
 		end,
-	}, self, "UP")
+	}, self, 'UP')
 end
 
 function Reg:on_clipboard_copy()
 	Notification.Warning("Copied register value")
+	local num, id, entity, coord
 	if self.abs_index then
 		local r, blueprint_def = self.ent:GetRegister(self.abs_index), self.is_production and select(2, GetProduction(self.def_id, self.comp, true))
 		if blueprint_def then
@@ -540,10 +549,13 @@ function Reg:on_clipboard_copy()
 			if r.num ~= 1 then bp.num = r.num end -- store number in special 'num' field
 			return bp, 'B'
 		end
-		return r.is_empty and {} or { id = r.id, entity = r.entity, num = r.num, coord = r.coord }, 'R'
+		if r.is_empty then return {}, 'R' end
+		num, id, entity, coord = r.num, r.id, r.raw_entity, r.coord
 	else
-		return { id = self.def_id or (self.def and self.def.id) or nil, entity = self.entity, num = self.num, coord = self.coord }, 'R'
+		num, id, entity, coord = self.num, self.def_id or (self.def and self.def.id) or nil, self.entity, self.coord
 	end
+	if num == 0 and (id or entity or coord) then num = nil end
+	return { id = id, entity = entity, num = num, coord = coord }, 'R'
 end
 
 function Reg:on_clipboard_paste(table, prefix)

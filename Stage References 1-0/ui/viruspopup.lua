@@ -14,16 +14,16 @@ function RandomPopup:construct()
 	self.img = rndpopupimg[math.random(#rndpopupimg)]
 	self.x = -100 + math.random(1920 - 200)
 	self.y = -95 + math.random(1080 - 190)
-	self:TweenFromTo("sx", 0.01, 1, 40, "InQuad")
-	self:TweenFromTo("sy", 0.01, 1, 80, "InQuad")
+	self:TweenFromTo("sx", 0.01, 1, 40, 'InQuad')
+	self:TweenFromTo("sy", 0.01, 1, 80, 'InQuad')
 end
 
 function RandomPopup:update()
 	self.t = (self.t or 1) + 1
 	if self.t > 10 then
 		self.update = nil
-		self:TweenFromTo("sy", 0.01, 1, 40, "InQuad")
-		self:TweenFromTo("sx", 0.01, 1, 80, "InQuad", function() self:RemoveFromParent() end)
+		self:TweenFromTo("sy", 0.01, 1, 40, 'InQuad')
+		self:TweenFromTo("sx", 0.01, 1, 80, 'InQuad', function() self:RemoveFromParent() end)
 	end
 end
 
@@ -31,7 +31,7 @@ local VirusEffect = {}
 UI.Register("VirusPopup", '<Image image="Main/textures/icons/color/color_green.png" margin=-200/>', VirusEffect)
 
 function VirusEffect:construct()
-	self:TweenFromTo("opacity", 0, 0.1, 200, "InQuad")
+	self:TweenFromTo("opacity", 0, 0.1, 200, 'InQuad')
 end
 
 function VirusEffect:update()
@@ -40,7 +40,7 @@ function VirusEffect:update()
 		UI.AddLayout("RandomPopup")
 	elseif self.t == 28 then
 		self.update = nil
-		self:TweenFromTo("opacity", 0.1, 0, 200, "InQuad", function() self:RemoveFromParent() end)
+		self:TweenFromTo("opacity", 0.1, 0, 200, 'InQuad', function() self:RemoveFromParent() end)
 	end
 end
 

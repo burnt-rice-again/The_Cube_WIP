@@ -182,11 +182,12 @@ function ExplorablePuzzle:construct()
 		else
 			local owner = comp.owner
 			local is_alien_explorable = owner.visual_def.explorable_race == "alien"
-			if not owner.def.immortal then
+			if not owner.def.immortal or owner.id == "f_explorable_simulator" then
 				for _,e in ipairs(ExplorableGetInteractors(owner)) do
 					if e.def.race == "alien" then
 						self.btn.hidden, self.btn.disabled = true, false
-						self:add_override(is_alien_explorable and "energized_artifact" or "crystalized_obsidian", e)
+						local override_item = owner.id == "f_explorable_simulator" and 'crystalized_obsidian' or (is_alien_explorable and 'energized_artifact' or 'crystalized_obsidian')
+						self:add_override(override_item, e)
 						return
 					end
 				end
@@ -262,7 +263,7 @@ function ExplorablePuzzle:construct()
 	elseif comp_id == "c_human_factory" or comp_id == "c_space_elevator_factory" then
 		--self.bg = "warning_pattern2"
 		self.bg = "warning_pattern2"
-		self.color = "ui_dark"
+		self.color = 'ui_dark'
 		--self.title = comp_def.name--"Human Factory"
 		self.btn.hidden = true
 
@@ -282,7 +283,7 @@ function ExplorablePuzzle:construct()
 		else
 			self.list:Add("<Spacer hidden=true/>", {
 				every_frame_update = function()
-					local rndchrs = "[&4+~HA#z.."
+					local rndchrs = '[&4+~HA#z..'
 					local currstr = ""
 					for i=1,6 do
 						local rndnum = math.random(#rndchrs)
@@ -381,10 +382,10 @@ function Explorable:Refresh(is_construct)
 			for i,p in ipairs(self.puzzles) do
 				local px, py, pw, ph = p:GetViewportPosition(draw)
 				if lastx then
-					local col = (lastok and not incomplete and "ui_light" or "ui_dark")
-					draw:AddCircle(lastx, lasty, 8, "ui_bg")
+					local col = (lastok and not incomplete and 'ui_light' or 'ui_dark')
+					draw:AddCircle(lastx, lasty, 8, 'ui_bg')
 					draw:AddCircle(lastx, lasty, 6, col)
-					draw:AddCircle(px, lasty, 8, "ui_bg")
+					draw:AddCircle(px, lasty, 8, 'ui_bg')
 					draw:AddCircle(px, lasty, 6, col)
 					draw:AddLine(lastx + (lastok and 0 or 15), lasty, px, lasty, col, 3, true)
 					if not lastok then incomplete = true end
@@ -412,7 +413,7 @@ function Explorable:Refresh(is_construct)
 	local lootable = entity.lootable
 	if solved then
 		self.warnimg.image = "icon_confirm"
-		self.warnimg.color = "white"
+		self.warnimg.color = 'white'
 
 		if hasscannable and hasscannable.extra_data.hack_code then
 			self.warntxt.text = L("%s [%d]",  "Access Granted!", hasscannable.extra_data.hack_code)
@@ -433,8 +434,8 @@ function Explorable:Refresh(is_construct)
 		if not is_construct then
 			-- inventory doesn't have the correct size until the first update() call, but we only play the animation if not during construct
 			local cx, cy = self.inventorybox[1]:GetDesiredSize()
-			self.inventorybox:TweenFromTo("sy", 0, 1, 500, "InOutQuart")
-			self.inventorybox:TweenFromTo("height", 1, cy + 8, 500, "InOutQuart")
+			self.inventorybox:TweenFromTo("sy", 0, 1, 500, 'InOutQuart')
+			self.inventorybox:TweenFromTo("height", 1, cy + 8, 500, 'InOutQuart')
 		end
 	end
 end
@@ -562,20 +563,20 @@ end
 function Explorable:ToggleConsole(comp, content, help, is_layout)
 	if self.console_comp and (not comp or self.console_comp == comp) and (not content or is_layout) then
 		self.console_comp = nil
-		self.consolebox:TweenTo("sy", 0, 500, "InOutQuart")
-		self.consolebox:TweenTo("height", 0, 500, "InOutQuart", function() self.consolebox.hidden = true end)
+		self.consolebox:TweenTo("sy", 0, 500, 'InOutQuart')
+		self.consolebox:TweenTo("height", 0, 500, 'InOutQuart', function() self.consolebox.hidden = true end)
 	elseif content then
 		if is_layout then
 			math.randomseed(comp.owner.location, comp.id)
-			self.console:SetContent(content, { comp = comp, dock = "center", outer = self })
+			self.console:SetContent(content, { comp = comp, dock = 'center', outer = self })
 		else
 			self.console:SetContent("<Box bg='Main/skin/Assets/Terminal Background.png?tile=true' padding=10 margin_right=60 dock=fill><Text dock=center textalign=center style=console/></Box>")[1].text = content
 		end
 		local height = select(2, self.console[1]:GetDesiredSize()) + 48
 		if (self.consolebox:GetTweenTarget("height") or self.consolebox.height) ~= height then
 			self.consolebox.hidden = false
-			self.consolebox:TweenFromTo("sy", self.consolebox.height / height, 1, 500, "InOutQuart")
-			self.consolebox:TweenTo("height", height, 500, "InOutQuart")
+			self.consolebox:TweenFromTo("sy", self.consolebox.height / height, 1, 500, 'InOutQuart')
+			self.consolebox:TweenTo("height", height, 500, 'InOutQuart')
 		end
 		self.consolehelptxt.text = help or nil
 		self.consolehelpbox.hidden = true

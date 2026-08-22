@@ -1,15 +1,15 @@
 local reserve_labels<const> = {
-	["StackForTransfer"]      = "reserved for outgoing order",
-	["StackForCarry"]         = "reserved for delivery",
-	["StackForLoading"]       = "reserved by",
-	["StackForConsume"]       = "reserved by",
-	["StackForDrop"]          = "reserved for dropping",
-	["FreeSpaceForReceive"]   = "space for receiving order",
-	["FreeSpaceForCarry"]     = "space for delivery pick-up",
-	["FreeSpaceForGenerate"]  = "space for output of",
-	["FreeSpaceForLoading"]   = "space for order by",
-	["FreeSpaceForRedocking"] = "Dock reserved for a drone entity",
-	["LoadFromGenerate"]      = "production output reserved by"
+	StackForTransfer      = "reserved for outgoing order",
+	StackForCarry         = "reserved for delivery",
+	StackForLoading       = "reserved by",
+	StackForConsume       = "reserved by",
+	StackForDrop          = "reserved for dropping",
+	FreeSpaceForReceive   = "space for receiving order",
+	FreeSpaceForCarry     = "space for delivery pick-up",
+	FreeSpaceForGenerate  = "space for output of",
+	FreeSpaceForLoading   = "space for order by",
+	FreeSpaceForRedocking = "Dock reserved for a drone entity",
+	LoadFromGenerate      = "production output reserved by"
 }
 
 local socket_sizes<const> = { "Large", "Medium", "Small", "Internal" }
@@ -38,7 +38,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			elseif header_type == 'STAT_COMPONENT' then
 				list:Add("<Text halign=center color=title onclickreg={onclickreg}/>", {
 					text = L('<img id="%S"/> %s', def.id, def.name), tooltip = DefinitionTooltip(def.id),
-					on_click = function(sb) sb:SendEvent("onclickreg", "LEFTMOUSEBUTTON", def.id) end,
+					on_click = function(sb) sb:SendEvent("onclickreg", 'LEFTMOUSEBUTTON', def.id) end,
 				})
 			end
 			header_type = nil
@@ -53,7 +53,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 
 	-- Add component stats
 	if def.attachment_size or def.registers or def.get_ui then
-		local range = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.light_radius or def.terraforming_range
+		local range = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.terraforming_range
 		if range then
 			if AddStat("icon_tiny_range", range, "Range") then goto full end
 		end
@@ -61,27 +61,24 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_range", def.minimum_range, "Min. Range") then goto full end
 		end
 		if def.repair then
-			local boost, rpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.repair*(TICKS_PER_SECOND/def.duration)
+			local boost, rpsval = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time*100), def.repair*(TICKS_PER_SECOND/def.charge_time)
 			if boost > 100 then
-				if AddStat("icon_tiny_damage", string.format("%.1f <gl>(%.1f)</>", rpsval, math.floor(boost * 0.01 * rpsval + 0.5)), "Repair/sec") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.1f <gl>(%.1f)</>", rpsval, rpsval*boost*0.01), "Repair/sec") then goto full end
 			elseif boost < 100 then
-				if AddStat("icon_tiny_damage", string.format("%.1f <rl>(%.1f)</>", rpsval, math.floor(boost * 0.01 * rpsval + 0.5)), "Repair/sec") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.1f <rl>(%.1f)</>", rpsval, rpsval*boost*0.01), "Repair/sec") then goto full end
 			else
 				if AddStat("icon_tiny_damage", string.format("%.1f", rpsval), "Repair/sec") then goto full end
 			end
 		end
 		if def.shoot_speed then
-			local boost, dpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.damage*(TICKS_PER_SECOND/def.duration)
+			local boost, dpsval = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time*100), def.damage*(TICKS_PER_SECOND/def.charge_time)
 			if boost > 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", dpsval, math.floor(boost * 0.01 * dpsval + 0.5)), "DPS") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", dpsval, dpsval*boost*0.01), "DPS") then goto full end
 			elseif boost < 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <rl>(%.f)</>", dpsval, math.floor(boost * 0.01 * dpsval + 0.5)), "DPS") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.f <rl>(%.f)</>", dpsval, dpsval*boost*0.01), "DPS") then goto full end
 			else
-				if AddStat("icon_tiny_speed", string.format("%.f", dpsval), "DPS") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.f", dpsval), "DPS") then goto full end
 			end
-		end
-		if def.shoot_while_moving then
-			if AddStat("icon_tiny_damage", "Yes", "Move and Fire") then goto full end
 		end
 		if def.damage_type then
 			if AddStat("icon_tiny_damage", data.damage_names[def.damage_type] or def.damage_type, "Damage Type") then goto full end
@@ -95,7 +92,16 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			local target = def.shoot_target == "ground" and "Ground Only" or (def.shoot_target == "air" and "Air Only") or "Air/Ground"
 			if AddStat("icon_tiny_damage", target, "Targeting") then goto full end
 		end
-
+		if def.charge_time then
+			local boost = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time*100)
+			if boost == 100 then
+				if AddStat("icon_tiny_duration", L("%.1fs", def.charge_time/TICKS_PER_SECOND), "Charge Time") then goto full end
+			else
+				local boost_color = boost > 100 and 'gl' or 'rl'
+				local tick_boost = ((def.charge_time * 100 + boost - 1) // boost) / TICKS_PER_SECOND
+				if AddStat("icon_tiny_duration", L("%.1fs <%S>(%.1fs)</>", def.charge_time/TICKS_PER_SECOND, boost_color, tick_boost), "Charge Time") then goto full end
+			end
+		end
 		if def.damage then
 			if AddStat("icon_tiny_damage", def.damage, "Damage") then goto full end
 			local attack_pattern = "Single Target"
@@ -108,17 +114,20 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 		if def.extra_effect_name then
 			if AddStat("icon_tiny_damage", def.extra_effect_name, "Effect") then goto full end
 		end
+		if def.damage then
+			if AddStat("icon_tiny_damage", def.shoot_while_moving and "Yes" or "No", "Move and Fire") then goto full end
+		end
 		if def.power and def.power > 0 then
 			if AddStat("icon_tiny_energy_up", def.power*TICKS_PER_SECOND, "Power Production") then goto full end
 		end
 		if def.power and def.power < 0 then
-			local boost, pwr = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, -def.power
+			local boost, pwr = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time and (def.charge_time*100) or 100), -def.power
 			if boost > 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", pwr * TICKS_PER_SECOND, math.floor(boost * 0.01 * pwr +0.5) * TICKS_PER_SECOND), "Power Usage") then goto full end
+				if AddStat("icon_tiny_energy_down", string.format("%.f <gl>(%.f)</>", pwr*TICKS_PER_SECOND, pwr*boost*0.01*TICKS_PER_SECOND), "Power Usage") then goto full end
 			elseif boost < 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <rl>(%.f)</>", pwr * TICKS_PER_SECOND, math.floor(boost * 0.01 * pwr +0.5) * TICKS_PER_SECOND), "Power Usage") then goto full end
+				if AddStat("icon_tiny_energy_down", string.format("%.f <rl>(%.f)</>", pwr*TICKS_PER_SECOND, pwr*boost*0.01*TICKS_PER_SECOND), "Power Usage") then goto full end
 			else
-				if AddStat("icon_tiny_energy_down", string.format("%.f", pwr * TICKS_PER_SECOND), "Power Usage") then goto full end
+				if AddStat("icon_tiny_energy_down", string.format("%.f", pwr*TICKS_PER_SECOND), "Power Usage") then goto full end
 			end
 		end
 		if def.power_storage then
@@ -133,8 +142,14 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 		if def.bandwidth then
 			if AddStat("icon_tiny_energy_transmit", def.bandwidth*TICKS_PER_SECOND, "Bandwidth") then goto full end
 		end
+		if def.consume_item then
+			local itemdef = data.all[def.consume_item]
+			if itemdef then
+				if AddStat("icon_tiny_inventory", itemdef.name, "Consumed") then goto full end
+			end
+		end
 		if def.uplink_rate then
-			if AddStat("icon_tiny_energy_transmit", string.format("%d%%", 100.0//def.uplink_rate), "Uplink Speed") then goto full end
+			if AddStat("icon_tiny_energy_transmit", string.format("%.f%%", 100/def.uplink_rate), "Uplink Speed") then goto full end
 		end
 	end
 
@@ -146,40 +161,44 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 
 	-- Add frame stats if blueprint or frame definition
 	if def.visibility_range or def.cost_modifier or def.health_points then
-		local health_boost = entity and SumModuleBoosts(entity, "c_modulehealth") or 0
-		if health_boost > 0 then
-			if AddStat("icon_tiny_durability", string.format("%d <gl>(+%d)</>", (def.health_points or 100), (def.health_points or 100)+health_boost), "Durability") then goto full end
+		local health_points, max_health = (def.health_points or 100), entity and entity.max_health
+		if max_health and max_health > health_points then
+			if AddStat("icon_tiny_durability", string.format("%d <gl>(%d)</>", health_points, max_health), "Durability") then goto full end
+		elseif max_health and max_health < health_points then
+			if AddStat("icon_tiny_durability", string.format("%d <rl>(%d)</>", health_points, max_health), "Durability") then goto full end
 		else
-			if AddStat("icon_tiny_durability", def.health_points or 100, "Durability") then goto full end
+			if AddStat("icon_tiny_durability", health_points, "Durability") then goto full end
 		end
 		if def.visibility_range then
-			local vis_boost = entity and SumModuleBoosts(entity, "c_modulevisibility") or 0
-			if vis_boost > 0 then
-				if AddStat("icon_tiny_visibility_range", string.format("%d <gl>(%d)</>", def.visibility_range, def.visibility_range+vis_boost), "Visibility Range") then goto full end
+			local visibility_range, vis_boost = def.visibility_range, entity and entity.visibility_range
+			if vis_boost and vis_boost > visibility_range then
+				if AddStat("icon_tiny_visibility_range", string.format("%d <gl>(%d)</>", visibility_range, vis_boost), "Visibility Range") then goto full end
+			elseif vis_boost and vis_boost < visibility_range then
+				if AddStat("icon_tiny_visibility_range", string.format("%d <rl>(%d)</>", visibility_range, vis_boost), "Visibility Range") then goto full end
 			else
-				if AddStat("icon_tiny_visibility_range", def.visibility_range , "Visibility Range") then goto full end
+				if AddStat("icon_tiny_visibility_range", visibility_range, "Visibility Range") then goto full end
 			end
 		end
 		if def.drone_range then
 			if AddStat("icon_tiny_durone_range", def.drone_range, "Drone Range") then goto full end
 		end
 		if def.movement_speed then
-			local move_boost = entity and SumModuleBoosts(entity, "c_modulespeed") or 0
-			if move_boost > 0 then
-				if AddStat("icon_tiny_movement_speed", string.format("%.f <gl>(%.f)</>", def.movement_speed, def.movement_speed+math.floor((move_boost*0.01*def.movement_speed)+0.5)), "Movement Speed") then goto full end
-			elseif move_boost < 0 then
-				if AddStat("icon_tiny_movement_speed", string.format("%.f <rl>(%.f)</>", def.movement_speed, def.movement_speed+math.floor((move_boost*0.01*def.movement_speed)+0.5)), "Movement Speed") then goto full end
+			local movement_speed, move_boost = def.movement_speed, entity and entity.move_boost or 100
+			if move_boost > 100 then
+				if AddStat("icon_tiny_movement_speed", string.format("%.f <gl>(%.1f)</>", movement_speed, (movement_speed*move_boost*0.01+0.05)), "Movement Speed") then goto full end
+			elseif move_boost < 100 then
+				if AddStat("icon_tiny_movement_speed", string.format("%.f <rl>(%.1f)</>", movement_speed, (movement_speed*move_boost*0.01+0.05)), "Movement Speed") then goto full end
 			else
-				if AddStat("icon_tiny_movement_speed", ((def.movement_speed*100+.499999)//1/100), "Movement Speed") then goto full end
+				if AddStat("icon_tiny_movement_speed", string.format("%.f", movement_speed), "Movement Speed") then goto full end
 			end
 		end
-		local base_boost, mod_boost, faction_boost = (def.component_boost or 0), (entity and SumModuleBoosts(entity, "c_moduleefficiency") or 0), (entity and faction and faction.component_boost-100) or 0
-		if base_boost > 0 or mod_boost > 0 or faction_boost > 0 then
-			if mod_boost > 0 or faction_boost > 0 then
-				if AddStat("icon_tiny_speed", string.format("%d%% <gl>(%d%%)</>", 100 + base_boost, 100 + base_boost + mod_boost + faction_boost), "Component Efficiency") then goto full end
-			else
-				if AddStat("icon_tiny_speed", string.format("<gl>%d%%</>", 100 + base_boost), "Component Efficiency") then goto full end
-			end
+		local base_boost, mod_boost = 100+(def.component_boost or 0), entity and (entity.component_boost+(faction and (faction.component_boost-100) or 0))
+		if mod_boost and mod_boost > base_boost then
+			if AddStat("icon_tiny_speed", string.format("%d%% <gl>(%d%%)</>", base_boost, mod_boost), "Component Efficiency") then goto full end
+		elseif mod_boost and mod_boost < base_boost then
+			if AddStat("icon_tiny_speed", string.format("%d%% <rl>(%d%%)</>", base_boost, mod_boost), "Component Efficiency") then goto full end
+		elseif base_boost > 100 then
+			if AddStat("icon_tiny_speed", string.format("<gl>%d%%</>", base_boost), "Component Efficiency") then goto full end
 		end
 		if def.power and def.power > 0 then
 			if AddStat("icon_tiny_energy_up", def.power*TICKS_PER_SECOND, "Power Production") then goto full end
@@ -188,7 +207,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_energy_down", -def.power*TICKS_PER_SECOND, "Power Usage") then goto full end
 		end
 		if def.cost_modifier and def.cost_modifier > 0 and def.cost_modifier < 1 then
-			if AddStat("icon_tiny_speed", string.format("%d%%", math.floor(100 / def.cost_modifier + 0.5)), "Movement Speed Increase") then goto full end
+			if AddStat("icon_tiny_speed", string.format("%.f%%", 100 / def.cost_modifier), "Movement Speed Increase") then goto full end
 		end
 	end
 
@@ -312,7 +331,7 @@ local function ShowProducers(list, options, faction, seen_unlocks, producer_txt,
 			local producer_def = data.all[producer_id]
 			if comp_boost and comp_boost ~= 100 then
 				local tick_boost = ((ticks * 100 + comp_boost - 1) // comp_boost) / TICKS_PER_SECOND
-				local boost_color = comp_boost > 100 and "gl" or "rl"
+				local boost_color = comp_boost > 100 and 'gl' or 'rl'
 				list:Add("<HorizontalList child_align=center child_padding=10><Reg bg=card_box_bg def={def} on_click={onclickreg}/><Text size=12 text={txt}/></HorizontalList>", {
 					def = producer_def,
 					txt = show_per_minute
@@ -425,10 +444,10 @@ end
 
 local function UpdateDefinitionTooltip(deftooltip)
 	local mode = deftooltip.mode
-	if mode == "all" then
+	if mode == 'all' then
 		deftooltip.every_frame_update = nil
 	else
-		mode = (Input.IsShiftDown() and "stats") or (Input.IsAltDown() and "summed")
+		mode = (Input.IsShiftDown() and 'stats') or (Input.IsAltDown() and 'summed')
 		if deftooltip.mode == mode then return end
 		deftooltip.mode = mode
 	end
@@ -519,7 +538,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 
 	-- add entity warnings
 	if entity then
-		local warning_layout = [[<HorizontalList><Image image="icon_warning" width=25 height=25 color="yellow"/><Text valign=center text={err} style="hl"/></HorizontalList>]]
+		local warning_layout = [[<HorizontalList><Image image=icon_warning width=25 height=25 color=yellow/><Text valign=center text={err} style=hl/></HorizontalList>]]
 		for k,v in ipairs(entity.components or {}) do
 			if v.register_count > 0 and v.def.get_reg_error and v:GetRegister(1).is_error then
 				list:Add(warning_layout, { err = v.def:get_reg_error(v) })
@@ -559,7 +578,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 			for i,v in ipairs(visual_def.sockets or {}) do
 				socketlist:Add("<SocketBox update=false on_drag_start=false on_drop=false onclickreg={onclickreg}/>", {
 					socket_size = v[2], entity = entity, socket = i,
-					on_click = function(sb) sb:SendEvent("onclickreg", "LEFTMOUSEBUTTON", sb.comp and sb.comp.id) end,
+					on_click = function(sb) sb:SendEvent("onclickreg", 'LEFTMOUSEBUTTON', sb.comp and sb.comp.id) end,
 				}):SetComp(entity:GetComponent(i))
 			end
 		end
@@ -572,7 +591,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 			if not lootable or not slot.component then -- dont show comp slots on explorables
 				slotlist:Add("<ItemSlot update=false on_drag_start=false on_drop=false onclickreg={onclickreg}/>", {
 					slot = slot,
-					on_click = function(is) is:SendEvent("onclickreg", "LEFTMOUSEBUTTON", is.id) end,
+					on_click = function(is) is:SendEvent("onclickreg", 'LEFTMOUSEBUTTON', is.id) end,
 				}):UpdateInfo()
 			end
 		end
@@ -582,17 +601,17 @@ local function UpdateDefinitionTooltip(deftooltip)
 	local options_esc = options and (entity or slot or comp)
 	if options_esc and options_esc.has_extra_data and options_esc.extra_data.resimulated then
 		local txt = entity and "Re-simulated unit" or "Re-simulated component"
-		list:Add([[<HorizontalList><Image image="icon_warning" width=25 height=25 color="yellow"/><Text valign=center text={txt} style="hl"/></HorizontalList>]]).txt = txt
+		list:Add([[<HorizontalList><Image image=icon_warning width=25 height=25 color=yellow/><Text valign=center text={txt} style=hl/></HorizontalList>]]).txt = txt
 	end
 
 	-- add producers/uplinks/miners/ingredients
 	if not extraction_recipes then BuildExtraRecipeTables() end
-	local show_all_stats = (mode == "all" or mode == "stats")
+	local show_all_stats = (mode == 'all' or mode == 'stats')
 	local data_name, is_seen, producer_lists, ingredients, amount, have_locks = def.data_name, is_unlocked or seen_unlocks[def_id], 0
 	if is_seen then
 		if def.production_recipe then
 			ingredients, amount = def.production_recipe.ingredients, def.production_recipe.amount
-			producer_lists, have_locks = 1, ShowProducers(list, options, faction, seen_unlocks, "Produced by", def.production_recipe.producers, (data_name ~= "frames"), amount) or have_locks
+			producer_lists, have_locks = 1, ShowProducers(list, options, faction, seen_unlocks, "Produced by", def.production_recipe.producers, (data_name ~= 'frames'), amount) or have_locks
 		elseif def.construction_recipe then
 			local build_boost, recipe = faction.component_boost, def.construction_recipe
 			local ticks = recipe.ticks
@@ -640,7 +659,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 		if resim_recipe and HaveSeenAnyProducer(seen_unlocks, resim_recipe.producers) then
 			producer_lists = producer_lists + 1
 			if producer_lists == 1 or show_all_stats then
-				ShowProducers(list, options, faction, seen_unlocks, "Re-Simulated by", resim_recipe.producers, (data_name ~= "frames"))
+				ShowProducers(list, options, faction, seen_unlocks, "Re-Simulated by", resim_recipe.producers, (data_name ~= 'frames'))
 				ShowIngredients(list, seen_unlocks, resim_recipe.ingredients, def)
 			end
 		end
@@ -661,7 +680,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 	end
 
 	-- show item slot reserve status or total storage amount
-	local is_inventory_item = is_seen and (data_name == "items" or data_name == "components")
+	local is_inventory_item = is_seen and (data_name == 'items' or data_name == 'components')
 	if options and slot and slot.id then
 		-- Add reserve info if this is for an item slot
 		list:Add("Text", { text = L("<hl>%d</> %s", slot.unreserved_stack, "Available") })
@@ -695,7 +714,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 		local progress = faction.extra_data.research_progress and faction.extra_data.research_progress[def_id] or 0
 		local remain = (def.progress_count and def.progress_count or progress) - progress
 		if not is_unlocked and remain > 0 and ingredients then
-			list:Add("Text", { text = "Remaining Research:", color = "ui_light" })
+			list:Add('<Text text="Remaining Research:" color=ui_light/>')
 			local horiz = list:Add("<HorizontalList child_padding=4/>")
 			for id, num in pairs(ingredients) do
 				horiz:Add("<Reg bg=item_default on_click={onclickreg}/>", { def_id = id, num = num*remain })
@@ -707,7 +726,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 		for _,uplink_comp in ipairs(uplinks) do
 			if uplink_comp:GetRegisterId(1) == def_id then
 				if not uplinkwrap then
-					list:Add("Text", { text = "Researched at:", color = "ui_light" })
+					list:Add('<Text text="Researched at:" color=ui_light/>')
 					uplinkwrap = list:Add("<Wrap width=296 wrap=true child_padding=4/>")
 				end
 				uplinkwrap:Add("<Reg bg=item_default/>", { entity = uplink_comp.owner, coord = uplink_comp.owner.location })
@@ -745,7 +764,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 						<Canvas>
 							<Image width=32 height=32 image=item_default/>
 							<Image width=32 height=32 image={icon} color="#B6EEFC"/>
-							<Image width=32 height=32 image={icon} color="ui_light" x=1/>
+							<Image width=32 height=32 image={icon} color=ui_light x=1/>
 						</Canvas>
 						<Text/>
 					</HorizontalList>]])
@@ -759,9 +778,9 @@ local function UpdateDefinitionTooltip(deftooltip)
 	end
 
 	local can_alt = (ingredients and not have_locks)
-	if not can_alt and mode == "summed" then mode = false end
-	local show_no_stats = (mode == "summed")
-	local remain_stat_lines = (show_all_stats and 10002) or (show_no_stats and -1) or 3
+	if not can_alt and mode == 'summed' then mode = false end
+	local show_no_stats = (mode == 'summed')
+	local remain_stat_lines = (show_no_stats and -1) or ((show_all_stats and 10000 or 0) + 4)
 	remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_MAIN', def, options and comp, entity, faction)
 
 	local additional_title, additional_stats
@@ -789,35 +808,32 @@ local function UpdateDefinitionTooltip(deftooltip)
 	if remain_stat_lines >= 0 and additional_stats then
 		remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_ADDITIONAL', additional_stats, nil, nil, faction)
 	elseif remain_stat_lines >= 0 and def.components then
-		local hidden_count = 1
-		for i,v in ipairs(def.components) do
-			local comp_def = data.all[v[1]]
-			local stat_comp = entity and entity:GetHiddenComponent(hidden_count)
-			stat_comp = stat_comp and stat_comp.id == v[1] and stat_comp
-			if stat_comp then hidden_count = hidden_count + 1 end
-			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, stat_comp, entity, faction) or remain_stat_lines
+		for _,v in ipairs(def.components) do
+			local comp_def, stat_comp = data.all[v[1]], entity and entity:FindComponent(v[1])
+			remain_stat_lines = comp_def.get_ui and (not entity or stat_comp) and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, stat_comp, entity, faction) or remain_stat_lines
 			if remain_stat_lines < 0 then break end
 		end
 	end
 
 	if remain_stat_lines < 0 and not show_no_stats then
+		list[#list]:RemoveFromParent() -- remove 4th row and show ...
 		list:Add('<Text text="・ ・ ・ ・ ・" color=light_gray size=8 textalign=center/>')
 	end
 
 	local can_shift = (remain_stat_lines < 0 or (show_all_stats and remain_stat_lines < 10000) or producer_lists > 1)
-	if not can_shift and mode == "stats" then mode = nil end
+	if not can_shift and mode == 'stats' then mode = nil end
 
 	if not mode then
 		local modemsg = can_shift and (can_alt and "Hold Shift/Alt for Details" or "Hold Shift for Details") or (can_alt and "Hold Alt for Details")
 		local sysindexmsg = 'Press <Key action="SystemIndex"/> /<Key id="MiddleMouseButton"/> for More Info'
 		list:Add("<Text color=light_gray size=8 halign=center margin_top=4/>").text = modemsg and L("%s・%s", modemsg, sysindexmsg) or sysindexmsg
 		if options and options.clearreg then
-			list:Add('<Text color=light_gray size=8 halign=center/>').text = options and options.entity and "Right-Click to open menu" or "Right-Click to clear value"
+			list:Add('<Text color=light_gray size=8 halign=center/>').text = entity and "Right-Click to open menu" or "Right-Click to clear value"
 		end
 	end
 
 	-- List all frames that have this component integrated
-	if mode == "all" and data_name == "components" then
+	if mode == 'all' and data_name == 'components' then
 		local frames_with =  Tech_GetFramesWithIntegrated(def_id)
 		if frames_with then
 			list:Add("<Image height=2 color=ui_light margin=8/>")
@@ -831,7 +847,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 
 	-- List all things that use this as an ingredient and all things that can be produced/generated in this
 	for productof_or_ingredientof=1,2 do
-		local def_of = mode == "all" and ((productof_or_ingredientof == 1 and product_of[def_id]) or (productof_or_ingredientof == 2 and ingredient_of[def_id]))
+		local def_of = mode == 'all' and ((productof_or_ingredientof == 1 and product_of[def_id]) or (productof_or_ingredientof == 2 and ingredient_of[def_id]))
 		if def_of then
 			local data_categories, data_all, vl = data.categories, data.all
 			for prod_id,prod_req in pairs(def_of) do
@@ -873,12 +889,12 @@ local function UpdateDefinitionTooltip(deftooltip)
 		end
 	end
 
-	if mode == "summed" and ingredients and not have_locks then
+	if mode == 'summed' and ingredients and not have_locks then
 		-- Add summed up ingredient requirements and list how many producers are required to meet a constant production
 		list:Add("<Image height=2 color=ui_light margin=8/>")
 		list:Add('<Text text="Ingredient Requirements:" color=ui_light/>')
 		IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
-	elseif mode == "all" and ingredients and not have_locks then
+	elseif mode == 'all' and ingredients and not have_locks then
 		-- Add summed up ingredient requirements and list how many producers are required to meet a constant production
 		list:Add("<Image height=2 color=ui_light margin=8/>")
 
@@ -905,7 +921,7 @@ function OpenSystemIndex()
 	if not system_index then
 		local x, y, w, h
 		if id then x, y, w, h = tooltip_window:GetViewportPosition() end
-		UI.MenuPopup("SystemIndex", { id = id, animw = w, animh = h, options = id and tooltip_window.options }, (w and "TOOLTIP" or "SCREEN"))
+		UI.MenuPopup("SystemIndex", { id = id, animw = w, animh = h, options = id and tooltip_window.options }, (w and 'TOOLTIP' or 'SCREEN'))
 	elseif id then
 		system_index:selectid(id)
 	elseif system_index.listbox.hidden then
@@ -920,7 +936,7 @@ function OpenSystemIndex()
 end
 
 local function DefinitionTooltipMouseButtonDown(w, mousebtn) -- tooltip mouse handler must specifically return true if handled
-	if mousebtn == "MIDDLEMOUSEBUTTON" and tooltip_window and not tooltip_window.hidden then OpenSystemIndex() return true end
+	if mousebtn == 'MIDDLEMOUSEBUTTON' and tooltip_window and not tooltip_window.hidden then OpenSystemIndex() return true end
 end
 
 -- Creates the tooltip widget for any id or definition
@@ -991,11 +1007,11 @@ UI.Register("SystemIndex", SystemIndex_layout, SystemIndex)
 
 function SystemIndex:construct()
 	system_index = self
-	if self.animw then
+	if self.animw or self.id then
 		self.listbox.hidden = true
-		self:TweenFromTo("width", self.animw, math.max(self.animw, 600), 250)
-		self:TweenFromTo("height", self.animh, math.max(self.animh + 40, 600), 250)
-		self.buttons:TweenFromTo("height", 0, 32, 250)
+		self:TweenFromTo("width", self.animw or 600, math.max(self.animw or 600, 600), 250)
+		self:TweenFromTo("height", self.animh or 600, math.max((self.animh or 560) + 40, 600), 250)
+		self.buttons:TweenFromTo("height", self.animh and 0 or 32, 32, 250)
 		self.selecbtn.hidden = false
 	end
 	if self.id then
@@ -1048,13 +1064,13 @@ function SystemIndex:selectid(id, go_back, go_forward)
 	local options = self.options
 	local defspacer = self.details:SetContent("<Spacer><VerticalList id=list onclickpopreg={onclickpopreg} child_padding=4/></Spacer>", {
 		def = def,
-		mode = "all",
+		mode = 'all',
 		options = options and (self.backbtn.hidden or self.backbtn.disabled) and options,
 	})
 	UpdateDefinitionTooltip(defspacer)
 	self.details:SetScrollOffset(scrollpos)
 	local data_name = def.data_name
-	local itemorframe = (data_name == "items" or data_name == "frames" or data_name == "components")
+	local itemorframe = (data_name == 'items' or data_name == 'frames' or data_name == 'components')
 	local islocked = itemorframe and Game.GetLocalPlayerFaction():IsUnlocked(id)
 	self.factionbtn.hidden = not itemorframe or not islocked
 	self.techbtn.hidden = not itemorframe or islocked
@@ -1124,7 +1140,7 @@ function SystemIndex:refreshlist(filter)
 end
 
 function SystemIndex:on_search(w, txt)
-	self:refreshlist(txt) 
+	self:refreshlist(txt)
 end
 
 function SystemIndex:close()
@@ -1141,7 +1157,7 @@ end
 
 function SystemIndex:gofaction()
 	local id = self.lastid
-	local is_frame = (data.all[id].data_name == "frames")
+	local is_frame = (data.all[id].data_name == 'frames')
 	UI.CloseMenuPopup()
 	OpenMainWindow("Faction", { show_item_id = not is_frame and id or nil, show_frame_id = is_frame and id or nil }, false, true) -- pass no_close so it can be used even in tech tree or behavior editor
 end

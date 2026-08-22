@@ -90,7 +90,7 @@ function HoverEntity:SetEntity(entity, play_sound)
 		end
 	else
 		self.hovertext.text = GetEntityName(entity)
-		if entity_def.type == "DroppedItem" then
+		if entity_def.type == 'DroppedItem' then
 			for _,slot in ipairs(entity.slots) do
 				if slot.stack > 0 then
 					self.horizinfo:Add("<Reg width=48 height=48 bg=item_default/>", { def_id = slot.id, num = slot.stack })
@@ -102,6 +102,7 @@ function HoverEntity:SetEntity(entity, play_sound)
 		elseif entity.is_construction then
 			local con_comp, frame_def, frame_id, bp, pausedtxt, progbar, ingredlist
 			local function update_construction()
+				if not entity.exists or (con_comp and not con_comp.exists) then return end
 				if not con_comp then
 					frame_id, bp = GetConstructionSiteIdOrBP(entity, true)
 					con_comp = entity:FindComponent("c_construction", true) or entity:FindComponent("c_deploy_construction")
@@ -109,7 +110,6 @@ function HoverEntity:SetEntity(entity, play_sound)
 					self.hovertext.text = L('<img id="v_construction"/>%s', frame_def and frame_def.name or "Deployment Site")
 					self.horizinfo:SetContent("<Image width=48 height=48/>", { image = (frame_def or entity.def).texture })
 				end
-				if not entity.exists or (con_comp and not con_comp.exists) then return end
 				local powered_down, working = entity.powered_down, con_comp and con_comp.is_working
 				if not powered_down ~= not pausedtxt then
 					if pausedtxt then pausedtxt:RemoveFromParent() end
@@ -128,7 +128,7 @@ function HoverEntity:SetEntity(entity, play_sound)
 					ingredlist = not working and self.vertinfo:Add('<HorizontalList child_padding=4/>', { update = function(hl, first_update)
 						local show_recipe = first_update and frame_def and con_comp.id == "c_construction" and (frame_def.construction_recipe or frame_def.production_recipe)
 						if show_recipe then
-							local skip = con_comp.extra_data.skip or {}
+							local skip = con_comp.has_extra_data and con_comp.extra_data.skip or {}
 							local ingredients = GetIngredients(show_recipe, bp)
 							for k,v in pairs(ingredients) do
 								if not skip[k] then
@@ -161,7 +161,11 @@ function HoverEntity:SetEntity(entity, play_sound)
 			end
 
 			local solved = lootable and (entity.has_extra_data and entity.extra_data.solved)
-			self.vertinfo:Add("<Text style=res/>", { text = solved and "Solved" or "Right click to investigate", color = solved and "green" or "white" })
+			if solved then
+				self.vertinfo:Add("<Text style=res color=green/>").text = "Solved"
+			elseif View.GetSelectedEntity() then
+				self.vertinfo:Add("<Text style=res color=white/>").text = "Right click to investigate"
+			end
 
 			local open = lootable or (not entity:FindComponent("c_explorable_scannable") and entity.has_extra_data and entity.extra_data.visited)
 			local show_fix = open and not solved --and entity:FindComponent("c_explorable_fix", true)

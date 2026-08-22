@@ -46,10 +46,7 @@ local function ShortcutBar_FilterEntities(entities, group_num)
 
 	-- check for destroyed or not seen
 	for i=#entities,1,-1 do
-		local entity = entities[i]
-		local entfac = entity.exists and entity.faction
-		local visible = entfac and (entfac == local_player_faction or local_player_faction:IsSeen(entity) or (not entfac.is_player_controlled and not entity.def.movement_speed and local_player_faction:IsDiscovered(entity)))
-		if not visible then
+		if not entities[i].exists or not local_player_faction:IsSeen(entities[i]) then
 			changed = true
 			table.remove(entities, i)
 		end
@@ -65,7 +62,6 @@ function ShortcutBar:update()
 	local do_refresh = ShortcutBar_FilterEntities(shortcut_groups and shortcut_groups[chk], chk)
 	if do_refresh then self:refresh() end
 	self.chk = chk % 10
-
 	local chkreg = self[chk]
 	local chkgroup = chkreg and shortcut_groups and shortcut_groups[chkreg.num]
 	if not chkgroup or chkgroup.icon then return end
@@ -73,12 +69,12 @@ function ShortcutBar:update()
 	local chkentity_exists = chkentity.exists
 	if chkentity_exists then chkreg.img = chkentity.def.texture end
 	local visualval = chkentity_exists and chkentity:GetRegister(FRAMEREG_VISUAL)
-	local visualempty = not visualval or visualval.is_empty or chkentity.faction:GetTrust(Game.GetLocalPlayerFaction()) ~= "ALLY"
+	local visualempty = not visualval or visualval.is_empty or not chkentity.faction:IsAlly(Game.GetLocalPlayerFaction())
 	chkvreg.hidden = visualempty
 	if visualempty then return end
 	local vregid, vregnum = visualval.id, visualval.num
 	if vregnum == REG_INFINITE and vregid then vregnum = chkentity:CountItem(vregid) end
-	chkvreg.def_id = vregid or (visualval.entity and visualval.entity.id)
+	chkvreg.def = data.all[vregid] or (visualval.raw_entity and (visualval.raw_entity.def or data.values.v_destroyed))
 	chkvreg.num = vregnum == 0 and "" or vregnum
 end
 
@@ -102,10 +98,10 @@ function ShortcutBar:refresh()
 		})
 		btn.vreg.base.image = "black_bg" -- set separate because bg=false also hides the number background
 		local visualval = entity:GetRegister(FRAMEREG_VISUAL)
-		if (visualval and not visualval.is_empty and entity.faction:GetTrust(faction) == "ALLY") and not icon then
+		if (visualval and not visualval.is_empty and entity.faction:IsAlly(faction)) and not icon then
 			local vregid, vregnum = visualval.id, visualval.num
 			if vregnum == REG_INFINITE and vregid then vregnum = entity:CountItem(vregid) end
-			btn.vreg.def_id = vregid or (visualval.entity and visualval.entity.id)
+			btn.vreg.def = data.all[vregid] or (visualval.raw_entity and (visualval.raw_entity.def or data.values.v_destroyed))
 			btn.vreg.num = vregnum == 0 and "" or vregnum
 			btn.vreg.hidden = false
 		end
@@ -233,7 +229,7 @@ end
 
 function ShortcutBar:on_click_shortcut(btn, key)
 	local num = btn.num
-	if key ~= "RIGHTMOUSEBUTTON" then
+	if key ~= 'RIGHTMOUSEBUTTON' then
 		ShortcutBar_DoSelect(num)
 		return
 	end

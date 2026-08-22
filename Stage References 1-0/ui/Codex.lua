@@ -37,11 +37,12 @@ UI.Register("Codex", Codex_layout, Codex)
 local codex_collapse = {}
 local CodexCategoryOrder =
 {
-	["Mission"]   = 1,
-	["E.L.A.I.N"] = 2,
-	["Goals"]     = 3,
-	["Codex"]     = 4,
-	["How to Play"]  = 5,
+	["Mission"]     = 1,
+	["E.L.A.I.N"]   = 2,
+	["HIGGS"]       = 3,
+	["Goals"]       = 4,
+	["Codex"]       = 5,
+	["How to Play"] = 6,
 }
 
 function Codex:construct()
@@ -90,6 +91,7 @@ function Codex:on_select(btn)
 	if self.lastbtn then
 		self.lastbtn.x = 0
 		self.lastbtn[1].active = false
+		UI.StopVoice()
 	end
 	local def, showtxt = btn.def
 	self.lastbtn = btn
@@ -155,7 +157,7 @@ function Codex:on_select(btn)
 					local multi = (type(step.talkinghead) == "table" and step.talkinghead)
 					for m=1,(multi and #multi or 1) do
 						local head = (multi and multi[m] or step)
-						self:AddTalkingHead(head.img, head.txt)
+						self:AddTalkingHead(head.img, head.txt, head.snd)
 						if head.step_txt then self.widgetlist:Add("<Text style=hl textalign=center wrap=true/>").text = head.step_txt end
 					end
 				end
@@ -165,13 +167,10 @@ function Codex:on_select(btn)
 		end
 	else
 		if def.talkinghead then
-			if type(def.talkinghead) == "table" then
-				for index,txt in ipairs(def.talkinghead) do
-					local tbl = type(txt) == "table" and txt
-					self:AddTalkingHead(tbl and tbl.img or def.img, tbl and tbl.txt or txt, (tbl and tbl.sound) or (def.sound and def.sound[index]))
-				end
-			else
-				self:AddTalkingHead(def.img, def.talkinghead, def.sound)
+			local multi = (type(def.talkinghead) == "table" and def.talkinghead)
+			for m=1,(multi and #multi or 1) do
+				local head = (multi and multi[m] or def)
+				self:AddTalkingHead(head.img, head.txt, head.snd)
 			end
 		end
 		showtxt = def.text or (not def.talkinghead and "Unknown") or nil
@@ -230,8 +229,8 @@ function Codex:accordion_toggle_block(hdr)
 	local list = hdr.next_sibling
 	list.hidden = false
 	local up = (list:GetTweenTarget("sy") or list.sy) == 0
-	hdr.next_sibling:TweenTo("sy", up and 1 or 0, 250, "OutQuad", not up and function(w) w.hidden = true end)
-	hdr[1][1]:TweenTo("angle", up and -180 or 0, 250, "OutQuad")
+	hdr.next_sibling:TweenTo("sy", up and 1 or 0, 250, 'OutQuad', not up and function(w) w.hidden = true end)
+	hdr[1][1]:TweenTo("angle", up and -180 or 0, 250, 'OutQuad')
 	if up then
 		codex_collapse[hdr[1][2].text] = nil
 	else
@@ -258,11 +257,19 @@ function Codex:AddTalkingHead(img, txt, snd)
 			<Box bg=popup_box_bg blur=true padding=20>
 				<Text id=talkingtext min_height=160 wrap=true width=650 text={txt}/>
 			</Box>
+			<Button icon=icon_play margin_left=4 valign=center on_click={talking_head_play} hidden={nosnd}/>
 		</HorizontalList>
 	]])
 	hl.img = img or "talking_head"
 	if hl.previous_sibling and hl.previous_sibling.img == hl.img then hl[1].opacity = 0 end
 	hl.txt = txt
+	hl.snd = snd
+	hl.nosnd = not snd
+end
+
+function Codex:talking_head_play(hl, btn)
+	UI.StopVoice()
+	UI.PlaySound(hl.snd)
 end
 
 function Codex:on_mark_all_read()
@@ -337,14 +344,11 @@ function Codex:on_filter(search, filter)
 
 			local talkinghead = not show and def and def.talkinghead
 			if talkinghead then
-				if type(talkinghead) == "table" then
-					for _,txt in ipairs(talkinghead) do
-						local tbl = type(txt) == "table" and txt
-						show = MatchLocalizedRichText(tbl and tbl.txt or txt, filter)
-						if show then break end
-					end
-				else
-					show = MatchLocalizedRichText(talkinghead, filter)
+				local multi = (type(talkinghead) == "table" and talkinghead)
+				for m=1,(multi and #multi or 1) do
+					local head = (multi and multi[m] or def)
+					show = MatchLocalizedRichText(head.txt, filter)
+					if show then break end
 				end
 			end
 
@@ -363,134 +367,134 @@ end
 
 local milestones_db<const> = {
 	{
-		type = "ITEM",
+		type = 'ITEM',
 		title = "Mine Metal Ore",
 		details = "Use a miner component to mine metal ore",
-		id = "metalore",
+		id = 'metalore',
 		levels = { 10000, 500000, 1000000 },
-		achievement = "MINE_METALORE"
+		achievement = 'MINE_METALORE'
 	},
 	{
-		type = "ITEM",
+		type = 'ITEM',
 		title = "Mine Crystal Chunks",
 		details = "Use a miner component to mine crystal chunks",
-		id = "crystal",
+		id = 'crystal',
 		levels = { 10000, 500000, 1000000 },
-		achievement = "MINE_CRYSTAL"
+		achievement = 'MINE_CRYSTAL'
 	},
 	{
-		type = "ITEM",
+		type = 'ITEM',
 		title = "Mine Silica Sand",
 		details = "Use a miner component to mine silica sand",
-		id = "silica",
+		id = 'silica',
 		levels = { 5000, 50000, 500000 },
 	},
 	{
-		type = "ITEM",
+		type = 'ITEM',
 		title = "Mine Laterite Ore",
 		details = "Use a laser extractor component to mine laterite ore",
-		id = "laterite",
+		id = 'laterite',
 		levels = { 5000, 50000, 500000 },
 	},
 	{
-		type = "ITEM",
+		type = 'ITEM',
 		title = "Fabricate Metal Bars",
 		details = "Use a fabricator component to fabricate metal bars",
-		id = "metalbar",
+		id = 'metalbar',
 		levels = { 1000, 10000, 500000 },
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Bots Built",
 		details = "How many bot units you have produced",
 		icon = "Main/textures/icons/values/bot.png",
-		counter = "built_bot",
+		counter = 'built_bot',
 		levels = { 5, 30, 100 },
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Buildings Built",
 		details = "How many buildings you have built",
 		icon = "Main/textures/icons/values/building.png",
-		counter = "buildings_built",
+		counter = 'buildings_built',
 		levels = { 10, 50, 200 },
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Solve Robot Explorables",
 		details = "Visit and solve the challenges on explorables by the robots",
 		icon = "Main/textures/icons/values/solved.png",
-		counter = "solved_explorable_robot",
+		counter = 'solved_explorable_robot',
 		levels = { 5, 10, 100 },
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Solved Circuit puzzles",
 		details = "Solve Circuit puzzle in ruins",
 		icon = "Main/textures/icons/explorablespanel/netwalk/source.png",
-		counter = "ExplorableGameNetWalk",
+		counter = 'ExplorableGameNetWalk',
 		levels = { 5, 10, 50 },
 		hidden = true,
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Solved Nine Clicks puzzle",
 		details = "Solve Nine Clicks puzzle in ruins",
 		icon = "Main/textures/icons/explorablespanel/powerclickpuzzle/powerclickpuzzle-base.png",
-		counter = "ExplorableGameNineClicks",
+		counter = 'ExplorableGameNineClicks',
 		levels = { 5, 10, 50 },
 		hidden = true,
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Solved Balance Puzzles",
 		details = "Solve Balance puzzle in ruins",
 		icon = "Main/textures/icons/alien_text/alien_a.png",
-		counter = "ExplorableGameBalance",
+		counter = 'ExplorableGameBalance',
 		levels = { 5, 10, 50 },
 		hidden = true,
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Solved Sliding Puzzles",
 		details = "Solve Sliding puzzle in ruins",
 		icon = "Main/textures/icons/values/number_8.png",
-		counter = "ExplorableGameSlide",
+		counter = 'ExplorableGameSlide',
 		levels = { 5, 10, 50 },
 		hidden = true,
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Bugs Killed",
 		details = "How many alien creatures you've killed",
 		icon = "Main/textures/icons/values/bug.png",
-		counter = "BugsKilled",
+		counter = 'BugsKilled',
 		levels = { 10, 250, 1000 },
-		achievement = "BUGS_KILLED",
+		achievement = 'BUGS_KILLED',
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Satellites launched",
 		details = "Launch satellites off the planet",
 		icon = "Main/textures/icons/frame/satellite.png",
-		counter = "satellites_launched",
+		counter = 'satellites_launched',
 		levels = { 1, 10, 100 },
 	},
 	{
-		type = "FIELD",
+		type = 'FIELD',
 		title = "Tiles Discovered",
 		details = "How many map tiles you've discovered",
 		icon = "Main/textures/icons/values/world.png",
-		field = "discovered_tiles",
+		field = 'discovered_tiles',
 		levels = { 50000, 250000, 1000000 },
-		achievement = "WANDERER",
+		achievement = 'WANDERER',
 	},
 	{
-		type = "COUNTER",
+		type = 'COUNTER',
 		title = "Mothership Repairs",
 		details = "How many times the Mothership was repaired",
 		icon = "Main/textures/icons/values/mothership_value.png",
-		counter = "repaired_mothership",
+		counter = 'repaired_mothership',
 		levels = { 1, 5, 12 },
 		hidden = true,
 	},
@@ -498,14 +502,14 @@ local milestones_db<const> = {
 
 local function GetMilestone(v, faction, counters)
 	local count, show
-	if v.type == "ITEM" then
+	if v.type == 'ITEM' then
 		show = faction:IsUnlocked(v.id)
 		count = show and faction:GetItemTotals(v.id) or 0
-	elseif v.type == "COUNTER" then
+	elseif v.type == 'COUNTER' then
 		count = counters and counters[v.counter] or 0
 		if count == true then count = 1 end
 		show = not v.hidden or (count > 0)
-	elseif v.type == "FIELD" then
+	elseif v.type == 'FIELD' then
 		count = faction[v.field] or 0
 		show = not v.hidden or (count > 0)
 	end
@@ -833,8 +837,8 @@ local function ShowProgressPopup(goal_def, milestone, count)
 	end
 	function prop:construct()
 		self.timer = 5
-		self:TweenFromTo("sy", 0.5, 1, 200, "OutQuad")
-		self:TweenFromTo("x", -1000, 0, 200, "OutQuad")
+		self:TweenFromTo("sy", 0.5, 1, 200, 'OutQuad')
+		self:TweenFromTo("x", -1000, 0, 200, 'OutQuad')
 	end
 	function prop:on_click()
 		self:closepopup()
@@ -843,8 +847,8 @@ local function ShowProgressPopup(goal_def, milestone, count)
 	end
 	function prop:closepopup()
 		self.timer = nil
-		self:TweenFromTo("sy", 1, 0.5, 200, "InQuad")
-		self:TweenFromTo("x", 0, -1000, 200, "InQuad", function() self:RemoveFromParent() end)
+		self:TweenFromTo("sy", 1, 0.5, 200, 'InQuad')
+		self:TweenFromTo("x", 0, -1000, 200, 'InQuad', function() self:RemoveFromParent() end)
 		self.on_click = nil
 		ProgressPopupOpen = nil
 	end
@@ -907,9 +911,9 @@ local function RefreshGoal(faction, goal_id, show_talking_heads)
 			if w then
 				w.goalicon = nil
 				w.check.hidden = false
-				w.check:TweenFromTo("sx",      0, 1, 1000, "OutBack")
-				w.check:TweenFromTo("sy",      0, 1, 1000, "OutBack")
-				w.check:TweenFromTo("angle", 180, 0, 1000, 500, "OutBack", function() ProgressNotificationsOpen:close(w) end)
+				w.check:TweenFromTo("sx",      0, 1, 1000, 'OutBack')
+				w.check:TweenFromTo("sy",      0, 1, 1000, 'OutBack')
+				w.check:TweenFromTo("angle", 180, 0, 1000, 500, 'OutBack', function() ProgressNotificationsOpen:close(w) end)
 			end
 			-- ShowProgressPopup(check_goal_def)
 			for i,v in ipairs(active_goals) do if v == goal_id then table.remove(active_goals, i) break end end
@@ -993,6 +997,8 @@ function ProgressNotifications:every_frame_update()
 				if not IsShowNotification("mission") then return end
 				local notification_title = (have_entity and def.mission_start_notification_title or def.mission_lost_notification_title)
 				local notification_text = (have_entity and def.mission_start_notification_text or def.mission_lost_notification_text)
+				notification_title = notification_title or def.title or def.id
+				notification_text = notification_text or (have_entity and "Mission signal detected at %d, %d" or "Mission signal lost at %d, %d")
 				Notification.Add(def.id, "mission", notification_title, L(notification_text, location.x, location.y), {
 					tooltip = def.category,
 					on_click = have_entity and function() View.JumpCameraToEntities(mission_entity) end
@@ -1091,13 +1097,13 @@ function ProgressNotifications:goal_tooltip(w)
 end
 
 function ProgressNotifications:on_click_goal(w, mousebtn)
-	if mousebtn == "LEFTMOUSEBUTTON" and w.check.hidden then
+	if mousebtn == 'LEFTMOUSEBUTTON' and w.check.hidden then
 		if w.def.text or w.def.talkinghead or w.def.mission_steps then
 			OpenMainWindow("Codex", { param = w.id })
 		else
 			OpenMainWindow("ProgressView", { param = w.id })
 		end
-	elseif mousebtn == "RIGHTMOUSEBUTTON" and w.check.hidden then
+	elseif mousebtn == 'RIGHTMOUSEBUTTON' and w.check.hidden then
 		local faction = Game.GetLocalPlayerFaction()
 		local goal_count = w.def.goal_check(faction) or 0
 		local mission_entity = w.def.mission_get_entity and w.def.mission_get_entity(faction, goal_count)
@@ -1130,7 +1136,7 @@ function ProgressNotifications:on_click_goal(w, mousebtn)
 				ShowGoal(w.id, false)
 				UI.CloseMenuPopup()
 			end,
-		}, w, "DOWN")
+		}, w, 'DOWN')
 	end
 end
 
@@ -1148,13 +1154,9 @@ end
 function UIMsg.OnCodexUnlocked(id)
 	local def = data.codex[id]
 	if def.talkinghead then
-		if type(def.talkinghead) == "table" then
-			for index,txt in ipairs(def.talkinghead) do
-				local tbl = type(txt) == "table" and txt
-				PlayTalkingHead({ img = tbl and tbl.img or def.img, style = tbl and tbl.style, txt = tbl and tbl.txt or txt, snd = tbl and tbl.sound or def.sound and def.sound[index] }, id)
-			end
-		else
-			PlayTalkingHead({ img = def.img, txt = def.talkinghead, snd = def.sound }, id)
+		local multi = (type(def.talkinghead) == "table" and def.talkinghead)
+		for m=1,(multi and #multi or 1) do
+			PlayTalkingHead((multi and multi[m] or def), id)
 		end
 	end
 

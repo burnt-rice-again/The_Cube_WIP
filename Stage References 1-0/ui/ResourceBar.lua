@@ -163,7 +163,7 @@ end
 
 function ResourceBar:on_click_listbtn(btn, mousebtn)
 	local amountlists = self.amountlists
-	if mousebtn == "LEFTMOUSEBUTTON" then
+	if mousebtn == 'LEFTMOUSEBUTTON' then
 		amountlists.hidden = not amountlists.hidden
 		btn.opacity = amountlists.hidden and 0.3 or 1
 		self:update()
@@ -250,9 +250,9 @@ function ResourceBar:update()
 	self.powerexcess.hidden = math.ceil(power_produced) <= math.ceil(power_required)
 
 	--string.format("%.0f%%", all_eff)
-	self.powerimg.color = sum_efficiency < 50 and "red" or (sum_efficiency < 100 and "yellow") or "ui_light"
+	self.powerimg.color = sum_efficiency < 50 and 'red' or (sum_efficiency < 100 and 'yellow') or 'ui_light'
 	if power_produced > power_required then
-		self.powerprogress.color = "ui_light"
+		self.powerprogress.color = 'ui_light'
 	else
 		self.powerprogress.color = self.powerimg.color
 	end
@@ -274,16 +274,16 @@ function ResourceBar:update()
 				elseif wid.amount ~= amount then
 					-- amount changed
 					if wid.amount < amount then
-						wid:TweenFromTo("sx", 1.15, 1, 300, "InOutBounce")
-						wid:TweenFromTo("sy", 1.15, 1, 300, "InOutBounce")
-						wid.flash.color = "ui_light"
-						wid.flash:TweenFromTo("opacity", 0.2, 0, 300, "InOutBounce")
+						wid:TweenFromTo("sx", 1.15, 1, 300, 'InOutBounce')
+						wid:TweenFromTo("sy", 1.15, 1, 300, 'InOutBounce')
+						wid.flash.color = 'ui_light'
+						wid.flash:TweenFromTo("opacity", 0.2, 0, 300, 'InOutBounce')
 					else
-						wid.flash.color = "red"
+						wid.flash.color = 'red'
 						if amount == 0 then
-							wid.flash:TweenFromTo("opacity", 0.3, 0.3, 300, "InOutBounce")
+							wid.flash:TweenFromTo("opacity", 0.3, 0.3, 300, 'InOutBounce')
 						else
-							wid.flash:TweenFromTo("opacity", 0.2, 0, 300, "InOutBounce")
+							wid.flash:TweenFromTo("opacity", 0.2, 0, 300, 'InOutBounce')
 						end
 					end
 
@@ -304,14 +304,14 @@ function ResourceBar:update()
 						end
 
 						wid.trendtxt.style = "res_arrow_green"
-						--wid.trendtxt.color = "green"
+						--wid.trendtxt.color = 'green'
 					elseif diff < 0 then
 						if diff < -10 then
 							wid.trendtxt.text = "⇓⇓"
 						else
 							wid.trendtxt.text = "⇓"
 						end
-						--wid.trendtxt.color = "red"
+						--wid.trendtxt.color = 'red'
 						wid.trendtxt.style = "res_arrow_red"
 					else
 						wid.trendtxt.text = ""

@@ -1,0 +1,19 @@
+{
+	"TX_QUALITY_LOW": "Low",
+	"TX_QUALITY_MEDIUM": "Medium",
+	"TX_QUALITY_HIGH": "High",
+	"TX_AMT_LOW": "Low",
+	"TX_AMT_MEDIUM": "Medium",
+	"TX_AMT_HIGH": "High",
+	"storage": "Storage",
+	"garage" : "Garage",
+	"drone" : "Drone",
+	"flyer" : "Flyer",
+	"satellite" : "Satellite",
+	"gas" : "Gas",
+	"alien" : "Alien",
+	"virus" : "Virus",
+	"anomaly" : "Anomaly",
+	"bughole" : "Bug",
+	"delete" : "Delete"
+}

@@ -37,14 +37,14 @@ local detail_layout<const> =
 				</VerticalList>
 				<Button width=36 height=36 on_click={on_click_options} tooltip="Options" icon=icon_menu hidden={hidesave} id=optionsbtn margin_right=4/>
 				<HorizontalList fill=true hidden={hideload} child_padding=4>
-					<Button width=36 height=36 on_click={on_click_delete} tooltip="delete"><Image color=light_red image=icon_remove/></Button>
+					<Button width=36 height=36 on_click={on_click_delete} tooltip="Delete"><Image color=light_red image=icon_remove/></Button>
 					<Button width=36 height=36 on_click={on_click_rename} tooltip="Rename" icon=icon_rename/>
 					<Button width=36 height=36 on_click={on_click_replay} tooltip="Replay" icon=icon_replay hidden={hidereplay} disabled={disablereplay}/>
 				</HorizontalList>
 				<Button icon=icon_play on_click={on_click_load} tooltip="Play" hidden={hideload}/>
 				<Button icon=icon_save on_click={on_click_save} tooltip="Save" hidden={hidesave}/>
 			</HorizontalList>
-			<ServerSettings id=server margin_top=10 hidden={hideserver}/>
+			<ServerSettings id=server margin_top=10 hidden={hideserver} hiderules=true/>
 		</ScrollList>
 	</Box>
 ]]
@@ -53,7 +53,7 @@ local LoadSave<const> = {}
 UI.Register("LoadSave", LoadSave_layout, LoadSave)
 
 function LoadSave:construct()
-	self:TweenFromTo("sy", 0.001, 0.01, 1, "OutQuad", function(w) w:TweenFromTo("sy", 0.01, 1, 80, "OutQuad") end)
+	self:TweenFromTo("sy", 0.001, 0.01, 1, 'OutQuad', function(w) w:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad') end)
 	self:Refresh()
 	if self.list[1] ~= nil then
 		self:on_click_item(self.list[1])
@@ -148,7 +148,7 @@ function LoadSave:on_click_item(button)
 		local scenario = Map.GetSettings().scenario
 		local modpack = Game.GetInstalledModPackage(scenario)
 		detail = self.gamedetail:SetContent(detail_layout, {
-			image = "$ScreenShot", isnewsave = true, hideserver = true, hideload = true,
+			image = '$ScreenShot', isnewsave = true, hideserver = true, hideload = true,
 			save_title = LoadSave.GetDefaultSaveTitle(),
 			save_time_played = Tool.GetTimeDurationStr(Game.GetGameDuration()),
 			save_scenario = modpack and modpack.name or scenario,
@@ -183,7 +183,7 @@ function LoadSave:on_click_options(detail, btn)
 		end,
 		on_change_replaydata = function(menu, chk, check) self.set_recording_active = check menu:refresh() end,
 		on_change_snapshot = function(menu, chk, check) self.set_have_snapshot = check end,
-	}, btn, "DOWN")
+	}, btn, 'DOWN')
 end
 
 function LoadSave:on_click_save()

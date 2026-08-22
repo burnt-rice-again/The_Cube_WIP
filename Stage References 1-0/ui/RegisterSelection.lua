@@ -118,11 +118,14 @@ local RegisterSelectionBP_layout<const> =
 local function FillDB(rs)
 	local is_production, is_miner, producer_id, def_filter = rs.is_production, rs.is_miner, rs.producer_id, rs.def_filter
 
-	local function on_click_def_id(w, mbtn) w.newicon.hidden=true rs:SetDefId(w.def_id, nil, nil, (mbtn == "RIGHTMOUSEBUTTON")) end
-	local function on_click_blueprint(w, mbtn) rs:SetDefId(w.bp.frame, w, nil, (mbtn == "RIGHTMOUSEBUTTON")) end
+	local function on_click_def_id(w, mbtn) w.newicon.hidden=true rs:SetDefId(w.def_id, nil, nil, (mbtn == 'RIGHTMOUSEBUTTON')) end
+	local function on_click_blueprint(w, mbtn) rs:SetDefId(w.bp.frame, w, nil, (mbtn == 'RIGHTMOUSEBUTTON')) end
 	local function on_tooltip_def(w) return BuildDefinitionTooltip(w.def, is_production and { reg_comp = rs.component } or nil) end
 	local function on_tooltip_bp(w) return BuildDefinitionTooltip(w.bp) end
-	local on_double_click = rs.on_ui_accept and function(w) if rs.register.id == w.def_id or rs.selected_bp == w.bp then rs:on_ui_accept() end end
+	local on_double_click = rs.on_ui_accept and function(w)
+		local rid = rs.register.id
+		if (rid and rid == w.def_id) or rs.selected_bp == w.bp then rs:on_ui_accept() end
+	end
 
 	local db, db_defs, bpfolders, last_bp_cat_idx, last_bp_cat_name = { item = {}, frame = {}, value = {} }, {}, {}
 
@@ -135,11 +138,11 @@ local function FillDB(rs)
 		if is_production then
 			local production_recipe = (bp_frame_def or def).production_recipe
 			if producer_id and (not production_recipe or not production_recipe.producers[producer_id]) then return end
-			cat_tab = "item"
+			cat_tab = 'item'
 		elseif is_miner then
 			local mining_recipe = def.mining_recipe
 			if not mining_recipe or not mining_recipe[producer_id] then return end
-			cat_tab = "item"
+			cat_tab = 'item'
 		end
 
 		local tab_db = db[cat_tab]
@@ -186,7 +189,7 @@ local function FillDB(rs)
 	ProcessUnlockedDefinitions(add_definition, nil, rs.library, is_production and rs.index, show_extra)
 
 	-- Add tech definitions
-	local tech_reg_cat = show_extra and { tab = "value", is_tech = true }
+	local tech_reg_cat = show_extra and { tab = 'value', is_tech = true }
 	if tech_reg_cat and (not def_filter or def_filter({}, tech_reg_cat)) then
 		local seen_tech, tech_categories = Tech_GetSeenTech(), data.tech_categories
 		for i=1,#tech_categories+1 do
@@ -221,7 +224,7 @@ function SimpleRegisterSelection:construct()
 	OpenRegisterSelection = self
 	self:Refresh()
 	if self.is_production then
-		UILibraryLoadButton(self, self.library, true, 'B', self.producer_id or true, "right")
+		UILibraryLoadButton(self, self.library, true, 'B', self.producer_id or true, 'right')
 	end
 end
 
@@ -324,7 +327,7 @@ function RegisterSelection:construct()
 		elseif register_def.type == "miner" then
 			self.is_miner, prod_or_miner = true, true
 			self.producer_id = comp_def and comp_def.id
-		elseif register_def.type == "radar" then
+		elseif register_def.type == 'radar' then
 			self.is_radar = true
 			def_filter = data.instruction_argument_filters.radar
 			self.def_filter = def_filter
@@ -386,7 +389,7 @@ function RegisterSelection:construct()
 		-- For producing blueprints we need to match a library item with the production blueprint
 		local reg_bp_hash
 		ProcessLibraryBlueprint(reg_bp, function(clean_reg_bp) reg_bp_hash = Tool.Hash(clean_reg_bp) end)
-		for _,w in ipairs(self.db["item"] or {}) do
+		for _,w in ipairs(self.db.item or {}) do
 			local w_bp = w.bp
 			if w_bp and w_bp.frame == reg_bp.frame and w_bp.name == reg_bp.name then
 				local w_bp_hash
@@ -506,7 +509,7 @@ function RegisterSelection:RefreshTab(new_tab, filter)
 	self.listworld.hidden = not is_world
 
 	if self.is_production then
-		UILibraryLoadButton(self.list, self.library, true, 'B', self.producer_id or true, "right")
+		UILibraryLoadButton(self.list, self.library, true, 'B', self.producer_id or true, 'right')
 	end
 end
 
@@ -520,7 +523,7 @@ end
 
 function RegisterSelection:entityreg_on_click(reg, mousebtn)
 	if reg.entity then View.JumpCameraToEntities(reg.entity) end
-	if mousebtn == "LEFTMOUSEBUTTON" then self:select_on_map_on_click() end
+	if mousebtn == 'LEFTMOUSEBUTTON' then self:select_on_map_on_click() end
 end
 
 function RegisterSelection:select_on_map_on_click()
@@ -561,7 +564,7 @@ end
 
 function RegisterSelection:UpdateVisuals(switch_tab, is_new_selection, new_edited_bp, new_selected_bp, new_library_id)
 	local reg, selected_bp, edited_bp = self.register, self.selected_bp, self.edited_bp
-	local reg_id, reg_num, reg_entity, reg_coord = reg.id, reg.num, reg.entity, reg.coord
+	local reg_id, reg_num, reg_entity, reg_coord = reg.id, reg.num, reg.raw_entity or reg.entity, reg.coord
 	if reg_num == 0 and reg.is_empty then reg_num = nil end
 
 	if is_new_selection then
@@ -614,7 +617,7 @@ function RegisterSelection:UpdateVisuals(switch_tab, is_new_selection, new_edite
 		self.select.icon = item_def and item_def.texture
 		self.select.def = bp_def or item_def
 		self.select.num = reg_num and reg_num > 0 and make_steps * recipe_amount or nil
-		self.editbtn.hidden = not item_def or item_def.data_name ~= "frames" or not self.index
+		self.editbtn.hidden = not item_def or item_def.data_name ~= 'frames' or not self.index
 		if self.entity and self.entity.slot_count < #self.ingredients + (bp_def and 0 or 1) then
 			warning = L("Production needs at least %d inventory slots", #self.ingredients + (bp_def and 0 or 1))
 		end
@@ -685,9 +688,9 @@ function RegisterSelection:edit_on_click(btn)
 	if not pop then return end
 	btn.active = true
 	pop:Add("BlueprintEditor", {
-		source_bp = selected_bp or { frame = frame_id }, bp = edited_bp, library = self.library or {}, is_remote = true, want_similar = true,
+		source_bp = edited_bp or selected_bp or { frame = frame_id }, library = self.library or {}, is_remote = true, want_similar = true,
 		on_ok = function(pp) UI.CloseMenuPopup(pp) end,
-		on_change = function(pp, bp) if self:IsValid() then self:UpdateVisuals(false, true, bp, selected_bp, self.library_id) end end,
+		on_changed = function(pp, bp) if self:IsValid() then self:UpdateVisuals(false, true, bp, selected_bp, self.library_id) end end,
 	})
 end
 
@@ -755,7 +758,7 @@ function RegisterSelection:on_coord_change(input, value)
 end
 
 function RegisterSelection:reg_on_click(reg, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then
+	if mousebtn == 'RIGHTMOUSEBUTTON' then
 		self.register.num = nil
 		self:SetDefId(nil)
 	end
@@ -852,7 +855,7 @@ end
 
 function RegisterSelection:on_clear()
 	local reg = self.register
-	reg.id, reg.entity, reg.coord, reg.num = nil, nil, nil, nil
+	reg.id, reg.entity, reg.coord, reg.num, self.library_id, self.edited_bp = nil, nil, nil, nil, nil, nil
 	self:on_ui_accept()
 end
 
@@ -878,17 +881,17 @@ function ShowRegisterSelection(popup_next_to, entity_or_callback, component_or_d
 			end,
 
 			construct = function(w)
-				--w:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
-				--w:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+				--w:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
+				--w:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 				UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_OPEN")
 			end,
 
 			on_close = function(w)
-				w:TweenFromTo("sx", 1, 0.01, 80, "InQuad")
-				w:TweenFromTo("sy", 1, 0.01, 40, "InQuad", function() UI.CloseMenuPopup(w) end)
+				w:TweenFromTo("sx", 1, 0.01, 80, 'InQuad')
+				w:TweenFromTo("sy", 1, 0.01, 40, 'InQuad', function() UI.CloseMenuPopup(w) end)
 			end,
 		},
-		popup_next_to, "RIGHT", "BOTTOM", 12, 12)
+		popup_next_to, 'RIGHT', 'BOTTOM', 12, 12)
 	local args = regsel_args or {}
 	args.entity, args.component, args.index = entity_or_callback, component_or_def_filter, index
 	return w and w[1]:Add("<RegisterSelection width=626 max_height=670 entity={entity} component={component} index={index} on_close={on_close}/>", args)
@@ -902,7 +905,7 @@ function UIMsg.OnTechResearch(id)
 
 	for _,v in ipairs(data.techs[id].unlocks or {}) do
 		local def = data.components[v] or data.items[v]
-		if def and def.tag ~= "resource" then
+		if def and def.tag ~= 'resource' then
 			new_tech[v] = true
 		end
 	end

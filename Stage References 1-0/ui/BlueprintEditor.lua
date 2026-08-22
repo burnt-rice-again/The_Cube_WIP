@@ -62,41 +62,43 @@ local BlueprintEditor = {}
 UI.Register("BlueprintEditor", BlueprintEditor_layout, BlueprintEditor)
 
 function BlueprintEditor:construct()
-	local source_bp = self.source_bp
-	if not self.bp then
-		local entity, entity_bp = self.source_entity
-		if entity then
-			entity_bp = MakeBlueprintFromEntity(entity, true, false, true)
-			if not entity_bp then self:Clear() self.root:RemoveFromParent() error("Missing bp in BlueprintEditor") end
-			if not source_bp then source_bp = entity_bp end
-			if not self.build_locations then
-				self.build_locations, self.build_rotation = { entity.placed_location }, entity.rotation
-				self:fix_build_rotation(entity_bp.frame, source_bp.frame)
-			end
-			if entity.is_construction then
-				local paused = entity.powered_down
-				if not paused then Action.SendForConstruction("SetConstructionPause", entity, { val = true }) end
-				if paused then self.build_paused = true end
-			end
-			local upgrade_err = CheckDeconstruct(entity, source_bp.frame)
-			if upgrade_err then
-				self.changeframe.disabled = true
-				self.changeframe.tooltip = L("%s: %s", "Upgrade unavailable", upgrade_err)
-			end
-			if not self.library then self.library, self.is_remote = Game.GetLocalPlayerFaction().extra_data.library or {}, true end
+	local bp
+	if self.library_item then -- editing via the library
+		bp = Tool.Copy(self.library_item)
+	elseif self.source_entity then -- upgrade/modify entity (optionally with a source bp)
+		local entity, source_bp = self.source_entity, self.source_bp
+		local entity_bp = MakeBlueprintFromEntity(entity, true, false, true)
+		if not entity_bp then self:Clear() self.root:RemoveFromParent() error("Missing bp in BlueprintEditor") end
+		if not self.build_locations then
+			self.build_locations, self.build_rotation = { entity.placed_location }, entity.rotation
+			if source_bp then self:fix_build_rotation(entity_bp.frame, source_bp.frame) end
 		end
-		self.bp, self.source_bp = Tool.Copy(source_bp), (entity_bp or source_bp) -- keep source to compare
+		if entity.is_construction then
+			local paused = entity.powered_down
+			if not paused then Action.SendForConstruction("SetConstructionPause", entity, { val = true }) end
+			if paused then self.build_paused = true end
+		end
+		local upgrade_err = CheckDeconstruct(entity, (source_bp or entity_bp).frame)
+		if upgrade_err then
+			self.changeframe.disabled = true
+			self.changeframe.tooltip = L("%s: %s", "Upgrade unavailable", upgrade_err)
+		end
+		if not self.library then self.library, self.is_remote = Game.GetLocalPlayerFaction().extra_data.library or {}, true end
+		bp, self.source_bp = Tool.Copy(source_bp or entity_bp), entity_bp -- keep entity bp to check if modified
+	elseif self.source_bp then -- editing via build menu or register selection
+		bp = Tool.Copy(self.source_bp)
 	end
 
-	local bp = self.bp
-	if not self.library then self:Clear() self.root:RemoveFromParent() error("Missing library in BlueprintEditor") end
 	if not bp           then self:Clear() self.root:RemoveFromParent() error("Missing bp in BlueprintEditor") end
+	if not self.library then self:Clear() self.root:RemoveFromParent() error("Missing library in BlueprintEditor") end
 	if bp.dependencies  then self:Clear() self.root:RemoveFromParent() error("Blueprint in BlueprintEditor needs to have dependencies imported") end
+	if self.bp          then self:Clear() self.root:RemoveFromParent() error("BP passed directly to BlueprintEditor") end
 	if self.is_remote == nil then self.is_remote = (self.library ~= Game.GetProfile().library) end
-	if source_bp then
+	if self.source_bp then
 		if bp.params then self:Clear() self.root:RemoveFromParent() error("Custom blueprint for BlueprintEditor needs applied parameters") end
 		self.bptitlerow.hidden, self.siterow.hidden, self.okrow.hidden = true, not self.is_site, not self.on_ok
 	end
+	self.bp = bp
 	self:init()
 
 	--[[DEBUG VIEW
@@ -104,30 +106,32 @@ function BlueprintEditor:construct()
 	--]]
 end
 
-function BlueprintEditor:cancel_changes()
-	self.open_bp_hash = Tool.Hash(self.bp)
-end
-
-function BlueprintEditor:issue_on_change()
-	-- blueprint update callback (e.g Library)
-	if self.on_change and self.open_bp_hash ~= Tool.Hash(self.bp) then self:SendEvent("on_change", self.bp) end
+local function BuildBlueprintVarArgList(params)
+	if not params then return 0 end
+	local res = {}
+	for i,v in ipairs(params) do
+		res[#res+1] = v[1] or ('\b'..i)
+	end
+	return res
 end
 
 function BlueprintEditor:destruct()
-	self:issue_on_change()
+	if self.library_item and Tool.Hash(self.bp) ~= Tool.Hash(self.library_item) then
+		UILibrarySaveItem(self.library, self.bp, nil, BuildBlueprintVarArgList(self.library_item.params), BuildBlueprintVarArgList(self.bp.params))
+	elseif self.on_changed and Tool.Hash(self.bp) ~= Tool.Hash(self.source_bp) then
+		self:SendEvent("on_changed", self.bp)
+	end
 end
 
-function BlueprintEditor:close(do_resume_construction)
+function BlueprintEditor:close_site_popup(do_resume_construction)
 	if do_resume_construction and self.source_entity and not self.build_paused and self.source_entity.exists and self.source_entity.is_construction and self.source_entity.powered_down then
 		Action.SendForConstruction("SetConstructionPause", self.source_entity, { val = false })
 	end
-	if self.source_bp then
-		self.root:RemoveFromParent()
-	end
+	self.root:RemoveFromParent()
 end
 
 function BlueprintEditor:update()
-	if self.source_entity and not self.source_entity.exists then self:close(false) end
+	if self.source_entity and not self.source_entity.exists then self:close_site_popup(false) end
 end
 
 function BlueprintEditor:Refresh()
@@ -273,7 +277,6 @@ function BlueprintEditor:init()
 	local bp, source_entity = self.bp, self.source_entity
 	local unitbasename = source_entity and (source_entity.visual_def.explorable_name or source_entity.def.name or "")
 	local defaultname = unitbasename or (bp.multi and "New Multi Blueprint" or "New Blueprint")
-	if self.on_change and not self.open_bp_hash then self.open_bp_hash = Tool.Hash(bp) end
 	if self.on_refresh then self.paramsbtn.hidden, self.paramsbtn.active = false, bp.params ~= nil end -- show only when opening via library
 
 	self:icon_refresh()
@@ -288,11 +291,11 @@ function BlueprintEditor:init()
 			local multi_idx = preview:GetMultiAt(UI.GetMousePosition(preview))
 			if multi_idx and select_idx ~= multi_idx then
 				preview:SetMultiHighlight(select_idx, nil)
-				preview:SetMultiHighlight(multi_idx, "yellow", 2)
+				preview:SetMultiHighlight(multi_idx, 'yellow', 2)
 				self.unit, hover_idx, select_idx = bp_multi[multi_idx], multi_idx, multi_idx
 				self:setup_unit()
 			end
-			if multi_idx and mousebtn == "RIGHTMOUSEBUTTON" then
+			if multi_idx and mousebtn == 'RIGHTMOUSEBUTTON' then
 				self:on_click_options()
 			end
 		end
@@ -309,13 +312,13 @@ function BlueprintEditor:init()
 				if x then multi_idx = preview:GetMultiAt(x, y) end
 			end
 			if multi_idx == hover_idx then return end
-			if select_idx ~= multi_idx then preview:SetMultiHighlight(select_idx, "ui_light", 3) end
+			if select_idx ~= multi_idx then preview:SetMultiHighlight(select_idx, 'ui_light', 3) end
 			if hover_idx and hover_idx ~= select_idx then preview:SetMultiHighlight(hover_idx, nil) end
-			if multi_idx then preview:SetMultiHighlight(multi_idx, "yellow", 2) end
+			if multi_idx then preview:SetMultiHighlight(multi_idx, 'yellow', 2) end
 			hover_idx = multi_idx
 		end
 		self.preview.on_drop = function(preview, payload)
-			if payload.dragtype ~= "BPREGISTER" or not self.dragsource then return false end
+			if payload.dragtype ~= 'BPREGISTER' or not self.dragsource then return false end
 			local multi = preview:GetMultiAt(UI.GetMousePosition(preview))
 			if not multi then return false end
 			self.dragsource = nil
@@ -331,7 +334,7 @@ function BlueprintEditor:init()
 			if not multi then return end
 			self:paste(bp_multi[multi])
 		end
-		self.preview:SetMultiHighlight(select_idx, "ui_light", 3)
+		self.preview:SetMultiHighlight(select_idx, 'ui_light', 3)
 		self.unit = bp_multi[select_idx]
 	else
 		if bp_multi then bp.multi = nil end
@@ -399,7 +402,7 @@ function BlueprintEditor:setup_unit()
 			local comp_def = data.components[v[1]]
 			if comp_def.get_ui then
 				integrated_count = (integrated_count or 0) + 1
-				local block = complist:Add("<ComponentBlock halign=left socket_size=hidden/>")
+				local block = complist:Add("<ComponentBlock halign=left socket_size=Hidden/>")
 				self:SetSocket(block, comp_def)
 				block.box.block, block.regs.block = block, block
 			end
@@ -431,7 +434,7 @@ function BlueprintEditor:setup_unit()
 				end
 			end
 			box.on_click = function(box, mousebtn)
-				if mousebtn ~= "RIGHTMOUSEBUTTON" and (mousebtn ~= "LEFTMOUSEBUTTON" or box.comp_def) then return end
+				if mousebtn ~= 'RIGHTMOUSEBUTTON' and (mousebtn ~= 'LEFTMOUSEBUTTON' or box.comp_def) then return end
 				local block = box.block
 				local function set_comp_callback(rself, newval)
 					local def = data.all[newval.id]
@@ -463,7 +466,7 @@ function BlueprintEditor:setup_unit()
 			end
 			box.on_drag_start = function(box)
 				if not box.block.bpcomp_idx then return end
-				box.dragtype = "BPCOMPONENT"
+				box.dragtype = 'BPCOMPONENT'
 				local res = UI.New("Reg", { icon = box.image.image, num = (Input.IsControlDown() and 1 or nil), drag_def = box.comp_def, bg = false } )
 				return res
 			end
@@ -475,10 +478,10 @@ function BlueprintEditor:setup_unit()
 			box.on_drop = function(box, payload, cursor)
 				local drag_def = data.components[self:GetDragId(payload, cursor)]
 				if not drag_def then return false end
-				local block, payload_block = box.block, payload.dragtype == "BPCOMPONENT" and payload.block
+				local block, payload_block = box.block, payload.dragtype == 'BPCOMPONENT' and payload.block
 				local src_comp_sizenum = (GetAttachmentSize(drag_def.attachment_size))
 				local trg_comp_sizenum = box.comp_def and (GetAttachmentSize(box.comp_def.attachment_size))
-				local drag_ok = (payload.dragtype ~= "BPREGISTER") -- abort register link drag
+				local drag_ok = (payload.dragtype ~= 'BPREGISTER') -- abort register link drag
 				if src_comp_sizenum > block.socket_sizenum or (trg_comp_sizenum and payload_block and payload_block.socket_index and trg_comp_sizenum > payload_block.socket_sizenum) then
 					MessagePopup(box, "Component doesn't fit into socket")
 					return drag_ok
@@ -514,7 +517,7 @@ function BlueprintEditor:setup_unit()
 		for _,block in ipairs(complist) do
 			if block.socket_index == socket_index or (not socket_index and not block.bpcomp_idx and block.box.comp_def == comp_def) then
 				self:SetSocket(block, comp_def, bpcomp_idx)
-				if not socket_index then v[2] = "inherent" end -- switch "hidden" to "inherent"
+				if not socket_index then v[2] = 'inherent' end -- switch "hidden" to "inherent"
 				goto found_block
 			end
 		end
@@ -522,13 +525,13 @@ function BlueprintEditor:setup_unit()
 			if v[2] ~= "hidden" then v[2] = "hidden" end -- fix broken old blueprint so it works with BlueprintEditor:switch_frame
 			has_integrated_behavior = true
 			integrated_count = (integrated_count or 0) + 1
-			local block = complist:Add("<ComponentBlock halign=left socket_size=hidden/>")
+			local block = complist:Add("<ComponentBlock halign=left socket_size=Hidden/>")
 			block.child_index = integrated_count
 			local box = block.box
 			box.block, block.regs.block = block, block
 			self:SetSocket(block, comp_def, bpcomp_idx)
 			box.on_click = function(box, mousebtn)
-				if mousebtn ~= "RIGHTMOUSEBUTTON" then return end
+				if mousebtn ~= 'RIGHTMOUSEBUTTON' then return end
 				local behavior_bpcomp = box.block.behavior_bpcomp
 				self:ComponentPopup(behavior_bpcomp, box.block)
 			end
@@ -583,7 +586,6 @@ function BlueprintEditor:ComponentPopup(behavior_bpcomp, block, socket_sizenum, 
 	local box = block.box
 	UI.MenuPopup([[<Box padding=5><VerticalList>
 			<Button id=selectbtn text="Select behavior" on_click={on_select_behavior}/>
-			//<Button id=editbtn text="Modify behavior" on_click={on_edit_behavior}/>
 			<Button id=startbtn text="Stop behavior" on_click={on_start_behavior} height=32/>
 			<Button id=switchbtn text="Switch Component" on_click={on_switch_component}/>
 			<Button id=removebtn text="Remove Component" on_click={on_remove_component}/>
@@ -604,18 +606,6 @@ function BlueprintEditor:ComponentPopup(behavior_bpcomp, block, socket_sizenum, 
 				function() behavior_bpcomp[3], behavior_bpcomp[4] = nil, nil self:RefreshSocketRegisters(block) self:Refresh() end, -- clear
 				nil, behavior_bpcomp[3], behavior_bpcomp[1], self.library)
 		end,
-		---- Disabled currently because it doesn't really work when used from the unit upgrade window or blueprint customization in the build menu or register selection
-		--on_edit_behavior = function(menu, b)
-		--	local behavior_code = behavior_bpcomp[3] and self.library[behavior_bpcomp[3]]
-		--	local reopen_library = not self.source_bp -- used after self is destroyed
-		--	UI.CloseMenuPopup(menu)
-		--	OpenMainWindow("Program", {
-		--		code = self.is_remote and Tool.Copy(behavior_code) or behavior_code,
-		--		is_remote = self.is_remote,
-		--		library = self.library,
-		--		on_closed = function() if reopen_library then OpenMainWindow("Library") end end,
-		--	})
-		--end,
 		on_start_behavior = function(menu, b)
 			behavior_bpcomp[4] = b.icon == 'icon_stop' or nil
 			b.text = behavior_bpcomp[4] and "Start behavior" or "Stop behavior"
@@ -645,15 +635,15 @@ function BlueprintEditor:icon_on_click(iconw, mousebtn)
 	local function on_set(rsel, val)
 		self:icon_refresh(true, val and val.id)
 	end
-	if mousebtn == "RIGHTMOUSEBUTTON" then on_set(nil, nil) return end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then on_set(nil, nil) return end
 	local rsel = ShowRegisterSelection(iconw, on_set, nil, nil, { hide_coord_panel = true, hide_number_panel = true, hide_entity_panel = true })
 	if rsel then rsel:SetRegister({ id = self.bp.icon }) end
 end
 
 function BlueprintEditor:GetDragId(payload, cursor)
-	if payload.dragtype == "BPCOMPONENT" or payload.dragtype == "BPSLOT" then
+	if payload.dragtype == 'BPCOMPONENT' or payload.dragtype == 'BPSLOT' then
 		return cursor.drag_def.id, 1
-	elseif payload.dragtype == "BPREGISTER" then
+	elseif payload.dragtype == 'BPREGISTER' then
 		return payload.entity and payload.entity.id or payload.def_id, payload.num or 0
 	end
 end
@@ -662,25 +652,25 @@ function BlueprintEditor:icon_on_drop(iconw, payload, cursor)
 	local drag_id, drag_num = self:GetDragId(payload, cursor)
 	if not drag_num then return false end
 	self:icon_refresh(true, drag_id)
-	return payload.dragtype ~= "BPREGISTER" -- abort register link drag
+	return payload.dragtype ~= 'BPREGISTER' -- abort register link drag
 end
 
 function BlueprintEditor:on_textedit(txt)
-	local inp = txt.parent:Add(txt.field == "desc" and "MultiLineInputText" or "InputText")
+	local inp = txt.parent:Add(txt.field == 'desc' and "<MultiLineInputText/>" or "<InputText/>")
 	inp.child_index = txt.child_index
 	inp.padding = 1
 	inp.text = self.bp[txt.field] or ""
-	inp.height = txt.field == "desc" and 48 or select(2, txt:GetDesiredSize())
+	inp.height = txt.field == 'desc' and 48 or select(2, txt:GetDesiredSize())
 	inp:Focus()
 	inp.on_ui_cancel = function()
 		txt.hidden = false
 		inp:RemoveFromParent()
 	end
 	inp.on_enter = function()
-		local default = txt.field == "desc" and NOLOC(L("Description")) or self.defaultname
+		local default = txt.field == 'desc' and NOLOC(L("Description")) or self.defaultname
 		local t = inp.text and inp.text ~= "" and inp.text ~= default and inp.text or nil
 		self.bp[txt.field], self[txt.field] = t, t or NOLOC(default)
-		if txt.field == "name" and not self.bp.multi then
+		if txt.field == 'name' and not self.bp.multi then
 			local frame_def = data.frames[self.bp.frame]
 			self.unitname.text = t or NOLOC(L(frame_def and frame_def.name or ""))
 		end
@@ -700,7 +690,7 @@ function BlueprintEditor:slots_refresh()
 		end
 		for i=1,num do
 			local lock = unit_locks and unit_locks[idx+i]
-			local slotw = slotwrap:Add([[<Canvas width=56 height=56 tooltip={slot_tooltip} on_click={slot_on_click} dragtype="BPSLOT" on_drag_start={slot_on_drag_start} on_drop={slot_on_drop} on_clipboard_copy={slot_on_clipboard_copy} on_clipboard_paste={slot_on_clipboard_paste}>
+			local slotw = slotwrap:Add([[<Canvas width=56 height=56 tooltip={slot_tooltip} on_click={slot_on_click} dragtype=BPSLOT on_drag_start={slot_on_drag_start} on_drop={slot_on_drop} on_clipboard_copy={slot_on_clipboard_copy} on_clipboard_paste={slot_on_clipboard_paste}>
 				<Image id=bg width=56 height=56 image=item_default/>
 				<Image id=image width=52 height=52 dock=top margin_top=2 image={slot_icon} color=ui_light/>
 				<Image id=lockimg image=item_lock halign=left hidden={hidelock}/>
@@ -722,10 +712,10 @@ function BlueprintEditor:slots_refresh()
 	slotwrap:Clear()
 	local slots = data.frames[self.unit.frame].slots
 	if slots and slots.storage then
-		AddSlotsOfType('storage', slots.storage)
+		AddSlotsOfType("storage", slots.storage)
 	end
 	for type,num in SortedPairs(data.frames[self.unit.frame].slots) do
-		if type ~= 'storage' then AddSlotsOfType(type, num) end
+		if type ~= "storage" then AddSlotsOfType(type, num) end
 	end
 	for _,block in ipairs(self.complist) do
 		local box = block.box
@@ -740,7 +730,7 @@ function BlueprintEditor:slots_refresh()
 	end
 	slotwrap:SortChildren(function (a, b) return a.sortkey < b.sortkey end)
 
-	if not self.siterow.hidden then
+	if self.is_site then
 		local e, upgrade = self.source_entity, self:site_need_upgrade()
 		local def, change_construction = (e and GetBuiltFrameDef(e)), (e and e.is_construction)
 
@@ -822,7 +812,7 @@ function BlueprintEditor:slot_on_click(slotw, mousebtn)
 			on_click_param = function(menu, paramregw)
 				if is_all then set_locks_all(paramregw.num) else set_lock(paramregw.num) end
 			end
-		}, slotw, "UP")
+		}, slotw, 'UP')
 	end
 
 	UI.MenuPopup([[<Box padding=5><VerticalList>
@@ -844,7 +834,7 @@ function BlueprintEditor:slot_on_click(slotw, mousebtn)
 		on_fix_all = function() set_locks_all(true) end,
 		on_unfix_all = function() set_locks_all(nil) end,
 		on_unfix = function() set_lock(nil) end,
-	}, slotw, "UP")
+	}, slotw, 'UP')
 end
 
 function BlueprintEditor:slot_on_drag_start(slotw)
@@ -858,7 +848,7 @@ function BlueprintEditor:slot_on_drop(slotw, payload, cursor)
 	local drag_id, drag_num = self:GetDragId(payload, cursor)
 	if not drag_num then return false end
 	self:slot_on_clipboard_paste(slotw, { id = drag_id, num = drag_num }, 'R')
-	return (payload.dragtype ~= "BPREGISTER") -- abort register link drag
+	return (payload.dragtype ~= 'BPREGISTER') -- abort register link drag
 end
 
 function BlueprintEditor:slot_on_clipboard_copy(slotw)
@@ -888,7 +878,7 @@ end
 
 function BlueprintEditor:inherent_refresh()
 	for _,block in ipairs(self.complist) do
-		if block.socket_size ~= "hidden" then return end -- inherent components are at the top, no need to continue further
+		if block.socket_size ~= "Hidden" then return end -- inherent components are at the top, no need to continue further
 		if block.bpcomp_idx then
 			local bpcomp_idx, unit_regs, unit_links = block.bpcomp_idx, self.unit.regs, self.unit.links
 			if unit_regs then for k,v in pairs(unit_regs) do if type(k) == "string" and string.match(k, '%d+')*1 == bpcomp_idx then goto is_used end end end
@@ -904,7 +894,7 @@ function BlueprintEditor:allocate_inherent_component(regw)
 	local block = regw.parent.block
 	if not self.unit.components then self.unit.components = {} end
 	local bpcomp_idx = #self.unit.components+1
-	self.unit.components[bpcomp_idx] = { block.box.comp_def.id, "inherent" }
+	self.unit.components[bpcomp_idx] = { block.box.comp_def.id, 'inherent' }
 	self:SetSocketBPCompIdx(block, bpcomp_idx)
 	return regw.key
 end
@@ -967,7 +957,7 @@ function BlueprintEditor:reg_set(regw, val, library_id, call_reg_apply)
 end
 
 function BlueprintEditor:reg_on_click(regw, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then
+	if mousebtn == 'RIGHTMOUSEBUTTON' then
 		self:reg_set(regw, nil, nil, true)
 		return
 	end
@@ -1018,7 +1008,7 @@ function BlueprintEditor:reg_tooltip(regw)
 	local val = self.unit.regs and self.unit.regs[regw.key]
 	if type(val) == "number" then return L("%s: %S", "Blueprint Parameter", (self.bp.params[val][1] or "")) end
 	local val_entity = val and val.entity
-	local refentity = type(val_entity) == "userdata" and val_entity
+	local refentity = type(val_entity) == 'userdata' and val_entity
 	local refbp = type(val_entity) == "number" and self.bp.multi and self.bp.multi[val_entity]
 	local prod_bp = self:get_production_bpcomp(regw)
 	local def = (refentity and refentity.def) or refbp or prod_bp or regw.def or data.all[regw.def_id]
@@ -1058,7 +1048,7 @@ function BlueprintEditor:links_on_draw(draw)
 		if toff > 0 and i >= 1 then ty = ty + regsz end
 
 		for pass=1,2 do
-			local col = (pass == 1 and "#44EE" or (i >= 1 and link_colors[1 + ((i-1) % #link_colors)] or "white"))
+			local col = (pass == 1 and "#44EE" or (i >= 1 and link_colors[1 + ((i-1) % #link_colors)] or 'white'))
 			local thick = (pass == 1 and 2.0 or 0.0)
 			draw:AddTriangle(sx, sy, 12.5+thick, (soff < 0 and 0 or 180), col)
 			draw:AddTriangle(tx, ty, 8.5+thick, (toff > 0 and 0 or 180), col)
@@ -1144,7 +1134,7 @@ function BlueprintEditor:link_on_drop(droppedon, payload, cursor)
 	if self.dragsource then -- make link
 		self.dragsource = nil
 		self:link_create(payload, droppedon)
-	elseif payload.dragtype == "BPREGISTER" then -- copy register
+	elseif payload.dragtype == 'BPREGISTER' then -- copy register
 		if droppedon.read_only then return MessagePopup(droppedon, "Can't set a read-only register") end
 		local payload_id, payload_num, payload_coord, payload_entity = payload.def_id, payload.num, payload.coord, payload.entity
 		local payload_reg = (payload_id or payload_num or payload_coord or payload_entity) and { id = payload_id, num = payload_num, coord = payload_coord, entity = payload_entity } or nil
@@ -1162,7 +1152,7 @@ function BlueprintEditor:toggle_power(btn)
 end
 
 function BlueprintEditor:toggle_disconnected(btn, mousebtn)
-	if mousebtn ~= "RIGHTMOUSEBUTTON" then
+	if mousebtn ~= 'RIGHTMOUSEBUTTON' then
 		local disconnect = btn.active
 		btn.active = not disconnect
 		if disconnect == btn.nil_value then disconnect = nil end
@@ -1285,7 +1275,7 @@ function BlueprintEditor:on_click_request(btn)
 		on_click_param = function(menu, paramregw)
 			menu:on_request(nil, paramregw.num)
 		end
-	}, btn, "UP")
+	}, btn, 'UP')
 end
 
 function BlueprintEditor:on_click_params(btn)
@@ -1366,7 +1356,7 @@ function BlueprintEditor:on_click_params(btn)
 				end
 			end
 		end
-	}, btn, "UP")
+	}, btn, 'UP')
 end
 
 function BlueprintEditor:on_unitname(input, text)
@@ -1399,16 +1389,16 @@ function BlueprintEditor:site_need_upgrade()
 end
 
 function BlueprintEditor:on_ui_cancel()
-	if self.siterow.hidden then return false end
-	self:close(true)
+	if not self.is_site then return false end
+	self:close_site_popup(true)
 end
 
 function BlueprintEditor:on_ui_accept()
-	if not self.okrow.hidden then
+	if self.on_ok then
 		self:SendEvent("on_ok", self.bp)
 		return
 	end
-	if self.siterow.hidden then return false end
+	if not self.is_site then return false end
 	local bp, source_entity, rotation, bot_upgrade = self.bp, self.source_entity, self.build_rotation
 	if source_entity then
 		local new_id = bp.frame
@@ -1419,7 +1409,7 @@ function BlueprintEditor:on_ui_accept()
 			if bp or rotation then
 				ProcessLibraryBlueprint(bp, function(pbp) Action.SendForLocalFaction("ApplySettings", { entity = source_entity, bp = pbp or nil, rotation = rotation }) end)
 			end
-			self:close(true)
+			self:close_site_popup(true)
 			return
 		end
 
@@ -1433,7 +1423,7 @@ function BlueprintEditor:on_ui_accept()
 	local args = { custom_blueprint = true, start_paused = self.build_paused }
 	if bot_upgrade then args.bot_upgrade = bot_upgrade else args.locations, args.rotation, args.upgrade = self.build_locations, rotation, true end
 	ProcessLibraryBlueprint(bp, function(pbp) args.custom_blueprint = pbp Action.SendForLocalFaction("PlaceConstruction", args) end)
-	self:close(false)
+	self:close_site_popup(false)
 end
 
 function BlueprintEditor:switch_frame(frame_id)
@@ -1458,13 +1448,13 @@ function BlueprintEditor:switch_frame(frame_id)
 		if new_frame_def.components then
 			for _,new_inherent_comp in ipairs(new_frame_def.components) do
 				for _,unit_comp in ipairs(new_components) do
-					if unit_comp[2] == false and unit_comp[1] == new_inherent_comp[1] then unit_comp[2] = "inherent" goto assigned end
+					if unit_comp[2] == false and unit_comp[1] == new_inherent_comp[1] then unit_comp[2] = 'inherent' goto assigned end
 				end
 				local inherent_comp_def = data.components[new_inherent_comp[1]]
 				local inherent_base_id = inherent_comp_def and inherent_comp_def.base_id
 				for _,unit_comp in ipairs(new_components) do
 					local unit_comp_def = unit_comp[2] == false and data.components[unit_comp[1]]
-					if unit_comp_def and unit_comp_def.base_id == inherent_base_id then unit_comp[1], unit_comp[2] = new_inherent_comp[1], "inherent" goto assigned end
+					if unit_comp_def and unit_comp_def.base_id == inherent_base_id then unit_comp[1], unit_comp[2] = new_inherent_comp[1], 'inherent' goto assigned end
 				end
 				::assigned::
 			end
@@ -1553,7 +1543,8 @@ local function match_frame_def(cur_frame_def, cur_tx, cur_ty, cur_frame_bot, cur
 	if not frame_type or frame_type == "Foundation" or (not want_similar and frame_type ~= true) then return end
 	local match_bot = anysize or cur_frame_bot == ((frame_def.movement_speed or 0) > 0)
 	local match_flying = anysize or cur_frame_flying == (frame_def.cost_modifier == 0)
-	if not match_bot or not match_flying then return end
+	local match_slot_type = anysize or frame_def.slot_type == cur_frame_def.slot_type
+	if not match_bot or not match_flying or not match_slot_type then return end
 	local tx, ty, visual_def = get_visual_size(frame_def)
 	local match_size = anysize or (tx == cur_tx and ty == cur_ty) or (tx == cur_ty and ty == cur_tx)
 	local match_bot_socketed = anysize or not cur_frame_bot or (visual_def and cur_bot_socketed == (#(visual_def.sockets or "") > 0))
@@ -1606,7 +1597,7 @@ function BlueprintEditor:on_change_frame()
 			UI.CloseMenuPopup(menu)
 			self:switch_frame(id)
 		end,
-	}, self.changeframe, "UP")
+	}, self.changeframe, 'UP')
 end
 
 function BlueprintEditor:select_base_frame()
@@ -1714,7 +1705,7 @@ function BlueprintEditor:on_click_options(w)
 			self:setup_unit()
 			UI.CloseMenuPopup(menu)
 		end,
-	}, w, w and "UP" or "DOWN")
+	}, w, w and 'UP' or 'DOWN')
 end
 
 local open_bp_edit_box

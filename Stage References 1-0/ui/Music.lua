@@ -23,7 +23,6 @@ local function PlayDefaultMusic()
 			fx_music_alien_mystery    = 100,
 			fx_music_alien_encounter  = 100,
 		}
-		FactionCount("entered_blight", true)
 	else
 		track_chances = {
 			fx_music_storytelling    = 100,

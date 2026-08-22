@@ -1,6 +1,6 @@
-local BOXCOLOR_LOCKED<const>        = "#354756"
-local BOXCOLOR_RESEARCHABLE<const>  = "ui_dark"
-local BOXCOLOR_UNLOCKED<const>      = "ui_light"
+local BOXCOLOR_LOCKED<const>        = '#354756'
+local BOXCOLOR_RESEARCHABLE<const>  = 'ui_dark'
+local BOXCOLOR_UNLOCKED<const>      = 'ui_light'
 
 -- A visible but still locked tech showing required ingredients
 -- A researchable tech showing required ingredients or a progress bar
@@ -138,29 +138,33 @@ local Tech_layout<const> =
 						<Text id=details_steps/>
 						<Text id=details_txt textalign=center margin_top=8/>
 						<Button id=details_add_btn on_click={on_click_research_add} margin_top=8/>
-						<Button id=details_pause_btn on_click={on_click_research_pause} margin_top=8/>
 					</VerticalList>
 				</VerticalList>
 			</Box>
-			<VerticalList dock=top-right margin=8 child_padding=4>
-				<Box id=active_box bg=popup_box_bg padding=4 blur=true>
-					<VerticalList width=280>
-						<Box bg=popup_pattern>
-							<Text text="Active Research" color=ui_light margin_bottom=4/>
-						</Box>
-						<VerticalList id=active_list/>
-					</VerticalList>
+			<HorizontalList child_padding=4 dock=top-right margin=8>
+				<Box id=pause_box bg=popup_box_bg padding=4 blur=true valign=top>
+					<Button id=pause_btn on_click={on_click_pause_btn} icon=icon_pause/>
 				</Box>
-				<Box id=queue_box bg=popup_box_bg padding=4 blur=true>
-					<VerticalList width=280>
-						<Box bg=popup_pattern>
-							<Text text="Research Queue" color=ui_light margin_bottom=4/>
-						</Box>
-						<VerticalList child_padding=2 id=queue_list/>
-					</VerticalList>
-				</Box>
-			</VerticalList>
-			<Box bg=popup_box_bg padding=4 dock=bottom-right margin=8>
+				<VerticalList child_padding=4>
+					<Box id=active_box bg=popup_box_bg padding=4 blur=true>
+						<VerticalList width=280>
+							<Box bg=popup_pattern>
+								<Text text="Active Research" color=ui_light margin_bottom=4/>
+							</Box>
+							<VerticalList id=active_list/>
+						</VerticalList>
+					</Box>
+					<Box id=queue_box bg=popup_box_bg padding=4 blur=true>
+						<VerticalList width=280>
+							<Box bg=popup_pattern>
+								<Text text="Research Queue" color=ui_light margin_bottom=4/>
+							</Box>
+							<VerticalList child_padding=2 id=queue_list/>
+						</VerticalList>
+					</Box>
+				</VerticalList>
+			</HorizontalList>
+			<Box bg=popup_box_bg padding=4 blur=true dock=bottom-right margin=8>
 				<Button icon=icon_confirm on_click={close}/>
 			</Box>
 		</Canvas>
@@ -183,16 +187,16 @@ local function GetTechProgress(faction, research_progress, uplinks, def, inactiv
 	if not inactive and not is_unlocked then
 		for _,uplink in ipairs(uplinks) do
 			if uplink:GetRegisterId(1) == id then
-				local interpolated = math.max(uplink.interpolated_progress, 0.0)
-				local uplink_rate = (uplink.def.uplink_rate or 1)
+				local interpolated, boost, raw_efficiency = math.max(uplink.interpolated_progress, 0.0), uplink.effective_boost, (uplink.owner.efficiency or 100)
+				local rate = (uplink.def.uplink_rate or 1) / (boost / 100) / (raw_efficiency == 0 and 1 or (raw_efficiency / 100))
 				if interpolated > 0 then
-					local step_remain = uplink_rate * (1 - interpolated)
+					local step_remain = rate * (1 - interpolated)
 					progress_fine = progress_fine + interpolated
 					partial_steps = partial_steps + 1
 					if partial_maxremain < step_remain then partial_maxremain = step_remain end
 				end
 				active_uplinks = active_uplinks + 1
-				active_rate = active_rate + (1 / uplink_rate)
+				active_rate = active_rate + (1 / rate)
 			end
 		end
 	end
@@ -326,7 +330,7 @@ function Tech:construct()
 	if not TechsPerCategory then FillTechsPerCategory() end
 	if self.param then
 		local def = data.all[self.param]
-		if def.data_name == "techs" then
+		if def.data_name == 'techs' then
 			self:SetVisibleTech(data.techs[self.param])
 		else
 			self.search:SetText(NOLOC(L(def.name or "")))
@@ -446,7 +450,7 @@ function Tech:RefreshDetails()
 
 	local remain_time_tooltip = function()
 		local tt = UI.New(data.tooltip_layout)
-		tt.update = function(tt) tt.txt = L("Estimated time with %d Uplink(s): %.1fs", self.cur_uplinks or 0, self.cur_remain_seconds or 0) end
+		tt.update = function(tt) if self:IsValid() then tt.txt = L("Estimated time with %d Uplink(s): %.1fs", self.cur_uplinks or 0, self.cur_remain_seconds or 0) end end
 		return tt
 	end
 	timebox.tooltip, self.details_progress.tooltip = remain_time_tooltip, remain_time_tooltip
@@ -456,29 +460,22 @@ function Tech:RefreshDetails()
 	local queue_idx = -1
 	for i,v in ipairs(queue) do if v == id then queue_idx = i break end end
 
-	local add_btn, txt, pause_btn, btn_text, btn_icon, txt_text, txt_color = self.details_add_btn, self.details_txt, self.details_pause_btn
+	local add_btn, txt, btn_text, btn_icon, txt_text, txt_color = self.details_add_btn, self.details_txt
 	if is_unlocked and queue_idx == -1 then
-		txt_text, txt_color = "Research Complete", "ui_light"
+		txt_text, txt_color = "Research Complete", 'ui_light'
 	elseif #queue == 0 and not GetResearchableTech(faction)[id] then
-		txt_text, txt_color = "Missing Required Tech", "red"
+		txt_text, txt_color = "Missing Required Tech", 'red'
 	else
 		if not GetResearchableTech(faction)[id] then
-			txt_text, txt_color = "Missing Required Tech", "red"
+			txt_text, txt_color = "Missing Required Tech", 'red'
 		end
 		if #queue == 0 or queue_idx ~= -1 or not txt_text or WillBeResearchableTech(faction, queue, def) then
-			btn_text = queue_idx == 1 and "Cancel Research" or queue_idx > 1 and "Remove from Queue" or #queue > 0 and "Add to Queue" or "Set Research"
-			btn_icon = queue_idx == 1 and "icon_deny"       or queue_idx > 1 and "icon_minus"        or #queue > 0 and "icon_add"     or "icon_confirm"
+			btn_text = (queue_idx == 1 or queue_idx > 1) and "Remove from Queue" or #queue > 0 and "Add to Queue" or "Set Research"
+			btn_icon = (queue_idx == 1 or queue_idx > 1) and "icon_minus"        or #queue > 0 and "icon_add"     or "icon_confirm"
 		end
 	end
 	add_btn.disabled, add_btn.hidden, add_btn.text, add_btn.icon = false, not btn_text, btn_text, btn_icon
 	txt.hidden, txt.text, txt.color = not txt_text, txt_text, txt_color
-
-	pause_btn.disabled, pause_btn.hidden = false, queue_idx == -1
-	if research_queue then
-		pause_btn.text, pause_btn.icon = "Pause Research", "icon_pause"
-	else
-		pause_btn.text, pause_btn.icon = "Resume Research", "icon_play"
-	end
 end
 
 function Tech:HideDetails()
@@ -540,12 +537,12 @@ function Tech:ShowDetails(node)
 end
 
 function Tech:node_press(w, mousebtn_or_node, mousebtn_or_nil)
-	if (mousebtn_or_nil or mousebtn_or_node) == "RIGHTMOUSEBUTTON" then return false end -- always allow scrolling
+	if (mousebtn_or_nil or mousebtn_or_node) == 'RIGHTMOUSEBUTTON' then return false end -- always allow scrolling
 	self.pressed_w = w
 end
 
 function Tech:node_release(w, mousebtn_or_node, mousebtn_or_nil)
-	if (mousebtn_or_nil or mousebtn_or_node) == "RIGHTMOUSEBUTTON" then return false end -- always allow scrolling
+	if (mousebtn_or_nil or mousebtn_or_node) == 'RIGHTMOUSEBUTTON' then return false end -- always allow scrolling
 	if self.pressed_w == w and w.node_click then self[w.node_click](self, w) end
 	self.pressed_w = nil
 end
@@ -559,7 +556,7 @@ function Tech:technode_on_click(node)
 end
 
 function Tech:technode_on_double_click(node, btn)
-	if btn == "RIGHTMOUSEBUTTON" then return false end
+	if btn == 'RIGHTMOUSEBUTTON' then return false end
 	if not self.details_add_btn.hidden and not self.details_add_btn.disabled then
 		self:on_click_research_add(self.details_add_btn)
 	end
@@ -569,9 +566,9 @@ function Tech:AnimateExpandedCategory(open, callback)
 	self.drawbg:Reset()
 	local category = self.expanded_category
 	local height, row = category.box.height, category.parent
-	category:TweenFromTo("y", (open and -height/2 or 0), (open and 0 or -height/2), 200, "OutQuad")
-	row:TweenFromTo("height", (open and 0 or height),    (open and height or 0),    200, "OutQuad", function() if open then self.drawbg.on_draw = Tech_DrawLines end end)
-	row:TweenFromTo("sy",     (open and 0 or 1),         (open and 1 or 0),         200, "OutQuad", callback)
+	category:TweenFromTo("y", (open and -height/2 or 0), (open and 0 or -height/2), 200, 'OutQuad')
+	row:TweenFromTo("height", (open and 0 or height),    (open and height or 0),    200, 'OutQuad', function() if open then self.drawbg.on_draw = Tech_DrawLines end end)
+	row:TweenFromTo("sy",     (open and 0 or 1),         (open and 1 or 0),         200, 'OutQuad', callback)
 end
 
 function Tech:CloseExpandedCategory(node_open_next)
@@ -613,7 +610,8 @@ end
 function Tech:Refresh()
 	local faction = Game.GetLocalPlayerFaction()
 	local faction_data = faction.extra_data
-	local faction_queue = faction_data.research_queue or faction_data.research_paused or {}
+	local faction_unpaused_queue = faction_data.research_queue
+	local faction_queue = faction_unpaused_queue or faction_data.research_paused or {}
 	local race = faction_data.race or "robot"
 
 	local unlocked, researchable = {}, {}
@@ -761,6 +759,10 @@ function Tech:Refresh()
 
 	self.active_box.hidden = #faction_queue == 0
 	self.queue_box.hidden = #faction_queue <= 1
+	self.pause_box.hidden = #faction_queue == 0
+	self.pause_btn.active = not faction_unpaused_queue
+	self.pause_btn.tooltip = faction_unpaused_queue and "Pause Research" or "Resume Research"
+
 	self.queue_list:Clear()
 	self.active_list:Clear()
 	for i,v in ipairs(faction_queue) do
@@ -848,7 +850,7 @@ function Tech:on_draw_lines(draw)
 					local p2w, p2h = twid:GetDesiredSize(draw)
 
 					if p2x ~= nil then
-						local line_color = twid.opacity == 0.2 and "ui_bg" or faction:IsUnlocked(tid) and "ui_light" or "ui_dark"
+						local line_color = twid.opacity == 0.2 and 'ui_bg' or faction:IsUnlocked(tid) and 'ui_light' or 'ui_dark'
 						draw:AddLine(p1x+(p1w*0.5), p1y+p1h, p2x+(p2w*0.5), p2y-2, line_color, 3, true)
 					end
 				end
@@ -868,12 +870,12 @@ function Tech:on_click_research_add(btn)
 		return
 	end
 	Action.SendForLocalFaction("SetResearch", { id = OpenTechDef.id })
-	self.details_add_btn.disabled, self.details_pause_btn.disabled = true, true
+	self.details_add_btn.disabled = true
 end
 
-function Tech:on_click_research_pause()
-	Action.SendForLocalFaction("SetResearch", { id = OpenTechDef.id, toggle_paused = true })
-	self.details_add_btn.disabled, self.details_pause_btn.disabled = true, true
+function Tech:on_click_pause_btn(btn)
+	Action.SendForLocalFaction("SetResearch", { toggle_paused = true })
+	btn.active = not btn.active
 end
 
 function Tech:on_click_queue_up(entry, btn)
@@ -894,41 +896,43 @@ end
 --------------------------------------------------------------------------------------------------------------
 
 function FactionAction.SetResearch(faction, arg)
-	local tech_id = arg.id
-	if not tech_id or not data.techs[tech_id] then return end
-
 	local faction_data = faction.extra_data
-	local queue, queue_idx = faction_data.research_queue or faction_data.research_paused, -1
-	if not queue then queue = {} faction.extra_data.research_queue = queue end
-	for i,v in ipairs(queue) do if v == tech_id then queue_idx = i break end end
-
 	if arg.toggle_paused then
 		-- pause/resume research
 		faction_data.research_queue, faction_data.research_paused = faction_data.research_paused, faction_data.research_queue
-	elseif #queue == 0 then
-		-- start research
-		queue[1] = tech_id
-
-		if Map.GetSettings()["cheat_free_research"] then
-			faction:Unlock(tech_id)
-			queue[1] = nil
-			return
-		end
-	elseif queue_idx == -1 then
-		-- add to end of queue
-		table.insert(queue, tech_id)
 	else
-		-- modify queue
-		table.remove(queue, queue_idx)
-		if arg.queue_up and queue_idx > 1 then
-			table.insert(queue, queue_idx - 1, tech_id)
-		elseif arg.queue_down and queue_idx <= #queue then
-			table.insert(queue, queue_idx + 1, tech_id)
-		end
+		local tech_id = arg.id
+		if not tech_id or not data.techs[tech_id] then return end
 
-		-- if queue has been fully cleared set research to be not paused
+		local queue, queue_idx = faction_data.research_queue or faction_data.research_paused, -1
+		if not queue then queue = {} faction.extra_data.research_queue = queue end
+		for i,v in ipairs(queue) do if v == tech_id then queue_idx = i break end end
+
 		if #queue == 0 then
-			faction_data.research_queue, faction_data.research_paused = queue, nil
+			-- start research
+			queue[1] = tech_id
+
+			if Map.GetSettings().cheat_free_research then
+				faction:Unlock(tech_id)
+				queue[1] = nil
+				return
+			end
+		elseif queue_idx == -1 then
+			-- add to end of queue
+			table.insert(queue, tech_id)
+		else
+			-- modify queue
+			table.remove(queue, queue_idx)
+			if arg.queue_up and queue_idx > 1 then
+				table.insert(queue, queue_idx - 1, tech_id)
+			elseif arg.queue_down and queue_idx <= #queue then
+				table.insert(queue, queue_idx + 1, tech_id)
+			end
+
+			-- if queue has been fully cleared set research to be not paused
+			if #queue == 0 then
+				faction_data.research_queue, faction_data.research_paused = queue, nil
+			end
 		end
 	end
 
@@ -1009,38 +1013,17 @@ end
 
 local ResearchPopup_layout<const> =
 [[
-	<Box dock=center bg=popup_box_bg padding=4 blur=true width=446>
+	<Box dock=top margin_top=40 bg=popup_box_bg padding=4 blur=true>
 		<Box bg=popup_pattern padding=4>
-			<VerticalList>
-				<HorizontalList child_padding=8>
-					<Box width=96 height=96 bg=tech_researched_bg padding=1>
-						<Image id=tech_image/>
-					</Box>
-					<VerticalList fill=true valign=center>
-						<Text size=16 text="Research Complete" color=ui_light/>
-						<Text size=20 id=research_name/>
-					</VerticalList>
+			<VerticalList child_padding=8>
+				<VerticalList id=list child_padding=8/>
+				<HorizontalList child_padding=4 fill=true>
+					<Button icon=icon50_Tech text="Open Research" on_click={on_click_openresearch} height=32 fill=true/>
+					<Canvas>
+						<ProgressCircle id=prog image="Main/skin/Assets/component_progress.png" opacity=0.75 color=ui_light width=32 height=32/>
+						<Button icon=icon_confirm tooltip="Close" on_click={close} width=32 height=32/>
+					</Canvas>
 				</HorizontalList>
-				<Text id=research_desc wrap=true margin_top=8/>
-				<Text text="Unlocked Technologies:" color=ui_light margin_top=8/>
-				<Wrap id=unlocks wrapsize=296 child_padding=4/>
-				<Text text="Unlocked Researches:" color=ui_light margin_top=8/>
-				<Wrap id=techs wrapsize=296 child_padding=4/>
-				<HorizontalList id=next child_padding=4 margin_top=12>
-					<Box width=96 height=96 bg=popup_box_bg padding=1>
-						<Image id=next_image/>
-					</Box>
-					<VerticalList fill=true valign=center>
-						<Text size=16 text="Next in Queue" color=ui_light/>
-						<Text size=20 id=next_name/>
-					</VerticalList>
-				</HorizontalList>
-				<Box bg=popup_box_bg halign=right padding=4 margin_top=8>
-					<HorizontalList child_padding=4>
-						<Button icon=icon50_Tech text="Open Research" on_click={on_click_openresearch}/>
-						<Button icon=icon_confirm on_click={close}/>
-					</HorizontalList>
-				</Box>
 			</VerticalList>
 		</Box>
 	</Box>
@@ -1054,54 +1037,92 @@ function ResearchPopup:construct()
 	if ResearchPopupOpen then ResearchPopupOpen:RemoveFromParent() end
 	ResearchPopupOpen = self
 
-	local id = self.id
-	local tech_def = data.techs[id]
+	local faction = Game.GetLocalPlayerFaction()
+	local queue = faction.extra_data.research_queue
+	local id = self.id -- i == 1 and self.id or (queue and queue[1])
+	local tech_def = id and data.techs[id]
+	--if not id then break end
 
-	self.research_name.text = tech_def.name
-	self.research_desc.text = tech_def.desc
-	self.research_desc.hidden = not tech_def.desc
+	--if i == 2 then self.list:Add("<Image width=2 color=ui_light margin=12/>") end
+	if not id then return end
+
+	local part = self.list:Add([[
+		<Canvas>
+			<VerticalList child_padding=4>
+				<HorizontalList child_padding=8>
+					<Box id=imgbox width=60 height=60 padding=1>
+						<Image id=img/>
+					</Box>
+					<VerticalList>
+						<Text size=16 id=title color=ui_light/>
+						<Text size=16 id=name/>
+					</VerticalList>
+				</HorizontalList>
+				<Text size=12 id=desc color=white wrap=true wrapsize=300 width=300/>
+				<Wrap id=unlocks child_padding=4 wrapsize=300/>
+			</VerticalList>
+		</Canvas>
+	]])
+
+	part.title.text = "Research Complete" --i == 1 and "Research Complete" or "Next in Queue"
+	part.name.text = tech_def.name
+	part.desc.text = tech_def.desc
+	part.desc.hidden = true--not tech_def.desc
 
 	local tech_icon_def = (tech_def.texture and tech_def) or (tech_def.unlocks and tech_def.unlocks[1] and data.all[tech_def.unlocks[1]])
-	self.tech_image.image = tech_icon_def and tech_icon_def.texture
-	self.tech_image.tooltip = DefinitionTooltip(tech_def)
+	part.img.image = tech_icon_def and tech_icon_def.texture
+	part.img.tooltip = DefinitionTooltip(tech_def)
+	part.imgbox.bg = "tech_researched_bg"-- or "tech_next_to_research_bg"
 
 	for _,ul in ipairs(tech_def.unlocks or {}) do
 		if not data.values[ul] and not data.codex[ul] then
-			self.unlocks:Add("<Reg bg=item_default/>", { def_id = ul })
+			part.unlocks:Add("<MiniReg bg=item_default/>", { def_id = ul })
 		end
 	end
-	self.unlocks.previous_sibling.hidden = #self.unlocks == 0
 
-	-- find newly researchable tech
-	local faction = Game.GetLocalPlayerFaction()
-	local race = faction.extra_data.race or "robot"
-	for id,def in pairs(data.techs) do
-		if GetResearchableTech(faction)[id] and GetRequireTech(race, def) == id then
-			self.techs:Add("<Reg bg=item_default/>", { def_id = id, on_click = function() OpenMainWindow("Tech", { param = id }) self:close() end})
-		end
+	tech_def = queue and queue[1]
+	tech_def = tech_def and data.techs[tech_def]
+	if tech_def then
+		self.list:Add("<Image height=1 color=ui_light margin=4/>")
+		part = self.list:Add([[
+		<Box padding=4>
+			<VerticalList child_padding=4 fill=true>
+				<HorizontalList child_padding=8>
+					<Box id=imgbox width=38 height=32 padding=1>
+						<Image id=img/>
+					</Box>
+					<VerticalList>
+						<Text size=12 id=title color=ui_light/>
+						<Text size=12 id=name/>
+					</VerticalList>
+				</HorizontalList>
+			</VerticalList>
+		</Box>]])
+
+		part.title.text = "Next in Queue"
+		part.name.text = tech_def.name
+
+		local tech_icon_def = (tech_def.texture and tech_def) or (tech_def.unlocks and tech_def.unlocks[1] and data.all[tech_def.unlocks[1]])
+		part.img.image = tech_icon_def and tech_icon_def.texture
+		part.img.tooltip = DefinitionTooltip(tech_def)
+		part.imgbox.bg =  "tech_next_to_research_bg"
 	end
-	self.techs.previous_sibling.hidden = #self.techs == 0
 
-	local queue = Game.GetLocalPlayerFaction().extra_data.research_queue
-	if queue and queue[1] then
-		local next_def = data.techs[queue[1]]
-		self.next_name.text = next_def.name
-		local next_icon_def = (next_def.texture and next_def) or (next_def.unlocks and next_def.unlocks[1] and data.all[next_def.unlocks[1]])
-		self.next_image.image = next_icon_def and next_icon_def.texture
-		self.next_image.tooltip = DefinitionTooltip(next_def)
-		self.next_image.on_click = function() OpenMainWindow("Tech", { param = queue[1] }) self:close() end
-	else
-		self.next.hidden = true
-	end
+	self:TweenFromTo("sy", 0.5, 1, 200, 'OutQuad')
+	self:TweenFromTo("x", -1000, 0, 200, 'OutQuad')
+end
 
-	self:TweenFromTo("sy", 0.5, 1, 200, "OutQuad")
-	self:TweenFromTo("x", -1000, 0, 200, "OutQuad")
+function ResearchPopup:every_frame_update(dt)
+	self.prog.progress = (self.prog.progress or 0) + dt * (1/30) -- close in 30 seconds
+	if self.prog.progress < 1 then return end
+	self.every_frame_update = false
+	self:close()
 end
 
 function ResearchPopup:close()
 	self.close = function() end
-	self:TweenFromTo("sy", 1, 0.5, 200, "InQuad")
-	self:TweenFromTo("x", 0, 1000, 200, "InQuad", function() self:RemoveFromParent() ResearchPopupOpen = nil end)
+	self:TweenFromTo("sy", 1, 0.5, 200, 'InQuad')
+	self:TweenFromTo("x", 0, 1000, 200, 'InQuad', function() self:RemoveFromParent() ResearchPopupOpen = nil end)
 end
 
 function ResearchPopup:on_click_openresearch()
@@ -1230,13 +1251,11 @@ function Tech_GetFramesWithIntegrated(id)
 		for frame_id,frame_def in pairs(data.frames) do
 			if seen[frame_id] and frame_def.components then
 				for i,v in ipairs(frame_def.components) do
-					if v[2] == "hidden" then
-						local frame_ids = FramesWithIntegrated[v[1]]
-						if not frame_ids then
-							FramesWithIntegrated[v[1]] = { frame_id }
-						elseif frame_ids[#frame_ids] ~= frame_id then
-							frame_ids[#frame_ids+1] = frame_id
-						end
+					local frame_ids = FramesWithIntegrated[v[1]]
+					if not frame_ids then
+						FramesWithIntegrated[v[1]] = { frame_id }
+					elseif frame_ids[#frame_ids] ~= frame_id then
+						frame_ids[#frame_ids+1] = frame_id
 					end
 				end
 			end

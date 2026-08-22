@@ -104,17 +104,17 @@ function Slide:clicked(btn)
 	end
 
 	if gap == (btn.p - 3) then -- up
-		btn:TweenTo("y", self.gapbtn.y, 250, "InOutQuart")
-		self.gapbtn:TweenTo("y", btn.y, 250, "InOutQuart", function() self.sliding = false end)
+		btn:TweenTo("y", self.gapbtn.y, 250, 'InOutQuart')
+		self.gapbtn:TweenTo("y", btn.y, 250, 'InOutQuart', function() self.sliding = false end)
 	elseif gap == (btn.p + 3) then -- down
-		btn:TweenTo("y", self.gapbtn.y, 250, "InOutQuart")
-		self.gapbtn:TweenTo("y", btn.y, 250, "InOutQuart", function() self.sliding = false end)
+		btn:TweenTo("y", self.gapbtn.y, 250, 'InOutQuart')
+		self.gapbtn:TweenTo("y", btn.y, 250, 'InOutQuart', function() self.sliding = false end)
 	elseif gap == (btn.p + 1) and gap ~= 4 and gap ~= 7 then -- right
-		btn:TweenTo("x", self.gapbtn.x, 250, "InOutQuart")
-		self.gapbtn:TweenTo("x", btn.x, 250, "InOutQuart", function() self.sliding = false end)
+		btn:TweenTo("x", self.gapbtn.x, 250, 'InOutQuart')
+		self.gapbtn:TweenTo("x", btn.x, 250, 'InOutQuart', function() self.sliding = false end)
 	elseif gap == (btn.p - 1) and gap ~= 6 and gap ~= 3 then -- left
-		btn:TweenTo("x", self.gapbtn.x, 250, "InOutQuart")
-		self.gapbtn:TweenTo("x", btn.x, 250, "InOutQuart", function() self.sliding = false end)
+		btn:TweenTo("x", self.gapbtn.x, 250, 'InOutQuart')
+		self.gapbtn:TweenTo("x", btn.x, 250, 'InOutQuart', function() self.sliding = false end)
 	else return
 	end
 

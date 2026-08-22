@@ -5,7 +5,8 @@ local Library_layout<const> = [[
 			<Box bg=popup_additional_bg padding=6>
 				<VerticalList child_padding=6>
 					<HorizontalList height=33 child_align=center>
-						<Button id=viewmode on_click={on_viewmode} tooltip="Switch Icon/List View" margin_right=16/>
+						<Button id=viewmode on_click={on_viewmode} tooltip="Switch Icon/List View" margin_right=4/>
+						<Button id=perfmode on_click={on_perfmode} icon=icon_small_duration tooltip="Behavior Performance Statistics" margin_right=16/>
 						<Text text="Filter:" margin_right=8/>
 						<Button id=filterblueprint on_click={on_filter} tooltip="Show Blueprints" icon=icon_small_blueprint active=true margin_right=4/>
 						<Button id=filterbehavior on_click={on_filter}  tooltip="Show Behaviors" icon=icon_small_behavior active=true margin_right=16/>
@@ -75,6 +76,19 @@ local Item_layout<const> = [[
 	</Box>
 ]]
 
+local Perf_Item_layout<const> = [[
+	<Box padding=6 on_click={item_box_on_click} bg=popup_box_bg margin_bottom=4>
+		<VerticalList>
+			<HorizontalList child_padding=3>
+				<Box bg=reg_base_ro><Image id=icon width=36 height=36 on_click={item_on_click} tooltip={item_tooltip}/></Box>
+				<Button id=namebtn text={name} active={nameactive} textalign=left style=default_style on_click={item_on_click} height=36 tooltip="Edit" fill=true/>
+				<Button id=btnmenu icon=icon_menu on_click={item_menu_on_click} width=36 height=36 tooltip="Options"/>
+			</HorizontalList>
+			<Text text={perftext}/>
+		</VerticalList>
+	</Box>
+]]
+
 local Icon_Item_layout<const> = [[
 	<Canvas on_drag_start={list_drag_start} on_drag_over={item_drag_over} on_click={item_box_on_click} width=80 height=90 clip=true>
 		<Box bg={boxbg} dock=top blocking=false><Image id=icon width=72 height=72 tooltip={item_tooltip}/></Box>
@@ -140,7 +154,7 @@ local function LibraryClearEntityReferences(item)
 			local reg_queue = reg.queue
 			for q=(reg_queue and #reg_queue or 0),0,-1 do
 				local r = (q == 0 and reg or reg_queue[q])
-				if r.entity and type(r.entity) == "userdata" then -- keep numerical references to entities in a multi-blueprint
+				if r.entity and type(r.entity) == 'userdata' then -- keep numerical references to entities in a multi-blueprint
 					r.entity = nil
 					r.num = r.num ~= 0 and r.num or nil
 					if not next(r) then
@@ -156,7 +170,8 @@ end
 local function LibraryModifyItemExecute(library, arg, remote)
 	local mode = arg.mode
 	if mode == 'create' then
-		local item, item_id = (remote and arg.item) or Tool.Copy(arg.item) or {}, LibraryNewId(remote)
+		local item, item_id = arg.item, LibraryNewId(remote)
+		if not item then item = {} arg.item = item elseif not remote then item = Tool.Copy(item) arg.item = item end -- avoid modifying input (but return changes via arg for UILibrarySaveItemAsNew)
 		item.id, item.rev, item.type, item.folder = item_id, 1, arg.type or item.type, arg.folder or item.folder
 		library[item_id] = item
 		if not remote and item.type == 'B' then LibraryClearEntityReferences(item) end
@@ -168,13 +183,19 @@ local function LibraryModifyItemExecute(library, arg, remote)
 		if remote and item.type == 'C' then ClearFactionBehaviorCache(item.id, item.rev) end
 		library[item.id] = nil
 	elseif mode == 'data' then
-		local arg_item, old_item = remote and arg.item or Tool.Copy(arg.item), library[arg.item.id]
-		if remote and old_item.type == 'C' then
-			ClearFactionBehaviorCache(old_item.id, old_item.rev)
+		local item_or_items, batch, set_behavior = arg.item, arg.batch, arg.set_behavior
+		if not remote then item_or_items = Tool.Copy(item_or_items) arg.item = item_or_items end -- avoid modifying input (but return changes via arg for UILibrarySaveItem)
+		for i=(batch and 1 or 0),(batch and #item_or_items or 0) do
+			local item = (i == 0 and item_or_items or item_or_items[i])
+			local old_item = library[item.id]
+			if remote and old_item.type == 'C' then
+				ClearFactionBehaviorCache(old_item.id, old_item.rev)
+			end
+			item.rev = old_item.rev + 1
+			library[item.id] = item
+			if not remote and item.type == 'B' then LibraryClearEntityReferences(item) end
 		end
-		arg_item.rev = old_item.rev + 1
-		library[arg_item.id] = arg_item
-		if not remote and arg_item.type == 'B' then LibraryClearEntityReferences(arg_item) end
+		if set_behavior then EntityAction.Behavior(set_behavior.comp.owner, set_behavior) end
 	elseif mode == 'move' then
 		LibraryMoveItem(library, library[arg.id], arg.folder, arg.above, arg.below)
 	elseif mode == 'duplicate' then
@@ -233,24 +254,27 @@ local function LibraryModifyItemExecute(library, arg, remote)
 	end
 end
 
-local action_library, action_callback
+local action_library, action_callback, action_callback_queue
 function FactionAction.FactionLibrary(faction, arg)
 	local library = faction.extra_data.library
 	if not library then library = {} faction.extra_data.library = library end
 	local new_item_id, old_folder, new_folder = LibraryModifyItemExecute(library, arg, true)
 	faction:RunUI(function() if action_library then action_library:refresh_list(new_item_id, old_folder, new_folder) end end)
-	Action.RunUI(function() if action_callback then action_callback(arg) action_callback = nil end end)
+	Action.RunUI(function() if action_callback then local cb = action_callback action_callback = nil cb(arg) end end)
 end
 
-local function CallLibraryImport(arr, mapping, folder, target_remote, on_done)
-	local arg = { mode = 'import', arr = arr, mapping = mapping, folder = folder }
+local function CallFactionLibrary(arg, target_remote, on_done, local_library)
 	if target_remote then
 		action_callback = on_done
 		Action.SendForLocalFaction("FactionLibrary", arg)
 	else
-		LibraryModifyItemExecute(Game.GetProfile().library, arg)
-		on_done(arg)
+		LibraryModifyItemExecute(local_library or Game.GetProfile().library, arg)
+		if on_done then on_done(arg) end
 	end
+end
+
+local function CallLibraryImport(arr, mapping, folder, target_remote, on_done)
+	CallFactionLibrary({ mode = 'import', arr = arr, mapping = mapping, folder = folder }, target_remote, on_done)
 end
 
 local function UILibraryPrepareImport(src_library, trg_library, item_or_folder, exists_cb, confirm_cb, only_dependencies, popup_next_to, folder_limit_type)
@@ -292,7 +316,7 @@ local function UILibraryPrepareImport(src_library, trg_library, item_or_folder, 
 			local dep_item = src_library[src_dep_id]
 			imports[#imports + 1] = { dep_item, (hash_trgs[src_dep_hash] or false), (name_trgs[dep_item.type][dep_item.name] or false) }
 		else -- deleted item
-			mapping[src_dep_id] = 0
+			mapping[src_dep_id] = false
 		end
 	end
 
@@ -331,11 +355,11 @@ local function UILibraryPrepareImport(src_library, trg_library, item_or_folder, 
 				construct = function(cd)
 					cd.list[2].width = 800
 					if confirm_overwrite then
-						cd.list:Add("<Button on_click={accept} text='Create a new entry with the same name'/>")
+						cd.list:Add('<Button on_click={accept} text="Create a new entry with the same name"/>')
 						if arr[1].type == 'C' and is_remote then
-							cd.list:Add("<Button on_click={overwrite} text='Overwrite existing entry (running behaviors will be affected)'/>")
+							cd.list:Add('<Button on_click={overwrite} text="Overwrite existing entry (running behaviors will be affected)"/>')
 						else
-							cd.list:Add("<Button on_click={overwrite} text='Overwrite the existing entry'/>")
+							cd.list:Add('<Button on_click={overwrite} text="Overwrite the existing entry"/>')
 						end
 					end
 					local mains = not folder and not only_dependencies and 1 or 0
@@ -362,13 +386,13 @@ local function UILibraryPrepareImport(src_library, trg_library, item_or_folder, 
 				body = L("%s '%S' dependency already exists in %s but with different content, do you want to:", LibraryGetTypeName(import_ref[1]), LibraryGetItemName(import_ref[1]), LibraryGetLibraryName(trg_library ~= Game.GetProfile().library)),
 				construct = function(cd)
 					cd.list[2].width = 800
-					cd.list:Add("<Button on_click={accept} text='Create a new entry with the same name'/>")
+					cd.list:Add('<Button on_click={accept} text="Create a new entry with the same name"/>')
 					if import_ref[1].type == 'C' and is_remote then
-						cd.list:Add("<Button on_click={overwrite} text='Overwrite existing entry (running behaviors will be affected)'/>")
-						cd.list:Add("<Button on_click={use_existing} text='Use existing entry (behavior might fail if input or output parameters are different)'/>")
+						cd.list:Add('<Button on_click={overwrite} text="Overwrite existing entry (running behaviors will be affected)"/>')
+						cd.list:Add('<Button on_click={use_existing} text="Use existing entry (behavior might fail if input or output parameters are different)"/>')
 					else
-						cd.list:Add("<Button on_click={overwrite} text='Overwrite the existing entry'/>")
-						cd.list:Add("<Button on_click={use_existing} text='Use existing entry'/>")
+						cd.list:Add('<Button on_click={overwrite} text="Overwrite the existing entry"/>')
+						cd.list:Add('<Button on_click={use_existing} text="Use existing entry"/>')
 					end
 				end,
 				accept = function(cd) cd:cancel() CheckNextImport(i + 1) end,
@@ -402,7 +426,7 @@ local function UILibraryRefreshItem(w, temp_item)
 	w.icon.color = not w.icon.imageid and 'ui_light' or 'white'
 end
 
-local function UILibraryRefreshList(list, dirhead_layout, folder_layout, item_layout, library, folder, filter_type, filter_string, edit_item_id, tmpfolder)
+local function UILibraryRefreshList(list, dirhead_layout, folder_layout, item_layout, library, folder, filter_type, filter_string, edit_item_id, tmpfolder, perf)
 	local sub_counts, base_len, base = {}, folder and (#folder + 2), folder and folder .. '/'
 	local function GetSubName(ffolder)
 		return ffolder and (not base or ffolder:find(base, 1, true) == 1) and ffolder:match('[^/]*', (base_len or 1))
@@ -417,6 +441,7 @@ local function UILibraryRefreshList(list, dirhead_layout, folder_layout, item_la
 	if tmpfolder_sub and not sub_counts[tmpfolder_sub] then sub_counts[tmpfolder_sub] = 0 end
 
 	if filter_string == "" then filter_string = nil end
+	if not filter_string and perf then filter_string = "" end
 	local ContainsStringNoCase = filter_string and Tool.ContainsStringNoCase
 
 	list:Clear()
@@ -451,7 +476,7 @@ local function UILibraryRefreshList(list, dirhead_layout, folder_layout, item_la
 		end
 	end
 
-	list:SortChildren(function(a, b) return a.order < b.order end)
+	if not perf then list:SortChildren(function(a, b) return a.order < b.order end) end
 
 	return edit_w, sub_counts
 end
@@ -461,7 +486,7 @@ local Library<const> = {}
 UI.Register("Library", Library_layout, Library)
 
 function Library:construct()
-	if not library_viewmode then library_viewmode = "icon_small_view_list" end
+	library_viewmode = library_viewmode or 'icon_small_view_list'
 	self.viewmode.icon = library_viewmode
 	self.filterblueprint.active = library_type ~= 'C'
 	self.filterbehavior.active = library_type ~= 'B'
@@ -482,6 +507,10 @@ function Library:switch_tab(btn)
 	btn.active, btn.disabled = true, true
 	last_tab = btn.child_index
 	library_remote = btn.remote
+	if library_viewmode == 'icon_small_duration' then
+		if library_remote then library_viewmode = nil end -- re-enable
+		return self:on_perfmode()
+	end
 	self:refresh_list()
 end
 
@@ -490,16 +519,6 @@ function Library:editorbox_close()
 	self.editorbox:Clear()
 	self.edit_bp_w = nil
 	library_last_edit_id = nil
-end
-
-function Library:on_filter(w)
-	w.active = not w.active
-	local blueprint, behavior = self.filterblueprint, self.filterbehavior
-	if not blueprint.active and not behavior.active then
-		if w == blueprint then behavior.active = true else blueprint.active = true end
-	end
-	library_type = blueprint.active ~= behavior.active and (blueprint.active and 'B' or 'C') or nil
-	self:refresh_list()
 end
 
 function Library:refresh_list(edit_item_id, old_folder, new_folder)
@@ -527,13 +546,16 @@ function Library:refresh_list(edit_item_id, old_folder, new_folder)
 	if not edit_item_id or not self.editorbox.hidden then edit_item_id = library_last_edit_id end
 	self:enddrag() -- after clearing the list an active drag becomes invalid
 	local list, edit_w, sub_counts = self.list
-	if self.viewmode.icon == "icon_small_view_list" then
+	if library_viewmode == 'icon_small_view_list' then
 		edit_w, sub_counts = UILibraryRefreshList(list, DirHead_layout, Folder_layout, Item_layout, library_table, library_folder, library_type, self.search.inp.text, edit_item_id, library_tmpfolder)
-	else
+	elseif library_viewmode == 'icon_small_view_icon' then
 		list:Clear()
 		local wrap = list:Add("<Wrap child_padding=8/>")
 		wrap.wrapsize = list.width
 		edit_w, sub_counts = UILibraryRefreshList(wrap, DirHead_layout, Icon_Folder_layout, Icon_Item_layout, library_table, library_folder, library_type, self.search.inp.text, edit_item_id, library_tmpfolder)
+	elseif library_viewmode == 'icon_small_duration' then
+		edit_w, sub_counts = UILibraryRefreshList(list, DirHead_layout, nil, Perf_Item_layout, library_table, library_folder, library_type, self.search.inp.text, edit_item_id, library_tmpfolder, true)
+		self:update(true)
 	end
 
 	if not library_remote then
@@ -550,6 +572,7 @@ function Library:refresh_list(edit_item_id, old_folder, new_folder)
 		edit_w.nameactive = true
 		edit_w.boxbg = "reg_base"
 	end
+	if edit_w then list:ScrollIntoView(edit_w) end
 
 	self.createpaste.hidden = not UnitCopyPaste.GetItem('B', 'C')
 
@@ -562,9 +585,74 @@ function Library:refresh_list(edit_item_id, old_folder, new_folder)
 	end
 end
 
-function Library:on_viewmode(btn)
-	library_viewmode = library_viewmode == "icon_small_view_list" and "icon_small_view_icon" or "icon_small_view_list"
-	btn.icon = library_viewmode
+function Library:on_filter(w)
+	if library_viewmode == 'icon_small_duration' then return self:on_perfmode() end -- reset
+	w.active = not w.active
+	local blueprint, behavior = self.filterblueprint, self.filterbehavior
+	if not blueprint.active and not behavior.active then
+		if w == blueprint then behavior.active = true else blueprint.active = true end
+	end
+	library_type = blueprint.active ~= behavior.active and (blueprint.active and 'B' or 'C') or nil
+	self:refresh_list()
+end
+
+function Library:on_viewmode()
+	if library_viewmode == 'icon_small_duration' then return self:on_perfmode() end -- reset
+	library_viewmode = library_viewmode == 'icon_small_view_list' and 'icon_small_view_icon' or 'icon_small_view_list'
+	self.viewmode.icon = library_viewmode
+	self:refresh_list()
+end
+
+function Library:on_perfmode()
+	if library_viewmode == 'icon_small_duration' then
+		library_viewmode, library_type = 'icon_small_view_list', nil
+		self.perfmode.active, self.filterblueprint.active, self.filterbehavior.active = false, true, true
+		self:refresh_list()
+		self.update = nil
+		return
+	end
+
+	if not library_remote then self:switch_tab(self.tabbuttons[1]) end
+	library_viewmode, library_type = 'icon_small_duration', 'C'
+	self.viewmode.icon = 'icon_small_view_list'
+	self.perfmode.active, self.filterblueprint.active, self.filterbehavior.active = true, false, true
+
+	local stat, lasttick = {}
+	function self:update(do_filter)
+		local list, tick = self.list, (Map.GetTick() - 1)
+		local nstat = 2 + (tick % 5)
+		if lasttick ~= tick then
+			for _,comp in ipairs(Game.GetLocalPlayerFaction():GetComponents("c_behavior", true)) do
+				local ed = comp.is_active and comp.has_extra_data and comp.extra_data
+				local ed_main_id = ed and ed.main_id
+				if ed_main_id then
+					local stat_i, ed_step = ed_main_id * 10, (ed.lasttick == tick and ed.laststep or 0)
+					if stat[stat_i] == tick then
+						stat[stat_i+1] = stat[stat_i+1] + 1
+						stat[stat_i+nstat] = stat[stat_i+nstat] + ed_step
+					else
+						stat[stat_i] = tick
+						stat[stat_i+1] = 1 -- num running
+						stat[stat_i+nstat] = ed_step -- summed steps
+					end
+				end
+			end
+		end
+		for _,w in ipairs(list) do
+			local item = w.item
+			if item then
+				local stat_i = item.id * 10
+				local running, cursteps = (stat[stat_i] == tick and stat[stat_i+1] or 0), (stat[stat_i+nstat] or 0)
+				local sum = (running > 0 and ((stat[stat_i+2] or cursteps) + (stat[stat_i+3] or cursteps) + (stat[stat_i+4] or cursteps) + (stat[stat_i+5] or cursteps) + (stat[stat_i+6] or cursteps)) or 0)
+				w.perftext = L("%S %s", "<img image=\"icon_small_duration\"/>", L("%d steps per second on %d controllers (%d per tick)", sum, running, (running > 0 and (((sum + running - 1) // running + 4) // 5) or 0)))
+				if do_filter then w.order = (running > 0 and (999999998 - sum) or 999999999) end -- show below folders
+			end
+		end
+		if do_filter then
+			list:SortChildren(function(a, b) return a.order < b.order end)
+			while #list > 0 and list[#list].order == 999999999 do list[#list]:RemoveFromParent() end
+		end
+	end
 	self:refresh_list()
 end
 
@@ -624,8 +712,7 @@ end
 
 function Library:modify_item(arg, target_other_library)
 	local open_editor = self.editorbox[1]
-	if open_editor and arg.mode == 'delete' and arg.id == open_editor.bp.id then open_editor:cancel_changes() end
-	if open_editor then open_editor:issue_on_change() end
+	if open_editor and arg.mode == 'delete' and arg.id == open_editor.bp.id then open_editor.library_item = nil end
 	if library_remote == not target_other_library then
 		Action.SendForLocalFaction("FactionLibrary", arg)
 	else
@@ -640,7 +727,7 @@ function Library:item_tooltip(w)
 end
 
 function Library:item_on_click(w, btn, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then return self:item_menu_on_click(w, btn) end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then return self:item_menu_on_click(w, btn) end
 
 	if w.type == 'B' then
 		if self.edit_bp_w then
@@ -659,32 +746,25 @@ function Library:item_on_click(w, btn, mousebtn)
 		local bp = w.item
 		library_last_edit_id = bp.id
 		self.editorbox:SetContent("BlueprintEditor", {
-			bp = library_remote and Tool.Copy(bp) or bp,
+			library_item = bp,
 			is_remote = library_remote,
 			library = library_table,
-			on_change = function(editor, changed_bp)
-				if editor.is_remote then
-					Action.SendForLocalFaction("FactionLibrary", { mode = 'data', item = changed_bp })
-				else
-					if w:IsValid() then UILibraryRefreshItem(w, changed_bp) end
-				end
-			end,
 			on_refresh = function(editor, bp)
 				UILibraryRefreshItem(self.edit_bp_w, bp)
 			end,
 		})
 	elseif w.type == 'C' then
-		OpenMainWindow("Program", {
-			code = library_remote and Tool.Copy(w.item) or w.item,
+		UI.AddLayout("Program", {
+			library_item = w.item,
 			is_remote = library_remote,
 			library = library_table,
 			on_closed = function() OpenMainWindow("Library") end
-		})
+		}, 1)
 	end
 end
 
 function Library:item_box_on_click(w, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then return self:item_menu_on_click(w, w.namebtn or w) end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then return self:item_menu_on_click(w, w.namebtn or w) end
 	if not w.namebtn then self:item_on_click(w) end
 end
 
@@ -705,8 +785,8 @@ function Library:item_menu_on_click(w, btn)
 			</Box>
 		]], {
 		construct = function(popup)
-			popup:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
-			popup:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+			popup:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
+			popup:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 			UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_OPEN")
 			if w.btnmenu then w.btnmenu.active = true end
 			popup.btnselect.hidden = not library_remote or type ~= 'C'
@@ -760,7 +840,7 @@ function Library:item_menu_on_click(w, btn)
 			self:perform_import(library_table, Game.GetLocalPlayerFaction().extra_data.library, w.item, "Add %s to %s", true, btn, true)
 		end,
 		run_on_click = function(popup)
-			Action.SendForSelectedEntities("Behavior", { set_id = w.item.id })
+			Action.SendForSelectedEntities("Behavior", { set_id = w.item.id, add_integrated_or_update = true })
 			UI.CloseMenuPopup(popup)
 		end,
 		select_on_click = function(popup)
@@ -802,11 +882,11 @@ function Library:perform_import(src_library, trg_library, item_or_folder, mode_t
 end
 
 function Library:list_drag_start(payload, is_click_drag)
-	if is_click_drag and library_viewmode ~= "icon_small_view_list" then return end
+	if is_click_drag and library_viewmode ~= 'icon_small_view_list' then return end
 	if self.edit_bp_w == payload then self:item_on_click(payload) return end -- unselect and close blueprint editor first (wait for potential changes to be saved)
 
 	local list = self.list
-	if library_viewmode == "icon_small_view_list" then
+	if library_viewmode == 'icon_small_view_list' then
 		local x, y, w, h = payload:GetViewportPosition()
 		self.dragline = list:Add("<Spacer><Image height=2 valign=center/></Spacer>")
 		self.dragline.height = h
@@ -819,7 +899,7 @@ function Library:list_drag_start(payload, is_click_drag)
 	self.dragline.on_drag_over = function (dl) dl.opacity = 1.0 end
 
 	payload:RemoveFromParent()
-	payload.dragtype, payload.sx, payload.sy, payload.opacity = "LIBRARYITEM", 0.7, 0.7, 0.8
+	payload.dragtype, payload.sx, payload.sy, payload.opacity = 'LIBRARYITEM', 0.7, 0.7, 0.8
 
 	-- Can't use {attribute parent reference} for cancel because while dragging payload no longer has a parent
 	payload.on_drag_cancel = function() if self:IsValid() then self:enddrag() self:refresh_list() end end
@@ -832,14 +912,15 @@ function Library:enddrag()
 end
 
 function Library:folder_drag_start(folder_row, is_click_drag)
-	if is_click_drag and library_viewmode ~= "icon_small_view_list" then return end
-	folder_row.dragtype = "LIBRARYFOLDER"
+	if library_viewmode == 'icon_small_duration' then return end
+	if is_click_drag and library_viewmode ~= 'icon_small_view_list' then return end
+	folder_row.dragtype = 'LIBRARYFOLDER'
 	return UI.New('<Button icon=icon_folder color=ui_light height=32/>', { text = folder_row.text })
 end
 
 function Library:folder_drag_enter(w, ...)
 	local folderbtn, payload = select(w.isdirhead and 2 or 1, w.folderbtn or w, ...)
-	if payload.dragtype ~= "LIBRARYITEM" and payload.dragtype ~= "LIBRARYFOLDER" then return false end
+	if payload.dragtype ~= 'LIBRARYITEM' and payload.dragtype ~= 'LIBRARYFOLDER' then return false end
 	if self.dragline then self.dragline.opacity = 0.0 end
 	if self.dragactive then self.dragactive.active, self.dragactive = false, nil end
 	if w == payload then return end
@@ -853,15 +934,15 @@ end
 
 function Library:item_drag_over(over, payload, visual, x, y)
 	if self.dragactive then self.dragactive.active, self.dragactive = false, nil end
-	if payload.dragtype ~= "LIBRARYITEM" then return false end
+	if payload.dragtype ~= 'LIBRARYITEM' then return false end
 	if not self.dragline then return false end -- abort drag (maybe library got re-opened)
-	local into_previous = (library_viewmode == "icon_small_view_list" and y or x) < 0.5
+	local into_previous = (library_viewmode == 'icon_small_view_list' and y or x) < 0.5
 	self.dragline.child_index = over.child_index - (over.child_index > self.dragline.child_index and 1 or 0) + (into_previous and 0 or 1)
 	self.dragline.opacity = 1.0
 end
 
 function Library:list_drop(scroll_list, payload)
-	if payload.dragtype ~= "LIBRARYITEM" or not self.dragline then return false end
+	if payload.dragtype ~= 'LIBRARYITEM' or not self.dragline then return false end
 	if self.dragline.child_index == self.dragline.start_child_index then return false end
 	local above_w, below_w = self.dragline.previous_sibling, self.dragline.next_sibling
 	local above_item, below_item, payload_item = above_w and above_w.item, below_w and below_w.item, payload.item
@@ -876,9 +957,9 @@ function Library:folder_drop(w, ...)
 	local base = (library_folder and (library_folder .. '/') or "")
 	local new = not w.isdirhead and (base .. w.sub) or library_folder:match('(.*)/')
 	self:enddrag()
-	if payload.dragtype == "LIBRARYITEM" then
+	if payload.dragtype == 'LIBRARYITEM' then
 		self:modify_item({ mode = 'move', id = payload.item.id, folder = new })
-	elseif payload.dragtype == "LIBRARYFOLDER" and payload ~= w then
+	elseif payload.dragtype == 'LIBRARYFOLDER' and payload ~= w then
 		self:modify_item({ mode = 'folder_name', old = base .. payload.sub, new = (new and (new .. '/') or "") .. payload.sub })
 	else return false end
 end
@@ -888,7 +969,7 @@ function Library:on_icon_folder_render(folder)
 end
 
 function Library:folder_gointo(folderw, btn, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then return self:folder_menu_on_click(folderw, btn) end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then return self:folder_menu_on_click(folderw, btn) end
 	library_folder = (library_folder and (library_folder .. '/') or "") .. folderw.sub
 	self:refresh_list()
 end
@@ -923,7 +1004,7 @@ function Library:folder_new(newfolder)
 end
 
 function Library:folder_box_on_click(folderw, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then return self:folder_menu_on_click(folderw, folderw.folderbtn or folderw) end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then return self:folder_menu_on_click(folderw, folderw.folderbtn or folderw) end
 	if not folderw.folderbtn then self:folder_gointo(folderw) end
 end
 
@@ -939,8 +1020,8 @@ function Library:folder_menu_on_click(folder_row, btn)
 			</Box>
 		]], {
 		construct = function(popup)
-			popup:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
-			popup:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+			popup:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
+			popup:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 			UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_OPEN")
 			if folder_row.btnmenu then folder_row.btnmenu.active = true end
 			popup.btnfavorite.hidden = not library_remote
@@ -1032,12 +1113,70 @@ function UILibraryAssignBlueprintParams(bp, done_cb, popup_next_to)
 			done_cb(bp)
 		end,
 		cancel = function(cd) UI.CloseMenuPopup(cd) end,
-	}, popup_next_to, "UP")
+	}, popup_next_to, 'UP')
 end
 
-function UILibrarySaveBehaviorAsNew(code, done_cb) -- references in code must be to the remote library (not packed dependencies)
-	action_callback = function(arg) done_cb(arg.item) end -- apply final mapping after import
-	Action.SendForLocalFaction("FactionLibrary", { mode = 'create', item = code })
+function UILibrarySaveItem(library, item, done_cb, oldargs, newargs, newfirstexec, unsaved_items, set_behavior)
+	local arg, local_library = { mode = 'data', item = item, set_behavior = set_behavior }, Game.GetProfile().library
+
+	if Tool.Hash(oldargs) ~= Tool.Hash(newargs) then
+		-- First, forget any args still matching
+		for i,v in ipairs(oldargs) do
+			if newargs[i] == v then newargs[i], oldargs[i] = false, false end
+		end
+		local map
+		-- Next, find args matching by name and assign remapping to the new index
+		for iold,vold in ipairs(oldargs) do
+			if vold then
+				for inew,vnew in ipairs(newargs) do
+					if vold == vnew then map = map or {} map[inew], newargs[inew] = iold, false end
+				end
+			end
+		end
+		-- Ignore simple renaming, if there's no mapping found so far and the number of arguments hasn't changed
+		if #oldargs ~= #newargs or map then
+			map = map or {}
+			for iold,vold in ipairs(oldargs) do
+				if vold and not map[iold] then map[iold] = ((not newfirstexec or iold < newfirstexec or iold > #newargs) and 0 or false) end -- mark (re)moved arg as to be cleared
+			end
+			for inew,vnew in ipairs(newargs) do
+				if vnew and newfirstexec and inew >= newfirstexec then map[inew] = false end -- mark newly added exec as to be initialized
+			end
+			local item_id = item.id
+			for id, library_item in pairs(library) do
+				if library_item.type == 'C' then -- behavior
+					local checkitem, modified = (id == item_id and item) or (unsaved_items and unsaved_items[id]) or library_item
+					for inst_idx,inst in ipairs(checkitem) do
+						if inst.sub == item_id or inst.bp == item_id then
+							local is_call, inst_def = (inst.op == 'call'), data.instructions[inst.op]
+							local va_base = (inst_def and inst_def.args and #inst_def.args or 0)
+							for inew,iold in pairs(map) do
+								local newval = inst[va_base+inew]
+								if     iold == 0     then newval = nil                -- cleared parameter
+								elseif iold ~= false then newval = inst[va_base+iold] -- remapped argument
+								elseif is_call       then newval = false end          -- initialize exec
+								if inst[va_base+inew] ~= newval then
+									if not modified then modified = Tool.Copy(checkitem) end -- avoid overwriting inst
+									modified[inst_idx][va_base+inew] = newval
+									if id == item_id then item[inst_idx] = modified[inst_idx] end -- write back (while keeping inst intact)
+								end
+							end
+						end
+					end
+					if modified and id ~= item_id then
+						if not arg.batch then arg.item, arg.batch = { item, modified }, true else arg.item[#arg.item+1] = modified end
+					end
+				end
+			end
+		end
+	end
+
+	CallFactionLibrary(arg, (library ~= local_library), done_cb and function (res) done_cb(res.batch and res.item[1] or res.item) end, local_library)
+end
+
+function UILibrarySaveItemAsNew(library, item, done_cb)
+	local local_library = Game.GetProfile().library
+	CallFactionLibrary({ mode = 'create', item = item }, (library ~= local_library), done_cb and function (res) done_cb(res.item) end, local_library)
 end
 
 function UILibrarySelect(btn, type, on_select, on_clear, on_create, active_id, filter_comp_id, library, is_load_into_library)
@@ -1054,8 +1193,8 @@ function UILibrarySelect(btn, type, on_select, on_clear, on_create, active_id, f
 			</Box>
 		]], {
 		construct = function(popup)
-			popup:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
-			popup:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+			popup:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
+			popup:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 			UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_OPEN")
 			btn.active = true
 			local active_item = active_id and library[active_id]
@@ -1069,7 +1208,7 @@ function UILibrarySelect(btn, type, on_select, on_clear, on_create, active_id, f
 		refresh = function(popup)
 			local list, comp_def = popup.list, filter_comp_id and data.components[filter_comp_id]
 			local active_w = UILibraryRefreshList(list, Selection_DirHead_layout, Selection_Folder_layout, Selection_Item_layout, library or {}, popup.folder, type, popup.search.inp.text, active_id)
-			if active_w then active_w.nameactive = true end
+			if active_w then active_w.nameactive = true list:ScrollIntoView(active_w) end
 
 			local comp_key, faction = comp_def and comp_def.key, Game.GetLocalPlayerFaction()
 			for i=#list,1,-1 do
@@ -1140,7 +1279,7 @@ function UILibrarySelect(btn, type, on_select, on_clear, on_create, active_id, f
 		end,
 		clear = function(popup) on_clear() UI.CloseMenuPopup(popup) end,
 		create = function(popup) on_create(popup.folder) UI.CloseMenuPopup(popup) end,
-	}, btn, "RIGHT")
+	}, btn, 'RIGHT')
 end
 
 function UILibraryLoadButton(list, target_library, wide_button, type, filter_comp_id, halign)

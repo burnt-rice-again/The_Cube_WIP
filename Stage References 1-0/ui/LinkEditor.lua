@@ -56,7 +56,7 @@ function LinkEditor:update()
 			hiddencount = (hiddencount or 0) + 1
 			local compblock = hiddencomps[i]
 			if not compblock or not compblock:IsValid() then
-				compblock = self.components:Add("<ComponentBlock halign=left on_drop=false socket_size=hidden/>", { entity = entity, hiddencomp = i })
+				compblock = self.components:Add("<ComponentBlock halign=left on_drop=false socket_size=Hidden/>", { entity = entity, hiddencomp = i })
 				compblock.box.on_drag_start, compblock.box.on_drag_cancel, compblock.box.on_drop, compblock.box.on_click = false, false, false -- no interaction
 				compblock.child_index = hiddencount
 				hiddencomps[i] = compblock
@@ -76,9 +76,8 @@ function LinkEditor:update()
 			v.regs:Clear()
 			v.hidden = not show
 			if show then
-				local comp_def = comp.def
+				local comp_def, regcount = comp.def, comp.register_count
 				local regdefs = comp_def.registers
-				local regcount, abs_index = comp.register_count, comp.register_index - 1
 				local behavior_asm = comp.base_id == "c_behavior" and comp.has_extra_data and GetFactionBehaviorAsmById(comp.faction, comp.extra_data.main_id)
 				local behavior_pnames = behavior_asm and behavior_asm.code.pnames
 				local reglayout = "<Reg on_drag_start={link_on_drag_start} on_drag_cancel={link_on_drag_cancel} on_drag_complete={link_on_drag_complete} on_drop={link_on_drop} valign=bottom/>"
@@ -87,7 +86,7 @@ function LinkEditor:update()
 					if j % regs_per_row == 1 then reg_row = reg_row + 1 end
 					local regdef = regdefs and regdefs[j]
 					local tt = regdef and regdef.tip
-					self.regs[abs_index + j] = v.regs:Add(reglayout, {
+					v.regs:Add(reglayout, {
 						ent = entity,
 						comp = comp,
 						comp_index = i,
@@ -118,6 +117,11 @@ function LinkEditor:update()
 	local entity_links = entity:GetRegisterLinks()
 	local links_hash = entity_links and Tool.Hash(entity_links)
 	if self.links_hash ~= links_hash or changed_components then
+		local regs = self.regs
+		for i=#data.frame_regs+1,math.max(#regs,entity.register_count) do regs[i] = false end -- avoid nil gaps
+		for _,v in ipairs(components) do
+			for _,regw in ipairs(v.regs) do regs[regw.abs_index] = regw end
+		end
 		self.links_hash = links_hash
 		self.links.on_draw = function(draw) self:UpdateLinks(draw) end
 		self:MakeMarginsForLinks(entity_links)
@@ -145,9 +149,11 @@ function LinkEditor:MakeMarginsForLinks(entity_links)
 		local srow, trow = sreg.reg_row, treg.reg_row
 		for j=1,(i-1) do
 			if entity_links[j].source_index == link.source_index then
-				no_source_raise = true
 				local ptreg = regs[entity_links[j].index]
-				if ptreg.reg_row == trow then goto no_raise end -- already had a link from the same source targeting the same row
+				if ptreg then
+					no_source_raise = true
+					if ptreg.reg_row == trow then goto no_raise end -- already had a link from the same source targeting the same row
+				end
 			end
 		end
 		for part=(no_source_raise and 2 or 1),(srow == trow and 1 or 2) do
@@ -198,7 +204,7 @@ function LinkEditor:UpdateLinks(draw)
 	for i=1,#entity_links+1 do
 		local link = entity_links[i]
 		local next_source, link_index = link and link.source_index, link and link.index
-		if source ~= next_source and source then
+		if source ~= next_source and numtargets > 0 then
 			local sreg = regs[source]
 			if sreg and sreg:IsValid() then
 				local sx, sy, sw, sh = sreg:GetViewportPosition(draw)
@@ -221,7 +227,7 @@ function LinkEditor:UpdateLinks(draw)
 
 					local pushed_vert
 					for pass=1,2 do
-						local col = (pass == 1 and "#44EE" or "white")
+						local col = (pass == 1 and "#44EE" or 'white')
 						if pass == 2 then
 							col = link_colors[1 + (col_idx % #link_colors)]
 							col_idx = col_idx + 1
@@ -282,7 +288,7 @@ function LinkEditor:UpdateLinks(draw)
 			local curve = math.max(50, math.abs(sx - tx) / 5)
 
 			for pass=1,2 do
-				local col = (pass == 1 and "#44EE" or "white")
+				local col = (pass == 1 and "#44EE" or 'white')
 				local thick = (pass == 1 and 2.0 or 0.0)
 				draw:AddTriangle(sx,     sy, 12.5+thick, (sup and 0 or 180) + flip, col)
 				draw:AddTriangle(tx - 1, ty,  8.5+thick, (tup and 180 or 0) + flip, col)

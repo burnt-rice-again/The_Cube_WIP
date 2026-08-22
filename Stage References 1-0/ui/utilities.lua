@@ -1,5 +1,5 @@
 function ConfirmBox(msg, on_ok, on_cancel, title)
-	UI.AddLayout("<ConfirmDialog ok_text='Yes' cancel_text='No'/>", {
+	UI.AddLayout('<ConfirmDialog ok_text="Yes" cancel_text="No"/>', {
 		title = title or "Confirm", body = msg,
 		ok = function(w) w:RemoveFromParent() if on_ok then on_ok() end end,
 		cancel = function(w) w:RemoveFromParent() if on_cancel then on_cancel() end end,
@@ -7,8 +7,8 @@ function ConfirmBox(msg, on_ok, on_cancel, title)
 end
 
 function ConfirmPopup(popup_next_to, msg, on_ok, title)
-	UI.MenuPopup("<ConfirmDialog ok_text='Yes' cancel_text='No'/>", {
-		construct = function(w) w:TweenFromTo("sy", 0.01, 1, 80, "OutQuad") end,
+	UI.MenuPopup('<ConfirmDialog ok_text="Yes" cancel_text="No"/>', {
+		construct = function(w) w:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad') end,
 		title = title or "Confirm", body = msg,
 		ok = function(w) if on_ok then on_ok() end UI.CloseMenuPopup(w) end,
 		cancel = function(w) UI.CloseMenuPopup(w) end,
@@ -31,7 +31,7 @@ function InputBox(msg, title, on_ok, current_text, password, multiline)
 	UI.AddLayout("ConfirmDialog", {
 		title = title, body = msg,
 		construct = function(w)
-			local i = w.list:Add(multiline and "<MultiLineInputText height=200/>" or "InputText")
+			local i = w.list:Add(multiline and "<MultiLineInputText height=200/>" or "<InputText/>")
 			w.input, i.text, i.password, i.on_enter = i, current_text or "", (password ~= nil), function() w:ok() end
 			i:Focus()
 		end,
@@ -43,7 +43,7 @@ end
 function GetSortedTableKeys(tbl)
 	local keys = {}
 	if not tbl then return keys end
-	for k,v in pairs(tbl) do keys[#keys+1] = k end
+	for k in next, tbl do keys[#keys+1] = k end
 	table.sort(keys)
 	return keys
 end
@@ -100,9 +100,9 @@ function ProcessUnlockedDefinitions(cb, filter_defs, get_from_library, get_last_
 		local copy_bp = UnitCopyPaste.GetItem('B')
 		local copy_bp_frame = copy_bp and faction_unlocks[copy_bp.frame] and frames[copy_bp.frame]
 		if copy_bp_frame and FactionHasUnlockedCustomBlueprint(faction, copy_bp) then
-			cb(-1, copy_bp, { name = "Last Copied", tab = "item" }, copy_bp_frame, nil, 0)
+			cb(-1, copy_bp, { name = "Last Copied", tab = 'item' }, copy_bp_frame, nil, 0)
 		elseif copy_bp and copy_bp.multi and FactionHasUnlockedCustomBlueprint(faction, copy_bp) then
-			cb(-1, copy_bp, { name = "Last Copied", tab = "item" }, nil, copy_bp.multi, 0)
+			cb(-1, copy_bp, { name = "Last Copied", tab = 'item' }, nil, copy_bp.multi, 0)
 		end
 	end
 end
@@ -133,7 +133,7 @@ function ActionTransfer(to_entity, slot_or_comp, amount)
 	local is_docked_transfer = (from_entity.docked_garage == to_entity or to_entity.docked_garage == from_entity)
 	local valid_faction =
 		(to_faction == player_faction and (from_faction == player_faction or from_entity.lootable)) or
-		(from_faction == player_faction and (to_entity.lootable or to_faction:GetTrust(player_faction) == "ALLY"))
+		(from_faction == player_faction and (to_entity.lootable or to_faction:IsAlly(player_faction)))
 
 	if amount == 0 then -- amount can also be nil (meaning transfer all)
 		Notification.Error("No items available to transfer")
@@ -163,11 +163,11 @@ function GetEntityName(entity)
 end
 
 local comp_race_image<const> = {
-	["robot"] = "component_bg_robot",
-	["alien"] = "component_bg_alien",
-	["human"] = "component_bg_human",
-	["blight"] = "component_bg_blight",
-	["virus"] = "component_bg_virus",
+	robot = "component_bg_robot",
+	alien = "component_bg_alien",
+	human = "component_bg_human",
+	blight = "component_bg_blight",
+	virus = "component_bg_virus",
 }
 function GetComponentRaceBG(race)
 	return race and comp_race_image[race] or "component_bg"
@@ -259,7 +259,7 @@ function PlayCutsceneCamera(cutscene, prevent_abort, custom_cb)
 end
 
 function SelectEntity(entity, mousebtn, no_append)
-	if mousebtn == "RIGHTMOUSEBUTTON" then
+	if mousebtn == 'RIGHTMOUSEBUTTON' then
 		View.JumpCameraToEntities(entity)
 	elseif not no_append and (Input.IsShiftDown() or Input.IsControlDown()) then
 		local entities = View.GetSelectedEntities() or {}
@@ -274,4 +274,24 @@ function SelectEntity(entity, mousebtn, no_append)
 	else
 		View.SelectEntities(entity)
 	end
+end
+
+function UpdateChineseLinks()
+	local str = UI.GetLanguageCode()
+	local wikilink = UI.FindWidgetWithProperty("id", "wikilink")
+	local chatlink = UI.FindWidgetWithProperty("id", "chatlink")
+
+	if str == 'zh' then -- zh_tw
+		wikilink.site = 'GS_WIKI'
+		chatlink.site = 'QQ'
+		chatlink.image = "Main/textures/logo/gswiki_logo.png"
+	else
+		chatlink.site = 'DISCORD'
+		chatlink.image = "Main/textures/logo/discord_logo.png"
+		wikilink.site = 'WIKI'
+	end
+end
+
+function UIMsg.OnLanguageChanged()
+	UpdateChineseLinks()
 end

@@ -3,8 +3,8 @@ local layout<const> =
 	<Box dock=top y=30 padding=12>
 		<VerticalList child_padding=4>
 			<Text text="Loaded save game contains no replay data" id=noreplay/>
-			<Text text="Replay Speed"   /><Slider id=speed    width=800 height=20 min=0 max=100 step=0.1 value=0 on_change={on_speed_change}/>
-			<Text text="Replay Progress"/><Slider id=progress width=800 height=20 min=0 on_change={on_set_progress} tooltip={progress_tooltip}/>
+			<Text text="Replay Speed"/><Slider id=speed    width=800 height=20 min=0 max=100 step=0.1 value=0 on_change={on_speed_change}/>
+			<Text text="Replay Progress"/><Progress id=progress width=800 height=20 min=0 tooltip={progress_tooltip}/>
 			<HorizontalList halign=center child_padding=4>
 				<Button text="Pause Playback" on_click={on_click_pause}/>
 				<Button text="Set 100% Speed" on_click={on_click_resetspeed}/>
@@ -26,13 +26,12 @@ UI.Register("ReplayPlayer", layout, ReplayPlayer)
 function ReplayPlayer:construct()
 	local dur = Action.GetReplayDuration()
 	self.noreplay.hidden = (dur ~= 0)
-	self.progress.max = dur
 	ReplayPlayerOpen = self
 end
 
-function ReplayPlayer:update()
-	self.progress.value = Action.GetReplayProgress()
-	local speed = self.speed.value
+function ReplayPlayer:every_frame_update()
+	self.progress.progress = Action.GetReplayProgress() / Action.GetReplayDuration()
+	local speed = Action.GetReplaySpeed()
 	local total_days   = Action.GetReplayDuration(true)
 	local current_days = Action.GetReplayProgress(true)
 	self.status.text = L("%s - [ %s ] / [ %s ]",
@@ -40,6 +39,7 @@ function ReplayPlayer:update()
 		L("Day %d %02d:%02d", math.floor(current_days + 1), math.floor(current_days * 24 % 24), math.floor(current_days * 1440 % 60)),
 		L("Day %d %02d:%02d", math.floor(total_days   + 1), math.floor(total_days   * 24 % 24), math.floor(total_days   * 1440 % 60))
 	)
+	self.speed.value = speed
 end
 
 function ReplayPlayer:progress_tooltip()
@@ -49,9 +49,9 @@ function ReplayPlayer:progress_tooltip()
 		</VerticalList></Box>]], {
 		every_frame_update = function(w)
 			local day_start_offset = Map.GetSettings().day_start_offset
-			local wid = self.progress:GetDesiredSize()
+			local px, py, wid = self.progress:GetViewportPosition()
 			local x = UI.GetMousePosition(self.progress)
-			local hover_progress = math.max(0, math.min(1, (x - 10) / (wid - 20)))
+			local hover_progress = math.max(0, math.min(1, x / wid))
 			local hover_days = day_start_offset + (Action.GetReplayDuration(true) - day_start_offset) * hover_progress
 			local current_days = Action.GetReplayProgress(true)
 			w.hover.text   = L("%s %02d:%02d", L("Day %d", math.floor(hover_days + 1)), math.floor(hover_days * 24 % 24), math.floor(hover_days * 1440 % 60))
@@ -60,49 +60,43 @@ function ReplayPlayer:progress_tooltip()
 	})
 end
 
-function ReplayPlayer:on_set_progress(slider, value)
-	self.progress.value = Action.GetReplayProgress()
-end
-
 function ReplayPlayer:on_speed_change(slider, value)
 	Action.SetReplaySpeed(value)
-	self:update()
+	self:every_frame_update()
 end
 
 function ReplayPlayer:on_click_pause()
 	Action.SetReplaySpeed(0)
-	self.speed.value = 0
-	self:update()
+	self:every_frame_update()
 end
 
 function ReplayPlayer:on_click_resetspeed()
 	Action.SetReplaySpeed(1)
-	self.speed.value = 1
-	self:update()
+	self:every_frame_update()
 end
 
 function ReplayPlayer:on_custom_speed()
 	local num = math.min(math.max(string.gsub("0"..self.inpspeed.text, "[^%d.]", "")//1|0, 0))
 	Action.SetReplaySpeed(num * 0.01)
-	self.speed.value = num * 0.01
 	self.inpspeed.text = tostring(num)
-	self:update()
+	self:every_frame_update()
 end
 
-function ReplayPlayer:on_click_faction()
-	UI.AddLayout("<Modal><Box dock=center bg=popup_box_bg padding=12 blur=true><Wrap width=1000 height=1000 id=list/></Box></Modal>", {
+function ReplayPlayer:on_click_faction(btn)
+	UI.MenuPopup("<Box bg=popup_box_bg blur=true padding=8><ScrollList child_padding=3 id=list max_height=900/></Box>", {
 		construct = function(view)
+			local cur, showid = Game.GetLocalPlayerFaction(), Input.IsShiftDown()
 			for _,f in ipairs(Map.GetFactions()) do
 				if not f.is_world_faction and f.num_entities > 0 then
-					view.list:Add("<Button on_click={on_select}/>", { text = f.id })
+					view.list:Add("<Button on_click={on_select}/>", { fid = f.id, text = L(showid and "%S (%S)" or "%S", f.name, f.id), active = f == cur })
 				end
 			end
 		end,
-		on_select = function(view, btn)
-			Action.SetReplayViewFaction(btn.text)
-			view:RemoveFromParent()
+		on_select = function(view, fbtn)
+			Action.SetReplayViewFaction(fbtn.fid)
+			UI.CloseMenuPopup(view)
 		end,
-	},10)
+	},btn)
 end
 
 function ReplayPlayer:on_click_restart()

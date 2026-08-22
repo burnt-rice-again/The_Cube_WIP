@@ -36,7 +36,7 @@ local function docked_progressbar_update(progressbar)
 		progressbar.progress = ent.health / ent.max_health
 	else
 		progressbar.update = nil
-		progressbar.color = "ui_light"
+		progressbar.color = 'ui_light'
 		progressbar.opacity = 1
 	end
 end
@@ -54,7 +54,7 @@ function ItemSlot:UpdateInfo()
 		image.opacity = 1
 		image.image = slot and data.item_slot_icons[slot.type] or "icon_inventory"
 
-		image.color = "ui_light"
+		image.color = 'ui_light'
 		self.numbox.hidden = true
 		self.resbox.hidden = true
 		self.cmpbox.hidden = true
@@ -69,14 +69,14 @@ function ItemSlot:UpdateInfo()
 
 		bg.image = "item_default"
 		image.image = def and def.texture or (def.attachment_size and "component_base") or false
-		image.color = "white"
+		image.color = 'white'
 		image.opacity = num == 0 and 0.3 or 1
 
 		local hidenum = (reserved_space + reserved_stack + num == 0 and not locked) or (ss == 1 and num == ss)
 		self.numbox.hidden = hidenum
 		if not hidenum then
 			local red_text = (reserved_space > 0) and (reserved_stack == 0) and (num == 0)
-			self.numtxt.color = red_text and "red" or "white"
+			self.numtxt.color = red_text and 'red' or 'white'
 			self.numtxt.text = num
 		end
 
@@ -98,7 +98,7 @@ function ItemSlot:UpdateInfo()
 		if progressbg then
 			progressbg.hidden = false
 			local progressbar, reservebar, resspacebar = self.progressbar, self.reservebar, self.resspacebar
-			local docked_slot, ent, outside = def.data_name == "frames" and self.slot
+			local docked_slot, ent, outside = def.data_name == 'frames' and self.slot
 			if docked_slot then
 				ent, outside = docked_slot.entity
 				if not ent then
@@ -108,7 +108,7 @@ function ItemSlot:UpdateInfo()
 			if ent then
 				progressbar.hidden = not ent
 				progressbar.progress = ent.health / ent.max_health
-				progressbar.color = "healthbar"
+				progressbar.color = 'healthbar'
 				progressbar.opacity = outside and 0.5 or 1
 				progressbar.update = docked_progressbar_update
 
@@ -204,6 +204,8 @@ function ItemSlot:on_drop(payload, cursor)
 	if payload_comp and payload.dragtype == "COMPONENT" and payload_comp.exists then
 		if entity ~= payload_comp.owner then
 			ActionTransfer(entity, payload_comp)
+		elseif slot.component == payload_comp then
+			Notification.Error("Unable to store into itself")
 		elseif slot:GetUnreservedSpaceFor(payload_comp.id) > 0 then
 			Action.SendForEntity("CompToInv", entity, { comp = payload_comp, slot = slot })
 		else
@@ -212,13 +214,13 @@ function ItemSlot:on_drop(payload, cursor)
 			local deployer_bp_def = deployer_ed and deployer_ed.onetime and deployer_ed.bp and data.frames[deployer_ed.bp.frame]
 			if swap_id and not entity:CheckSocketSize(swap_id, payload_comp.socket_index) then
 				Notification.Error("Component doesn't fit into socket")
-			elseif swap_id or (deployer_bp_def and deployer_bp_def.slot_type == slot.type and slot:GetUnreservedSpaceFor(deployer_bp_def.id) == 1) then
+			elseif (swap_id and (not slot.locked or slot.id == payload_comp.id)) or (deployer_bp_def and deployer_bp_def.slot_type == slot.type and slot:GetUnreservedSpaceFor(deployer_bp_def.id) == 1) then
 				Action.SendForEntity("CompToInv", entity, { comp = payload_comp, slot = slot })
 			else
 				Notification.Error("Unable to place into full or locked item slot")
 			end
 		end
-	elseif payload_slot and payload.dragtype == "ITEM" and payload_slot.exists and payload_slot ~= slot then
+	elseif payload_slot and payload.dragtype == 'ITEM' and payload_slot.exists and payload_slot ~= slot then
 		if entity ~= payload_slot.owner then
 			if payload_slot.locked and not slot.locked and not slot.id and payload_slot.owner.faction == entity.faction then
 				-- copy slot lock state onto another entity
@@ -273,7 +275,7 @@ end
 function ItemSlot:specific_amount()
 	local slot = self.slot
 	UI.MenuPopup([[<Box padding=5><HorizontalList child_align=center>
-			<ItemSlotWithBar id=slot on_drag_start={slot_on_drag_start} tooltip='Drag this item to transfer' dragtype=ITEM/>
+			<ItemSlotWithBar id=slot on_drag_start={slot_on_drag_start} tooltip="Drag this item to transfer" dragtype=ITEM/>
 			<VerticalList>
 				<InputText id=inp on_change={on_change} textalign=center/>
 				<Slider id=sli width=100 min=1 step=1 on_change={on_change}/>
@@ -413,7 +415,7 @@ function ItemSlot:on_click(button)
 					Action.SendForEntity("SetSlotLock", slot.owner, { slot = slot, item_id = id })
 					UI.CloseMenuPopup()
 				end,
-			}, self, "UP")
+			}, self, 'UP')
 		end,
 		on_fixempty = function()
 			Action.SendForEntity("SetSlotLock", slot.owner, { slot = slot })
@@ -435,5 +437,5 @@ function ItemSlot:on_click(button)
 			UI.PlaySound("fx_ui_COMPONENT_EQUIP")
 			UI.CloseMenuPopup()
 		end,
-	}, self, "UP")
+	}, self, 'UP')
 end

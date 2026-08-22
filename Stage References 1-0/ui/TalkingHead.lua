@@ -23,7 +23,7 @@ local TalkingHead<const> = {}
 UI.Register("TalkingHead", layout, TalkingHead)
 
 function TalkingHead:construct()
-	self:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
+	self:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
 end
 
 function TalkingHead:SetInfo(info, codex_id)
@@ -105,11 +105,11 @@ function TalkingHead:close()
 		local imgbox, codex_id = self.talkingimg.parent, self.codex_id
 		local tx, ty, tw, th = imgbox:GetViewportPosition()
 		imgbox:RemoveFromParent()
-		imgbox.dock = "top-left"
+		imgbox.dock = 'top-left'
 		imgbox.x, imgbox.y, imgbox.width, imgbox.height = tx, ty, tw, th
 		UI.AddLayout(imgbox, 1)
-		self:TweenFromTo("sx", 1, 0, 120, "InQuad")
-		self:TweenFromTo("x", self.x, self.x - 690/2, 120, "InQuad", function()
+		self:TweenFromTo("sx", 1, 0, 120, 'InQuad')
+		self:TweenFromTo("x", self.x, self.x - 690/2, 120, 'InQuad', function()
 			self:RemoveFromParent()
 			if codex_id and DropInSidebarButton("Codex", imgbox) then
 				local Codex = UI.GetRegisteredLayoutClass("Codex")
@@ -138,8 +138,16 @@ end
 
 function PlayTalkingHead(info, codex_id)
 	if Action.IsReplayPlayback() then return end -- no popups while playing back replay
-	local race = Game.GetLocalPlayerFaction().extra_data.race or "robot"
-	if race ~= "robot" then return end -- no popups for anything but robot race atm
+	if Game.GetProfile().options.disable_story_popups then return end
+	local faction = Game.GetLocalPlayerFaction()
+	local race = faction and faction.extra_data and faction.extra_data.race or "robot"
+	local codex_def = codex_id and data.codex[codex_id]
+	local allowed_races = (info and info.allowed_races) or (codex_def and codex_def.allowed_races)
+	if allowed_races then
+		if not allowed_races[race] then return end
+	elseif race ~= "robot" then
+		return
+	end
 
 	-- Start if not open yet or has already been closed
 	if not talking_open then
@@ -168,6 +176,13 @@ end
 
 function IsTalkingHeadActive()
 	return talking_open ~= nil
+end
+
+function StopTalkingHead()
+	if not talking_open then return end
+	talking_open.queue = nil
+	talking_open.queue_codex_ids = nil
+	talking_open:close()
 end
 
 ----Test

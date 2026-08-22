@@ -55,15 +55,17 @@ local layout<const> =
 							<Button text="Switch Faction" on_click={on_switch_faction} id=factionswitch/>
 						</VerticalList>
 					</Box>
-					<Text id=achievementstatus style=rl wrap=true hidden=true/>
+					<Box bg=popup_box_bg padding=8 blur=true id=achievementstatus hidden=true>
+						<Text id=achievementstatustxt color=light_red halign=center/>
+					</Box>
 					<Box bg=popup_box_bg padding=8 blur=true>
 						<VerticalList child_padding=10>
 							<Text wrap=true width=330 id=ingametext/>
 							<HorizontalList child_padding=15 halign=right>
-								<Image width=50 height=50 image="Main/textures/logo/wiki_logo.png"     on_click={open_website} tooltip="Wiki Website"     site=WIKI     color=white on_mouse_enter={siteicon_hover} on_mouse_leave={siteicon_unhover}/>
+								<Image width=50 height=50 image="Main/textures/logo/wiki_logo.png" on_click={open_website} tooltip="Wiki Website" site=WIKI id=wikilink on_mouse_enter={highlight_button} on_mouse_leave={unhighlight_button}/>
 								<Image width=50 height=50 image="Main/textures/logo/feedback_logo.png" on_click={open_website} tooltip="Feedback Website" site=FEEDBACK color=white on_mouse_enter={siteicon_hover} on_mouse_leave={siteicon_unhover}/>
 								<Image width=50 height=50 image="Main/textures/logo/steam_logo.png"    on_click={open_website} tooltip="Steam Store Page" site=STORE    color=white on_mouse_enter={siteicon_hover} on_mouse_leave={siteicon_unhover}/>
-								<Image width=50 height=50 image="Main/textures/logo/discord_logo.png"  on_click={open_website} tooltip="Join the Discord" site=DISCORD  color=white on_mouse_enter={siteicon_hover} on_mouse_leave={siteicon_unhover}/>
+								<Image width=50 height=50 image="Main/textures/logo/discord_logo.png" on_click={open_website} tooltip="Join the Discord" site=DISCORD id=chatlink on_mouse_enter={highlight_button} on_mouse_leave={unhighlight_button}/>
 							</HorizontalList>
 						</VerticalList>
 					</Box>
@@ -103,6 +105,9 @@ local server_visibility_texts<const> = { "Public", "Friends Only", "Invite Only"
 local server_visibility_ids<const> = { "PUBLIC", "FRIENDS", "INVITE", "LAN", "LOCKED" }
 local new_server_visibility_texts<const> = { "Public", "Friends Only", "Invite Only", "LAN / IP Connect Server" }
 local edit_server_visibility_texts<const> = { "Public", "Friends Only", "Invite Only" }
+local behavior_limit_texts<const> = { "No", "Yes", "Up to 10000 steps", "Up to 1000 steps", "Up to 100 steps", "Up to 10 steps" }
+local behavior_limit_values<const> = { 1, 0, 10000, 1000, 100, 10 }
+local behavior_limit_map<const> = { [1] = 1, [0] = 2, [10000] = 3, [1000] = 4, [100] = 5, [10] = 6 }
 
 local InGameMenu<const> = {}
 UI.Register("InGameMenu", layout, InGameMenu)
@@ -131,6 +136,7 @@ function InGameMenu:construct()
 	self:refresh_netmode()
 	Game.OfflinePause(true)
 	self.multiplayer_update_func = function() self:refresh_players() end
+	UpdateChineseLinks()
 	UIMsg:Bind("OnMultiplayerUpdate", self.multiplayer_update_func)
 	local achievement_status = Game.GetAchievementStatus()
 	if achievement_status then
@@ -139,7 +145,8 @@ function InGameMenu:construct()
 			(achievement_status == 1 and "Unlocking achievements is blocked when playing with mods") or
 			(achievement_status == 2 and "Unlocking achievements is blocked when the main game data is modified") or
 			(achievement_status == 3 and "Unlocking achievements is blocked when running in mod dev mode. Remove -moddev from the launch command arguments to enable them")
-		self.achievementstatus.text = L("%s:\n%s", "Achievements Disabled", reason)
+		self.achievementstatustxt.text = L('<img color="yellow" width="32" height="32" image="icon_warning"/> %s', "Achievements Disabled")
+		self.achievementstatus.tooltip = reason
 		self.achievementstatus.hidden = false
 	end
 end
@@ -185,7 +192,7 @@ function InGameMenu:refresh_netmode()
 		self.serverinfo.text = L("<header>%s</>\n<hl>%s:</> %s\n<hl>%s:</> %s", "Server Info", "Name", servername, "Visibility", visibility)
 		if mode then self.serverinfo.text = L("%s    <hl>%s:</> %s", self.serverinfo.text, "Game Mode", mode) end
 		if allow_faction_switch then self.serverinfo.text = L("%s\n<hl>%s:</> %s", self.serverinfo.text, "Allow Faction Switching", "Enabled") end
-		if mapsettings.block_unlocked_behaviors then self.serverinfo.text = L("%s\n<hl>%s:</> %s", self.serverinfo.text, "Allow Unlocked Behaviors", "Disabled") end
+		if mapsettings.behavior_limit ~= 1 then self.serverinfo.text = L("%s\n<hl>%s:</> %s", self.serverinfo.text, "Allow Unlocked Behaviors", behavior_limit_texts[behavior_limit_map[mapsettings.behavior_limit or 0]]) end
 		if mapsettings.disable_client_save then self.serverinfo.text = L("%s\n<hl>%s:</> %s", self.serverinfo.text, "Allow Client Saving", "Disabled") end
 		if dedicated then self.serverinfo.text = L("%s\n<hl>%s</>\n<hl>%s</>", self.serverinfo.text, "This is a dedicated server", mapsettings.run_without_players and "The game continues to run when no one is connected" or "The game will pause when no one is connected") end
 
@@ -206,10 +213,9 @@ function InGameMenu:open_server_settings(btn)
 		return
 	end
 	btn.active = true
-	self.details:SetContent([[<Box padding=8 bg=popup_box_bg blur=true><ServerSettings id=server/></Box>]], {
+	self.details:SetContent([[<Box padding=8 bg=popup_box_bg blur=true><ServerSettings id=server ingame_edit=true/></Box>]], {
 		construct = function(m)
 			m.server:Add('<Button text="Apply" on_click={on_apply} margin_top=4/>')
-			m.server:edit_active_settings()
 			m.hash = Tool.Hash(m.server:get_session_settings_table())
 		end,
 		destruct = function(m)
@@ -231,7 +237,7 @@ function InGameMenu:open_server_settings(btn)
 			end
 			self.details:Clear()
 		end,
-	}):TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+	}):TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 end
 
 function InGameMenu:refresh_players()
@@ -284,7 +290,7 @@ end
 
 function InGameMenu:on_feedback(btn)
 	if self:btn_selection(btn) then return end
-	self.details:SetContent([[<FeedbackForm width=800 input_height=150 nocancel=true info='To send feedback with a screenshot, press <Key action="CaptureFeedbackShot"/> while playing'/>]]):TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+	self.details:SetContent([[<FeedbackForm width=800 input_height=150 nocancel=true info='To send feedback with a screenshot, press <Key action="CaptureFeedbackShot"/> while playing'/>]]):TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 end
 
 function InGameMenu:on_restart_game(btn)
@@ -313,7 +319,7 @@ function InGameMenu:on_host_game(btn)
 			<Box bg=popup_box_bg padding=4 blur=true>
 				<VerticalList id=tabs child_padding=8 width=508>
 					<Box bg=popup_pattern padding=12>
-						<ServerSettings id=server/>
+						<ServerSettings id=server ingame_host=true/>
 					</Box>
 					<Box bg=popup_additional_bg padding=12>
 						<Button text="Start Server" on_click={on_start}/>
@@ -331,7 +337,7 @@ function InGameMenu:on_host_game(btn)
 					if self:IsValid() then self:refresh_netmode() self.hostbtn.disabled = false end
 				end)
 			end,
-		}):TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+		}):TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 	elseif netmode == "server" then
 		Game.EndOnlineSession()
 		self:refresh_netmode()
@@ -386,7 +392,7 @@ function InGameMenu:on_switch_faction(btn)
 			self.lastButton = nil
 			self:on_ui_cancel() -- close in game menu after switching faction
 		end,
-	}):TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+	}):TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 end
 
 function InGameMenu:gamesettings_tooltip()
@@ -433,7 +439,7 @@ function InGameMenu:on_mapsettings(btn)
 			if new then apply(old, new) end
 			self:btn_selection(btn)
 		end,
-	}):TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+	}):TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 end
 
 function InGameMenu:on_copyseed(hl)
@@ -446,11 +452,11 @@ function InGameMenu:open_website(img)
 end
 
 function InGameMenu:siteicon_hover(img)
-	img.color = "ui_light"
+	img.color = 'ui_light'
 end
 
 function InGameMenu:siteicon_unhover(img)
-	img.color = "white"
+	img.color = 'white'
 end
 
 ---------------------------------------------------------------------------------------------------------------------------
@@ -616,7 +622,7 @@ end
 
 function UIMsg.OnFeedbackShotCaptured(w, h, bytes)
 	Game.OfflinePause(true)
-	UI.AddLayout([[<Modal><FeedbackForm dock=top width=1200 input_height=250 margin_top=100 sendscreenshot=true ssimg="$Feedback" ssw={ssw} ssh={ssh} info={info} on_ok={close} on_cancel={on_ui_cancel}/></Modal>]], {
+	UI.AddLayout([[<Modal><FeedbackForm dock=top width=1200 input_height=250 margin_top=100 sendscreenshot=true ssimg='$Feedback' ssw={ssw} ssh={ssh} info={info} on_ok={close} on_cancel={on_ui_cancel}/></Modal>]], {
 		ssw = 240/h*w//1, ssh = 240,
 		info = L("Attaching Screenshot (Resolution: %dx%d, Size: %d bytes)", w, h, bytes),
 		on_ui_cancel = function(fb) fb:RemoveFromParent() Game.OfflinePause(false) end,
@@ -649,27 +655,29 @@ local ServerSettings_layout<const> =
 			<Text text="Password"/>
 			<InputText id=password password=true/>
 		</HorizontalList>
-		<Text color=ui_light text="Server Rules:" margin_top=8 margin_bottom=5/>
-		<HorizontalList child_align=center child_fill=true>
-			<Text text="Game Mode"/>
-			<Combo id=mode/>
-		</HorizontalList>
-		<HorizontalList child_align=center child_fill=true>
-			<Text text="Allow Faction Switching"/>
-			<Combo id=allow_faction_switch/>
-		</HorizontalList>
-		<HorizontalList child_align=center child_fill=true>
-			<Text text="Allow Unlocked Behaviors"/>
-			<Combo id=allow_unlocked_behaviors/>
-		</HorizontalList>
-		<HorizontalList child_align=center child_fill=true>
-			<Text text="Allow Client Saving"/>
-			<Combo id=allow_client_save/>
-		</HorizontalList>
-		<HorizontalList child_align=center hidden=true child_fill=true>
-			<Text text="Allow New Players Joining"/>
-			<Combo id=allow_join/>
-		</HorizontalList>
+		<VerticalList margin_top=8 child_padding=4 min_width=500 hidden={hiderules}>
+			<Text color=ui_light text="Server Rules:" margin_bottom=5/>
+			<HorizontalList child_align=center child_fill=true>
+				<Text text="Game Mode"/>
+				<Combo id=mode/>
+			</HorizontalList>
+			<HorizontalList child_align=center child_fill=true>
+				<Text text="Allow Faction Switching"/>
+				<Combo id=allow_faction_switch/>
+			</HorizontalList>
+			<HorizontalList child_align=center child_fill=true>
+				<Text text="Allow Unlocked Behaviors"/>
+				<Combo id=behavior_limit/>
+			</HorizontalList>
+			<HorizontalList child_align=center child_fill=true>
+				<Text text="Allow Client Saving"/>
+				<Combo id=allow_client_save/>
+			</HorizontalList>
+			<HorizontalList child_align=center hidden=true child_fill=true>
+				<Text text="Allow New Players Joining"/>
+				<Combo id=allow_join/>
+			</HorizontalList>
+		</VerticalList>
 	</VerticalList>
 ]]
 
@@ -682,38 +690,41 @@ function ServerSettings:construct()
 	self.visibility.texts, self.visibility.value = new_server_visibility_texts, 2
 	self.allow_join.texts, self.allow_join.value = yes_no_labels, 1
 	self.allow_faction_switch.texts, self.allow_faction_switch.value = yes_no_labels, 2
-	self.allow_unlocked_behaviors.texts, self.allow_unlocked_behaviors.value = yes_no_labels, 1
+	self.behavior_limit.texts, self.behavior_limit.value = behavior_limit_texts, 1
 	self.allow_client_save.texts, self.allow_client_save.value = yes_no_labels, 1
 	if not Game.OnlineHaveLobbies() then
-		self.visibility.value  = 4 -- force LAN
+		self.visibility.value = 4 -- force LAN
 		self.visibility.parent.hidden = true
 		self.serverport.parent.hidden = false
+	end
+	if self.ingame_host or self.ingame_edit then
+		local host_settings, map_settings = Game.GetHostSessionSettings(), Map.GetSettings()
+		if self.ingame_edit then
+			self.name.parent.hidden = true
+			self.serverport.parent.hidden = true
+			self.players.text = tostring(host_settings.players or 16)
+			self.password.parent.hidden = true
+			self.allow_join.parent.hidden = false
+			if Game.OnlineHaveLobbies() then
+				self.visibility.texts = edit_server_visibility_texts
+				local visibility = host_settings.visibility.visibility
+				for i,v in ipairs(edit_server_visibility_texts) do if server_visibility_ids[i] == visibility then self.visibility.value = i break end end
+			end
+		end
+
+		self:render() -- refresh mode.texts
+		local settings, mode = (host_settings or map_settings), (host_settings and host_settings.mode or map_settings.game_mode)
+		for i,v in ipairs(self.mode.texts) do if v == mode then self.mode.value = i break end end
+		self.allow_join.value = settings.block_join and 2 or 1
+		self.allow_faction_switch.value = settings.allow_faction_switch and 1 or 2
+		self.behavior_limit.value = behavior_limit_map[settings.behavior_limit or 0]
+		self.allow_client_save.value = settings.disable_client_save and 2 or 1
 	end
 end
 
 function ServerSettings:render()
 	local pkg = (self.scenario and Game.GetInstalledModPackage(self.scenario) or Game.GetScenarioModPackage())
 	self.mode.parent.hidden, self.mode.texts, self.mode.value = not pkg.modes or #pkg.modes == 0, pkg.modes, self.mode.value or 1
-end
-
-function ServerSettings:edit_active_settings()
-	self:render() -- refresh mode.texts
-	self.name.parent.hidden = true
-	self.visibility.texts = edit_server_visibility_texts
-	self.serverport.parent.hidden = true
-	self.password.parent.hidden = true
-	self.allow_join.parent.hidden = false
-
-	local host_settings = Game.GetHostSessionSettings()
-	local visibility, mode = host_settings.visibility, host_settings.mode
-
-	for i,v in ipairs(self.visibility.texts) do if server_visibility_ids[i] == visibility then self.visibility.value = i break end end
-	self.players.text = tostring(host_settings.players or 16)
-	for i,v in ipairs(self.mode.texts) do if v == mode then self.mode.value = i break end end
-	self.allow_join.value = host_settings.block_join and 2 or 1
-	self.allow_faction_switch.value = host_settings.allow_faction_switch and 1 or 2
-	self.allow_unlocked_behaviors.value = host_settings.block_unlocked_behaviors and 2 or 1
-	self.allow_client_save.value = host_settings.disable_client_save and 2 or 1
 end
 
 function ServerSettings:on_visibility_change(combo, value)
@@ -730,19 +741,18 @@ function ServerSettings:on_num_commit(input, value)
 end
 
 function ServerSettings:get_session_settings_table()
-	local pw, vis, mode = self.password.text, self.visibility.value, self.mode.value
-	pw = pw and pw ~= "" and pw or nil
-	mode = self.mode.texts and self.mode.texts[mode]
+	local pw, vis, mode, behavior_limit = self.password.text, self.visibility.value, self.mode.value, self.behavior_limit.value
+	mode, behavior_limit = (self.mode.texts and self.mode.texts[mode]), behavior_limit_values[behavior_limit]
 	return {
 		name       = self.name.text,
 		mode       = mode and mode ~= "" and mode or nil,
 		visibility = server_visibility_ids[vis],
 		players    = math.min(math.max(tonumber(string.gsub(self.players.text, "%D", ""), 10) or 0, 2), 999),
-		password   = pw,
+		password   = pw and pw ~= "" and pw or nil,
 		serverport = vis == 4 and tonumber(string.gsub(self.serverport.text, "%D", ""), 10),
 		block_join = self.allow_join.value == 2 or nil,
+		behavior_limit = (behavior_limit or 0) ~= 0 and behavior_limit or nil,
 		allow_faction_switch = self.allow_faction_switch.value == 1 or nil,
-		block_unlocked_behaviors = self.allow_unlocked_behaviors.value == 2 or nil,
 		disable_client_save = self.allow_client_save.value == 2 or nil,
 	}
 end

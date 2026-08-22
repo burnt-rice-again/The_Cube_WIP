@@ -85,12 +85,19 @@ function Combo:on_button()
 	self.value = (self.value == 2 and 1 or 2)
 	self:SendEvent("on_change", self.value)
 end
+function Combo:tooltip()
+	local tips, val = self.tips, (self.value or 1)
+	if not tips then return end
+	local tip, text = tips[val], self.texts[val]
+	return tip and (tip ~= text and L("<bl>%s</>\n%s", text, tip) or tip)
+end
 function Combo:on_dropdown()
 	UI.MenuPopup("<Box bg=popup_box_bg blur=true width=10 padding=6><ScrollList child_padding=3 id=list/></Box>", {
 		construct = function(cmbpop)
-			local val = self.value or 1
+			local val, tips = self.value or 1, self.tips
 			for i,v in ipairs(self.texts) do
-				cmbpop.list:Add("<Button on_click={on_select}/>", { i = i, text = v, active = i == val })
+				local btn = cmbpop.list:Add("<Button on_click={on_select}/>", { i = i, text = v, active = i == val })
+				if tips and tips[i] then btn.tooltip = tips[i] end
 			end
 			self.drp.active = true
 		end,
@@ -102,9 +109,9 @@ function Combo:on_dropdown()
 			self:SendEvent("on_change", self.value)
 			UI.CloseMenuPopup(cmbpop)
 		end,
-		width = self[2]:GetViewportPosition(self) + 32,
+		width = self.dropwidth or (self[2]:GetViewportPosition(self) + 32),
 		max_height = self.combo_height,
-	}, self, "DOWN", "LEFT", 0, 1)
+	}, self, 'DOWN', "MIDDLE", 0, 1)
 end
 
 local ColorPicker = {}

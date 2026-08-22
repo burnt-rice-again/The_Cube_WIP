@@ -152,7 +152,7 @@ data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
-	texture = data.frames.f_beacon_l.texture,
+	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
 	visual = "vc_chrono_tower",
 	components = {
 		{"cc_boost_tower","hidden"}

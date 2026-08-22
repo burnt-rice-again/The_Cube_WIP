@@ -186,8 +186,8 @@ function BuildView:finish(id_or_custom, library_id, frame_id, show_bp_edit, w)
 end
 
 function BuildView:building_on_click(w, mbtn)
-	local customize_bp = (mbtn == "RIGHTMOUSEBUTTON" and ((w.library_id and w.id_or_custom) or (not w.no_customize and { frame = w.frame_id })))
-	if mbtn == "RIGHTMOUSEBUTTON" and not customize_bp then return end
+	local customize_bp = (mbtn == 'RIGHTMOUSEBUTTON' and ((w.library_id and w.id_or_custom) or (not w.no_customize and { frame = w.frame_id })))
+	if mbtn == 'RIGHTMOUSEBUTTON' and not customize_bp then return end
 	self:finish(customize_bp or w.id_or_custom, w.library_id, w.frame_id, customize_bp, w)
 end
 

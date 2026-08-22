@@ -35,13 +35,13 @@ local frame_cost_list <const> = {
 }
 local comp_cost_list <const> = {
     i ={
-        c_repairkit = 1,
-        c_modulehealth = 4,
-        c_moduleefficiency = 2,
-        c_modulespeed = 1,
-        c_shield_generator = 1,
-        c_shield_generator2 = 2,
-        c_shield_generator3 = 3,
+        -- c_repairkit = 1,
+        -- c_modulehealth = 4,
+        -- c_moduleefficiency = 2,
+        -- c_modulespeed = 1,
+        -- c_shield_generator = 1,
+        -- c_shield_generator2 = 2,
+        -- c_shield_generator3 = 3,
         c_internal_storage = 0, -- dud item
     },
     s ={
@@ -107,25 +107,46 @@ end
 
 local cc_damage_check = Comp:RegisterComponent("cc_damage_check",{
     name = "damage", 
+    desc = "prevent frame from dropping comps when destroyed"
 })
 
 -- prevent the units from dropping components 
+-- owner.exists did not work or .is_updating
 function cc_damage_check:on_take_damage(comp, amount)
     local owner = comp.owner
     --print("Damage:",amount, " Health_old:",owner.health, "HealthNew:", owner.health-amount)
-    if owner.health-amount <= 0 then
+    if owner.health-amount <= 0  then
+        owner.max_health = 60000;
+        owner:AddHealth(60000)
         for i = 1, owner.component_count do 
             local comp2 = owner:GetComponent(i)
             if comp2 ~= nil then 
                 --print(comp2.id, "Destroyed")
-                if comp2.is_updating == true then print("cant destroy updating", comp2)
-                else 
-                    comp2:Destroy()
-                end
+                --comp2:Destroy()
+                Map.Defer(function()comp2:Destroy()end)
             end
         end
+        owner:Unplace()
+        Map.Delay('destroy_ent', 2, {ent = owner})
     end
 end
+function Delay.reset_max_health(arg) 
+
+	local bot = arg.ent
+
+	if bot ~= nil then 
+		bot.max_health = bot.def.health_points
+	end
+end
+function Delay.destroy_ent(arg) 
+
+	local bot = arg.ent
+    print("Destroying", bot)
+	if bot ~= nil then 
+		bot:Destroy()
+	end
+end
+
 
 -- create a randomized bot 
 local function build_random_bot(faction, frame_filter, bonus)
@@ -169,6 +190,9 @@ local function build_random_bot(faction, frame_filter, bonus)
 
 
         bot:AddComponent("cc_damage_check")
+        -- add temporary health to prevent dying on the first tick
+        bot.max_health = 65535
+
         -- add a radar so it can automattically hunt 
         local radar = bot:AddComponent("c_alien_sensor_wide")
         radar:SetRegister(1,data.values.v_enemy_faction)
@@ -178,6 +202,11 @@ local function build_random_bot(faction, frame_filter, bonus)
         bot:LinkRegisterFromRegister(6,4,radar)
         -- add a soul 
         bot:AddItem("bug_carapace", 1)
+
+        -- attempt to fix error when comps are being removed. 
+        -- did not work but still prevents the bot being detroyed the tick it spawns in.
+        Map.Delay('reset_max_health', 2, {ent = bot})
+        --Map.Delay(function() bot.max_health = bot.def.health_points end)
     end
     return bot, cost
 end 

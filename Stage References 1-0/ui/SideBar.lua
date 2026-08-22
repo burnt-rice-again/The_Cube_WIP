@@ -41,9 +41,9 @@ local SideBar_layout<const> =
 						</VerticalList>
 						<Minimap id=minimap on_follow_camera_changed={on_follow_camera_changed} width=294 height=294 dock=top-left/>
 						<HorizontalList id=textoverlay fill=true>
-							<Text id=mapcoords margin_left=6/>
+							<Text style=res id=mapcoords margin_left=6/>
 							<Spacer fill=true/>
-							<Text id=timeplayed margin_right=6 textalign=right/>
+							<Text style=res id=timeplayed margin_right=6 textalign=right/>
 						</HorizontalList>
 					</Canvas>
 					<HorizontalList child_padding=3 margin_top=3>
@@ -116,17 +116,17 @@ end
 
 function SideBar:RefreshTooltips()
 	local mapttfmt, ttfmt = '%s (<Key action="%S"/>)', '<header>%s (</><Key action="%S" style="Header"/><header>)</>'
-	self.overlaybtn.tooltip   = L(mapttfmt, "Overlay Settings",       "OverlaySettings")
+	self.overlaybtn.tooltip   = L(mapttfmt, "Overlay Settings",       'OverlaySettings')
 	self.camfollowbtn.tooltip = L(mapttfmt, "Follow Camera",          "Camera_FollowTarget")
 	self.bigmapbtn.tooltip    = L(mapttfmt, "Toggle full screen map", "Map")
-	self.btn_pause.tooltip    = L(ttfmt, "Pause",                "PauseGame")
-	self.btn_menu.tooltip     = L(ttfmt, "Menu",                 "InGameMenu")
+	self.btn_pause.tooltip    = L(ttfmt, "Pause",                'PauseGame')
+	self.btn_menu.tooltip     = L(ttfmt, "Menu",                 'InGameMenu')
 	self.btn_tech.tooltip     = L(ttfmt, "Research",             "Tech")
 	self.btn_build.tooltip    = L(ttfmt, "Build",                "Build")
 	self.btn_codex.tooltip    = L(ttfmt, "Codex",                "Codex")
 	self.btn_progress.tooltip = L(ttfmt, "Progress",             "Progress")
 	self.btn_library.tooltip  = L(ttfmt, "Library",              "Library")
-	self.btn_faction.tooltip  = L(ttfmt, "Control Center",       "FactionView")
+	self.btn_faction.tooltip  = L(ttfmt, "Control Center",       'FactionView')
 end
 
 function SideBar:destruct()
@@ -159,7 +159,11 @@ function SideBar:update()
 end
 
 function SideBar:on_click_pause()
-	Action.SendFromPlayer("PauseGame", { pause = (Map.GetGameSpeed()>0) })
+	if Action.IsReplayPlayback() then
+		Action.SetReplaySpeed(Action.GetReplaySpeed() > 0 and 0 or 1)
+	elseif Game.IsHostPlayer() then
+		Action.SendFromPlayer("PauseGame", { pause = (Map.GetGameSpeed()>0) })
+	end
 end
 
 function SideBar:time_tooltip()
@@ -201,7 +205,7 @@ function SideBar:time_tooltip()
 	})
 end
 function SideBar:on_reset_rotation(btn, mousebtn)
-	View.ResetCamera(mousebtn ~= "LEFTMOUSEBUTTON")
+	View.ResetCamera(mousebtn ~= 'LEFTMOUSEBUTTON')
 end
 
 function SideBar:on_open_overlay_options(btn)
@@ -218,12 +222,12 @@ function SideBar:on_map_collapse(btn)
 	self.zoomoutbtn.hidden = new_hidden
 	self.mapbtnfollow2.hidden = new_hidden
 	if new_hidden then
-		mapbox:TweenFromTo("height", 290, 0, 100, "OutQuad")
-		mapbox:TweenFromTo("sy", 1, 0.01, 100, "OutQuad", function() mapbox.hidden = true end)
+		mapbox:TweenFromTo("height", 290, 0, 100, 'OutQuad')
+		mapbox:TweenFromTo("sy", 1, 0.01, 100, 'OutQuad', function() mapbox.hidden = true end)
 	else
 		mapbox.hidden = false
-		mapbox:TweenFromTo("height", 0, 290, 100, "OutQuad")
-		mapbox:TweenFromTo("sy", 0.01, 1, 100, "OutQuad")
+		mapbox:TweenFromTo("height", 0, 290, 100, 'OutQuad')
+		mapbox:TweenFromTo("sy", 0.01, 1, 100, 'OutQuad')
 	end
 end
 
@@ -275,7 +279,7 @@ function SideBar:on_map_pin(btn)
 		Notification.Warning(id and L('Click on location to place pin <img id="%s"/>', id) or "Click on pin to remove")
 		View.StartCursorChooseLocation(function() on_place_pin(true, id) end, function() on_place_pin(false) end)
 		Quickview_ShowGrid(0)
-		self.minimap.on_mouse_button_down = function(minimap, mousebtn) on_place_pin(mousebtn == "LEFTMOUSEBUTTON", id) end
+		self.minimap.on_mouse_button_down = function(minimap, mousebtn) on_place_pin(mousebtn == 'LEFTMOUSEBUTTON', id) end
 	end
 	local function def_filter(def, cat) return not (cat.number_panel or cat.coord_panel or cat.entity_panel) end
 	local rsel = ShowRegisterSelection(btn, on_set_pin, def_filter)
@@ -416,9 +420,17 @@ end
 ------------------------------------------------------------------------------
 
 Input.BindAction("PauseGame", "Pressed", function()
-	if Game.IsHostPlayer() and SideBarOpen then
+	if Action.IsReplayPlayback() then
+		Action.SetReplaySpeed(Action.GetReplaySpeed() > 0 and 0 or 1)
+	elseif Game.IsHostPlayer() and SideBarOpen then
 		local dopause = (Map.GetGameSpeed()>0)
 		Action.SendFromPlayer("PauseGame", { pause = dopause })
+	end
+end)
+
+Input.BindAction("SimulationStep", "Pressed", function()
+	if Game.IsHostPlayer() and SideBarOpen then
+		Action.SendFromPlayer("PauseGame", { step = true })
 	end
 end)
 
@@ -440,7 +452,6 @@ function CloseMainWindowAndPopup(no_sound, close_only_name)
 	if open_window then
 		if not close_only_name or close_only_name == open_window_name then
 			if open_window:IsValid() then
-				if open_window.can_close and not open_window:can_close() then return false end
 				open_window:RemoveFromParent()
 				if not no_sound then UI.PlaySound("fx_ui_WINDOW_GENERIC_CLOSE") end
 			end
@@ -452,9 +463,9 @@ function CloseMainWindowAndPopup(no_sound, close_only_name)
 end
 
 local function GetPopupNextToBtn(name)
-	if name == "BuildView"    then return SideBarOpen.btn_build,      0 end
+	if name == 'BuildView'    then return SideBarOpen.btn_build,      0 end
 	if name == "Codex"        then return SideBarOpen.btn_codex,    156 end
-	if name == "ProgressView" then return SideBarOpen.btn_progress, 104 end
+	if name == 'ProgressView' then return SideBarOpen.btn_progress, 104 end
 	if name == "Library"      then return SideBarOpen.btn_library,   52 end
 	if name == "Faction"      then return SideBarOpen.btn_faction,    0 end
 end
@@ -472,8 +483,8 @@ local function OpenMainPopup(name, param, popupNextToBtn, popupY, is_unpin)
 
 			construct = not is_unpin and function(w)
 				w[1]:SetContent(name, param)
-				w:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
-				w:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+				w:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
+				w:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 				UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_OPEN")
 				popupNextToBtn.active = true
 			end,
@@ -488,11 +499,11 @@ local function OpenMainPopup(name, param, popupNextToBtn, popupY, is_unpin)
 			name = name, -- to avoid closing of an already open window if this differs
 			--param = param -- commented out but could be enabled if desired (might make the sidebar button re-open an already open popup)
 		},
-		popupNextToBtn, "LEFT", "BOTTOM", -10, 4+popupY)
+		popupNextToBtn, 'LEFT', 'BOTTOM', -10, 4+popupY)
 end
 
 function OpenMainWindow(name, param, no_sound, no_close)
-	if not SideBarOpen and name ~= "InGameMenu" then return end
+	if not SideBarOpen and name ~= 'InGameMenu' then return end
 	local popupNextToBtn, popupY = GetPopupNextToBtn(name)
 	if popupNextToBtn then
 		local pin = pinned[name]
@@ -501,21 +512,21 @@ function OpenMainWindow(name, param, no_sound, no_close)
 			pinned[name] = nil
 		elseif pin then
 			pin:SetContent(name, param).pinbtn.active = true
-			pin:TweenFromTo("sx", 0.01, 1, 40, "OutQuad")
-			pin:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+			pin:TweenFromTo("sx", 0.01, 1, 40, 'OutQuad')
+			pin:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 			UI.PlaySound("fx_ui_WINDOW_SELECTION_MENU_OPEN")
 		elseif popupNextToBtn:IsVisible() then
 			if open_window and not no_close then CloseMainWindowAndPopup(no_sound, open_window_name) end
 			OpenMainPopup(name, param, popupNextToBtn, popupY)
 		end
-	elseif name == "Chat" then
+	elseif name == 'TextChat' then
 		UIShowTextChat()
-	else -- Tech, Program, ScreenMap, InGameMenu
+	else -- Tech, ScreenMap, InGameMenu
 		local open_new_window = (open_window_name ~= name)
 		CloseMainWindowAndPopup(open_new_window or param or no_sound)
 		if open_new_window or param then
 			if not no_sound then UI.PlaySound("fx_ui_WINDOW_GENERIC_OPEN") end
-			open_window, open_window_name = UI.AddLayout(name, param, (name == "InGameMenu" and 22 or 0)), name
+			open_window, open_window_name = UI.AddLayout(name, param, (name == 'InGameMenu' and 22 or 0)), name
 		end
 	end
 end
@@ -528,14 +539,14 @@ function DropInSidebarButton(name, widget)
 	local wx, wy, ww, wh = widget:GetViewportPosition()
 	if not ww or ww < 1 then return false end
 
-	widget:TweenFromTo("x", wx, bx+10, 400, "OutQuad")
-	widget:TweenFromTo("y", wy, by+10, 400,  "InQuad", function() end)
-	widget:TweenFromTo("width", ww, bw-20,  300, "InOutQuad")
-	widget:TweenFromTo("height", wh, bh-20, 300,  "InOutQuad", function()
+	widget:TweenFromTo("x", wx, bx+10, 400, 'OutQuad')
+	widget:TweenFromTo("y", wy, by+10, 400,  'InQuad', function() end)
+	widget:TweenFromTo("width", ww, bw-20,  300, 'InOutQuad')
+	widget:TweenFromTo("height", wh, bh-20, 300,  'InOutQuad', function()
 		widget:TweenFromTo("opacity", 1, 0, 200)
-		btn:TweenFromTo("y", 0, 10, 280, "OutBack", function()
+		btn:TweenFromTo("y", 0, 10, 280, 'OutBack', function()
 			widget:RemoveFromParent()
-			btn:TweenFromTo("y", 10, 0, 340, "OutBack")
+			btn:TweenFromTo("y", 10, 0, 340, 'OutBack')
 		end)
 	end)
 	return true
@@ -579,15 +590,15 @@ function ShowContextKeyPanel(list)
 		}, 2)
 		ContextKeys:SetIgnoreHitTest()
 		ContextKeys.title = list[1]
-		ContextKeys:TweenTo("opacity", 0.8, 300, "OutQuad")
-		ContextKeys:TweenTo("x", 0, 300, "OutQuad")
+		ContextKeys:TweenTo("opacity", 0.8, 300, 'OutQuad')
+		ContextKeys:TweenTo("x", 0, 300, 'OutQuad')
 		for i=2,#list,2 do
 			ContextKeys.keys:Add("<Text height=20 style=hl y=-1/>"). text = list[i]
 			ContextKeys.infos:Add("<Text height=20 />").text = list[i+1]
 		end
 	elseif ContextKeys then
-		ContextKeys:TweenTo("x", 800, 300, "OutQuad")
-		ContextKeys:TweenTo("opacity", 0, 300, "OutQuad", function (w) w:RemoveFromParent() end)
+		ContextKeys:TweenTo("x", 800, 300, 'OutQuad')
+		ContextKeys:TweenTo("opacity", 0, 300, 'OutQuad', function (w) w:RemoveFromParent() end)
 		ContextKeys = ContextKeys.prev_context_keys
 		if ContextKeys then ContextKeys.box.opacity = nil end
 	end

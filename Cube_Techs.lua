@@ -103,6 +103,13 @@ data.techs.tc_robot_basic = {
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
 }
+-- add all values to the tech 
+for key, value in pairs(data.values) do 
+	table.insert(data.techs.tc_robot_basic.unlocks, key)
+end
+
+
+
 data.techs.tc_upgrades_basic = {
 	name = "Upgrades1", -- recovered database etc.
 	desc = "Upgrades1",

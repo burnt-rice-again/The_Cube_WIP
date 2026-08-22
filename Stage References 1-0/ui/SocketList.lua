@@ -53,7 +53,7 @@ UI.Register("ComponentColumn", ComponentColumn_layout, ComponentBlock)
 
 function ComponentBlock:construct()
 	local sz = self.socket_size
-	if sz and sz ~= "hidden" then
+	if sz and sz ~= "Hidden" then
 		self.sizetext.text = NOLOC(sz:sub(1, 1))
 	end
 end
@@ -69,7 +69,7 @@ end
 
 function ComponentBlock:cnvs_tooltip(cnvs)
 	local sz = self.socket_size
-	if not sz or sz == "hidden" then return "Integrated Component" end
+	if not sz or sz == "Hidden" then return "Integrated Component" end
 	local header = not self.comp and not self.box.comp_def and "Empty Socket"
 	local info = L(sz == "Internal" and "<desc>This socket only accepts </><bl>%s</><desc> sized Components</>" or "<desc>This socket only accepts components of size </><bl>%s</><desc> or smaller</>", sz)
 	local dropdesc = self.on_drop and "Drag Component here to Equip"
@@ -85,7 +85,7 @@ function ComponentBlock:progress_tooltip(prog)
 				local boost, raw_efficiency = comp.effective_boost, owner.efficiency or 0
 				local efficiency = (raw_efficiency == 0 and 100 or raw_efficiency)
 				local duration = ((comp.ticker_target * 100 + boost - 1) // boost * 100 + efficiency - 1) // efficiency
-				tt.txt = string.format("%.1fs", ((1.0 - comp.interpolated_progress) * duration + .499) // 1 / TICKS_PER_SECOND)
+				tt.txt = L("%.1fs", ((1.0 - comp.interpolated_progress) * duration + .499) // 1 / TICKS_PER_SECOND)
 			else
 				UI.CloseTooltip()
 			end
@@ -114,12 +114,12 @@ function SocketBox:SetComp(comp)
 	if comp_def and comp_def.race then
 		self.race_img.image = GetComponentRaceBG(comp_def.race)
 	else
-		self.race_img.image = "component_bg"
+		self.race_img.image = 'component_bg'
 	end
 	self.comp_def = comp_def
 
-	self.image.image = comp and comp_def.texture or sockimg[self.socket_size] or "icon_component"
-	self.image.color = comp and "white" or "ui_dark"
+	self.image.image = comp and comp_def.texture or sockimg[self.socket_size] or 'icon_component'
+	self.image.color = comp and 'white' or 'ui_dark'
 	self.framebox.hidden = not comp
 	if self.progress then
 		self.progress:RemoveFromParent()
@@ -127,11 +127,10 @@ function SocketBox:SetComp(comp)
 	end
 
 	if comp and comp.is_hidden then
-		self.sizetxt.hidden = true
 		self.framebox.hidden = true
 	else
-		local this_size = comp and comp_def.attachment_size or self.socket_size or ""
-		self.sizetxt.text = NOLOC((this_size or " "):sub(1, 1))
+		local this_size = comp and comp_def.attachment_size or self.socket_size or " "
+		self.sizetxt.text = NOLOC(this_size:sub(1, 1))
 	end
 end
 
@@ -140,23 +139,22 @@ function SocketBox:SetCompDef(comp_def)
 	if comp_def and comp_def.race then
 		self.race_img.image = GetComponentRaceBG(comp_def.race)
 	else
-		self.race_img.image = "component_bg"
+		self.race_img.image = 'component_bg'
 	end
 
-	self.image.image = comp_def and comp_def.texture or sockimg[self.socket_size] or "icon_component"
-	self.image.color = comp_def and "white" or "ui_dark"
+	self.image.image = comp_def and comp_def.texture or sockimg[self.socket_size] or 'icon_component'
+	self.image.color = comp_def and 'white' or 'ui_dark'
 	self.framebox.hidden = not comp_def
 	if self.progress then
 		self.progress:RemoveFromParent()
 		self.progress = nil
 	end
 
-	if (self.socket_size or "hidden") == "hidden" then
-		self.sizetxt.hidden = true
+	local this_size = comp_def and comp_def.attachment_size or self.socket_size
+	if (this_size or "Hidden") == "Hidden" then
 		self.framebox.hidden = true
 	else
-		local this_size = comp_def and comp_def.attachment_size or self.socket_size or ""
-		self.sizetxt.text = NOLOC((this_size or " "):sub(1, 1))
+		self.sizetxt.text = NOLOC(this_size:sub(1, 1))
 	end
 end
 
@@ -197,7 +195,7 @@ function SocketBox:on_click()
 			menu.action.hidden = not comp_def.action_click
 			menu.action.text = tt and type(tt) == "function" and tt(comp_def, comp) or tt
 			menu.drop.hidden = not IsBot(comp.owner) and not comp.owner.has_crane
-			if self.socket_size == "hidden" then
+			if self.socket_size == "Hidden" then
 				menu.drop.hidden = true
 				menu.unequip.hidden = true
 				menu.rotate.hidden = true
@@ -261,11 +259,11 @@ function SocketBox:on_drop(payload, cursor)
 	local droppedon = self
 	local entity, slot, comp = self.entity, payload.slot, payload.comp
 	if not entity then return false end -- not a socket on a live entity
-	if self.socket_size == "hidden" then return false end -- not a equippable socket
+	if self.socket_size == "Hidden" then return false end -- not a equippable socket
 	if not entity.exists then return end -- already destroyed
 	if entity.faction ~= Game.GetLocalPlayerFaction() then return print("Cannot put onto non-owned faction") end
 
-	if payload.dragtype == "ITEM" and slot and slot.exists then
+	if payload.dragtype == 'ITEM' and slot and slot.exists then
 		if entity ~= slot.owner then
 			ActionTransfer(entity, slot, cursor.num)
 		else

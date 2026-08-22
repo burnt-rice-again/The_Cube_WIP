@@ -1,10 +1,13 @@
 local Program_layout<const> = [[
 <Modal dock=fill>
 	<Canvas>
-		<Image dock=fill image=tech_tree_pattern_bg/>
-		<Image dock=fill image=tech_tree_pattern/>
-		<VerticalList fill=true margin=2 child_padding=6>
-			<HorizontalList child_padding=8 child_align=top>
+		<Image image=tech_tree_pattern_bg dock=top-fill height=192/>
+		<Image image=tech_tree_pattern_bg dock=bottom-fill height=68/>
+		<Image image=tech_tree_pattern_bg dock=left-fill width=248 margin_top=192 margin_bottom=68/>
+		<Image image=tech_tree_pattern_bg dock=right-fill width=4 margin_top=192 margin_bottom=68/>
+		<Image image=tech_tree_pattern dock=top-fill height=192/>
+		<VerticalList fill=true margin=2>
+			<HorizontalList child_padding=8 child_align=top id=topbar margin_bottom=6>
 				<VerticalList child_padding=2>
 					<Image id=imgicon width=56 height=56 on_click={on_icon} tooltip="Click to change icon"/>
 					<Button id=btnoptions width=28 height=28 halign=center icon=icon_cog tooltip="Behavior Options" on_click={on_click_options} zoom=-1/>
@@ -12,20 +15,23 @@ local Program_layout<const> = [[
 				<VerticalList fill=true>
 					<Text text={title} size=24 style=bl on_click={on_rename} tooltip="Click to rename"/>
 					<Text text={desc} size=12 style=bl on_click={on_edit_desc} tooltip="Click to edit description" margin_left=3 height=19 clip=true/>
-					<Text id=txtactive size=12 style=gl margin_top=5 margin_left=4/>
+					<HorizontalList>
+						<Text id=txtactive size=12 style=gl margin_top=5 margin_left=4/>
+						<Text id=txtperf size=12 style=hl margin_top=5 margin_left=40 opacity=0.5/>
+					</HorizontalList>
 				</VerticalList>
 				<HorizontalList>
 					<Text id=pausedbox hidden=true dock=center text="Game is Paused" margin_right=24 style=notify_info/>
 					<Box padding=2>
 						<HorizontalList child_padding=2>
-							<Button width=50 height=50 icon=icon_save on_click={on_click_savenew} tooltip="Save As New Behavior" id=btnsavenew/>
+							<Button width=50 height=50 icon=icon_save on_click={on_click_savenew} tooltip="Save As New Behavior"/>
 							<Button width=50 height=50 icon=icon_remove on_click={on_click_clear} tooltip="Clear Behavior"/>
 							<Button width=50 height=50 icon=icon_question on_click={on_click_help} tooltip="Show Help"/>
 						</HorizontalList>
 					</Box>
 				</HorizontalList>
 			</HorizontalList>
-			<ScrollList orientation=horizontal height=90 child_padding=6 child_align=top>
+			<ScrollList orientation=horizontal height=90 child_padding=6 child_align=top margin_bottom=6>
 				<Box padding=4>
 					<VerticalList child_padding=4>
 						<Text text="Base Registers" height=18 textalign=center/>
@@ -34,17 +40,23 @@ local Program_layout<const> = [[
 				</Box>
 				<HorizontalList id=paramlist child_padding=4 on_drop={param_on_drop} on_drag_over={param_on_drag_over} on_drag_leave={param_on_drag_leave} child_align=top/>
 			</ScrollList>
-			<HorizontalList fill=true child_padding=6>
-				<Box padding=4 width=240 bg=card_box_bg>
+			<HorizontalList fill=true>
+				<Box padding=4 width=240 bg=card_box_bg id=sidebar margin_right=6>
 					<VerticalList child_padding=4>
 						<TextSearch on_refresh={on_filter}/>
 						<ScrollList fill=true id=toolbox/>
-						<Camera id=dbgcam width=200 height=200 hidden=true/>
+						<Canvas width=232 id=dbgbox hidden=true on_mouse_wheel={dbgcam_on_mouse_wheel}>
+							<Camera id=dbgcam width=232 height=200/>
+							<Box dock=bottom-right bg=popup_additional_bg>
+								<Button icon=icon_small_visual tooltip="View Options" on_click={on_click_view} margin_top=2 margin_left=2/>
+							</Box>
+						</Canvas>
 					</VerticalList>
 				</Box>
 				<VerticalList fill=true child_padding=6>
 					<Canvas fill=true>
-						<Box fill=true bg=card_box_bg>
+						<Image fill=true id=behindpan image=tech_tree_pattern_bg opacity=1.0/>
+						<Box fill=true bg=editor_pan_bg>
 							<PanView margin=2 id=pan on_mouse_button_down={graph_on_mouse_button_down} on_mouse_button_up={graph_on_mouse_button_up} on_drag_start={graph_on_drag_start} on_drag_cancel={graph_on_drag_cancel} on_drop={graph_on_drop} on_drag_over={graph_on_drag_over} on_drag_leave={graph_on_drag_leave} on_mouse_wheel={on_pan_mouse_wheel} zoom=1>
 								<Canvas id=graph/>
 								<Draw id=draw/>
@@ -53,6 +65,8 @@ local Program_layout<const> = [[
 						</Box>
 						<Button width=32 height=32 halign=right margin_top=4 margin_right=4 icon=icon_small_zoom_in tooltip="Zoom In" on_click={on_click_zoom} zoom=1/>
 						<Button width=32 height=32 halign=right margin_top=4 margin_right=40 icon=icon_small_zoom_out tooltip="Zoom Out" on_click={on_click_zoom} zoom=-1/>
+						<Button width=32 height=32 halign=right margin_top=4 margin_right=76 icon=icon_small_find tooltip="Search" on_click={on_click_find}/>
+						<Button width=32 height=32 halign=right margin_top=4 margin_right=112 icon=icon_small_view_icon tooltip="Windowed Mode" on_click={on_click_windowed} id=btnwindowed/>
 						<Box id=help_popup padding=8 width=450 dock=bottom-left blur=true hidden=true>
 							<ScrollList id=help_scrolllist max_height=400 padding=8 margin_bottom=20>
 								<HorizontalList>
@@ -78,7 +92,7 @@ local Program_layout<const> = [[
 					</Canvas>
 					<HorizontalList>
 						<HorizontalList id=help_panel child_padding=16>
-							<Button id=help_button on_click={on_help_popup} icon=icon_question color= tooltip="Show Explanation" active=true/>
+							<Button id=help_button on_click={on_help_popup} icon=icon_question color=ui_light tooltip="Show Explanation" active=true/>
 							<Text size=20 valign=center id=help_inst_name text="Select Node for help on that instruction" margin_right=8/>
 						</HorizontalList>
 						<Spacer fill=true/>
@@ -87,6 +101,7 @@ local Program_layout<const> = [[
 								<Button icon=icon_test id=dbgvalues on_click={on_click_debug_values} tooltip="View Current Values" disabled=true/>
 								<Button icon=icon_small_view_list width=52 height=52 id=dbgarray on_click={on_click_debug_array} tooltip="Memory Viewer" disabled=true/>
 								<Button icon=icon_map id=dbgtarget on_click={on_click_debug_target} tooltip="Inspect Running Behavior"/>
+								<Reg id=reginspected width=32 height=32 hidden=true/>
 							</HorizontalList>
 						</Box>
 						<Box padding=2 margin_right=24 id=dbgbtn_box disabled=true opacity=0.5>
@@ -107,16 +122,11 @@ local Program_layout<const> = [[
 								<Button icon=icon_undo on_click={on_click_undoredo} id=btnredo tooltip="Redo" redo=true sx=-1/>
 							</HorizontalList>
 						</Box>
-						<Box padding=2 id=remoteconfirm_box>
-							<HorizontalList child_padding=2>
-								<Button icon=icon_save on_click={remote_apply} tooltip="Apply" id=btnremoteapply disabled=true/>
-								<Button icon=icon_deny on_click={remote_cancel} tooltip="Close" id=btnremotecancel/>
-								<Button icon=icon_confirm on_click={close} tooltip="Apply and Close" id=btnremoteconfirm disabled=true/>
-							</HorizontalList>
-						</Box>
-						<Box padding=2 id=localconfirm_box>
-							<Button icon=icon_confirm on_click={close} tooltip="Close"/>
-						</Box>
+						<HorizontalList child_padding=2 id=confirm_box>
+							<Button icon=icon_save on_click={apply} tooltip="Apply" id=btnapply disabled=true/>
+							<Button icon=icon_deny on_click={cancel} tooltip="Close" id=btncancel/>
+							<Button icon=icon_confirm on_click={close} tooltip="Apply and Close" id=btnconfirm disabled=true/>
+						</HorizontalList>
 					</HorizontalList>
 				</VerticalList>
 			</HorizontalList>
@@ -144,21 +154,31 @@ local Options_layout<const> = [[
 	</Canvas>
 ]]
 
-local TemplateLibraryItem_layout<const> = [[
-	<Box padding=6>
-		<HorizontalList child_align=top child_padding=3>
-			<Image image=icon_behavior color=ui_light/>
-			<VerticalList child_padding=3 child_align=top fill=true>
-				<Text text={name} size=25 style=bl/>
-				<Text text={info} size=10 style=bl/>
+local View_layout<const> = [[
+	<Canvas>
+		<Box bg=popup_box_bg padding=8 blur=true x=16 y=-4>
+			<VerticalList child_padding=4 width=500>
+				<Text text="View Options" halign=center margin_top=4 margin_bottom=8/>
+				<HorizontalList>
+					<Text width=180 valign=center text="Show Behind Editor"/>
+					<Slider fill=true height=32 min=0 max=1 step=0.05 id=behind on_change={on_change}/>
+				</HorizontalList>
+				<HorizontalList>
+					<Text width=180 valign=center text="Camera Zoom"/>
+					<Slider fill=true height=32 min=1 max=20 step=0.5 id=camzoom on_change={on_change}/>
+				</HorizontalList>
+				<HorizontalList>
+					<Text width=180 valign=center text="Camera Height"/>
+					<Slider fill=true height=32 min=0.01 max=0.99 step=0.01 id=campitch on_change={on_change}/>
+				</HorizontalList>
 			</VerticalList>
-			<Button icon=icon_comp on_click={on_load} tooltip={load_text} id=btnload/>
-		</HorizontalList>
-	</Box>
+		</Box>
+		<Image valign=top image=popup_pointer id=triangle/>
+	</Canvas>
 ]]
 
 local Register_layout<const> = [[
-	<Reg width=48 height=48 on_drag_start={reg_on_drag_start} on_click={reg_on_click} on_drop={reg_on_drop} tooltip={reg_tooltip}/>
+	<Reg width=48 height=48 on_click={reg_on_click} on_set={reg_on_set} on_drag_start={reg_on_drag_start} on_drop={reg_on_drop} tooltip={reg_tooltip} on_mouse_wheel={reg_do_nothing}/>
 ]]
 
 local Parameter_layout<const> = [[
@@ -171,7 +191,7 @@ local Parameter_layout<const> = [[
 ]]
 
 local ParamAddButton_layout<const> = [[
-	<Box padding=4 width=120 height=78 on_click={param_add_on_click} opacity=0.5 tooltip="Add Parameter">
+	<Box padding=4 width=120 height=78 on_click={param_add_on_click} opacity=0.5 tooltip="Add Parameter" on_drop={reg_on_drop}>
 		<VerticalList child_padding=4>
 			<Text text="Add Parameter" height=18 textalign=center/>
 		</VerticalList>
@@ -186,7 +206,7 @@ local Node_layout<const> = [[
 			<Box blocking=false color={title_color}>
 				<HorizontalList>
 					<Image image={icon} width=30 height=30 valign=center color=ui_light/>
-					<Text text={title} tooltip={instruction_tooltip} width=166 wrap=true margin=2 valign=center />
+					<Text text={title} tooltip={instruction_tooltip} width=170 wrap=true valign=center />
 				</HorizontalList>
 			</Box>
 		</Canvas>
@@ -205,7 +225,7 @@ local NodeButtons_layout<const> = [[
 ]]
 
 local Argument_layout<const> = [[
-	<Reg width=40 height=40 on_click={argument_on_click} on_drag_start={reg_on_drag_start} on_drop={reg_on_drop} tooltip={argument_tooltip}/>
+	<Reg width=40 height=40 on_click={argument_on_click} on_set={argument_on_set} on_drag_start={reg_on_drag_start} on_drop={reg_on_drop} tooltip={argument_tooltip} on_mouse_wheel={argument_do_nothing} on_clipboard_copy={argument_copy} on_clipboard_paste={argument_paste}/>
 ]]
 
 local PINSZ<const>, PINSZ_HOVER<const> = 7, 12
@@ -289,9 +309,17 @@ local OutputArgument_layout<const> = [[
 local Program = {}
 UI.Register("Program", Program_layout, Program)
 
+function FactionAction.Arrays(faction, arg)
+	local comp, clear, key = arg.comp, arg.clear, arg.key
+	local arrays = (comp and comp.has_extra_data and comp.extra_data.arrays) or (not comp and faction.extra_data.arrays)
+	if clear and arrays then
+		if key then arrays[key] = nil end
+		if not key or not next(arrays) then if comp then comp.extra_data.arrays = nil else faction.extra_data.arrays = nil end end
+	end
+end
+
 function EntityAction.Behavior(entity, arg)
-	--print("[EntityAction.Behavior] entity: " .. tostring(entity):gsub("\n", "") .. " - arg: " .. tostring(arg):gsub("\n", ""), arg.debug)
-	local code, comp = arg.code, arg.comp
+	local comp = arg.comp
 	if not comp then
 		local frame_def = arg.add_integrated and entity.def
 		if frame_def and not frame_def.type and frame_def.race == "robot" and not frame_def.no_integrated_behavior then
@@ -299,6 +327,9 @@ function EntityAction.Behavior(entity, arg)
 		elseif arg.remove_integrated then
 			comp = entity:FindComponent("c_integrated_behavior")
 			if comp then comp:Destroy() comp = nil end
+		elseif arg.add_integrated_or_update then
+			comp = entity:FindComponent("c_behavior", true)
+			if not comp then comp = entity:AddComponent("c_integrated_behavior") end
 		else
 			comp = entity:FindComponent("c_behavior", true)
 		end
@@ -306,19 +337,11 @@ function EntityAction.Behavior(entity, arg)
 		if not comp then return end
 	end
 
-	local library = code and code.id and code.rev and entity.faction.extra_data.library
-	if library then
-		local id, rev = code.id, code.rev
-		ClearFactionBehaviorCache(id, rev)
-		code.rev = (rev or 0) + 1
-		library[id] = code
-	end
-
-	local ed, debug, counter, breakpoints = comp.has_extra_data and comp.extra_data, arg.debug, arg.counter, arg.breakpoints
-	if type(comp) ~= "userdata" or entity ~= comp.owner then return end
+	local debug, counter, breakpoints = arg.debug, arg.counter, arg.breakpoints
+	if type(comp) ~= 'userdata' or entity ~= comp.owner then return end
 	if debug and type(debug) ~= "string" then return end
 
-	local set_id, create = library and ed and ed.main_id == code.id and code.id or arg.set_id, arg.create
+	local set_id, create = arg.set_id, arg.create
 	if create then
 		set_id, debug = (Map.GetSave().library_id_count or 0) + 1, "STOP"
 		FactionAction.FactionLibrary(entity.faction, { folder = arg.folder, mode = 'create', item = {}, type = 'C' })
@@ -332,15 +355,15 @@ function EntityAction.Behavior(entity, arg)
 
 	if arg.reset_reg then
 		local main_id = set_id or (comp.has_extra_data and comp.extra_data.main_id) or 0
-		if not code then code = entity.faction.extra_data.library[main_id] end
+		local code = entity.faction.extra_data.library[main_id]
 		for i=(arg.reset_reg or 1),math.min(comp.register_count, (code and code.id == main_id and arg.reset_reg_max or 0)) do
 			comp:SetRegister(i, code.pinits and code.pinits[i] or nil)
 		end
 	end
 
 	if create then
-		library = entity.faction.extra_data.library
-		Action.RunUI(function() OpenMainWindow("Program", { comp = comp, code = Tool.Copy(library[set_id]), is_remote = true, library = library, }) end)
+		local library = entity.faction.extra_data.library
+		Action.RunUI(function() UI.AddLayout("Program", { comp = comp, library_item = library[set_id], is_remote = true, library = library }, 1) end)
 	end
 end
 
@@ -354,14 +377,27 @@ function UIMsg.OnBehaviorBreakpoint(comp)
 end
 
 function Program:construct()
-	if not self.code then error("missing code") end
+	local code = Tool.Copy(self.library_item)
+	if not code then error("missing library item") end
+	self.code = code
+	for _,other in ipairs(UI.FindWidgetsWithTag("Program")) do
+		if other ~= self and other.code.id == code.id then
+			self:RemoveFromParent() -- already open
+			other.root.child_index = 99999 -- bring to top
+			return
+		end
+	end
+	CloseMainWindowAndPopup(true)
+	UI.PlaySound("fx_ui_WINDOW_GENERIC_OPEN")
 	local outer_ui = self.outer_ui
 	if outer_ui then
-		outer_ui.dbgcam.hidden = true
-		if outer_ui.dirtybpnts then outer_ui:remote_do_save(true) end -- save breakpoints
+		outer_ui.dbgbox.hidden = true
+		if outer_ui.dirtybpnts then outer_ui:do_save(true) end -- save breakpoints
 		self.comp, self.is_remote, self.library = outer_ui.comp, outer_ui.is_remote, outer_ui.library
 		self[1].margin_left, self[1].margin_right, self[1].margin_top, self[1].margin_bottom = 5, 5, 20, 0
 		self.btnoptions.hidden = true -- all current behavior options are only relevant for a main program
+		self.help_button.active = outer_ui.help_button.active
+		if outer_ui.windowed then self:on_click_windowed() end
 	end
 	self.selection = {}
 	self:PrepareToolBox(self.toolbox)
@@ -369,26 +405,55 @@ function Program:construct()
 	self:RefreshActive()
 	self.dbgsel_box.hidden = not self.is_remote
 	self.dbgbtn_box.hidden = not self.is_remote
-	self.remoteconfirm_box.hidden = not self.is_remote
-	self.localconfirm_box.hidden = self.is_remote
-	self.btnsavenew.hidden = not self.is_remote
 	self.hide_bpntlight = true
 	if self.comp then self:set_debug_target(self.comp) end
 	if not Game.GetProfile().behaviors_welcomed then
 		self:on_click_help(nil, nil, true)
 		Game.GetProfile().behaviors_welcomed = true
-	elseif not self.code.name and not self.code[1] and not (self.code.parameters and self.code.parameters[1]) then
+	elseif not code.name and not code[1] and not (code.parameters and code.parameters[1]) then
 		self:on_rename()
 	end
 end
 
 function Program:destruct()
-	self:remote_do_save(true)
+	if self.behavior_guide then
+		local guide = self.behavior_guide
+		self.behavior_guide = nil
+		guide:RemoveFromParent()
+	end
+	if self.is_dirty then -- force closing so force save (Program:close/Program:cancel was skipped)
+		self:do_save(true)
+	end
+end
+
+function Program:on_click_windowed(btn_or_state)
+	local gowin = (type(btn_or_state) == "boolean" and btn_or_state) or (type(btn_or_state) ~= "boolean" and not self.topbar.hidden)
+	self.windowed = gowin
+	if not self.outer_ui then
+		self.dock = gowin and 'left' or 'fill'
+		self.height = gowin and 500 or nil
+		self.width = gowin and 700 or nil
+		self.y = gowin and -100 or nil
+	end
+	self.topbar.hidden = gowin
+	self.paramlist.parent.hidden = gowin
+	self.sidebar.hidden = gowin
+	self.help_inst_name.hidden = gowin
+	self.btnwindowed.active = gowin
+	self.on_closed = nil -- clear callback
+	for _,w in ipairs(UI.FindWidgetsWithTag("Button", self.help_panel.parent)) do
+		w.width, w.height = gowin and 32 or 56, gowin and 32 or 56
+	end
+	if gowin and self.help_button.active then
+		self:on_help_popup(self.help_button) -- disable when going windowed
+	end
+	if self.outer_ui then self.outer_ui:on_click_windowed(gowin) end -- propagate
+	if type(btn_or_state) ~= "boolean" then self:set_debug_target(self.comp) end -- refresh debug camera view
 end
 
 function Program:set_dirty(dirty, no_undo_state)
 	if self.is_dirty ~= dirty then
-		self.is_dirty, self.btnremoteapply.disabled, self.btnremoteconfirm.disabled, self.btnremotecancel.tooltip = dirty, not dirty, not dirty, dirty and "Cancel" or "Close"
+		self.is_dirty, self.btnapply.disabled, self.btnconfirm.disabled, self.btncancel.tooltip = dirty, not dirty, not dirty, dirty and "Cancel" or "Close"
 		self.dbgvalues.opacity = dirty and 0.5 or 1.0
 	end
 	if dirty and not no_undo_state then
@@ -407,10 +472,33 @@ function Program:set_dirty(dirty, no_undo_state)
 	end
 end
 
-function Program:remote_do_save(no_confirm, is_closing, is_cancel, set_debug, debug_counter)
-	local dirty_remote = (self.is_remote and self.is_dirty)
-	if dirty_remote or set_debug then
-		local comp, code, breakpoints = self.comp, self.code
+local function BuildProgramVarArgList(code)
+	local parameters, res, first_exec = code.parameters, {}
+	if parameters then
+		local pnames = code and code.pnames
+		for i,v in ipairs(parameters) do
+			res[#res+1] = (v and 'o' or 'i')..'\b'..(pnames and pnames[i] or ('\b'..i))
+		end
+	end
+	for _,v in ipairs(code) do
+		local namestr = v.branch
+		if namestr and v.op == "ret" then
+			first_exec = first_exec or #res+1
+			if res then for i=first_exec,#res do if res[i] == namestr then goto seen end end end
+			res[#res+1] = namestr
+			::seen::
+		end
+	end
+	return res, first_exec
+end
+
+function Program:do_save(no_confirm, is_closing, is_cancel, set_debug, debug_counter)
+	local dirty = self.is_dirty
+	if dirty or set_debug then
+		local comp, code, reset_reg, breakpoints, set_behavior = self.comp, self.code, self.reset_reg
+		local active_debug, ed, oldcode = comp and (comp.is_active and 'CONTINUE' or "STOP"), comp and comp.has_extra_data and comp.extra_data, self.library[self.code.id]
+		local olddebug, newdebug = (ed and ed.debug or active_debug), (set_debug or active_debug)
+
 		if comp then
 			-- Build list of breakpoints to send and remove .breakpoint in sent code (which is just for UI)
 			if not self.hide_bpntlight or self.dirtybpnts then
@@ -436,63 +524,85 @@ function Program:remote_do_save(no_confirm, is_closing, is_cancel, set_debug, de
 			end
 
 			-- If there was no code change, don't send it, same with breakpoints (all breakpoints need to always get sent if code is sent!)
-			if not dirty_remote or Tool.Hash(self.library[code.id]) == Tool.Hash(code) then
-				local ed_breakpoints = comp.has_extra_data and comp.extra_data.breakpoints
+			if not dirty or Tool.Hash(oldcode) == Tool.Hash(code) then
+				local ed_breakpoints = ed and ed.breakpoints
 				if ed_breakpoints and not breakpoints then
 					breakpoints = {} -- mark to be cleared by DebugBehavior
 				elseif Tool.Hash(breakpoints) == Tool.Hash(ed_breakpoints) then
-					if not set_debug and not self.reset_reg then goto skip_send end -- no need to do anything
+					if not set_debug and not reset_reg then goto skip_send end -- no need to do anything
 					breakpoints = nil -- no need to update
 				end
 				code = nil -- no need to update
 			end
-		elseif Tool.Hash(self.library[code.id]) == Tool.Hash(code) then
+		elseif Tool.Hash(oldcode) == Tool.Hash(code) then
 			goto skip_send
 		end
 
 		if is_cancel then
 			if no_confirm then goto skip_send end
-			ConfirmBox(L("%s\n%s", "This will discard your changes.", "Are you sure you want to continue?"), function() self:remote_do_save(true, is_closing, true, set_debug, debug_counter) end)
+			ConfirmBox(L("%s\n%s", "This will discard your changes.", "Are you sure you want to continue?"), function() self:do_save(true, is_closing, true, set_debug, debug_counter) end)
 			return
 		end
 
-		if not no_confirm and self.remote_running > 0 and code then
-			ConfirmBox(L("%s\n%s", L("Saving will affect %d currently running Behavior Controller.", self.remote_running), "Are you sure you want to continue?"), function() self:remote_do_save(true, is_closing, false, set_debug, debug_counter) end)
+		if not no_confirm and (self.remote_running or 0) > 0 and code then
+			ConfirmBox(L("%s\n%s", L("Saving will affect %d currently running Behavior Controller.", self.remote_running), "Are you sure you want to continue?"), function() self:do_save(true, is_closing, false, set_debug, debug_counter) end)
 			return
 		end
 
-		if comp then
-			local debug = set_debug ~= "CONTINUE" and (set_debug or (comp.is_active and "CONTINUE" or "STOP")) or nil
-			Action.SendForEntity("Behavior", comp.owner, { comp = comp, code = code, breakpoints = breakpoints, debug = debug, counter = debug_counter, reset_reg = self.reset_reg, reset_reg_max = self.reset_reg_max })
-			self.reset_reg, self.reset_reg_max = nil, nil
-		else
-			Action.SendForLocalFaction("FactionLibrary", { mode = 'data', item = code })
+		set_behavior = comp and (code or newdebug ~= olddebug or debug_counter or breakpoints or reset_reg) and
+			{ comp = comp, set_id = (code and code.id), breakpoints = breakpoints, debug = (newdebug ~= 'CONTINUE' and newdebug or nil), counter = debug_counter, reset_reg = self.reset_reg, reset_reg_max = self.reset_reg_max }
+
+		if code then
+			local oldargs, newargs, newfirstexec, unsaved_items = BuildProgramVarArgList(oldcode), BuildProgramVarArgList(code)
+			local args_changed, name_changed = Tool.Hash(oldargs) ~= Tool.Hash(newargs), oldcode.name ~= code.name
+			if args_changed then
+				local outer = self.outer_ui
+				while outer do
+					if outer.is_dirty then
+						unsaved_items = unsaved_items or {}
+						unsaved_items[outer.code.id] = outer.code
+					end
+					outer = outer.outer_ui
+				end
+			else
+				oldargs, newargs = nil, nil
+			end
+			local outer = self.outer_ui -- read before potentially closing
+			local function on_done(item)
+				code.rev = item.rev -- directly apply new revision
+				if not args_changed and not name_changed then return end
+				if self:IsValid() then self:Refresh(true) end -- refresh call/loadbehavior nodes
+				while outer and outer:IsValid() do outer:Refresh(true) outer = outer.outer_ui end -- same
+			end
+			UILibrarySaveItem(self.library, code, on_done, oldargs, newargs, newfirstexec, unsaved_items, set_behavior)
+		elseif set_behavior then
+			Action.SendForEntity("Behavior", comp.owner, set_behavior)
 		end
+		self.reset_reg, self.reset_reg_max = nil, nil
 		::skip_send::
-		if dirty_remote then self:set_dirty(false) end
-		if dirty_remote and not is_closing and self.dbgvalues.active then self:Refresh(true) end
+		if dirty then self:set_dirty(false) end
+		if dirty and not is_closing and self.dbgvalues.active then self:Refresh(true) end
 	end
 	if is_closing then
 		if self.outer_ui then
-			self.outer_ui.dbgcam.hidden = not self.comp
-			self:RemoveFromParent()
-		else
-			CloseMainWindowAndPopup()
+			self.outer_ui.dbgbox.hidden = not self.outer_ui.comp
 		end
+		self:RemoveFromParent()
+		UI.PlaySound("fx_ui_WINDOW_GENERIC_CLOSE")
 		self:SendEvent("on_closed")
 	end
 end
 
-function Program:remote_apply()
-	self:remote_do_save()
+function Program:apply()
+	self:do_save()
 end
 
-function Program:remote_cancel()
-	self:remote_do_save(false, true, true)
+function Program:cancel()
+	self:do_save(false, true, true)
 end
 
 function Program:close()
-	self:remote_do_save((self.outer_ui ~= nil), true)
+	self:do_save(false, true)
 end
 
 function Program:RefreshActive()
@@ -524,6 +634,7 @@ function Program:RefreshActive()
 	self.dbgsel_box.disabled = (#active == 0)
 	self.txtactive.hidden = (#active == 0)
 	self.txtactive.text = L("Loaded in %d Behavior Controllers (%d Running)", #active, running)
+	self.txtperf.text = ""
 end
 
 function Program:SetCompRunning(comp_running)
@@ -535,7 +646,7 @@ end
 function Program:set_debug_target(comp)
 	local oldcomp, e, code, breakpoints = self.comp, comp and comp.owner, self.code, comp and comp.has_extra_data and comp.extra_data.breakpoints
 	if not self.hide_bpntlight or self.dirtybpnts or breakpoints then
-		if self.dirtybpnts then self:remote_do_save(true) end -- save breakpoints
+		if self.dirtybpnts then self:do_save(true) end -- save breakpoints
 		local code_id = code.id or 0
 		for i,v in ipairs(code) do if v.breakpoint then v.breakpoint = nil end end
 		for i,v in pairs(breakpoints or {}) do if (i >> 16) == code_id then code[i & 0xffff].breakpoint = true end end
@@ -549,25 +660,71 @@ function Program:set_debug_target(comp)
 	self.comp_running = comp and comp.is_active or nil
 	self.dbgbtn_box.disabled = not comp
 	self.dbgbtn_box.opacity = comp and 1 or 0.5
+	self.reginspected.entity = e
+	self.reginspected.hidden = not (self.windowed and e)
 	if e == nil and self.dbgvalues.active then
 		self.dbgvalues.active = false
 		self:Refresh(true)
 	end
-	if (oldcomp and (oldcomp.def.key or true)) ~= (comp and (comp.def.key or true)) then
+	if (oldcomp and (oldcomp.exists and oldcomp.def.key or true)) ~= (comp and (comp.def.key or true)) then
 		self:PrepareToolBox(self.toolbox)
 	end
-	self.dbgcam.hidden = not comp
-	self.dbgcam.every_frame_update = comp and function(w, dt)
-		local pos = e.interpolated_location or { x = 0, y = 0, z = 0 }
-		w:SetCameraPos(pos.x, pos.y+0.1, pos.z + 8)
-		w:SetTargetPos(pos.x, pos.y, pos.z)
-		View.SetCamera3DPosition({pos.x, pos.y + 1, pos.z + 15}, pos)
+	if self.windowed then
+		if self.dbgcam.destruct then self.dbgcam.destruct() end
+		self.dbgcam.every_frame_update, self.dbgcam.destruct = nil, nil
+		self.behindpan.opacity = 1.0
+	else
+		self.dbgbox.hidden = not comp
+		self.dbgcam.every_frame_update = comp and function(w, dt)
+			local pos, zoom, pitch = (e.interpolated_location or { x = 0, y = 0, z = 0 }), (Program.dbg_camzoom or 8), (Program.dbg_campitch or 0.9)
+			pos.z = pos.z + 0.4
+			w:SetCameraPos(pos.x, pos.y + (1-pitch)*zoom, pos.z + 0.4 + pitch*zoom)
+			w:SetTargetPos(pos.x, pos.y, pos.z)
+			pos.z, pos.x = pos.z + 0.3, pos.x - 0.25
+			View.SetCamera3DPosition({pos.x, pos.y + (1-pitch)*zoom*2, pos.z + 0.3 + pitch*zoom*2}, pos)
+			local show_behind = (self.outer_ui and 1.0 or (1.0 - (Program.dbg_behind or 0.0)))
+			if show_behind == self.behindpan.opacity then return end
+			self.dbgcam.hidden = show_behind ~= 1.0
+			self.behindpan.opacity = show_behind
+		end
+		if not self.dbgcam.destruct and not self.outer_ui then
+			local old_pos, old_trg = View.GetCamera3DPosition()
+			local hiddenwidgets = {}
+			for _,w in ipairs(UI.GetRootWidgets()) do
+				if w ~= self and not w.hidden then w.hidden, hiddenwidgets[w] = true, w.hidden == nil end -- remember if false or nil
+			end
+			self.dbgcam.destruct = function()
+				for w,old_hidden in pairs(hiddenwidgets) do
+					if w:IsValid() then w.hidden = old_hidden and nil end -- restore as false or nil
+				end
+				View.SetCamera3DPosition(old_pos, old_trg)
+			end
+		end
 	end
-	if self.dbgcam.destruct then return end
-	local old_pos, old_trg = View.GetCamera3DPosition()
-	self.dbgcam.destruct = function()
-		View.SetCamera3DPosition(old_pos, old_trg)
-	end
+	if self.outer_ui then self.outer_ui:set_debug_target(comp) end -- propagate
+end
+
+function Program:on_click_view(btn)
+	UI.MenuPopup(View_layout, {
+		on_popup_shift = function(popup, shift_x, shift_y) popup.triangle.y = -shift_y end,
+		construct = function(popup)
+			popup.behind.parent.hidden = self.outer_ui ~= nil
+			popup.behind.value = (Program.dbg_behind or 0.0)
+			popup.camzoom.value = (Program.dbg_camzoom or 8)
+			popup.campitch.value = (Program.dbg_campitch or 0.9)
+		end,
+		destruct = function(popup)
+		end,
+		on_change = function(popup)
+			Program.dbg_behind = popup.behind.value
+			Program.dbg_camzoom = popup.camzoom.value
+			Program.dbg_campitch = popup.campitch.value
+		end,
+	}, btn, 'RIGHT', 'TOP', -4)
+end
+
+function Program:dbgcam_on_mouse_wheel(dbgcam, wheel)
+	Program.dbg_camzoom = math.max(1, math.min(20, (Program.dbg_camzoom or 8) - wheel * 0.5))
 end
 
 function Program:on_click_debug_target(btn)
@@ -589,68 +746,112 @@ end
 
 function Program:on_click_debug_array(btn)
 	UI.MenuPopup([[
-<Box bg=popup_box_bg width=980 padding=10 blur=true>
-	<VerticalList child_padding=10>
-		<ScrollList id=list child_padding=10 max_height=900/>
-		<HorizontalList>
-			<CheckBox id=showbeyond on_change={update} text="Show values beyond end of array" halign=left/>
-			<Spacer fill=true/>
-			<Button text="Clear All" on_click={clear}/>
-		</HorizontalList>
-	</VerticalList>
-</Box>]], {
+		<Box bg=popup_box_bg width=1106 padding=10 blur=true>
+			<VerticalList child_padding=10>
+				<ScrollList id=list child_padding=10 max_height=900/>
+				<HorizontalList>
+					<Combo id=src min_width=200 margin_right=32 on_change={setsrc}/>
+					<Spacer fill=true/>
+					<CheckBox id=showbeyond text="Show values beyond end of array"/>
+					<Spacer fill=true/>
+					<Button text="Clear All" on_click={clear} min_width=200/>
+				</HorizontalList>
+			</VerticalList>
+		</Box>]], {
+		rows = {},
 		construct = function(w)
 			btn.active = true
+			w.src.texts = { "Local Arrays", "Faction Arrays" }
+			w.src.value = (Program.debug_array_val or 1)
 		end,
 		update = function(w)
-			local c, list = self.comp, w.list
-			local ed = c and c.extra_data
-			local arr = ed and ed.arrays
-			local show_only_array = not w.showbeyond.check
-			local newhash = Tool.Hash(arr, show_only_array)
+			local c, list, rows, show_only_array = self.comp, w.list, w.rows, not w.showbeyond.check
+			local arr = c and ((w.src.value == 2 and c.faction.extra_data.arrays) or (w.src.value == 1 and c.has_extra_data and c.extra_data.arrays))
+			local newhash = Tool.Hash(arr)
 			if w.hash == newhash then return end
 			w.hash = newhash
-			list:Clear()
-			if not arr then list:Add("Text", { text = "Nothing in memory" }) return end
+			if not arr or not next(arr) then list:Clear() w.rows = {}  w.emptytxt = list:Add("Text", { text = "Nothing in memory" }) return end
+			if w.emptytxt then w.emptytxt:RemoveFromParent() w.emptytxt = nil end
+			for _,row in pairs(rows) do row.v = nil end
 			for key,v in pairs(arr) do
-				local row = list:Add([[<HorizontalList>
-					<Reg id=keyreg read_only=true valign=top on_click={toggle_array} margin_right=10/>
-					<Box padding=10 min_height=76 fill=true><VerticalList id=vl child_padding=10/></Box>
-				</HorizontalList>]])
-				if type(key) == "string" then
-					local x,y = string.match(key, "(%d+):(%d+)")
-					if x then
-						row.keyreg.coord = { x = x//1, y = y//1 }
+				local row = rows[key]
+				if not row then
+					row = list:Add([[<HorizontalList>
+						<Reg id=keyreg read_only=true valign=top on_click={toggle_array}/>
+						<Button icon=icon_remove width=24 height=24 tooltip="Remove" on_click={remove_array} valign=top margin_left=8 margin_right=8 margin_top=16/>
+						<Box padding=10 min_height=76 fill=true><ScrollList id=sl max_height=400/></Box>
+					</HorizontalList>]])
+					rows[key] = row
+					row.key = key
+					if type(key) == "string" then
+						local x,y = string.match(key, "^([0-9-]+):([0-9-]+)$")
+						if x then
+							row.keyreg.coord = { x = x//1, y = y//1 }
+						else
+							row.keyreg.def_id = key
+						end
 					else
-						row.keyreg.def_id = key
+						row.keyreg.entity = Map.GetEntityFromKey(key)
 					end
-				else
-					row.keyreg.entity = Map.GetEntityFromKey(key)
 				end
-				local arrayi, hl = 1
-				for i,v2 in SortedPairs(v) do
-					if show_only_array then
-						if i ~= arrayi then break end
-						arrayi = arrayi + 1
-					end
-					if not hl or #hl == 20 then
-						hl = row.vl:Add("HorizontalList")
-					end
-					hl:Add("<Text width=20 textalign=right/>").text = tostring(i)
-					hl:Add("<Reg read_only=true margin_right=10/>", { def_id = v2.id, num = v2.num, entity = v2.entity, coord = v2.coord })
+				row.v = v
+				w:refresh(row, show_only_array)
+			end
+			for key,row in pairs(rows) do if not row.v then row:RemoveFromParent() rows[key] = nil end end
+		end,
+		every_frame_update = function(w)
+			local show_only_array = not w.showbeyond.check
+			for _,row in pairs(w.rows) do w:refresh(row, show_only_array, true) end
+		end,
+		refresh = function(w, row, show_only_array, only_if_scrolled)
+			local sl, v = row.sl, row.v
+			local ofs = 1 + sl:GetScrollOffset() // 66
+			local cnt = 2 + (select(4, sl:GetViewportPosition(w)) or 1080) // 66
+			local scrollhash = (ofs << 30) | (cnt << 1) | (show_only_array and 1 or 0)
+			if only_if_scrolled and sl.scrollhash == scrollhash then return end
+			sl.scrollhash = scrollhash
+
+			local indices, rownum, hl, inview = GetSortedTableKeys(v), 0
+			for n,idx in ipairs(indices) do
+				if show_only_array and idx ~= n then
+					-- avoid showing disappearing elements at the end for one frame when show_only_array just got enabled
+					if (n % 10) ~= 1 then hl.child_count = ((n - 1) % 10)*2 end
+					break
+				end
+				if (n % 10) == 1 then
+					rownum = rownum + 1
+					hl = sl[rownum] or sl:Add("<HorizontalList height=56 margin_bottom=10 hidden=false/>")
+					hl.hidden = false
+					inview = rownum >= ofs and rownum <= ofs + cnt
+					if inview then hl:Clear() end
+				end
+				if inview then
+					local v2 = v[idx]
+					hl:Add("<Text width=30 textalign=right/>").text = tostring(idx)
+					hl:Add("<Reg read_only=true margin_right=10/>", { def_id = v2.id, num = v2.num, entity = v2.raw_entity, coord = v2.coord })
 				end
 			end
+			for i=rownum+1,#sl do sl[i].hidden = true end
 		end,
-		clear = function()
-			Action.SendForEntity("Behavior", self.comp.owner, { comp = self.comp, debug = "WIPEARRAYS" })
+		setsrc = function(w, cmb, val)
+			Program.debug_array_val = val
+			w:update()
+		end,
+		clear = function(w, clearbtn)
+			ConfirmPopup(clearbtn, "Are you sure you want to clear all memory arrays?", function()
+				Action.SendForLocalFaction("Arrays", { clear = true, comp = (w.src.value == 1  and self.comp or nil) })
+			end)
+		end,
+		remove_array = function(w, row)
+			Action.SendForLocalFaction("Arrays", { clear = true, key = row.key, comp = (w.src.value == 1  and self.comp or nil) })
 		end,
 		toggle_array = function(w, keyreg)
-			keyreg.parent.children[2].hidden = not keyreg.parent.children[2].hidden
+			keyreg.next_sibling.next_sibling.hidden = not keyreg.next_sibling.next_sibling.hidden
 		end,
 		destruct = function(w)
 			btn.active = false
 		end
-	}, btn, "UP")
+	}, btn, 'UP')
 end
 
 function Program:on_click_debug_values(btn)
@@ -664,7 +865,7 @@ end
 
 function Program:on_click_zoom(btn, mousebtn)
 	local x, y, w, h = self.pan:GetViewportPosition()
-	if mousebtn == "RIGHTMOUSEBUTTON" then
+	if mousebtn == 'RIGHTMOUSEBUTTON' then
 		self.pan.zoom = 1
 		self.pan:PanTo(-50, -50)
 	else
@@ -672,16 +873,83 @@ function Program:on_click_zoom(btn, mousebtn)
 	end
 end
 
+function Program:on_click_find(btn)
+	UI.MenuPopup([[<Box padding=8 bg=popup_box_bg>
+			<HorizontalList child_padding=8 child_align=center>
+				<Reg id=reg on_click={reg_on_click} on_set={reg_on_set} tooltip={reg_tooltip} on_clipboard_copy={reg_on_copy} on_clipboard_paste={reg_on_paste}/>
+				<Button icon=icon_small_arrow_up tooltip="Previous Match" on_click={go} back=true/>
+				<Button icon=icon_small_arrow_down tooltip="Next Match" on_click={go}/>
+				<Button icon=icon_small_cursor_area tooltip="Select All" on_click={go} all=true/>
+			</HorizontalList>
+		</Box>]], {
+		construct = function(pop)
+			btn.active = true
+			pop:TweenFromTo("sy", 0, 1, 100)
+			pop:reg_on_set(pop.reg, self.find_val)
+		end,
+		destruct = function()
+			btn.active = false
+		end,
+		reg_tooltip = function(pop, reg) return self:argument_tooltip(reg) end,
+		reg_on_copy = function(pop, reg) return self:argument_copy(reg) end,
+		reg_on_paste = function(pop, reg, t, prefix) self:argument_paste(reg, t, prefix) end,
+		reg_on_set = function(pop, reg, val)
+			local isnum, istbl, num, id, coord, icon, varcolor = type(val) == "number", type(val) == "table"
+			if isnum and val < 0 then
+				icon = self.regs[val].ui_icon
+			elseif isnum then
+				num = self.code.pnames and NOLOC(self.code.pnames[val]) or (self.regs[val] and self.regs[val].num)
+			elseif type(val) == "string" then
+				num, varcolor = val, "#FF00FF"
+			elseif istbl and val.fr then
+				num, varcolor = val.fr, "#FF8800"
+			elseif istbl then
+				num, id, coord = val.num, val.id, val.coord
+				if num == 0 and (id or coord) then val, num = { id = id, coord = coord }, nil end
+			end
+			reg.arg_val, reg.ui_icon, reg.num, reg.def_id, reg.coord = val, icon, num, id, coord
+			if pop.vci then pop.vci:RemoveFromParent() pop.vci = nil end
+			if varcolor then local i = reg:Add("<Image image=icon_small_register_var dock=center/>") pop.vci, i.color, i.child_index = i, varcolor, 2 end
+			self.find_val = val
+			pop.match_val, pop.match_hash = (not istbl and val), (istbl and Tool.Hash(val))
+		end,
+		reg_on_click = function(pop, reg, mousebtn)
+			if mousebtn == 'RIGHTMOUSEBUTTON' then pop:reg_on_set(reg) return end
+			self:argument_on_click(reg)
+		end,
+		go = function(pop, gobtn)
+			local code, selection, back, all, instructions, library, match_val, match_hash, x1, y1, x2, y2 = self.code, self.selection, gobtn.back, gobtn.all, data.instructions, self.library, pop.match_val, pop.match_hash
+			local ncode, startn = #code, (selection and #selection > 0 and selection[1].inst_idx or 0) + (back and -2 or 0)
+			for n=0,(gobtn.back and (1-#code) or (#code-1)),(gobtn.back and -1 or 1) do
+				local inst_idx = 1 + ((startn + ncode + n) % ncode)
+				local inst = code[inst_idx]
+				local inst_def = instructions[inst.op] or instructions.nop
+				local arg_defs = inst_def.var_args and inst_def:var_args(inst, code, library) or inst_def.args
+				for i=1,(arg_defs and #arg_defs or 0) do
+					local v = inst[i]
+					if (match_hash and Tool.Hash(v) == match_hash) or (not match_hash and v == match_val) and arg_defs[i][1] ~= 'exec' then
+						self:ModifySelection(self.graph[inst_idx], x1)
+						local x, y, w, h = self.graph[inst_idx]:GetViewportPosition(self.draw)
+						x1, y1, x2, y2 = math.min(x, x1 or x), math.min(y, y1 or y), math.max((x+w), x2 or (x+w)), math.max((y+h), y2 or (y+h))
+						break
+					end
+				end
+				if x1 and not all then break end -- found one
+			end
+			if not x1 then MessagePopup(gobtn, "No results found") return end
+			self.pan:PanIntoView(x1-50, y1-50, x2+50, y2+50, true)
+		end,
+	}, btn, 'DOWN')
+end
+
 function Program:on_ui_accept()
-	if     not self.remoteconfirm_box.hidden and not self.btnremoteapply.disabled then self:remote_apply()
-	elseif not self.remoteconfirm_box.hidden and not self.btnremoteconfirm.disabled then self:close()
-	elseif not self.remoteconfirm_box.hidden then self:remote_cancel()
-	elseif not self.localconfirm_box.hidden then self:close() end
+	if not self.btnapply.disabled then self:apply()
+	elseif not self.btnconfirm.disabled then self:close()
+	else self:cancel() end
 end
 
 function Program:on_ui_cancel()
-	if     not self.remoteconfirm_box.hidden then self:remote_cancel()
-	elseif not self.localconfirm_box.hidden then self:close() end
+	self:cancel()
 end
 
 function Program:on_click_options(btn)
@@ -705,7 +973,7 @@ function Program:on_click_options(btn)
 			self.code.keeparrays = (popup.arrays.value == 2 and "startup") or (popup.arrays.value == 3 and "store") or nil
 			self:Refresh(nil, nil, true) -- clear any values shown with "View Current Values"
 		end,
-	}, btn, "RIGHT", "TOP", -4)
+	}, btn, 'RIGHT', 'TOP', -4)
 end
 
 function Program:on_icon(imgicon, mousebtn)
@@ -713,7 +981,7 @@ function Program:on_icon(imgicon, mousebtn)
 		self.code.icon = val and val.id or nil
 		self:Refresh()
 	end
-	if mousebtn == "RIGHTMOUSEBUTTON" then on_set(nil, nil) return end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then on_set(nil, nil) return end
 	local rsel = ShowRegisterSelection(imgicon, on_set, nil, nil, { hide_coord_panel = true, hide_number_panel = true, hide_entity_panel = true })
 	if rsel then rsel:SetRegister({ id = self.code.icon }) end
 end
@@ -749,7 +1017,7 @@ function Program:on_click_savenew()
 			if t == "" then t = nil end
 			local newname = (self.code.name ~= t)
 			if newname then self.code.name = t end
-			UILibrarySaveBehaviorAsNew(self.code, function (newitem)
+			UILibrarySaveItemAsNew(self.library, self.code, function (newitem)
 				self.code.id, self.code.rev = newitem.id, newitem.rev
 				self:Refresh(not newname)
 				self:set_dirty(false)
@@ -775,7 +1043,7 @@ end
 function Program:instruction_tooltip(w)
 	if not w.op and not w.inst_idx then return end
 	local inst_def = data.instructions[w.op or self.code[w.inst_idx].op]
-	local is_autobase = inst_def.key == "autobase"
+	local is_autobase = inst_def.key == 'autobase'
 	return L("%s%S<hl>%s</>", inst_def.desc, is_autobase and "\n\n" or "", is_autobase and "Available only on AI Behavior Controller" or "")
 end
 
@@ -788,15 +1056,18 @@ function Program:PrepareToolBox(toolbox)
 		end
 	end
 	toolbox:Clear()
-	toolbox:Add(Category_layout, { title = "Unit", text = "Unit", icon = "icon_small_arrow_right" })
-	toolbox:Add(Category_layout, { title = "Move", text = "Move", icon = "icon_small_arrow_right" })
-	toolbox:Add(Category_layout, { title = "Component", text = "Component", icon = "icon_small_arrow_right" })
-	toolbox:Add(Category_layout, { title = "Flow", text = "Flow", icon = "icon_small_arrow_right" })
-	toolbox:Add(Category_layout, { title = "Math", text = "Math", icon = "icon_small_arrow_right" })
-	knowncats.Unit, knowncats.Move, knowncats.Component, knowncats.Flow, knowncats.Math = nil
+	local orderedcats = { "Flow", "Logic", "Loops", "Values", "Units", "Movement", "Inventory", "Logistics", "Components", "Production", "Communication", "World", "Memory", "AutoBase" }
+	for _,cat in ipairs(orderedcats) do
+		if knowncats[cat] then
+			toolbox:Add(Category_layout, { title = cat, text = cat, icon = "icon_small_arrow_right" })
+			knowncats[cat] = nil
+		end
+	end
 	for _,cat in ipairs(GetSortedTableKeys(knowncats)) do
 		toolbox:Add(Category_layout, { title = cat, text = cat, icon = "icon_small_arrow_right" })
 	end
+	local InstSearchStrings = Program.InstSearchStrings
+	if not InstSearchStrings then InstSearchStrings = {} Program.InstSearchStrings = InstSearchStrings end
 	for i,cat in ipairs(toolbox) do
 		local cat_title, collapse = cat.title, i~=1
 		cat.inst_list.hidden = collapse
@@ -804,8 +1075,23 @@ function Program:PrepareToolBox(toolbox)
 		cat.icon = collapse and "icon_small_arrow_right" or "icon_small_arrow_down"
 
 		for op,inst in SortedPairs(data.instructions) do
-			if inst.category == cat_title and not inst.deprecated then
-				cat.inst_list:Add(Instruction_layout, { title = inst.name or op, op = op, icon = inst.icon })
+			if inst.category == cat_title then
+				local str = InstSearchStrings[inst]
+				if not str then
+					-- create a concatenated string with localized name(s), english name(s), and variants without spaces for searching
+					local inst_name, inst_altnames = inst.name, inst.altnames
+					for n=(inst_name and 0 or 1),(inst_altnames and #inst_altnames or 0) do
+						local en_name = (n == 0 and inst_name or inst_altnames[n])
+						str = str and (str .. '\b' .. en_name) or en_name
+						local loc_name = NOLOC(L("%s", en_name))
+						if loc_name ~= en_name then str = str .. '\b' .. loc_name end
+					end
+					if not str then str = op end
+					local nospaces = str:gsub(" ", "")
+					if str ~= nospaces then str = str .. '\b' .. nospaces end
+					InstSearchStrings[inst] = str
+				end
+				cat.inst_list:Add(Instruction_layout, { title = inst.name or op, search = str, op = op, icon = inst.icon })
 			end
 		end
 	end
@@ -813,11 +1099,11 @@ end
 
 function Program:on_filter(search, filter, popup_toolbox)
 	if filter == "" then filter = nil end
-	local MatchLocalizedRichText = filter and Tool.MatchLocalizedRichText
+	local ContainsStringNoCase = filter and Tool.ContainsStringNoCase
 	for _,cat in ipairs(popup_toolbox or self.toolbox) do
 		local showcat
 		for _,inst in ipairs(cat.inst_list) do
-			local show = not filter or MatchLocalizedRichText(inst.title or "", filter)
+			local show = not filter or ContainsStringNoCase(inst.search, filter)
 			inst.hidden = not show
 			showcat = showcat or show
 		end
@@ -902,13 +1188,13 @@ local function NextIdx(code, inst_idx, arg)
 	return inst_idx < #code and inst_idx + 1
 end
 
-local function ShiftCode(code, to_idx, from_idx, show_extras, selection) -- Refresh/BuildGraph must be called after this
+local function ShiftCode(code, to_idx, from_idx, show_extras, selection, library) -- Refresh/BuildGraph must be called after this
 	local min, max, change = math.min(to_idx, from_idx), math.max(to_idx, from_idx), (to_idx < from_idx and 1 or -1)
 	for inst_idx,inst in ipairs(code) do
-		local inst_def = data.instructions[inst.op]
-		local inst_def_args = inst_def.args
-		for i=(inst_def.exec_arg == false and 1 or 0),(inst_def_args and #inst_def_args or 0) do
-			local exec_arg = (i == 0 and "next") or (inst_def_args[i] and inst_def_args[i][1] == "exec" and i)
+		local inst_def = data.instructions[inst.op] or data.instructions.nop
+		local arg_defs = inst_def.var_args and inst_def:var_args(inst, code, library) or inst_def.args
+		for i=(inst_def.exec_arg == false and 1 or 0),(arg_defs and #arg_defs or 0) do
+			local exec_arg = (i == 0 and "next") or (arg_defs[i][1] == 'exec' and i)
 			if exec_arg then
 				local next_idx, new_next_idx = NextIdx(code, inst_idx, inst[exec_arg])
 				if     next_idx == from_idx                             then new_next_idx = to_idx
@@ -961,25 +1247,28 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 			local r = program_ui.paramlist:Add(Parameter_layout, { header = pnames and NOLOC(pnames[i]) or L("Parameter %d", i), param_idx = i })[1]:Add(regs[i])
 			local val = pinits and pinits[i]
 			if val then
-				local val_num, val_id, val_entity, val_coord = val.num, val.id, val.entity, val.coord
-				r.num = (val_num ~= 0) and val_num or (not val_id and not val_entity and not val_coord and not val.is_empty and 0) or nil
-				r.def_id, r.entity, r.coord = val_id, val_entity, val_coord
+				r.num, r.def_id, r.entity, r.coord = val.num, val.id, val.entity, val.coord
 			end
 		end
 		program_ui.paramlist:Add(ParamAddButton_layout)
 	end
 
 	local standalone_y = 110
-	local node_ui_program_ui = program_ui
+	local node_ui_program_ui, library = program_ui, drag_library or (program_ui and program_ui.library) or {}
 	local function BuildNode(inst_idx, auto_x, auto_y, head_idx, block_level)
-		local inst, height = code[inst_idx], 60
+		::after_convert::
+		local inst, height = code[inst_idx], 44
 		local op = inst.op
 		local inst_def = data.instructions[op]
-		local title = inst_def and inst_def.name or op --L("[%d] %s", inst_idx, inst_def and inst_def.name or op)
+		local title = inst_def and inst_def.name
 		if not inst_def then
 			-- Replace unknown instruction with dummy nop instruction
-			title = L("%s [%s]", data.instructions["nop"].name, op)
-			inst.op, op, inst_def = "nop", "nop", data.instructions["nop"]
+			title = L("%s [%s]", data.instructions.nop.name, op)
+			inst.op, op, inst_def = 'nop', 'nop', data.instructions.nop
+		elseif not title then
+			local convert = inst_def.convert
+			if convert then convert(inst) goto after_convert end
+			title = op
 		end
 
 		local freeplace, my_x, my_y = inst.nx, auto_x, auto_y
@@ -991,57 +1280,47 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 		end
 
 		local inpin_x, inpin_y, first_pin_idx = my_x, my_y + 30, #pins + 1
-		local node = graph:Add(Node_layout, { title_color = data.instruction_color[inst_def.category or ""] or "white", icon = inst_def.icon, title = title, x = my_x, y = my_y, height = height, inst_idx = inst_idx, first_pin_idx = first_pin_idx, last_pin_idx = first_pin_idx, level = block_level })
+		local node = graph:Add(Node_layout, { title_color = data.instruction_color[inst_def.category or ""] or 'white', icon = inst_def.icon, title = title, x = my_x, y = my_y, height = height, inst_idx = inst_idx, first_pin_idx = first_pin_idx, last_pin_idx = first_pin_idx, level = block_level })
 		if head_idx == inst_idx then node.is_head = true end
 		nodes[inst_idx] = node
 		local nodecnvs = node[1]
 
-		if not inst_def.event_setup then
+		if op == 'cmt' then
+			height, node.title_color, node.opacity, node.width = 32, "#FF00", 0.75, 130
+		elseif not inst_def.event_setup then
 			node.inpin_id = draw:AddCircle(inpin_x, inpin_y, PINSZ)
 			pins[first_pin_idx] = nodecnvs:Add(ExecInPin_layout, { y = 15, pin_id = node.inpin_id, inst_idx = inst_idx })
 		end
 
-		local show_extra, arg_defs = show_extras and show_extras[inst_idx], inst_def.args
+		local show_extra, add_height, has_extra, can_hide = show_extras and show_extras[inst_idx]
 		if inst_def.node_ui then
-			if not node_ui_program_ui then node_ui_program_ui = { code = code, library = drag_library or {} } end -- fake for node_ui
-			local add_height = inst_def.node_ui(nodecnvs, inst, node_ui_program_ui, op, show_extra)
-			if add_height then height = height + add_height end
-		end
-
-		local argc, var_args = arg_defs and #arg_defs or 0
-		if inst_def.var_args then
-			var_args = inst_def.var_args(inst, code, drag_library or program_ui and program_ui.library or {})
-			argc = argc + (var_args and #var_args or 0)//2
+			if not node_ui_program_ui then node_ui_program_ui = { code = code, library = library } end -- fake for node_ui
+			add_height, has_extra, can_hide = inst_def.node_ui(nodecnvs, inst, node_ui_program_ui, op, show_extra)
+			if add_height and add_height > 0 then height = height + add_height + 8 end
 		end
 
 		-- cleanup inst if definition or subroutine was changed
-		local has_exec, has_extra = inst_def.exec_arg ~= false
+		local arg_defs = inst_def.var_args and inst_def:var_args(inst, code, library) or inst_def.args
+		local argc, has_exec = (arg_defs and #arg_defs or 0), (inst_def.exec_arg ~= false)
 		if not has_exec and inst.next ~= nil then inst.next = nil end
 		for k,_ in pairs(inst) do if type(k) == "number" and k > argc then inst[k] = nil end end
 
 		local i_next, node_y, above = (inst_def.exec_arg and inst_def.exec_arg[1] - 1 or 0), my_y
 		for i=(has_exec and 0 or 1),argc do
 			local arg_idx = (i ~= i_next and (i + (i < i_next and 1 or 0)) or "next")
-			local val, arg_type, arg_text, arg_desc, arg_extra = inst[arg_idx]
-			if not var_args or i == i_next or arg_idx <= (arg_defs and #arg_defs or 0) then
-				local arg_def = (i ~= i_next and arg_defs[arg_idx] or inst_def.exec_arg)
-				arg_type, arg_text, arg_desc, arg_extra = arg_def and arg_def[1], arg_def and arg_def[2], arg_def and arg_def[3], arg_def and arg_def[5]
-			else
-				local p = i - (arg_defs and #arg_defs or 0)
-				arg_type = var_args[p*2-1] and "out" or "in"
-				arg_text, arg_extra = NOLOC(var_args[p*2]) or (arg_type == "out" and "Output" or "Input")
-			end
-			if i == i_next or arg_type == "exec" then
+			local val, arg_def = inst[arg_idx], (i ~= i_next and arg_defs[arg_idx] or inst_def.exec_arg)
+			local arg_type, arg_text, arg_desc, arg_extra = arg_def and arg_def[1], arg_def and arg_def[2], arg_def and arg_def[3], arg_def and arg_def[5]
+			if i == i_next or arg_type == 'exec' then
 				local next_idx = NextIdx(code, inst_idx, val)
 
 				-- Fix invalid jumps and modified instruction where a value changed to a exec
-				if next_idx and (not code[next_idx] or type(next_idx) == "table") then
+				if next_idx and (not code[next_idx] or type(next_idx) == "table" or code[next_idx].op == 'cmt') then
 					inst[arg_idx], next_idx = false, false
 				end
 
 				-- Normalize instruction order so jumps can be simplified
 				if next_idx and next_idx > #nodes + 1 and code[next_idx] then
-					ShiftCode(code, #nodes + 1, next_idx, show_extras, selection)
+					ShiftCode(code, #nodes + 1, next_idx, show_extras, selection, library)
 					next_idx = #nodes + 1
 				end
 
@@ -1053,7 +1332,7 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 				if not arg_extra or show_extra or next_idx then
 					local piny = 30
 					if arg_text then
-						piny = height + 20
+						piny = height + 18
 						nodecnvs:Add("<Text halign=right textalign=right x=-10/>", { text = arg_text, tooltip = arg_desc, y = height + 8, })
 						height = height + 40
 					end
@@ -1083,21 +1362,21 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 					local outpin_id = draw:AddCircle(outpin_x, outpin_y, PINSZ, out_level and not next_idx and GetLevelColor(out_level))
 					pins[#pins + 1] = nodecnvs:Add(ExecOutPin_layout, { y = piny - 15, pin_id = outpin_id, inst_idx = inst_idx, arg_idx = arg_idx, next_idx = next_idx, conn_id = outpin_conn_id })
 				end
-				has_extra = has_extra or arg_extra and not next_idx
+				has_extra, can_hide = has_extra or arg_extra, can_hide or (arg_extra and not next_idx)
 			elseif not arg_extra or show_extra or val then
 				local val_type = type(val)
-				local argn, is_out, reg = (val_type == "number" and val), (arg_type == "out")
+				local argn, is_out, reg = (val_type == "number" and val), (arg_type == 'out')
 				if is_out then
-					reg = nodecnvs:Add(Argument_layout, { halign="right", y = height, x = -10 })
-					nodecnvs:Add("<Text halign=right textalign=right x=-58/>", { text = arg_text, tooltip = arg_desc, y = height + 12 })
+					reg = nodecnvs:Add(Argument_layout, { halign = 'right', y = height - 2, x = -10 })
+					nodecnvs:Add("<Text halign=right textalign=right x=-58/>", { text = arg_text, tooltip = arg_desc, y = height + 8 })
 				else
 					nodecnvs:Add("<Text x=58 />", { text = arg_text, tooltip = arg_desc, y = height + 8 })
-					reg = nodecnvs:Add(Argument_layout, { y = height, x = 10 })
+					reg = nodecnvs:Add(Argument_layout, { y = height - 2, x = 10 })
 				end
 				height = height + 48
 
 				regs[#regs + 1] = reg
-				reg.is_out, reg.inst, reg.arg_idx, reg.reg_idx = is_out, inst, arg_idx, #regs
+				reg.is_out, reg.inst, reg.arg_val, reg.arg_idx, reg.reg_idx = is_out, inst, val, arg_idx, #regs
 
 				if argn and argn <= #parameters then
 					if is_out and argn > 0 then parameters[argn] = true end
@@ -1118,36 +1397,26 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 					if show_regicons then reg:Add("<Image image=icon_small_register_var color=#FF8800 dock=center/>").child_index = 2 end
 					reg.num = val.fr
 				elseif val_type == "table" then
-					reg.def_id = val.id
-					reg.coord = val.coord
-					reg.num = val.num
+					reg.num, reg.def_id, reg.coord = val.num, val.id, val.coord
 				end
-				has_extra = has_extra or arg_extra and not val
+				has_extra, can_hide = has_extra or arg_extra, can_hide or (arg_extra and not val)
 			else
-				has_extra = true
+				has_extra, can_hide = true, true
 			end
 		end
 
-		if has_extra and program_ui then
-			node.has_extra = true
+		if has_extra and can_hide and program_ui then
+			node.can_hide = true
 			if not show_extra then
 				nodecnvs:Add('<Image image=icon_small_arrow_down halign=center tooltip="Extra Options"/>', {
-					y = height-8,
+					y = height-12,
 					on_click = function(w) program_ui:nodebtn_extra_on_click(node) end
 				})
-				height = height + 8
+				height = height + 4
 			end
-		elseif has_extra == false and show_extras and not show_extra then
+		elseif has_extra and not can_hide and show_extras and not show_extra then
 			for i=1,inst_idx-1 do show_extras[i] = show_extras[i] or false end -- make sure array is filled
 			show_extras[inst_idx] = true -- remember that once all extra args were filled and visible
-		end
-
-		-- add height for comment
-		local buffer_height = 0
-		if inst.cmt then
-			local cmttxt = nodecnvs:Add('<Text halign=fill wrap=true/>')
-			cmttxt.text, cmttxt.y = inst.cmt, height
-			buffer_height = (string.len(inst.cmt)//30) * 20
 		end
 
 		--[[ -- Show debug panel with current states
@@ -1158,8 +1427,15 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 		node.height = height
 		node.last_pin_idx = #pins
 
+		-- add height for comment
+		if inst.cmt then
+			local cmttxt = nodecnvs:Add('<Text halign=fill/>')
+			cmttxt.text, cmttxt.y = inst.cmt, height + 4
+			if op ~= 'cmt' then cmttxt.wrap, height = true, height + (string.len(inst.cmt)//30) * 20 end
+		end
+
 		if not freeplace then
-			auto_y = math.max(node_y, my_y + height + 50 + buffer_height)
+			auto_y = math.max(node_y, my_y + height + 50)
 			if inst_idx == head_idx then
 				standalone_y = math.max(standalone_y, auto_y)
 			end
@@ -1181,13 +1457,13 @@ local function BuildGraph(code, graph, draw, program_ui, show_regicons, drag_lib
 
 	if reorder_from then
 		-- While building, an unconnected node was placed that was connected later, re-order then refresh
-		ShiftCode(code, reorder_to, reorder_from, show_extras, selection)
+		ShiftCode(code, reorder_to, reorder_from, show_extras, selection, library)
 		return BuildGraph(code, graph, draw, program_ui, show_regicons, drag_library)
 	end
 
 	if not program_ui then return end
 
-	local node = graph:Add(Node_layout, { title_color = "green", icon = "Main/skin/Icons/Common/56x56/Play.png", title = "Program Start", x = 0, y = 0, height = 60 })
+	local node = graph:Add(Node_layout, { title_color = 'green', icon = "Main/skin/Icons/Common/56x56/Play.png", title = "Program Start", x = 0, y = 0, height = 60 })
 	local startpin_x, startpin_y = 0 + NODEW, 0 + 30
 	local startpin_id = draw:AddCircle(startpin_x, startpin_y, PINSZ)
 	local startpin = node[1]:Add(ExecOutPin_layout, { y = 15, pin_id = startpin_id, next_idx = (#nodes > 0 and 1 or nil) })
@@ -1267,8 +1543,8 @@ function Program:AnimateSelection()
 	for i=#selection,1,-1 do
 		local s = selection[i]
 		if s then
-			s:TweenFromTo("sx", 0.5, 1, 500, "OutBounce")
-			s:TweenFromTo("sy", 0.5, 1, 500, "OutBounce")
+			s:TweenFromTo("sx", 0.5, 1, 500, 'OutBounce')
+			s:TweenFromTo("sy", 0.5, 1, 500, 'OutBounce')
 		end
 	end
 end
@@ -1282,7 +1558,6 @@ function Program:on_click_undoredo(btn)
 	local code_id, code_rev = code.id, code.rev
 	code, self.undoredostate, insert_delta = Tool.ApplyTableDelta(self.undoredostate, consume_delta, true)
 	code.id, code.rev, self.code = code_id, code_rev, code -- was excluded from undo/redo buffer
-	if not self.is_remote then self.library[code_id] = code end -- editing directly in local library
 	insert_buffer[#insert_buffer+1] = insert_delta
 	self.btnundo.disabled = not undo_buffer or #undo_buffer == 0
 	self.btnredo.disabled = not redo_buffer or #redo_buffer == 0
@@ -1293,11 +1568,28 @@ end
 
 function Program:update()
 	local comp, code = self.comp, self.code
-	if not comp and not self.is_remote then return end -- nothing to do for local behaviors
+	local code_id, code_rev = code.id, code.rev
+	local ed = comp and comp.has_extra_data and comp.extra_data
+	local library_code = self.library[code_id]
+	if code_rev ~= (library_code and library_code.rev) then
+		if not library_code then self:cancel() return end -- behavior deleted in library
+		local breakpoints = ed and ed.breakpoints
+		code_rev, code.rev = library_code.rev, library_code.rev
+		local is_new = breakpoints or Tool.Hash(code) ~= Tool.Hash(library_code)
+		local new_code = is_new and Tool.Copy(library_code)
+		if breakpoints then
+			for i,v in pairs(breakpoints) do if (i >> 16) == code_id then new_code[i & 0xffff].breakpoint = true end end
+			is_new = Tool.Hash(code) ~= Tool.Hash(new_code) -- compare with breakpoints applied again
+		end
+		if is_new then
+			code, self.code = new_code, new_code
+			self:Refresh(nil, true)
+		end
+	end
+	if not self.is_remote then return end -- nothing else to do for local behaviors
+	if comp and not comp.exists then self:set_debug_target() self:RefreshActive() comp = nil end -- disconnect debug
 
-	local has_code, code_id, code_rev = #code > 0, code.id, code.rev
-	local ed = comp and comp.exists and comp.has_extra_data and comp.extra_data
-	local debug, counter = ed and ed.debug, ed and ed.counter
+	local has_code, debug, counter = #code > 0, ed and ed.debug, ed and ed.counter
 	local is_running = ed and comp.is_active or nil
 	local is_stopped = not has_code or not ed or (counter == 1 and not is_running and debug == nil)
 	local is_paused = not is_stopped and debug ~= nil and ((debug ~= 'BREAKPOINT' and debug ~= 'BPHIT') or not is_running)
@@ -1311,22 +1603,6 @@ function Program:update()
 
 	self.btndbgstop.disabled = is_stopped
 	self.btndbgstep.disabled = not comp or not has_code or (not is_paused and not is_stopped)
-
-	local library_code = self.library[code_id]
-	if code_rev ~= library_code.rev then
-		local breakpoints = ed and ed.breakpoints
-		code_rev, code.rev = library_code.rev, library_code.rev
-		local is_new = breakpoints or Tool.Hash(code) ~= Tool.Hash(library_code)
-		if is_new then library_code = Tool.Copy(library_code) end
-		if breakpoints then
-			for i,v in pairs(breakpoints) do if (i >> 16) == code_id then library_code[i & 0xffff].breakpoint = true end end
-			is_new = Tool.Hash(code) ~= Tool.Hash(library_code) -- compare with breakpoints applied again
-		end
-		if is_new then
-			code, self.code = library_code, library_code
-			self:Refresh(nil, true)
-		end
-	end
 
 	local have_bpnt
 	if self.refreshbpnts then
@@ -1371,9 +1647,9 @@ function Program:update()
 		end
 
 		if self.dbgvalues.active then
-			local dbgasm, dbgstate = GetCachedBehaviorAsm(revid), ed
+			local dbgasm, dbgstate = GetFactionBehaviorAsm(comp, revid), ed
 			if return_num then
-				dbgstate = { mem = ed.mem, stk = ed.returns[return_num][2], returns = {} }
+				dbgstate = { mem = ed.mem, stk = ed.returns[return_num][2], returns = {}, revid = revid }
 				table.move(ed.returns, 1, return_num - 1, 1, dbgstate.returns)
 			elseif ed.revid ~= revid then
 				dbgstate = nil -- edited sub-routine is not currently running
@@ -1391,16 +1667,28 @@ function Program:update()
 						isconst = type(code[r.parent.parent.inst_idx][arg_idx]) == "table"
 					end
 					if val then
-						local val_num, val_id, val_entity, val_coord = val.num, val.id, val.entity, val.coord
+						local val_num, val_id, val_entity, val_coord = val.num, val.id, val.raw_entity, val.coord
 						r.num = (val_num ~= 0) and val_num or (not val_id and not val_entity and not val_coord and not val.is_empty and 0) or nil
 						r.def_id, r.entity, r.coord = val_id, val_entity, val_coord
 					end
-					r.bg = (isconst and "reg_value") or (val.entity and "reg_entity") or nil
+					r.bg = (isconst and "reg_value") or (val and val.entity and "reg_entity") or nil
 				end
 			end
 		end
 	end
 	self.show_indicator = show_indicator
+
+	if self.remote_running > 0 then
+		local cursteps, hist, running, tick = 0, self.perf_hist, 0, (Map.GetTick() - 1)
+		for _,comp in ipairs(self.active_comps) do
+			local ed = comp.exists and comp.is_active and comp.has_extra_data and comp.extra_data
+			if ed and ed.main_id == code_id then cursteps, running = cursteps + (ed.lasttick == tick and ed.laststep or 0), running + 1 end
+		end
+		if not hist then hist = {false,false,false,false,false} self.perf_hist = hist end
+		hist[(tick % 5) + 1] = cursteps
+		local sum = (hist[1] or cursteps) + (hist[2] or cursteps) + (hist[3] or cursteps) + (hist[4] or cursteps) + (hist[5] or cursteps)
+		self.txtperf.text = running > 0 and L("%s: %s", "Behavior Performance Statistics", L("%d steps per second on %d controllers (%d per tick)", sum, running, ((sum + running - 1) // running + 4) // 5)) or ""
+	end
 
 	--[[ -- Show debug panel with current states
 	if not self.watch then
@@ -1431,9 +1719,9 @@ function Program:every_frame_update()
 		local osx, osy = self.draw:GetPoint(draw_idx, 1)
 		local oex, oey = self.draw:GetPoint(draw_idx, 3)
 		sx, sy, ex, ey = osx + (sx - osx) * .75, osy + (sy - osy) * .75, oex + (ex - oex) * .75, oey + (ey - oey) * .75
-		self.draw:SetLines(draw_idx, sx, sy, ex, sy, ex, ey, sx, ey, sx, sy, "yellow", 2 / self.pan.zoom)
+		self.draw:SetLines(draw_idx, sx, sy, ex, sy, ex, ey, sx, ey, sx, sy, 'yellow', 2 / self.pan.zoom)
 	elseif sx then
-		self.indicator_lines = self.draw:AddLines(sx, sy, ex, sy, ex, ey, sx, ey, sx, sy, "yellow", 2 / self.pan.zoom)
+		self.indicator_lines = self.draw:AddLines(sx, sy, ex, sy, ex, ey, sx, ey, sx, sy, 'yellow', 2 / self.pan.zoom)
 	elseif draw_idx then
 		self.draw:Remove(draw_idx)
 		self.indicator_lines = nil
@@ -1465,9 +1753,9 @@ end
 function Program:SendBehavior(debug, counter)
 	local comp, is_dirty, need_save = self.comp, self.is_dirty, (debug ~= "STOP" and debug ~= "PAUSE")
 	if (is_dirty and need_save) or self.dirtybpnts then
-		self:remote_do_save(nil, nil, nil, debug, counter)
+		self:do_save(nil, nil, nil, debug, counter)
 	else
-		Action.SendForEntity("Behavior", comp.owner, { comp = comp, debug = (debug ~= "CONTINUE" and debug or nil), counter = counter })
+		Action.SendForEntity("Behavior", comp.owner, { comp = comp, debug = (debug ~= 'CONTINUE' and debug or nil), counter = counter })
 	end
 end
 
@@ -1506,7 +1794,7 @@ function Program:param_on_drag_start(payload, is_click_drag)
 	self.dragline.child_index, self.dragline.start_child_index = payload.child_index, payload.child_index
 
 	payload:RemoveFromParent()
-	payload.dragtype, payload.sx, payload.sy, payload.opacity = "PROGRAMPARAM", 0.7, 0.7, 0.8
+	payload.dragtype, payload.sx, payload.sy, payload.opacity = 'PROGRAMPARAM', 0.7, 0.7, 0.8
 
 	-- Can't use {attribute parent reference} for cancel because while dragging payload no longer has a parent
 	payload.on_drag_cancel = function(payload)
@@ -1519,18 +1807,18 @@ function Program:param_on_drag_start(payload, is_click_drag)
 end
 
 function Program:param_on_drag_leave(paramlist, payload)
-	if payload.dragtype ~= "PROGRAMPARAM" then return false end
+	if payload.dragtype ~= 'PROGRAMPARAM' then return false end
 	self.dragline.opacity = 0
 end
 
 function Program:param_on_drag_over(paramlist, payload, visual, x, y)
-	if payload.dragtype ~= "PROGRAMPARAM" then return false end
+	if payload.dragtype ~= 'PROGRAMPARAM' then return false end
 	self.dragline.opacity = 1
 	self.dragline.child_index = math.min(1 + math.floor(x * #paramlist), #paramlist - 1)
 end
 
 function Program:param_on_drop(paramlist, payload)
-	if payload.dragtype ~= "PROGRAMPARAM" then return false end
+	if payload.dragtype ~= 'PROGRAMPARAM' then return false end
 	local from, to = self.dragline.start_child_index, self.dragline.child_index
 	self.dragline:RemoveFromParent()
 	self.dragline = nil
@@ -1561,11 +1849,12 @@ function Program:ModifyParameter(index, new_index)
 
 	-- Update indices to parameters in code
 	for _,inst in ipairs(code) do
-		local inst_def_args, inst_pnum = data_instructions[inst.op].args, inst.pnum
-		for i=1,(inst_def_args and #inst_def_args or 0) do
-			local arg = inst[i]
-			if type(arg) == "number" and inst_def_args[i] and inst_def_args[i][1] ~= "exec" and arg >= min and arg <= max then
-				inst[i] = (arg ~= index and (arg - dir) or new_index or false)
+		local inst_def, inst_pnum = data_instructions[inst.op] or data_instructions.nop, inst.pnum
+		local arg_defs = inst_def.var_args and inst_def:var_args(inst, code, self.library) or inst_def.args
+		for i=1,(arg_defs and #arg_defs or 0) do
+			local val = inst[i]
+			if type(val) == "number" and val >= min and val <= max and arg_defs[i][1] ~= 'exec' then
+				inst[i] = (val ~= index and (val - dir) or new_index or false)
 			end
 		end
 		if inst_pnum and inst_pnum >= min and inst_pnum <= max then
@@ -1582,21 +1871,36 @@ end
 function Program:connection_on_mouse_enter(outpin)
 	local outpin_x, outpin_y, outpin_color = self.draw:GetPoint(outpin.pin_id)
 	self.draw:SetCircle(outpin.pin_id, outpin_x, outpin_y, PINSZ_HOVER, outpin_color)
-	if outpin.conn_id then self.draw:SetStyle(outpin.conn_id, "white", 8) end
+	if outpin.conn_id then self.draw:SetStyle(outpin.conn_id, 'white', 8) end
 end
 
 function Program:connection_on_mouse_leave(outpin)
 	local outpin_x, outpin_y, outpin_color = self.draw:GetPoint(outpin.pin_id)
 	self.draw:SetCircle(outpin.pin_id, outpin_x, outpin_y, PINSZ, outpin_color)
-	if outpin.conn_id then self.draw:SetStyle(outpin.conn_id, "dark_gray", 6) end
+	if outpin.conn_id then self.draw:SetStyle(outpin.conn_id, 'dark_gray', 6) end
 end
 
 function Program:connection_tooltip(outpin)
-	local outpin_next_idx, outpin_inst_idx = outpin.next_idx, outpin.inst_idx
+	local outpin_next_idx, outpin_inst_idx, outpin_arg_idx = outpin.next_idx, outpin.inst_idx, outpin.arg_idx
 	if outpin_next_idx then
 		return L("Continue to '%s'", self.graph[outpin_next_idx].title)
 	end
-	local outpin_level = outpin_inst_idx and self.graph[outpin_inst_idx].level
+	local node = outpin_inst_idx and self.graph[outpin_inst_idx]
+	local inst_def = outpin_inst_idx and data.instructions[self.code[outpin_inst_idx].op]
+	local arg_def = inst_def and outpin_arg_idx ~= "next" and inst_def.args and inst_def.args[outpin_arg_idx]
+	if arg_def and arg_def[5] then -- extra exec continues at the default exec if not connected
+		local pins = self.pins
+		for j=node.first_pin_idx,node.last_pin_idx do
+			local pin = pins[j]
+			if pin.arg_idx == "next" and pin.inst_idx == outpin_inst_idx then
+				return self:connection_tooltip(pin)
+			end
+		end
+	end
+	if inst_def and outpin_arg_idx == "next" and inst_def.next then
+		return L("Advance '%s'", inst_def.name)
+	end
+	local outpin_level = node and node.level
 	if outpin_level then
 		for i=outpin_inst_idx-1,1,-1 do
 			if (self.graph[i].level or 1) < outpin_level then
@@ -1681,7 +1985,7 @@ function Program:connection_on_drop(inpin, outpin)
 		self:MakeFreeFloating(inpin_inst_idx)
 
 		if not outpin_inst_idx then
-			ShiftCode(code, 1, inpin_inst_idx, self.show_extras, self.selection)
+			ShiftCode(code, 1, inpin_inst_idx, self.show_extras, self.selection, self.library)
 		else
 			code[outpin_inst_idx][outpin.arg_idx] = inpin_inst_idx
 		end
@@ -1775,14 +2079,14 @@ function Program:RemoveCode(remove_single_node) -- Calls Refresh
 end
 
 local paramicons<const> = {
-	["in"] = "icon_small_register_in",
-	["out"] = "icon_small_register_out",
-	["exec"] = "icon_small_durability",
+	['in'] = "icon_small_register_in",
+	['out'] = "icon_small_register_out",
+	['exec'] = "icon_small_durability",
 }
 local paramcolors<const> = {
-	["in"] = "cyan",
-	["out"] = "yellow",
-	["exec"] = "white",
+	['in'] = 'cyan',
+	['out'] = 'yellow',
+	['exec'] = 'white',
 }
 
 function Program:ModifySelection(node, toggle, force_add)
@@ -1829,16 +2133,16 @@ function Program:ModifySelection(node, toggle, force_add)
 		self.argslist:Clear()
 		local inst_def_args = def.args
 		if inst_def_args then
-			self.argslist:Add("Spacer", { height=10})
+			self.argslist:Add("<Spacer height=10/>")
 			for i,arg in ipairs(inst_def_args) do
 				local argrow = self.argslist:Add("<Canvas><Image id=bgimage opacity=0.5 fill=true/><HorizontalList id=hl child_padding=4 fill=true/></Canvas>")
 				local hl = argrow.hl
-				local iconw = hl:Add("VerticalList", { valign="center"})
-				iconw:Add("Image", { image = paramicons[arg[1]], color = paramcolors[arg[1]], width=28, height=28, margin=4})
-				hl:Add("Text", { text = arg[2], width = 100, valign="center", textwrap=100, wrap=true})
-				hl:Add("Image", { width=2, color="ui_dark"})
-				hl:Add("Text", { text = arg[3], width = 280, valign="center", textwrap=280, wrap=true})
-				argrow.bgimage.color = (i&1==0) and "ui_bg" or "ui_dark"
+				local iconw = hl:Add("<VerticalList valign=center/>")
+				iconw:Add("<Image width=28 height=28 margin=4/>", { image = paramicons[arg[1]], color = paramcolors[arg[1]] })
+				hl:Add("<Text width=100 valign=center textwrap=100 wrap=true/>").text = arg[2]
+				hl:Add("<Image width=2 color=ui_dark/>")
+				hl:Add("<Text width=280 valign=center textwrap=280 wrap=true/>").text = arg[3] or arg[2]
+				argrow.bgimage.color = (i&1==0) and 'ui_bg' or 'ui_dark'
 			end
 		end
 
@@ -1865,19 +2169,20 @@ function Program:on_help_popup(btn)
 end
 
 function Program:node_on_mouse_button_down(node, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" or not node.inst_idx then return false end -- allow scrolling
+	if mousebtn == 'RIGHTMOUSEBUTTON' or not node.inst_idx then return false end -- allow scrolling
 end
 
 function Program:node_on_mouse_button_up(node, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" or not node.inst_idx then return false end
+	if mousebtn == 'RIGHTMOUSEBUTTON' or not node.inst_idx then return false end
 	self:ModifySelection(node, Input.IsControlDown() or Input.IsShiftDown())
 end
 
 function Program:node_on_double_click(node)
+	if not node.inst_idx then return end -- start node
 	for _,v in ipairs(self:GetConnectedNodes(node.inst_idx)) do
 		self:ModifySelection(v, true, true)
 	end
-	if node.inst_idx then self:ModifySelection(node, true, true) end
+	self:ModifySelection(node, true, true)
 end
 
 function Program:node_on_mouse_enter(node)
@@ -1895,17 +2200,17 @@ function Program:node_on_mouse_enter(node)
 	node_btns.lockbtn.active = not freeplace
 	node_btns.lockbtn.tooltip = freeplace and "Node is freely placed, click to auto arrange" or "Node is auto arranged, click to freely place"
 	if node_btns.cmtbtn then node_btns.cmtbtn.active = not not inst.cmt end
-	node_btns.extrabtn.hidden = not node.has_extra
+	node_btns.extrabtn.hidden = not node.can_hide
 	node_btns.extrabtn.active = self.show_extras[inst_idx]
 	local ed = self.comp and self.comp.exists and self.comp.has_extra_data and self.comp.extra_data
 	local debug = ed and ed.debug
 	local is_running = ed and self.comp.is_active
 	local is_stopped = not ed or (ed.counter == 1 and not is_running and not debug)
 	local is_paused = not is_stopped and debug ~= nil
-	node_btns.nextbtn.hidden = not ed
+	node_btns.nextbtn.hidden = not ed or (node.first_pin_idx > node.last_pin_idx)
 	node_btns.nextbtn.disabled = not is_paused and not is_stopped
 	node_btns.nextbtn.active = is_paused and node.inst_idx == self.show_indicator
-	node_btns.bpntbtn.hidden = not ed or (inst_idx == 1 and not node.bpnt)
+	node_btns.bpntbtn.hidden = not ed or (inst_idx == 1 and not node.bpnt) or (node.first_pin_idx > node.last_pin_idx)
 	node_btns.bpntbtn.active = node.bpnt and true
 end
 
@@ -1932,7 +2237,7 @@ end
 
 function Program:nodebtn_setnext_on_click(node_btns, btn)
 	if not self.comp or not self.comp.exists then return end
-	self:SendBehavior("SETCOUNTER", node_btns.inst_idx)
+	self:SendBehavior('SETCOUNTER', node_btns.inst_idx)
 	btn.active = true
 end
 
@@ -1984,13 +2289,13 @@ function Program:GetConnectedNodes(start_inst_idx, is_connected_to_idx)
 end
 
 function Program:graph_on_mouse_button_down(pan, mousebtn)
-	if mousebtn ~= "LEFTMOUSEBUTTON" then return end
+	if mousebtn ~= 'LEFTMOUSEBUTTON' then return end
 	pan.down_x, pan.down_y = UI.GetMousePosition(self.graph)
 	if not Input.IsControlDown() then self:ModifySelection() end
 end
 
 function Program:graph_on_mouse_button_up(pan, mousebtn)
-	if mousebtn ~= "RIGHTMOUSEBUTTON" then return end
+	if mousebtn ~= 'RIGHTMOUSEBUTTON' then return end
 	local x, y = UI.GetMousePosition(self.draw)
 	UI.MenuPopup([[
 		<Box padding=4 width=240 height=400 bg=card_box_bg>
@@ -2024,34 +2329,36 @@ function Program:graph_on_mouse_button_up(pan, mousebtn)
 				if key ~= 'DOWN' and key ~= 'UP' then return false end
 				local sel, next, prev = GetSel()
 				local new = key == 'DOWN' and next or prev
-				if sel then sel.sel, sel.color = nil, "white" end
-				if new then new.sel, new.color = true, "ui_light" pop.toolbox:ScrollIntoView(new) end
+				if sel then sel.sel, sel.color = nil, 'white' end
+				if new then new.sel, new.color = true, 'ui_light' pop.toolbox:ScrollIntoView(new) end
 			end
 		end,
 		on_filter = function (pop, search, filter) return self:on_filter(search, filter, pop.toolbox) end,
 		category_on_click = function (pop, ...) return self:category_on_click(...) end,
 		instruction_tooltip = function (pop, ...) return self:instruction_tooltip(...) end,
 		toolbox_item_on_click = function(pop, item)
-			local draw, pin = self.draw
-			for _,p in ipairs(self.pins) do
-				local px, py = draw:GetPoint(p.pin_id)
-				if ((px - x)^2 + (py - y)^2) < 225 then pin = p break end
-			end
-			local visual = UI.New("Canvas", { width = NODEW, height = 60, program_drag_create = { { op = item.op, nx = x, ny = y } }, drag_pin = pin, keepnxy = true })
+			local draw = self.draw
+			local visual = UI.New("Canvas", { width = NODEW, height = 60, program_drag_create = { { op = item.op, nx = x, ny = y } }, keepnxy = true })
 			BuildGraph(visual.program_drag_create, visual:Add("Canvas"), visual:Add("Draw"))
+			if visual[1][1].inpin_id then
+				for _,p in ipairs(self.pins) do
+					local px, py = draw:GetPoint(p.pin_id)
+					if ((px - x)^2 + (py - y)^2) < 225 then visual.drag_pin = p break end
+				end
+			end
 			self:graph_on_drop(pan, nil, visual)
 			UI.CloseMenuPopup()
 		end,
-	}, "RIGHT", "TOP")
+	}, 'RIGHT', 'TOP')
 end
 
-function Program:on_key_down(key)
-	if key == "DELETE" then
+function Program:on_key_down(key, is_modifier)
+	if key == 'DELETE' then
 		local selection = self.selection
 		if #selection == 0 then return end
 		self:RemoveCode()
 		self:ModifySelection() -- clear if selection remained due to similar neighbors
-	elseif key == "HOME" then
+	elseif key == 'HOME' then
 		self.pan.zoom = 1
 		self.pan:PanTo(-50, -50)
 	elseif key == "Z" and Input.IsControlDown() then
@@ -2061,13 +2368,13 @@ function Program:on_key_down(key)
 	elseif key == "A" and Input.IsControlDown() then
 		local not_first -- select all
 		for i,v in ipairs(self.graph) do if v.inst_idx then self:ModifySelection(v, not_first) not_first = true end end
-	elseif Input.IsBoundToAction(key, "UnitCopy") or Input.IsBoundToAction(key, "UnitPaste") or Input.IsBoundToAction(key, "PauseGame") or Input.IsBoundToAction(key, "CaptureFeedbackShot") or Input.IsBoundToAxis(key, "CameraX") or Input.IsBoundToAxis(key, "CameraY") or key == "F11" then
+	elseif is_modifier or Input.IsBoundToAction(key, "UnitCopy") or Input.IsBoundToAction(key, "UnitPaste") or Input.IsBoundToAction(key, 'PauseGame') or Input.IsBoundToAction(key, "SimulationStep") or Input.IsBoundToAction(key, 'CaptureFeedbackShot') or Input.IsBoundToAxis(key, 'CameraX') or Input.IsBoundToAxis(key, 'CameraY') or key == 'F11' then
 		return false -- let the bound function handle it
 	end
 end
 
-function Program:on_key_up(key)
-	if Input.IsBoundToAction(key, "UnitCopy") or Input.IsBoundToAction(key, "UnitPaste") or Input.IsBoundToAction(key, "PauseGame") or Input.IsBoundToAction(key, "CaptureFeedbackShot") or Input.IsBoundToAxis(key, "CameraX") or Input.IsBoundToAxis(key, "CameraY") or key == "F11" then
+function Program:on_key_up(key, is_modifier)
+	if is_modifier or Input.IsBoundToAction(key, "UnitCopy") or Input.IsBoundToAction(key, "UnitPaste") or Input.IsBoundToAction(key, 'PauseGame') or Input.IsBoundToAction(key, "SimulationStep") or Input.IsBoundToAction(key, 'CaptureFeedbackShot') or Input.IsBoundToAxis(key, 'CameraX') or Input.IsBoundToAxis(key, 'CameraY') or key == 'F11' then
 		return false -- let the bound function handle it
 	end
 end
@@ -2222,7 +2529,7 @@ end
 function Program:graph_on_drag_over(pan, payload, visual)
 	if visual.program_drag_select then
 		local sx, sy, ex, ey = pan.down_x, pan.down_y, UI.GetMousePosition(self.graph)
-		self.drawdrag:SetLines(1, sx, sy, ex, sy, ex, ey, sx, ey, sx, sy, "ui_light", 2 / self.pan.zoom)
+		self.drawdrag:SetLines(1, sx, sy, ex, sy, ex, ey, sx, ey, sx, sy, 'ui_light', 2 / self.pan.zoom)
 	elseif visual.program_drag_node or visual.program_drag_create then
 		local create_code, draw = visual.program_drag_create, self.draw
 		local drag_graph = create_code and visual[1] or visual
@@ -2249,15 +2556,22 @@ function Program:graph_on_drag_over(pan, payload, visual)
 		if pin and Input.IsShiftDown() then pin = nil end
 		if pin and not drag_graph[1].inpin_id then pin = nil end
 
-		local pin_inst_idx, pin_next_idx, disconnected, no_move, chkdist, dir, box_x, box_y, box_w, box_h = (pin and pin.inst_idx), (pin and (pin.next_idx or (pin.is_in and pin.inst_idx - 1)))
+		local pin_inst_idx, pin_next_idx, disconnected, no_move, chkdist, dir, box_x, box_y, box_w, box_h = (pin and pin.inst_idx), (pin and pin.next_idx)
 		for i,node in ipairs(drag_graph) do
 			local inst_idx = node.inst_idx
-			if not create_code and inst_idx == pin_inst_idx then no_move, chkdist = true, true end
-			if not create_code and inst_idx == pin_next_idx then no_move = true end
+			if not create_code and inst_idx == pin_inst_idx then
+				no_move, chkdist = true, true
+			elseif not create_code and inst_idx == pin_next_idx then
+				no_move = true
+			elseif not create_code and pin_inst_idx and not pin_next_idx and pin.is_in then
+				for _,p in ipairs(self.pins) do
+					if p.next_idx == pin_inst_idx and p.inst_idx == inst_idx then no_move = true break end
+				end
+			end
 			-- Simplified checks to disallow automatic connecting to a pin
 			-- It would be better to allow connecting to output pin if there is only one head node, and allow connecting to an input pin if there is only one tail node
 			if node.x == 0 and node.y ~= 0 then disconnected = true end -- a node at the most left but not at the top can't connect either in or out
-			if pin_next_idx and node.y ~= 0 then disconnected = true end -- a node not at the top can't connect to input pins
+			if pin and (pin_next_idx or pin.is_in) and node.y ~= 0 then disconnected = true end -- a node not at the top can't connect to input pins
 		end
 		if pin and (not no_move or not chkdist) and (disconnected or pin_dist > (30000 / self.pan.zoom)) then pin = nil end
 		if pin then
@@ -2276,13 +2590,13 @@ function Program:graph_on_drag_over(pan, payload, visual)
 			self.drawdrag:Reset()
 		else
 			if not no_move or not chkdist then
-				self.drawdrag:SetCircle(1, pin_x, pin_y, 9, "dark_gray")
-				self.drawdrag:SetLine(2, pin_x, pin_y, box_x + (dir < 0 and box_w or 0), box_y, "dark_gray", 2)
+				self.drawdrag:SetCircle(1, pin_x, pin_y, 9, 'dark_gray')
+				self.drawdrag:SetLine(2, pin_x, pin_y, box_x + (dir < 0 and box_w or 0), box_y, 'dark_gray', 2)
 			else
 				self.drawdrag:Reset()
 			end
 			self.drawdrag:SetLine(3, box_x, box_y + box_h / 2, box_x + box_w, box_y + box_h / 2, "#40", box_h) -- fill background
-			self.drawdrag:SetLines(4, box_x, box_y, box_x + box_w, box_y, box_x + box_w, box_y + box_h, box_x, box_y + box_h, box_x, box_y, "dark_gray", 4) -- outline
+			self.drawdrag:SetLines(4, box_x, box_y, box_x + box_w, box_y, box_x + box_w, box_y + box_h, box_x, box_y + box_h, box_x, box_y, 'dark_gray', 4) -- outline
 		end
 	end
 end
@@ -2302,29 +2616,30 @@ function Program:graph_on_drop(pan, payload, visual)
 			end
 		end
 	elseif visual.program_drag_node or visual.program_drag_create then
-		local create_code, drag_no_move, pin, code, draw, selection = visual.program_drag_create, visual.drag_no_move, visual.drag_pin, self.code, self.draw, self.selection
-		local drag_code, drag_graph, old_code_num = create_code or code, create_code and visual[1] or visual, #code
+		local create_code, drag_no_move, pin, code, draw, selection, library = visual.program_drag_create, visual.drag_no_move, visual.drag_pin, self.code, self.draw, self.selection, self.library
+		local drag_code, drag_graph, old_code_num, no_dirty = create_code or code, create_code and visual[1] or visual, #code, drag_no_move
 		for i,node in ipairs(drag_graph) do
 			local inst = drag_code[node.inst_idx]
 			if (not pin or (i ~= 1 and inst.nx and not drag_no_move)) and not visual.keepnxy then -- set or update freely placed position
 				local nx, ny = node:GetViewportPosition(draw)
-				inst.nx, inst.ny = nx // 1, ny // 1
+				inst.nx, inst.ny, no_dirty = nx // 1, ny // 1, nil
 			end
 
 			-- Append instructions newly inserted to end (before hooking them up and having Refresh reorder the program)
 			if create_code then
-				local inst_def_args = data.instructions[inst.op].args
+				local inst_def = data.instructions[inst.op]
+				local inst_def_args = inst_def.var_args and inst_def:var_args(inst, drag_code, library) or inst_def.args
 				for j=0,(inst_def_args and #inst_def_args or 0) do
-					local exec_arg = (j == 0 and "next") or (inst_def_args[j][1] == "exec" and j)
+					local exec_arg = (j == 0 and "next") or (inst_def_args[j][1] == 'exec' and j)
 					if exec_arg and inst[exec_arg] then inst[exec_arg] = inst[exec_arg] + old_code_num end
 				end
 				-- Append at the end but don't connect it to the existing graph
 				if i == 1 and old_code_num > 0 then
 					local last_inst = code[old_code_num]
 					local last_def = data.instructions[last_inst.op]
-					local last_def_args = last_def.args
+					local last_def_args = last_def.var_args and last_def:var_args(last_inst, code, library) or last_def.args
 					for k=(last_def.exec_arg == false and 1 or 0),(last_def_args and #last_def_args or 0) do
-						local last_arg = (k == 0 and "next" or last_def_args[k][1] == "exec" and k)
+						local last_arg = (k == 0 and "next") or (last_def_args[k][1] == 'exec' and k)
 						if last_arg and last_inst[last_arg] == nil then last_inst[last_arg] = false end
 					end
 				end
@@ -2359,9 +2674,9 @@ function Program:graph_on_drop(pan, payload, visual)
 			-- Fix up connections
 			for inst_idx,inst in ipairs(code) do
 				local inst_def = data.instructions[inst.op]
-				local inst_def_args = inst_def.args
+				local inst_def_args = inst_def.var_args and inst_def:var_args(inst, code, library) or inst_def.args
 				for i=(inst_def.exec_arg == false and 1 or 0),(inst_def_args and #inst_def_args or 0) do
-					local exec_arg = (i == 0 and "next") or (inst_def_args[i] and inst_def_args[i][1] == "exec" and i)
+					local exec_arg = (i == 0 and "next") or (inst_def_args[i][1] == 'exec' and i)
 					if exec_arg then
 						if inst_idx < drag_first_idx or inst_idx > drag_last_idx then
 							local next_idx = NextIdx(code, inst_idx, inst[exec_arg])
@@ -2370,7 +2685,7 @@ function Program:graph_on_drop(pan, payload, visual)
 							elseif next_idx == new_connect_idx and (not new_connect_exec_arg or exec_arg == new_connect_exec_arg) and (not new_connect_exec_arg or inst_idx == pin_inst_idx) then
 								inst[exec_arg] = drag_first_idx
 							end
-						elseif inst_idx == drag_last_idx and (not new_connect_idx or not data.instructions[code[new_connect_idx].op].event_setup) then
+						elseif inst_idx == drag_last_idx and (not new_connect_idx or (not data.instructions[code[new_connect_idx].op].event_setup and code[new_connect_idx].op ~= 'cmt')) then
 							inst[exec_arg] = new_connect_idx
 							break
 						end
@@ -2393,15 +2708,15 @@ function Program:graph_on_drop(pan, payload, visual)
 
 			-- To connect or disconnect the program entry node, we need to shift the new program entry to index 1
 			if new_connect_idx == 1 and (pin.is_in or not pin_inst_idx) then
-				ShiftCode(code, 1, drag_first_idx, self.show_extras, self.selection)
+				ShiftCode(code, 1, drag_first_idx, self.show_extras, selection, library)
 			elseif drag_first_idx == 1 and old_code_num > 0 then
-				ShiftCode(code, 1, 2, self.show_extras, self.selection)
+				ShiftCode(code, 1, 2, self.show_extras, selection, library)
 			end
 		end
 
-		self:Refresh()
+		self:Refresh(no_dirty)
 		self:ModifySelection(nil, true) -- refresh help box
-		self:AnimateSelection()
+		if not no_dirty then self:AnimateSelection() end
 	else
 		return false
 	end
@@ -2415,8 +2730,19 @@ end
 function Program:reg_on_drop(over, payload)
 	if not payload.reg_idx then return false end -- dragged something else
 	local set_inst, set_arg, set_val
-	if payload.is_out and not over.inst then -- output argument to register/parameter
+	if not over.inst then -- argument to register/parameter
 		set_inst, set_arg, set_val = payload.inst, payload.arg_idx, over.reg_idx
+		if not set_val then  -- dragged onto 'Add Parameter' box
+			local code = self.code
+			if not code.parameters then code.parameters = {} end
+			table.insert(code.parameters, payload.is_out or false)
+			set_val = #code.parameters
+			local inst_def = data.instructions[set_inst.op] or data.instructions.nop
+			local arg_defs = inst_def.var_args and inst_def:var_args(set_inst, code, self.library) or inst_def.args
+			local arg_name = (arg_defs and set_arg <= #arg_defs and arg_defs[set_arg][2])
+			local newpname = (arg_name and NOLOC(L(arg_name)))
+			if newpname then code.pnames = param_set_table_field(code.pnames, set_val, newpname) end
+		end
 	elseif over.inst and not payload.inst then -- register/parameter to argument
 		set_inst, set_arg, set_val = over.inst, over.arg_idx, payload.reg_idx
 	elseif over.inst and payload.inst then -- argument to argument
@@ -2444,20 +2770,30 @@ function Program:reg_on_drop(over, payload)
 	self:Refresh(not was_changed)
 end
 
-function Program:reg_on_click(reg, mousebtn)
+function Program:reg_on_set(reg, new_value)
 	local comp, code, reg_idx = self.comp and self.comp.exists and self.comp, self.code, reg.reg_idx
 	if reg_idx <= 0 or not self.regs[reg_idx] then return end
-	local function on_set(rsel, val)
-		code.pinits = param_set_table_field(code.pinits, reg_idx, val and EmptyTableAsNil(val) or nil)
-		if comp and reg_idx <= comp.register_count then Action.SendForEntity("SetRegister", comp.owner, { comp = comp, idx = reg_idx, reg = val }) end
-		self:Refresh()
-	end
-	if mousebtn == "RIGHTMOUSEBUTTON" then
-		on_set(nil, nil)
+	local old_value = code.pinits and code.pinits[reg_idx]
+
+	if new_value and new_value.entity then new_value.entity = nil end -- no world entity references
+	if new_value and not next(new_value) then new_value = nil end
+	if new_value and new_value.num == 0 and next(new_value, next(new_value)) then new_value.num = nil end
+	if Tool.Hash(old_value) == Tool.Hash(new_value) then return end
+
+	code.pinits = param_set_table_field(code.pinits, reg_idx, new_value)
+	if comp and reg_idx <= comp.register_count then Action.SendForEntity("SetRegister", comp.owner, { comp = comp, idx = reg_idx, reg = new_value }) end
+	self:Refresh()
+end
+
+function Program:reg_on_click(reg, mousebtn)
+	local code, reg_idx = self.code, reg.reg_idx
+	if reg_idx <= 0 or not self.regs[reg_idx] then return end
+	if mousebtn == 'RIGHTMOUSEBUTTON' then
+		self:reg_on_set(reg, nil)
 	else
-		local rsel = ShowRegisterSelection(reg, on_set, data.instruction_argument_filters.any, nil, { hide_entity_panel = true })
+		local rsel = ShowRegisterSelection(reg, function(rsel, val) self:reg_on_set(reg, val) end, data.instruction_argument_filters.any, nil, { hide_entity_panel = true })
 		local initval = code.pinits and code.pinits[reg_idx]
-		if rsel and initval then rsel:SetRegister(initval) end
+		if rsel and initval then rsel:SetRegister(Tool.Copy(initval)) end
 	end
 end
 
@@ -2468,7 +2804,7 @@ function Program:reg_tooltip(reg)
 	local title = framereg and L("%s '%s'", "Base Register", framereg.name) or L("%s '%S' (%S%d)", code.parameters and code.parameters[reg_idx] and "Output" or "Input", code.pnames and code.pnames[reg_idx] or L("Parameter %d", reg_idx), "P", reg_idx)
 	local params = { title = title, hide_default = framereg and true, hide_inspect = true }
 	if pinit then
-		params.val_id, params.val_num, params.val_entity, params.val_coord = pinit.id, pinit.num, pinit.entity, pinit.coord
+		params.val_id, params.val_num, params.val_entity, params.val_coord = pinit.id, pinit.num or 0, pinit.entity, pinit.coord
 	end
 	if comp and comp.exists then
 		if framereg then
@@ -2481,40 +2817,68 @@ function Program:reg_tooltip(reg)
 end
 
 function Program:argument_tooltip(reg)
-	local val, is_out = reg.inst[reg.arg_idx], reg.is_out
-	if not val then
-		return -- Unset input/output argument
+	local val, is_out = reg.arg_val, reg.is_out
+	if not val then -- Unset input/output argument
+		return
+	elseif type(val) == "table" and val.fr then -- faction register
+		return L("%s '%S'", (is_out and "Write Result to Faction Register" or "Read from Faction Register"), reg.num)
 	elseif type(val) == "table" then
-		return BuildDefinitionTooltip(data.all[reg.def_id], { clearreg = true }) or "Constant value"
+		return BuildDefinitionTooltip(data.all[reg.def_id], { clearreg = true }) or "Set to Fixed Value"
 	elseif type(val) == "string" then
-		return L("%s '%S'", (is_out and "Write into variable" or "Read from variable"), val)
+		return L("%s '%S'", (is_out and "Write Result to Variable" or "Read from Variable"), val)
 	elseif val < 0 then
-		return L("%s '%s'", (is_out and "Write into base register" or "Read from base register"), data.frame_regs[-val].name)
+		return L("%s '%s'", (is_out and "Write Result to Base Register" or "Read from Base Register"), data.frame_regs[-val].name)
 	else
-		return L("%s '%S' (%S%d)", (is_out and "Write into parameter" or "Read from parameter"), self.code.pnames and self.code.pnames[val] or L("Parameter %d", val), "P", val)
+		return L("%s '%S' (%S%d)", (is_out and "Write Result to Parameter" or "Read from Parameter"), self.code.pnames and self.code.pnames[val] or L("Parameter %d", val), "P", val)
 	end
 end
 
+function Program:argument_copy(reg)
+	Notification.Warning("Copied register value")
+	local val, t = reg.arg_val
+	if not val then t = {} -- Unset input/output argument
+	elseif type(val) == "table" and val.fr then t = { fr = val.fr } -- faction register
+	elseif type(val) == "table" then t = val
+	elseif type(val) == "string" then t = { localvar = val }
+	elseif val < 0 then t = { basereg = -val }
+	else t = { param = val }
+	end
+	return t, 'R'
+end
+
+function Program:argument_paste(reg, t, prefix)
+	if prefix ~= 'R' then return end
+	reg:SendEvent("on_set", t.localvar or (t.basereg and -t.basereg) or t.param or (next(t) and Tool.Copy(t)) or nil)
+	Notification.Warning("Applied register value")
+end
+
+function Program:argument_on_set(reg, new_value, popup_widget)
+	local reg_inst, reg_arg_idx = reg.inst, reg.arg_idx
+	if not reg_inst then -- find argument
+		reg:SendEvent("on_set", new_value)
+		UI.CloseMenuPopup(popup_widget)
+		return
+	end
+	local old_value = reg_inst[reg_arg_idx]
+	if type(new_value) == "table" then
+		if new_value.entity then new_value.entity = nil end
+		if not next(new_value) then new_value = nil end
+		if new_value and new_value.num == 0 and next(new_value, next(new_value)) then new_value.num = nil end
+		if Tool.Hash(old_value) == Tool.Hash(new_value) then new_value = old_value end
+	end
+	if old_value == new_value then return popup_widget and UI.CloseMenuPopup(popup_widget) end
+	reg_inst[reg_arg_idx] = new_value
+	self:Refresh() -- closes the popup because the underlying reg widget is removed
+end
+
 function Program:argument_on_click(reg, mousebtn)
-	if mousebtn == "RIGHTMOUSEBUTTON" then
+	if mousebtn == 'RIGHTMOUSEBUTTON' then
 		reg.inst[reg.arg_idx] = nil
 		self:Refresh()
 		return
 	end
 
 	local reg_inst, reg_arg_idx, reg_is_out = reg.inst, reg.arg_idx, reg.is_out
-	local function register_on_set(rsel, new_value)
-		local old_value = reg_inst[reg_arg_idx]
-		if rsel then
-			if new_value and not next(new_value) then new_value = nil end
-			if new_value and new_value.num == 0 and next(new_value, next(new_value)) then new_value.num = nil end
-			if Tool.Hash(old_value) == Tool.Hash(new_value) then new_value = old_value end
-		end
-		if old_value == new_value then return UI.CloseMenuPopup() end
-		reg_inst[reg_arg_idx] = new_value
-		self:Refresh() -- closes the popup because the underlying reg widget is removed
-	end
-
 	local props = {
 		construct = function(w)
 			local regs, parameters, pnames, vars, radio_storage = self.regs, self.code.parameters, self.code.pnames, self.vars, Game.GetLocalPlayerFaction().extra_data.radio_storage
@@ -2529,7 +2893,7 @@ function Program:argument_on_click(reg, mousebtn)
 				w.vars:Add("<Reg width=48 height=48 on_click={on_var}/>", { num = var, val = var, tooltip = L("'%S' (%s)", var, "Press right click to rename") }):Add("<Image image=icon_small_register_var color=#FF00FF dock=center/>")
 			end
 			if reg_is_out then
-				w.vars:Add('<Reg width=48 height=48 on_click={on_var}/>', { num = '[NEW]' }):Add("<Image image=icon_small_register_var color=#FF00FF dock=center/>")
+				w.vars:Add('<Reg width=48 height=48 on_click={on_var}/>', { num = "[NEW]" }):Add("<Image image=icon_small_register_var color=#FF00FF dock=center/>")
 			end
 			w.vars.previous_sibling.hidden = #w.vars == 0
 			for name,idx in SortedPairs(radio_storage and radio_storage.extra_data.names) do
@@ -2538,15 +2902,15 @@ function Program:argument_on_click(reg, mousebtn)
 			w.fregs.previous_sibling.hidden = #w.fregs == 0
 		end,
 		on_select = function(w, selected)
-			register_on_set(nil, selected.val)
+			self:argument_on_set(reg, selected.val, w)
 		end,
 		on_var = function(w, varreg, mousebtn)
 			local val = varreg.val
-			if val and mousebtn ~= "RIGHTMOUSEBUTTON" then register_on_set(nil, val) return end -- not naming
+			if val and mousebtn ~= 'RIGHTMOUSEBUTTON' then self:argument_on_set(reg, val, w) return end -- not naming
 
 			local vars, reg_idx, rename_from = self.vars, reg.reg_idx, val
 			local function do_set_name(t)
-				if not rename_from then register_on_set(nil, t) return end -- just set new name
+				if not rename_from then self:argument_on_set(reg, t, w) return end -- just set new name
 
 				for inst_idx,inst in ipairs(self.code) do
 					for k,arg in pairs(inst) do
@@ -2554,7 +2918,6 @@ function Program:argument_on_click(reg, mousebtn)
 					end
 				end
 				self:Refresh()
-				if reg_inst[reg_arg_idx] ~= t then UI.Delay(function() self:argument_on_click(self.regs[reg_idx]) end) end -- open pop up again after layout is done
 			end
 			if not rename_from then
 				for i=0,25 do
@@ -2570,7 +2933,7 @@ function Program:argument_on_click(reg, mousebtn)
 				end, val)
 		end,
 		on_fac = function(w, fregreg)
-			register_on_set(nil, { fr = fregreg.freg })
+			self:argument_on_set(reg, { fr = fregreg.freg }, w)
 		end,
 	}
 
@@ -2583,13 +2946,13 @@ function Program:argument_on_click(reg, mousebtn)
 		rsel:SetContent(OutputArgument_layout, props)  -- overwrite content
 	else
 		-- input argument
-		local inst_def = data.instructions[reg_inst.op]
-		local inst_def_args = inst_def and inst_def.args
-		local arg_def = inst_def_args and inst_def_args[reg_arg_idx]
+		local inst_def = reg_inst and data.instructions[reg_inst.op]
+		local arg_defs = inst_def and inst_def.args
+		local arg_def = arg_defs and arg_defs[reg_arg_idx]
 		local def_filter = data.instruction_argument_filters[arg_def and not Input.IsControlDown() and arg_def[4] or 'any']
 		local no_fixed_value = (def_filter == data.instruction_argument_filters.entity)
 
-		local rsel = ShowRegisterSelection(reg, register_on_set, def_filter)
+		local rsel = ShowRegisterSelection(reg, function(rsel, new_value) self:argument_on_set(reg, new_value, rsel) end, def_filter)
 		if not rsel then return end -- popup was closed
 
 		rsel.max_height = 800
@@ -2615,9 +2978,154 @@ The game is designed to be enjoyed fully without using behaviors! But give them 
 
 A <hl>Behavior</> runs <hl>Instructions</> on one of your <hl>Units</> or <hl>Buildings</> in sequential order. <hl>Instructions</> can affect the behavior of <hl>Units</> and <hl>Buildings</>, branch the running sequence based on conditions or modify the value of a <hl>Parameter</> or <hl>Register</>. Check out the help topics for more details on the editor interface and general use of behaviors.]]
 
+	local function run_visual_guide(guide)
+		if not guide or not guide.steps then return end
+		if self.behavior_guide then self.behavior_guide:RemoveFromParent() end
+		self.behavior_guide = UI.AddLayout([[<Canvas blocking=false>
+				<Box id=highlight bg=tutorial_highlight blocking=false hidden=true/>
+				<Box dock=top-right margin_top=88 margin_right=22 bg=popup_box_bg blur=true padding=12 width=430>
+					<VerticalList child_padding=8>
+						<HorizontalList child_align=center child_padding=8>
+							<Image image=icon_small_behavior color=ui_light/>
+							<VerticalList fill=true child_padding=2>
+								<Text text={title} style=hl size=16 wrap=true width=330/>
+								<Text text={progress} style=bl size=10/>
+							</VerticalList>
+							<Button icon=icon_deny width=28 height=28 on_click={on_ui_cancel} tooltip="Close Tutorial"/>
+						</HorizontalList>
+						<Text text={txt} wrap=true width=400/>
+						<Text text={status} style=hl size=10 wrap=true width=400/>
+						<HorizontalList child_padding=6 halign=right>
+							<Button icon=icon_small_arrow_left text="Previous" on_click={on_previous}/>
+							<Button icon=icon_small_next text="Next" on_click={on_next}/>
+						</HorizontalList>
+					</VerticalList>
+				</Box>
+			</Canvas>]], {
+			guide = guide,
+			construct = function(cnvs)
+				cnvs.n = 1
+				cnvs.completed_steps = {}
+				cnvs:show_step()
+			end,
+			destruct = function(cnvs)
+				if self:IsValid() and self.behavior_guide == cnvs then self.behavior_guide = nil end
+			end,
+			on_ui_cancel = function(cnvs) cnvs:RemoveFromParent() end,
+			on_ui_accept = function(cnvs) cnvs:on_next() end,
+			has_op = function(cnvs, op)
+				for _,inst in ipairs(self.code) do
+					if inst.op == op then return true end
+				end
+			end,
+			is_done = function(cnvs, step)
+				-- checking if its done or not
+				local done = step and step.done
+				if not done then return false end
+				if done.type == 'op' then
+					return cnvs:has_op(done.op)
+				elseif done.type == "param_named" then
+					local pnames = self.code.pnames
+					for i,_ in ipairs(self.code.parameters or {}) do
+						if pnames and pnames[i] == done.name then return true end
+					end
+				elseif done.type == "selected_op" then
+					if #self.selection ~= 1 then return false end
+					local node = self.selection[1]
+					local inst = node.inst_idx and self.code[node.inst_idx]
+					return inst and inst.op == done.op
+				end
+				return false
+			end,
+			resolve_target = function(cnvs, step)
+				-- highlight targets
+				local target = step and step.target
+				if target == "toolbox" then return self.toolbox
+				elseif target == "graph" then return self.pan
+				elseif target == "registers" then return self.reglist.parent
+				elseif target == "parameters" then return self.paramlist
+				elseif target == "help" then return self.help_panel
+				elseif target == "debug" then return self.dbgbtn_box
+				elseif target == "save" then return self.btnsavenew.parent
+				elseif target == "search" then return self.toolbox.parent[1]
+				elseif target then return UI.FindWidgetWithProperty(target, step.target_val)
+				end
+				return self.pan
+			end,
+			show_step = function(cnvs)
+				if not self:IsValid() then cnvs:RemoveFromParent() return end
+				local step = guide.steps[cnvs.n]
+				if not step then cnvs:RemoveFromParent() return end
+				cnvs.completed_for = nil
+				if step.search then
+					local search = self.toolbox.parent[1]
+					if search.text ~= nil then search.text = step.search self:on_filter(search, search.text) end
+				end
+				if step.select_op then
+					for _,node in ipairs(self.graph) do
+						local inst = node.inst_idx and self.code[node.inst_idx]
+						if inst and inst.op == step.select_op then
+							self:ModifySelection(node)
+							break
+						end
+					end
+				end
+
+				cnvs.title = guide.name or "Behavior Guide"
+				cnvs.progress = L("Step %d / %d", cnvs.n, #guide.steps)
+				cnvs.txt = step.text or ""
+				cnvs.status = (cnvs.n == #guide.steps and "Press Next to Complete the Tutorial") or (step.done and "Waiting for this step..." or "Use Next when you are ready.")
+				cnvs:refresh_highlight(step)
+			end,
+			refresh_highlight = function(cnvs, step)
+				local glow_widget = cnvs:resolve_target(step)
+				if not glow_widget or glow_widget.hidden then cnvs.highlight.hidden = true return end
+				local gx, gy, gw, gh = glow_widget:GetViewportPosition(self)
+				if not gx then cnvs.highlight.hidden = true return end
+
+				cnvs.highlight.hidden = false
+				cnvs.highlight.x, cnvs.highlight.y = gx, gy
+				cnvs.highlight.width, cnvs.highlight.height = gw, gh
+			end,
+			on_previous = function(cnvs)
+				cnvs.n = math.max(1, (cnvs.n or 1) - 1)
+				cnvs:show_step()
+			end,
+			on_next = function(cnvs)
+				local step = guide.steps[cnvs.n]
+				if step and step.done and cnvs:is_done(step) then cnvs.completed_steps[cnvs.n] = true end
+				cnvs.n = (cnvs.n or 1) + 1
+				cnvs:show_step()
+			end,
+			every_frame_update = function(cnvs, dt)
+				if not self:IsValid() then cnvs:RemoveFromParent() return end
+				local step = guide.steps[cnvs.n]
+				if not step then cnvs:RemoveFromParent() return end
+				cnvs:refresh_highlight(step)
+				if not step.done then return end
+				if cnvs:is_done(step) then
+					if cnvs.completed_steps[cnvs.n] then
+						cnvs.status = (cnvs.n == #guide.steps and "Step complete. Press Next to Complete the Tutorial") or "Step complete. Press Next when you are ready."
+						cnvs.completed_for = nil
+						return
+					end
+					cnvs.status = "Step complete. Advancing..."
+					cnvs.completed_for = (cnvs.completed_for or 0) + dt
+					if cnvs.completed_for > 0.8 then
+						cnvs.completed_steps[cnvs.n] = true
+						cnvs:on_next()
+					end
+				else
+					cnvs.completed_for = nil
+					cnvs.status = "Waiting for this step..."
+				end
+			end,
+		}, 999)
+	end
+
 	local interface_help = {
 		self.imgicon.parent,    [[The customizable icon of the behavior and a button for advanced behavior restart options.]],
-		self.txtactive.parent,  [[
+		self.txtactive.parent.parent, [[
 The customizable name and description of the behavior.
 
 Below the description you'll find information about how many units and buildings have the behavior loaded and how many are actively running it at the moment.]],
@@ -2638,11 +3146,10 @@ The first button here will switch the screen between displaying the active value
 The second button lets you select which behavior controller of your units to inspect.]],
 		self.dbgbtn_box,        [[Buttons to stop, start, pause, continue or step the behavior. Only available when a specific behavior controller is being inspected.]],
 		self.undoredo_box,      [[These buttons undo or redo changes step by step.]],
-		self.remoteconfirm_box, [[Buttons to close the editor and to apply or discard changes. Running the behavior will automatically apply any unsaved changes as well.]],
-		self.localconfirm_box,  [[A button to close the editor. When editing a behavior in the Favorites (outside the Library), any changes are automatically saved.]],
+		self.confirm_box,       [[Buttons to close the editor and to apply or discard changes. Running the behavior will automatically apply any unsaved changes as well.]],
 	}
 
-	local w = UI.AddLayout([[<Modal><Box dock=fill bg=false blur=true><Box dock=center bg=popup_box_bg padding=4 blur=true width=1000><VerticalList>
+	local w = UI.AddLayout([[<Modal><Box dock=fill bg=false blur=true><Box dock=center bg=popup_box_bg padding=4 blur=true width=1200><VerticalList>
 			<Box bg=popup_additional_bg padding=12>
 				<HorizontalList halign=center child_align=center child_padding=20>
 					<Image image=icon_behavior color=ui_light/>
@@ -2656,15 +3163,19 @@ The second button lets you select which behavior controller of your units to ins
 					<HorizontalList fill=true>
 						<VerticalList fill=true>
 							<Text text="Help Topics" textalign=center style=bl margin=10/>
-							<VerticalList id=topics child_padding=8 margin=10 halign=center>
-								<Button icon=icon_question textalign=left  text="Interface Explanation" width=300 on_click={on_click_interface} id=interfacebtn/>
-								<Button icon=icon_question textalign=left text="Behavior Controllers" width=300 on_click={on_click_codex} codex_id=x_tc_behaviors/>
+							<VerticalList id=topics child_padding=8 margin=10>
+								<Button icon=icon_question textalign=left  text="Interface Explanation" on_click={on_click_interface} id=interfacebtn/>
+								<Button icon=icon_question textalign=left text="Behavior Controllers" on_click={on_click_codex} codex_id=x_tc_behaviors/>
 								<Button icon=icon_question textalign=left text="Making a Simple Behavior" width=300 on_click={on_click_codex} codex_id=x_behaviors/>
 							</VerticalList>
 						</VerticalList>
 						<VerticalList fill=true>
+							<Text text="Guided Tutorials" style=bl textalign=center margin=10/>
+							<ScrollList id=guides child_padding=8 margin=10 height=290/>
+						</VerticalList>
+						<VerticalList fill=true>
 							<Text text="Get Started with a Template" style=bl textalign=center margin=10/>
-							<ScrollList id=templates child_padding=8 margin=10 height=260/>
+							<ScrollList id=templates child_padding=8 margin=10 height=290/>
 						</VerticalList>
 					</HorizontalList>
 					<Image height=2 color=ui_light margin=8/>
@@ -2688,10 +3199,14 @@ The second button lets you select which behavior controller of your units to ins
 				</VerticalList></Box></Box></Modal>]], {
 				on_ui_accept = function(w) w:RemoveFromParent() end,
 				on_ui_cancel = function(w) w:RemoveFromParent() end,
-			})
+			}, 3)
 			local codex_def = data.codex[btn.codex_id]
 			c.title = codex_def.title
 			c.content = codex_def.text
+		end,
+		on_click_guide = function(w, btn)
+			w:RemoveFromParent()
+			run_visual_guide(data.behavior_guides[btn.guide_id])
 		end,
 		on_click_interface = function(w)
 			w.every_frame_update = nil
@@ -2732,8 +3247,8 @@ The second button lets you select which behavior controller of your units to ins
 					-- Position and setup the text box
 					pop_anchor.x = gx + (((gy > 800 or gy < 150) and ((gx < 50 or gr < 500) and -gx or gr > cw-50 and gw or gw*.5)) or (gx < 800 and (gw < 500 and gw+20 or gw*.5)) or -20)
 					pop_anchor.y = gy + ((gy > 800 and -20) or (gy < 150 and gh+20) or (gw < 500 and gh*.5) or -20)
-					pop_inner.valign = (gy > 800 and "bottom") or (gy < 150 and "top") or "center"
-					pop_inner.halign = ((gx < 50 or gr < 500) and "left")  or (gr > cw-50 and gw < 500 and "right") or "center"
+					pop_inner.valign = (gy > 800 and 'bottom') or (gy < 150 and 'top') or 'center'
+					pop_inner.halign = ((gx < 50 or gr < 500) and 'left')  or (gr > cw-50 and gw < 500 and 'right') or 'center'
 					pop_inner:TweenFromTo("opacity", 0, 1, 800)
 					cnvs.txt = popup_text
 				end,
@@ -2760,7 +3275,7 @@ The second button lets you select which behavior controller of your units to ins
 				on_ui_accept = function() end,
 				on_ui_cancel = function(c) c:RemoveFromParent() end,
 				on_pan_mouse_wheel = function(c, pan, wheel) pan:ZoomTowards(wheel) end,
-				on_load = function(c)
+				on_load = function(c, loadbtn)
 					local function do_load()
 						local code = self.code
 						local org_id, org_rev, org_type, org_folder, org_order = code.id, code.rev, code.type, code.folder, code.order -- library fields
@@ -2776,7 +3291,7 @@ The second button lets you select which behavior controller of your units to ins
 					if not self.code[1] and not (self.code.parameters and self.code.parameters[1]) then
 						do_load()
 					else
-						ConfirmPopup(t, L("Are you sure you want to replace the current behavior with '%S'?", sample.name), function() do_load() end)
+						ConfirmPopup(loadbtn, L("Are you sure you want to replace the current behavior with '%S'?", sample.name), function() do_load() end)
 					end
 				end,
 				on_paste = function(c)
@@ -2786,25 +3301,36 @@ The second button lets you select which behavior controller of your units to ins
 					c:on_ui_cancel()
 					w:on_ui_cancel()
 				end,
-			})
+			}, 3)
 			local preview_panview, graph, draw = c.preview_panview, c.preview_graph, c.preview_draw
 			BuildGraph(sample, graph, draw, nil, true)
 			preview_panview:PanTo(-50, -50)
 		end,
 		every_frame_update = first_time and function(w, dt)
-			w.interfacebtn.color = ((w.hl or 0) % 1) < 0.5 and "white" or "ui_light"
+			w.interfacebtn.color = ((w.hl or 0) % 1) < 0.5 and 'white' or 'ui_light'
 			w.hl = (w.hl or 0) + dt
 		end,
-	})
+	}, 2)
+
+	for guide_id,guide in pairs(data.behavior_guides) do
+		w.guides:Add([[<Button on_click={on_click_guide}>
+				<HorizontalList halign=left child_align=center child_padding=3>
+					<Image image=icon_small_next color=ui_light/>
+					<Text text={name} style=bl/>
+				</HorizontalList>
+			</Button>]], { guide_id = guide_id, name = guide.name, order = guide.index })
+	end
+	w.guides:SortChildren(function(a,b) return a.order < b.order end)
 
 	for _,code_str in ipairs(data.behaviors) do
 		local sample = Tool.StringToTable(code_str)
 		w.templates:Add([[<Button on_click={on_click_template}>
 				<HorizontalList halign=left child_align=center child_padding=3>
-					<Image image=icon_small_behavior color=/>
+					<Image image=icon_small_behavior color=ui_light/>
 					<VerticalList child_padding=3 child_align=top fill=true><Text text={name} size=14 style=bl/><Text text={desc} size=10 style=bl/></VerticalList>
 				</HorizontalList>
 			</Button>]], { code = sample , load_text = "Load", name = sample.name, desc = sample.desc })
 	end
+
 	w:TweenFromTo("opacity", 0, 1, 500)
 end

@@ -21,7 +21,7 @@ local function SetButtonActive(w, a) w.active, w.disabled = a, a end
 
 function Options:construct()
 	self:on_click_tab(self.tabs:GetChild())
-	self:TweenFromTo("sy", 0.01, 1, 80, "OutQuad")
+	self:TweenFromTo("sy", 0.01, 1, 80, 'OutQuad')
 	UI.PlaySound("fx_ui_WINDOW_GENERIC_OPEN")
 
 	local is_frontend, mod_with_options = Map.IsFrontEnd()
@@ -36,8 +36,8 @@ end
 
 function Options:on_close()
 	UI.PlaySound("fx_ui_WINDOW_GENERIC_CLOSE")
-	self:TweenFromTo("sx", 1, 0.01, 80, "InQuad")
-	self:TweenFromTo("sy", 1, 0.01, 40, "InQuad", function() self:RemoveFromParent() end)
+	self:TweenFromTo("sx", 1, 0.01, 80, 'InQuad')
+	self:TweenFromTo("sy", 1, 0.01, 40, 'InQuad', function() self:RemoveFromParent() end)
 end
 
 function Options:on_click_tab(btn)
@@ -515,6 +515,10 @@ local layout_game<const> =
 						<Button id=tutorial_btn on_click={on_toggle_tutorials} width=32 height=32/>
 					</HorizontalList>
 					<HorizontalList child_align=center>
+						<Text width=250 text="Story Popups"/>
+						<CheckBox id=story_popups on_change={on_change_story_popups} text="Disable Story Popups" halign=left/>
+					</HorizontalList>
+					<HorizontalList child_align=center>
 						<Text width=250 text="Auto Save"/>
 						<Text id=autosave_txt margin_right=5/>
 						<Slider fill=true height=42 min=0 max=30 step=1 id=autosave on_change={on_autosave_changed}/>
@@ -541,6 +545,9 @@ function Options_Game:construct()
 	local scale = UI.GetScale()
 	self.scale.value = scale
 	self.scale_txt.text = string.format("%.0f%%", scale * 100)
+
+	local options = Game.GetProfile().options
+	self.story_popups.check = options.disable_story_popups
 
 	local autosavetime = Game.GetAutoSaveTime()
 	self.autosave.value = autosavetime
@@ -595,6 +602,11 @@ function Options_Game:on_toggle_tutorials(btn)
 	TutorialToggle(tutorial)
 end
 
+function Options_Game:on_change_story_popups(cb, value)
+	Game.GetProfile().options.disable_story_popups = value or nil
+	if value and StopTalkingHead then StopTalkingHead() end
+end
+
 function Options_Game:on_scale_changed(slider, val)
 	self.scale_txt.text = string.format("%.0f%%", val * 100)
 	self.scale_apply.disabled = (val == UI.GetScale())
@@ -646,7 +658,7 @@ local layout_input<const> =
 					<VerticalList child_padding=8>
 						<HorizontalList child_align=center>
 							<Text width=200 wrap=true text="Scrolling Speed"/>
-							<Text id=scroll_speed_txt margin_right=5/>
+							<Text id=scroll_speed_txt margin_right=5 width=40/>
 							<Slider fill=true height=42 min=0.1 max=10 step=0.01 id=scroll_speed on_change={on_scroll_speed}/>
 						</HorizontalList>
 						<HorizontalList child_align=center>
@@ -957,9 +969,9 @@ function Options_Input:on_click_config(config_widget, btn)
 		btn.active = true
 		local info = UI.AddLayout([[<Modal><Modal><Box dock=center padding=24><Text text="Press any key or button"/></Box></Modal></Modal>]], 99)
 		Input.SetInputProcessor(function(key_name, is_down, axis)
-			if key_name == "LEFTSHIFT"   or key_name == "RIGHTSHIFT"   then self.combinations.shift = is_down end
-			if key_name == "LEFTCONTROL" or key_name == "RIGHTCONTROL" then self.combinations.ctrl = is_down end
-			if key_name == "LEFTALT"     or key_name == "RIGHTALT"     then self.combinations.alt = is_down end
+			if key_name == 'LEFTSHIFT'   or key_name == 'RIGHTSHIFT'   then self.combinations.shift = is_down end
+			if key_name == 'LEFTCONTROL' or key_name == 'RIGHTCONTROL' then self.combinations.ctrl = is_down end
+			if key_name == 'LEFTALT'     or key_name == 'RIGHTALT'     then self.combinations.alt = is_down end
 			if is_down or axis then return end
 			Input.ClearInputProcessor()
 			info:RemoveFromParent()

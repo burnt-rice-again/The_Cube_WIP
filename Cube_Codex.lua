@@ -343,8 +343,15 @@ data.codex.xc_gyroscope = {
     title = [[<img width="18" height="18" id="fc_gyro"/>End Goal]],
     text = [[<img width="100" height="100" id="fc_gyro"/><codex_title>End Game</>
 
-        <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
-        The earliest known superconductor are manufactured 1024 years into the future. 
+        Their is little more we can learn from the <bl>CUBE</> in this universe
+
+        It is now possible to make a new microuniverse from the CUBE to continue further study. 
+        Building plans have been added for a Mirco Universe Stabilizer
+        It will require an atronomical amount of resources to activate.
+
+        Good Luck to the new universes that shall spawn. 
+
+        <img id="fc_gyro" width="150" height="150"/>
 
         ]]
 }
