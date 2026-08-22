@@ -9,7 +9,7 @@ Lots of new features and interesting designs. It is not simply a reshuffle of cr
 Some new recipes may require you to design new infastructure and behaviours. 
 All power generation involves the Cube.
 
-## YOU MUST USE THE CUSTOM STARTING SCENARIO! 
+> ** YOU MUST USE THE CUSTOM STARTING SCENARIO! **
 it will not spawn a cube otherwise
 
 READ THE CODEX! If you are lost the codex should explain everything. Let me know if it does not. 
