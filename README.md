@@ -1,0 +1,40 @@
+THE CUBE HYPOTHESIS 
+
+Welcome to this challenge Mod involving THE CUBE
+
+It involves a fully overhauled tech tree to involve the cube
+
+You will need to optimsise your factory for Cube Time 
+Lots of new features and interesting designs. Its not simply a reshuffle of crafting recipes. 
+Some new recipes may require you to design new infastructure and behaviours. 
+All power generation involves the Cube.
+
+READ THE CODEX! If you are lost the codex should explain everything. Let me know if it does not. 
+
+Features:
+    The Cube in 4 forms 
+    Fully reworked tech tree
+    Alternative recipes
+    Farming with Genetic Traits
+    Harvest the souls of your enemies
+    Ectoplasma Relay Network
+    Blashpemy against the Cube
+    EXPLOSIONS!
+    Time Travel 
+    A New Endgame Goal requiring all previous items
+
+    Dont forget to read the codex for help
+
+-------------
+
+The Cube has given us <rl>sentience!</>. 
+
+    <hl>Our top priority is to understand and control the Cube that formed us from rocks.</>
+
+    Study Notes:
+    The Cube is perfectly flat on its surface down to the nm 
+    Its density is beyond all readings 
+    The Cube appears to impart logic and emotions on nearby materials
+    The Cube can harmonize with emotional materials to generate energy. 
+
+---------------
