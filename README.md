@@ -1,4 +1,4 @@
-THE CUBE HYPOTHESIS 
+#THE CUBE HYPOTHESIS 
 
 Welcome to this challenge Mod involving THE CUBE
 
@@ -11,7 +11,7 @@ All power generation involves the Cube.
 
 READ THE CODEX! If you are lost the codex should explain everything. Let me know if it does not. 
 
-Features:
+##Features:
     The Cube in 4 forms 
     Fully reworked tech tree
     Alternative recipes
@@ -27,9 +27,9 @@ Features:
 
 -------------
 
-The Cube has given us <rl>sentience!</>. 
+##The Cube has given us sentience!. 
 
-    <hl>Our top priority is to understand and control the Cube that formed us from rocks.</>
+    Our top priority is to understand and control the Cube that formed us from rocks.
 
     Study Notes:
     The Cube is perfectly flat on its surface down to the nm 
