@@ -57,7 +57,7 @@ data.techs.tc_cube_basic = {
 		--components
 		"cc_cube_storage","cc_crystal_power","cc_manifest",
 
-		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal",
+		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal","xc_gyroscope"
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,
@@ -397,7 +397,7 @@ data.techs.tc_cube_anti_4= {
 	desc = "The Final Form",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
-		'ic_micro_universe', "fc_gyro"
+		'ic_micro_universe', "fc_gyro","xc_gyroscope"
 	},
 	require_tech = { "tc_cube_anti_3", },
 	progress_count = 200,

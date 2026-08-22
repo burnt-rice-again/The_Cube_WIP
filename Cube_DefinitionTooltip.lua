@@ -1,15 +1,15 @@
 local reserve_labels<const> = {
-	["StackForTransfer"]      = "reserved for outgoing order",
-	["StackForCarry"]         = "reserved for delivery",
-	["StackForLoading"]       = "reserved by",
-	["StackForConsume"]       = "reserved by",
-	["StackForDrop"]          = "reserved for dropping",
-	["FreeSpaceForReceive"]   = "space for receiving order",
-	["FreeSpaceForCarry"]     = "space for delivery pick-up",
-	["FreeSpaceForGenerate"]  = "space for output of",
-	["FreeSpaceForLoading"]   = "space for order by",
-	["FreeSpaceForRedocking"] = "Dock reserved for a drone entity",
-	["LoadFromGenerate"]      = "production output reserved by"
+	StackForTransfer      = "reserved for outgoing order",
+	StackForCarry         = "reserved for delivery",
+	StackForLoading       = "reserved by",
+	StackForConsume       = "reserved by",
+	StackForDrop          = "reserved for dropping",
+	FreeSpaceForReceive   = "space for receiving order",
+	FreeSpaceForCarry     = "space for delivery pick-up",
+	FreeSpaceForGenerate  = "space for output of",
+	FreeSpaceForLoading   = "space for order by",
+	FreeSpaceForRedocking = "Dock reserved for a drone entity",
+	LoadFromGenerate      = "production output reserved by"
 }
 
 local socket_sizes<const> = { "Large", "Medium", "Small", "Internal" }
@@ -38,7 +38,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			elseif header_type == 'STAT_COMPONENT' then
 				list:Add("<Text halign=center color=title onclickreg={onclickreg}/>", {
 					text = L('<img id="%S"/> %s', def.id, def.name), tooltip = DefinitionTooltip(def.id),
-					on_click = function(sb) sb:SendEvent("onclickreg", "LEFTMOUSEBUTTON", def.id) end,
+					on_click = function(sb) sb:SendEvent("onclickreg", 'LEFTMOUSEBUTTON', def.id) end,
 				})
 			end
 			header_type = nil
@@ -53,7 +53,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 
 	-- Add component stats
 	if def.attachment_size or def.registers or def.get_ui then
-		local range = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.light_radius or def.terraforming_range
+		local range = def.range or def.attack_radius or def.trigger_radius or def.transfer_radius or def.terraforming_range
 		if range then
 			if AddStat("icon_tiny_range", range, "Range") then goto full end
 		end
@@ -61,27 +61,24 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_range", def.minimum_range, "Min. Range") then goto full end
 		end
 		if def.repair then
-			local boost, rpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.repair*(TICKS_PER_SECOND/def.charge_time)
+			local boost, rpsval = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time*100), def.repair*(TICKS_PER_SECOND/def.charge_time)
 			if boost > 100 then
-				if AddStat("icon_tiny_damage", string.format("%.1f <gl>(%.1f)</>", rpsval, math.floor(boost * 0.01 * rpsval + 0.5)), "Repair/sec") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.1f <gl>(%.1f)</>", rpsval, rpsval*boost*0.01), "Repair/sec") then goto full end
 			elseif boost < 100 then
-				if AddStat("icon_tiny_damage", string.format("%.1f <rl>(%.1f)</>", rpsval, math.floor(boost * 0.01 * rpsval + 0.5)), "Repair/sec") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.1f <rl>(%.1f)</>", rpsval, rpsval*boost*0.01), "Repair/sec") then goto full end
 			else
 				if AddStat("icon_tiny_damage", string.format("%.1f", rpsval), "Repair/sec") then goto full end
 			end
 		end
 		if def.shoot_speed then
-			local boost, dpsval = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.damage*(TICKS_PER_SECOND/def.charge_time)
+			local boost, dpsval = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time*100), def.damage*(TICKS_PER_SECOND/def.charge_time)
 			if boost > 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", dpsval, math.floor(boost * 0.01 * dpsval + 0.5)), "DPS") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", dpsval, dpsval*boost*0.01), "DPS") then goto full end
 			elseif boost < 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <rl>(%.f)</>", dpsval, math.floor(boost * 0.01 * dpsval + 0.5)), "DPS") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.f <rl>(%.f)</>", dpsval, dpsval*boost*0.01), "DPS") then goto full end
 			else
-				if AddStat("icon_tiny_speed", string.format("%.f", dpsval), "DPS") then goto full end
+				if AddStat("icon_tiny_damage", string.format("%.f", dpsval), "DPS") then goto full end
 			end
-		end
-		if def.shoot_while_moving then
-			if AddStat("icon_tiny_damage", "Yes", "Move and Fire") then goto full end
 		end
 		if def.damage_type then
 			if AddStat("icon_tiny_damage", data.damage_names[def.damage_type] or def.damage_type, "Damage Type") then goto full end
@@ -96,13 +93,13 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_damage", target, "Targeting") then goto full end
 		end
 		if def.charge_time then
-			local boost = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100
+			local boost = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time*100)
 			if boost == 100 then
-				if AddStat("icon_tiny_duration", string.format("%.1fs", def.charge_time/TICKS_PER_SECOND), "Charge Time") then goto full end
+				if AddStat("icon_tiny_duration", L("%.1fs", def.charge_time/TICKS_PER_SECOND), "Charge Time") then goto full end
 			else
-				local boost_color = boost > 100 and "gl" or "rl"
+				local boost_color = boost > 100 and 'gl' or 'rl'
 				local tick_boost = ((def.charge_time * 100 + boost - 1) // boost) / TICKS_PER_SECOND
-				if AddStat("icon_tiny_duration", string.format("%.1fs <%s>(%.1fs)</>", def.charge_time/TICKS_PER_SECOND, boost_color, tick_boost), "Charge Time") then goto full end
+				if AddStat("icon_tiny_duration", L("%.1fs <%S>(%.1fs)</>", def.charge_time/TICKS_PER_SECOND, boost_color, tick_boost), "Charge Time") then goto full end
 			end
 		end
 		if def.damage then
@@ -117,17 +114,20 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 		if def.extra_effect_name then
 			if AddStat("icon_tiny_damage", def.extra_effect_name, "Effect") then goto full end
 		end
+		if def.damage then
+			if AddStat("icon_tiny_damage", def.shoot_while_moving and "Yes" or "No", "Move and Fire") then goto full end
+		end
 		if def.power and def.power > 0 then
 			if AddStat("icon_tiny_energy_up", def.power*TICKS_PER_SECOND, "Power Production") then goto full end
 		end
 		if def.power and def.power < 0 then
-			local boost, pwr = (comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, -def.power
+			local boost, pwr = math.min((comp and comp.effective_boost) or (entity and faction and faction.component_boost) or 100, def.charge_time and (def.charge_time*100) or 100), -def.power
 			if boost > 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <gl>(%.f)</>", pwr * TICKS_PER_SECOND, math.floor(boost * 0.01 * pwr +0.5) * TICKS_PER_SECOND), "Power Usage") then goto full end
+				if AddStat("icon_tiny_energy_down", string.format("%.f <gl>(%.f)</>", pwr*TICKS_PER_SECOND, pwr*boost*0.01*TICKS_PER_SECOND), "Power Usage") then goto full end
 			elseif boost < 100 then
-				if AddStat("icon_tiny_damage", string.format("%.f <rl>(%.f)</>", pwr * TICKS_PER_SECOND, math.floor(boost * 0.01 * pwr +0.5) * TICKS_PER_SECOND), "Power Usage") then goto full end
+				if AddStat("icon_tiny_energy_down", string.format("%.f <rl>(%.f)</>", pwr*TICKS_PER_SECOND, pwr*boost*0.01*TICKS_PER_SECOND), "Power Usage") then goto full end
 			else
-				if AddStat("icon_tiny_energy_down", string.format("%.f", pwr * TICKS_PER_SECOND), "Power Usage") then goto full end
+				if AddStat("icon_tiny_energy_down", string.format("%.f", pwr*TICKS_PER_SECOND), "Power Usage") then goto full end
 			end
 		end
 		if def.power_storage then
@@ -149,7 +149,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			end
 		end
 		if def.uplink_rate then
-			if AddStat("icon_tiny_energy_transmit", string.format("%d%%", 100.0//def.uplink_rate), "Uplink Speed") then goto full end
+			if AddStat("icon_tiny_energy_transmit", string.format("%.f%%", 100/def.uplink_rate), "Uplink Speed") then goto full end
 		end
 	end
 
@@ -161,40 +161,44 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 
 	-- Add frame stats if blueprint or frame definition
 	if def.visibility_range or def.cost_modifier or def.health_points then
-		local health_boost = entity and SumModuleBoosts(entity, "c_modulehealth") or 0
-		if health_boost > 0 then
-			if AddStat("icon_tiny_durability", string.format("%d <gl>(+%d)</>", (def.health_points or 100), (def.health_points or 100)+health_boost), "Durability") then goto full end
+		local health_points, max_health = (def.health_points or 100), entity and entity.max_health
+		if max_health and max_health > health_points then
+			if AddStat("icon_tiny_durability", string.format("%d <gl>(%d)</>", health_points, max_health), "Durability") then goto full end
+		elseif max_health and max_health < health_points then
+			if AddStat("icon_tiny_durability", string.format("%d <rl>(%d)</>", health_points, max_health), "Durability") then goto full end
 		else
-			if AddStat("icon_tiny_durability", def.health_points or 100, "Durability") then goto full end
+			if AddStat("icon_tiny_durability", health_points, "Durability") then goto full end
 		end
 		if def.visibility_range then
-			local vis_boost = entity and SumModuleBoosts(entity, "c_modulevisibility") or 0
-			if vis_boost > 0 then
-				if AddStat("icon_tiny_visibility_range", string.format("%d <gl>(%d)</>", def.visibility_range, def.visibility_range+vis_boost), "Visibility Range") then goto full end
+			local visibility_range, vis_boost = def.visibility_range, entity and entity.visibility_range
+			if vis_boost and vis_boost > visibility_range then
+				if AddStat("icon_tiny_visibility_range", string.format("%d <gl>(%d)</>", visibility_range, vis_boost), "Visibility Range") then goto full end
+			elseif vis_boost and vis_boost < visibility_range then
+				if AddStat("icon_tiny_visibility_range", string.format("%d <rl>(%d)</>", visibility_range, vis_boost), "Visibility Range") then goto full end
 			else
-				if AddStat("icon_tiny_visibility_range", def.visibility_range , "Visibility Range") then goto full end
+				if AddStat("icon_tiny_visibility_range", visibility_range, "Visibility Range") then goto full end
 			end
 		end
 		if def.drone_range then
 			if AddStat("icon_tiny_durone_range", def.drone_range, "Drone Range") then goto full end
 		end
 		if def.movement_speed then
-			local move_boost = entity and SumModuleBoosts(entity, "c_modulespeed") or 0
-			if move_boost > 0 then
-				if AddStat("icon_tiny_movement_speed", string.format("%.f <gl>(%.f)</>", def.movement_speed, def.movement_speed+math.floor((move_boost*0.01*def.movement_speed)+0.5)), "Movement Speed") then goto full end
-			elseif move_boost < 0 then
-				if AddStat("icon_tiny_movement_speed", string.format("%.f <rl>(%.f)</>", def.movement_speed, def.movement_speed+math.floor((move_boost*0.01*def.movement_speed)+0.5)), "Movement Speed") then goto full end
+			local movement_speed, move_boost = def.movement_speed, entity and entity.move_boost or 100
+			if move_boost > 100 then
+				if AddStat("icon_tiny_movement_speed", string.format("%.f <gl>(%.1f)</>", movement_speed, (movement_speed*move_boost*0.01+0.05)), "Movement Speed") then goto full end
+			elseif move_boost < 100 then
+				if AddStat("icon_tiny_movement_speed", string.format("%.f <rl>(%.1f)</>", movement_speed, (movement_speed*move_boost*0.01+0.05)), "Movement Speed") then goto full end
 			else
-				if AddStat("icon_tiny_movement_speed", ((def.movement_speed*100+.499999)//1/100), "Movement Speed") then goto full end
+				if AddStat("icon_tiny_movement_speed", string.format("%.f", movement_speed), "Movement Speed") then goto full end
 			end
 		end
-		local base_boost, mod_boost, faction_boost = (def.component_boost or 0), (entity and SumModuleBoosts(entity, "c_moduleefficiency") or 0), (entity and faction and faction.component_boost-100) or 0
-		if base_boost > 0 or mod_boost > 0 or faction_boost > 0 then
-			if mod_boost > 0 or faction_boost > 0 then
-				if AddStat("icon_tiny_speed", string.format("%d%% <gl>(%d%%)</>", 100 + base_boost, 100 + base_boost + mod_boost + faction_boost), "Component Efficiency") then goto full end
-			else
-				if AddStat("icon_tiny_speed", string.format("<gl>%d%%</>", 100 + base_boost), "Component Efficiency") then goto full end
-			end
+		local base_boost, mod_boost = 100+(def.component_boost or 0), entity and (entity.component_boost+(faction and (faction.component_boost-100) or 0))
+		if mod_boost and mod_boost > base_boost then
+			if AddStat("icon_tiny_speed", string.format("%d%% <gl>(%d%%)</>", base_boost, mod_boost), "Component Efficiency") then goto full end
+		elseif mod_boost and mod_boost < base_boost then
+			if AddStat("icon_tiny_speed", string.format("%d%% <rl>(%d%%)</>", base_boost, mod_boost), "Component Efficiency") then goto full end
+		elseif base_boost > 100 then
+			if AddStat("icon_tiny_speed", string.format("<gl>%d%%</>", base_boost), "Component Efficiency") then goto full end
 		end
 		if def.power and def.power > 0 then
 			if AddStat("icon_tiny_energy_up", def.power*TICKS_PER_SECOND, "Power Production") then goto full end
@@ -203,7 +207,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_energy_down", -def.power*TICKS_PER_SECOND, "Power Usage") then goto full end
 		end
 		if def.cost_modifier and def.cost_modifier > 0 and def.cost_modifier < 1 then
-			if AddStat("icon_tiny_speed", string.format("%d%%", math.floor(100 / def.cost_modifier + 0.5)), "Movement Speed Increase") then goto full end
+			if AddStat("icon_tiny_speed", string.format("%.f%%", 100 / def.cost_modifier), "Movement Speed Increase") then goto full end
 		end
 	end
 

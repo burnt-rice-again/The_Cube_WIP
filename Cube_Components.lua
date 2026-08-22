@@ -338,6 +338,7 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
 	index = 1052,
+	race = "robot"
 })
 function cc_modulespeed:on_add(comp, cause)	
 	comp.extra_data.boost_active = true
@@ -491,7 +492,7 @@ local function anti_cube_explosion(comp)
 	end
 	-- add time crystals 
 	while anti_count > 0 do 
-		PlaceResourceNode(owner.location,"blight_crystal",math.random(2,36),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		PlaceResourceNode(owner.location,"blight_crystal",math.random(9,64),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		anti_count = anti_count - 1
 	end
 	-- add blight 
@@ -687,7 +688,7 @@ function cc_boost_tower:on_update(comp, cause)
 
 	local target = comp:GetRegisterEntity(1)
 
-	if target ~= nil then
+	if target ~= nil  and target.has_component_list then
 		-- has a target 
 		-- check in range 
 		if target.faction.id ~= comp.faction.id or target:IsInRangeOf(comp.owner,self.range) == false then 
@@ -708,6 +709,7 @@ function cc_boost_tower:on_update(comp, cause)
 			comp:SetStateStartWork(self.wait_ticks)
 			target:AddComponent("cc_temp_boost")
 			comp:StopEffects()
+			comp.owner:LookAt(target)
 			--comp:PlayEffect("fx_miner","fx",target)--fx_railgun
 			comp:PlayEffect("fx_photon_beam","fx",target)
 		else 

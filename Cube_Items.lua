@@ -28,7 +28,7 @@ data.items.crystal_powder.tag = "simple_material"
 data.items.crystal_powder.desc = "At the right frequency crystal will resonate with the cube inducing a cascade failure at the intermolecular level"
 create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
-	{ crystal = 80, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 20, ic_cube_blue = 1}, 
+	{ crystal = 80, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 10, ic_cube_blue = 1}, 
 	{cc_manifest = 25, cc_red_furnace = 5},
 	50, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}
@@ -125,7 +125,7 @@ data.items.engine.production_recipe = CreateProductionRecipe(
 data.items.engine.race = "robot"
 
 data.items.fused_electrodes.name = "Superconductor"
-data.items.fused_electrodes.desc = "This Material is beyond our current understanding\nItleast we know we will eventually be able to manufacture it"
+data.items.fused_electrodes.desc = "This Material is beyond our current understanding\n1024 years into the future we will invent a way to manufacture it"
 data.items.fused_electrodes.production_recipe = false
 
 --------------------------------------
@@ -362,7 +362,7 @@ data.items.ic_time_crystal = {
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
 	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ blight_crystal = 12, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	production_recipe = CreateProductionRecipe({ blight_crystal = 9, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
 data.items.blight_crystal.name = "Unstable Chrono Crystal"
 data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"
@@ -370,7 +370,7 @@ data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>an
 
 ---- Final ITems 
 data.items.ic_broken_reality = {
-	name = 'Broken Reality',
+	name = 'Unstable Understanding',
 	index = 11,
 	tag = 'hitech_material',
 	race = "robot",

@@ -21,7 +21,7 @@ data.frames.f_bot_1m_c.production_recipe = CreateProductionRecipe({ ic_soul_happ
 data.frames.f_bot_1s_adw.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 1, reinforced_plate = 9, fused_electrodes = 16 }, { c_robotics_factory = 80 })
 data.frames.f_bot_2m_as.production_recipe = CreateProductionRecipe({ ic_soul_happy = 2, engine = 4, reinforced_plate = 16, fused_electrodes = 32 }, { c_robotics_factory = 80 })
 -- Building Frames 
--- lvl 0
+-- lvl 0d
 data.frames.f_building1x1d.construction_recipe = CreateConstructionRecipe({ metalplate = 4, crystal = 1 }, 20)
 data.frames.f_building1x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 8 }, 20)
 data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ metalplate = 6, crystal = 4 }, 20)
@@ -153,7 +153,7 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
 	texture = data.frames.f_beacon_l.texture,
-	visual = data.frames.f_beacon_l.visual,
+	visual = "vc_chrono_tower",
 	components = {
 		{"cc_boost_tower","hidden"}
 	},
@@ -225,18 +225,6 @@ Frame:RegisterFrame("fc_gyro",{
 ----------------------------
 ----- Testing Frames -------
 
-Frame:RegisterFrame("fc_mug",{
-	name = "mug",
-	health_points = 5,
-	race = "robot",
-	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
-	texture = "Main/textures/icons/components/Component_Blight1.png",
-	trigger_channels = "building",
-	visual = 'vc_mug',--"v_blight_stabilizer",
-	size = "Large",
-	no_foundations = true,
-	is_explorable = true,
-})
 Frame:RegisterFrame("fc_testing_observer",{
 	visual = "v_beacon_l",
 	name = "obeserving tower",

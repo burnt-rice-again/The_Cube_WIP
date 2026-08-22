@@ -66,24 +66,6 @@ data.visuals.vc_cube_empty = {
 	flags = "NoMainPass",
 }
 data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Containers_Blight_Data.Containers_Blight_Data'"}
--- data.visualmeshes.cube_storage = {{
--- 		effect = meshes.storage_single,
--- 		transform = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 }, },
--- 	},
--- 	{
--- 		effect = meshes.storage_s,
--- 		transform = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 }, },
--- 	},
--- }
---"NiagaraSystem'/Game/Meshes/Foliage/Blight/BlightRock_Pieces_02/NS_Blight_RockFragments_Floating.NS_Blight_RockFragments_Floating'"
---"NiagaraSystem'/Game/Cai/Effects/BlightVent/NS_BlightVent.NS_BlightVent'"
--- data.fx.vc_cube_steam = {
--- 	{
--- 		particle ={ "NiagaraSystem'/Game/Meshes/Foliage/Blight/BlightRock_Pieces_02/NS_Blight_RockFragments_Floating.NS_Blight_RockFragments_Floating'", flags = "Preload"},
--- 		flags = "Infinite"
--- 		--transform = { { -274.1640625, 216.6713867, 350.1871338 }, { 31.2168312, -164.5661774, 110.6963120 }, { 1.0000000, 1.0000000, 1.0000000 }, },
--- 	},
--- }
 -- components 
 data.visuals.vc_cube_storage = { 
     mesh = meshes.storage_single, 
@@ -92,14 +74,7 @@ data.visuals.vc_cube_storage = {
 	light_radius = 2,
 	light_color = {0,0,0,1},
 	light_offset = { 0.0, 0.0, 2 },
-	--specular_scale = 0
-	-- materials = {
-	-- 	"MaterialInstanceConstant'/Game/Cai/Resources/Blight/MI_Resource_Blight_Pickup_01.MI_Resource_Blight_Pickup_01'",
-	-- }
 }
--- data.visuals.v_empty_inventory = {
--- 	mesh = "StaticMesh'/Game/Meshes/empty_Inventory.empty_Inventory'",
--- }
 -- console / cc_manifest
 data.visuals.v_explorable_blightanomaly_03.scale = {0.4,0.4,0.4}
 
@@ -121,29 +96,9 @@ data.visuals.vc_soul_angry ={
 	scale = { 0.1, 0.1, 0.1, },
 	cull_ratio = CONTAINER_CULL_DIST
 }
-data.visuals.vc_mug_anim = {
-	animesh = "The_Cube_WIP/textures/In Progress Blender/Cube_test_2.glb",
-	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
-
-	--mesh_offset = { 0, 0, 0 },
-	scale = {0.8,0.8,0.8},
-	--mesh_sockets = { ["fx"] = {50,50,100}, },
-	--placement = "AtCenter",
-	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
-}
--- text visual 
-data.visuals.vc_mug = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/Pixels Small 1/pixels_s_1.glb",
-	--mesh_offset = { 0, 0, 1000000},
-	--scale = {0.03,0.03,0.03},
-	--mesh_sockets = { ["fx"] = {50,50,100}, },
-	--placement = "AtCenter",
-	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
-}
 data.visuals.vc_tower1 = {
 	mesh = "The_Cube_WIP/textures/PowerPylonColoured.glb",
 	flags = "RandomRotation",
-
 	--mesh = "The_Cube_WIP/textures/tower2.T3D",
 	mesh_offset = { 0, 0, 98 },
 	mesh_sockets = { ["fx"] = {0,0,22000}, },
@@ -151,39 +106,15 @@ data.visuals.vc_tower1 = {
 	--placement = "Max",
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
--- data.visuals.vc_gyroscope = {
--- 	animesh = "The_Cube_WIP/textures/customanim.glb",
--- 	frame_class = "Blueprint'/Game/Blueprints/Frames/DSModFrameActor.DSModFrameActor_C'",
--- 	bob_speed = 0,
--- 	sockets = {
--- 		{ "", "Small" },
--- 		{ "", "Internal" },
--- 		{ "", "Internal" },
--- 	},
--- 	--scale = { 4.5, 4.5, 4.5 },
--- 	--mesh_offset = { -400, 2400, 20 },
--- }
+data.visuals.vc_chrono_tower = {
+	mesh = "The_Cube_WIP/textures/BoostTower_1.glb",	
+	--mesh_offset = {0,0,100	},
+	scale = {0.2,0.2,0.2},
+	mesh_sockets = { ["fx"] = {0,0,1470} },
+	--cull_ratio = CONTAINER_CULL_DIST
+}
 
--- data.visuals.vc_pixel_ore_1 = {
--- 	mesh = "The_Cube_WIP/textures/In Progress Blender/Pixels Small 1/pixels_s_1.glb",
--- 	--mesh_offset = { 0, 0, 0},
--- 	--scale = {0.2,0.2,0.2},
--- 	tile_size = {3,3},
--- 	flags = "RandomRotation"
--- 	--mesh_sockets = { ["fx"] = {50,50,100}, },
--- 	--placement = "AtCenter",
--- 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
--- }
--- data.visuals.vc_pixel_ore_2 = {
--- 	mesh = "The_Cube_WIP/textures/In Progress Blender/Squares_8.glb",
--- 	--mesh_offset = { 0, 0, 0},
--- 	scale = {0.8,0.8,0.8},
--- 	tile_size = {2,2},
--- 	flags = "RandomRotation"
--- 	--mesh_sockets = { ["fx"] = {50,50,100}, },
--- 	--placement = "AtCenter",
--- 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
--- }
+
 data.visuals.vc_cube_blue = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/Cube_3.glb",
 	--mesh_offset = { 0, 0, 1000000},

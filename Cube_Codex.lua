@@ -313,13 +313,13 @@ data.codex.xc_cube_time_travel = {
     text = [[<img width="100" height="100" id="cc_time_travel_machine"/><codex_title>Time Travel Expedition</>
 
         <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
-        The earliest known superconductor was manufactured 1024 years into the future. 
+        The earliest known superconductor are manufactured 1024 years into the future. 
 
         Using a time machine we can raid our future selves to obtain this material. 
         Each expedition will require items, components, cubes and frames to proceed further. 
         Provide these materials before the portal collapses to reset the timer and obtain a superconductor. 
 
-        When the portal closes it will give an opportunity for our past selves to attack us for our superconductors. 
+        When the portal closes it will give an opportunity for our future selves to attack us in retaliation. 
         <rl>These attacks can be deadly.</>
         Collapse the portal when the number of known defenders is managable. 
         This will change each time a material is supplied
@@ -330,5 +330,21 @@ data.codex.xc_cube_time_travel = {
         <bl>Time Machine Registers</>
         Register 1: Material for next step 
         Register 2: Number of defnders spawned on portal collapse
-        ]],
+        
+        As your raid gets closer to a time delta of 1024 years our future selves become far more advanced
+        The threat level shows the relative technology gap between us.
+        However the yield of superconductors increases every 100 years.
+        After a time delta of 1024 the superconductor yield increases significantly 
+        ]]
+}
+data.codex.xc_gyroscope = {
+    category = "Codex",
+    index = 12,
+    title = [[<img width="18" height="18" id="fc_gyro"/>End Goal]],
+    text = [[<img width="100" height="100" id="fc_gyro"/><codex_title>End Game</>
+
+        <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
+        The earliest known superconductor are manufactured 1024 years into the future. 
+
+        ]]
 }
