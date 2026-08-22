@@ -177,7 +177,7 @@ data.techs.tc_cube_red_1 = {
 data.techs.tc_cube_red_2 = {
 	order = 1,
 	name = "Emotional Processing", -- recovered database etc.
-	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power/nA byproduct of this process is some crystal powder that wasnt able to react",
+	desc = "At Extreme Temperatures crystal vaporizes into a violent gas useful for generating power\nA byproduct of this process is some crystal powder that wasnt able to react",
 	texture = data.items.ic_soul_angry.texture,
 	unlocks = {
 		-- new resources
@@ -191,7 +191,7 @@ data.techs.tc_cube_red_2 = {
 data.techs.tc_cube_red_3 = {
 	order = 1,
 	name = "Resource Regeneration", 
-	desc = "",
+	desc = "Entry -999: When Pondered the Cube can reverse a system back to a prior memory\n\nThis effect should be investigated in the future\n\nNote: if successful return to now and provide the answer so I can skip the work ",
 	texture = data.components.c_blight_magnifier.texture,
 	unlocks = {
 		-- new resources
@@ -205,7 +205,7 @@ data.techs.tc_cube_red_3 = {
 data.techs.tc_cube_red_4 = { 
 	order = 51,
 	name = "Anti-Cube Containment", 
-	desc = "Captured Anti Cube for perpetual vertical force",
+	desc = "Captured Anti Cube for perpetual vertical force\n\nEntry 006: I cant stop until the factory floor is clear\nTime estimate until complete: -2147483648 [s]",
 	texture = data.items.ldframe.texture,
 	unlocks = {
 		-- new resources
@@ -219,7 +219,7 @@ data.techs.tc_cube_red_4 = {
 data.techs.tc_cube_red_5 = {
 	order = 52,
 	name = "Bulk Cube Refining", 
-	desc = "Capture an Anti-Cube into a frame to defy gravity\n\nWarning Anti-Cube make behave unpredictably on interaction",
+	desc = "At the sight of such ineffcient processes the world sobbed\nShedding a single tear into a moment of anguish",
 	texture = data.components.cc_red_furnace.texture,
 	unlocks = {
 		-- new resources
@@ -261,7 +261,7 @@ data.techs.tc_cube_green_1= {
 data.techs.tc_cube_green_2 = {
 	order = 3,
 	name = "Wire Weed Farming", -- recovered database etc.
-	desc = "Conductive Wire Weed used for",
+	desc = "A weed with thin strands of conductive fibre found all over the valley\nA building block for enlightened thought",
 	texture = data.items.wire.texture,
 	unlocks = {
 		"wire",
@@ -275,7 +275,7 @@ data.techs.tc_cube_green_2 = {
 data.techs.tc_cube_green_3 = {
 	order = 3,
 	name = "Outsourced Introspection", -- recovered database etc.
-	desc = "A Brain in a jar set to ponder its own existence",
+	desc = "A Brain in a jar set to ponder its own existence\n\nThinking is hard. Why cant someone else do it for me?",
 	texture = data.components.cc_green_brain.texture,
 	unlocks = {
 		"cc_green_brain","ic_soul_happy","ic_cube_green_alt"
@@ -288,7 +288,7 @@ data.techs.tc_cube_green_3 = {
 data.techs.tc_cube_green_4 = {
 	order = 1,
 	name = "Farming", -- recovered database etc.
-	desc = "Grow seeds",
+	desc = "At the smallest level division may cause some floating point errors\n\nThe fractal nature of this leaf causes anomlaous space distorations",
 	texture = data.items.phase_leaf.texture,
 	unlocks = {
 		-- new resources
@@ -303,7 +303,7 @@ data.techs.tc_cube_green_4 = {
 data.techs.tc_cube_green_5 = {
 	order = 2,
 	name = "Boost Speed",
-	desc = "",
+	desc = "BRRRRRRRMMMM BRRRRR BRRRRMMMMMMMMMM\nBEEP BEEP\n BRRRRRRMMMMMMM",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
 		-- new resources
@@ -318,7 +318,7 @@ data.techs.tc_cube_green_5 = {
 data.techs.tc_cube_green_6 = {
 	order = 2,
 	name = "Phase Power",
-	desc = "Uses phase fuel to make power",
+	desc = "Uses phase fuel to provide power anywhere",
 	texture = "Main/textures/icons/components/Component_PowerCell_01_S.png",
 	unlocks = {
 		'cc_power_phase',"ic_broken_reality"
@@ -331,7 +331,7 @@ data.techs.tc_cube_green_6 = {
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	order = 1,
 	name = "Anti Cube Annihilation", -- recovered database etc.
-	desc = "Find",
+	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
 		"blight_crystal","ic_time_crystal","xc_cube_anti","xc_cube_time_crystal",
@@ -344,7 +344,7 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 data.techs.tc_cube_anti_1= {
 	order = 40,
 	name = "Localized Chrono Field Creation", -- recovered database etc.
-	desc = "",
+	desc = "Stablizied chrono fields can create pockets of distorted time",
 	texture = data.components.cc_moduleefficiency_l.texture,
 	unlocks = {
 		-- new resources
@@ -386,7 +386,7 @@ data.techs.tc_cube_anti_3= {
 data.techs.tc_cube_anti_4= {
 	order = 42,
 	name = "Negative Entropy Project", -- recovered database etc.
-	desc = "The Final Form",
+	desc = "The amount of useful entropy left in our world is to small\nWith The Cube and all of our combined knowladge new Universes can be spawned\nOur hope is one day they shall also continue the chain",
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		'ic_micro_universe', "fc_gyro","xc_gyroscope",

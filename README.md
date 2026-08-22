@@ -18,6 +18,7 @@ READ THE CODEX! If you are lost the codex should explain everything. Let me know
 ## Features:
     -The Cube in 4 forms 
     -Fully reworked tech tree
+    -lots of new descriptions
     -Alternative recipes
     -Farming with Genetic Traits
     -Harvest the souls of your enemies
@@ -31,7 +32,7 @@ READ THE CODEX! If you are lost the codex should explain everything. Let me know
 
 -------------
 
-## The Cube has given us sentience!. 
+## The Cube has given us sentience!
 
     Our top priority is to understand and control the Cube that formed us from rocks.
 

@@ -349,9 +349,9 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 })
 
 cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
-	name = "Brain Vat",
+	name = "The Anti Entropy Loom",
 	texture = "The_Cube_WIP/textures/gyro_texture.png",
-	desc = "A Brain given self consciousness so it may ponder the cube in our stead",
+	desc = "The Knot in the tapestry\nTo continue this string of Universes so the World shall never truly end",
 	race = "robot",
 	attachment_size = "Hidden",
 	get_ui = true,

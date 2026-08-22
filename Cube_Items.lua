@@ -54,6 +54,7 @@ create_alt_recipe("datakey_robot",
 )
 -- Red Cube items
 data.items.reinforced_plate.race = "robot"
+data.items.reinforced_plate.desc = "Forged In a high pressure workplace\nsteel learns the disciplin to hold this factory together"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 {ic_cube_red = 1, steelblock = 80, crystal_powder = 20, wire = 20  }, 
 {cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
@@ -68,7 +69,7 @@ create_alt_recipe("reinforced_plate",
 data.items.phase_leaf.production_recipe = false
 data.items.phase_leaf.tag = "resource"
 data.items.phase_leaf.race = "virus"
-data.items.phase_leaf.desc = "An unstable leaf that shimmers in place\nUseful for many alternative crafting recipes"
+data.items.phase_leaf.desc = "The fractal nature of this leaf causes anomlaous space distorations\nUseful for many alternative crafting recipes"
 
 data.items.wire.name = "Neurotic Reed Fibre"
 data.items.wire.desc = "Conductive reed fibre, wound and ready for higher conceptualization"
@@ -269,7 +270,7 @@ data.items.ic_soul_plasma = {
 	name = "Ectoplasma",
 	index = 1010,
 	race = "robot",
-	desc = "Refined Soul Energy\nCan only be transferred through tansmission towers",
+	desc = "Refined Soul Energy\nCan only be transferred through plasma relay towers",
 	tag = "advanced_material",
 	texture = "Main/textures/icons/items/anomaly_particle.png",
 	--visual = "v_scaramar1",
@@ -374,7 +375,7 @@ data.items.ic_broken_reality = {
 	index = 11,
 	tag = 'hitech_material',
 	race = "robot",
-	desc = 'The Final Frontier',
+	desc = 'How to cook a Universe\nIngriedent 1 - Forget the laws of reality to surpass them',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_cluster.visual,
@@ -386,7 +387,7 @@ data.items.ic_proto_sent = {
 	index = 11,
 	tag = 'hitech_material',
 	race = "robot",
-	desc = 'The Final Frontier',
+	desc = 'How to cook a Universe\nIngriedent 3\nIf a Universe is created and no one can witness it, does it exist?',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
@@ -398,7 +399,7 @@ data.items.ic_matter = {
 	index = 11,
 	tag = 'hitech_material',
 	race = "robot",
-	desc = 'The Final Frontier',
+	desc = 'How to cook a Universe\nIngriedent 2 - A Generous portion of matter',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.obsidian.visual,
@@ -410,7 +411,7 @@ data.items.ic_micro_universe = {
 	index = 12,
 	tag = 'hitech_material',
 	race = "robot",
-	desc = 'The Final Frontier',
+	desc = 'Our Duty Complete\nSo long as the chain continues this string of Universes shall never truly die',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,

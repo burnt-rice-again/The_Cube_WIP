@@ -145,7 +145,7 @@ Power output is affected by component effciency boosts.]],
 data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 	name = "Soul Consumption", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
-	desc = [[Consumes Soul Plasma for energy 
+	desc = [[<bl>By the Power of Frienship!</> 
 <img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Requires drastically less Cube time compared to crystal power]],
 	visual = "v_power_cell_01_s",
