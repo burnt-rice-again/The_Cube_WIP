@@ -16,7 +16,7 @@ local function create_alt_recipe(id,recipe,overide_values)
 	data.items[id].has_alt = id.."_alt"
 end
 -- create slot for cube
-data.item_slot_icons["cube"] = "Main/skin/Icons/Special/Technologies/Robots.png"
+data.item_slot_icons["cube"] = "The_Cube_WIP/textures/cube_icon_2.png"
 -- add cube category 
 table.insert(data.categories, 1, { name = "Cube", tab = "item",  defs = data.items,  filter_field = "tag", filter_val = "cube"   } )
 --------------------------------------
@@ -54,7 +54,7 @@ create_alt_recipe("datakey_robot",
 )
 -- Red Cube items
 data.items.reinforced_plate.race = "robot"
-data.items.reinforced_plate.desc = "Forged In a high pressure workplace\nsteel learns the disciplin to hold this factory together"
+data.items.reinforced_plate.desc = "Forged In a high pressure workplace\nsteel learns the discipline to hold this factory together"
 data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 {ic_cube_red = 1, steelblock = 80, crystal_powder = 20, wire = 20  }, 
 {cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
@@ -119,7 +119,7 @@ create_alt_recipe("concreteslab",
 	CreateProductionRecipe(
 	{reinforced_plate = 1, wire = 5, metalore = 5}, 
 	{c_fabricator = 25},
-	1),
+	6),
 	{desc = "Reinforced Concrete Mixing"}
 )
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40, c_assembler = 30}, 1)

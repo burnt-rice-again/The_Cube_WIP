@@ -26,7 +26,7 @@ data.tech_categories = {
 		name = "Cube",
 		initial_tech = "tc_cube_basic",
 		sub_categories = { "Cube Curiosity", "Cube Obsession",},
-		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+		texture = "The_Cube_WIP/textures/cube_icon_2.png",
 		--textures = { "Main/skin/Icons/Special/Technologies/Basic.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png", "Main/skin/Icons/Special/Technologies/Robots.png",},
 	},
 	{
@@ -46,7 +46,7 @@ data.tech_categories_race =
 data.techs.tc_cube_basic = {
 	name = "A Curious Cube", -- recovered database etc.
 	desc = "8 verticies to point the way, 12 edges a perfect form, 6 faces to reflect our own",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = "The_Cube_WIP/textures/cube_icon_2.png",
 	unlocks = {
 		-- for testing 
 		-- "f_human_foundation1","f_human_foundation2","f_human_foundation3","f_human_foundation4",

@@ -337,6 +337,9 @@ data.codex.xc_cube_time_travel = {
         The threat level shows the relative technology gap between us.
         The yield of superconductors increases every 100 years.
         After a time delta of 1024 years the superconductor yield increases significantly 
+
+        <img image="The_Cube_WIP/textures/Codex_Images/Time_Travel_def.png"/>
+        
         ]]
 }
 data.codex.xc_gyroscope = {
