@@ -107,8 +107,8 @@ function ec_fort:SpawnExplorable(x, y)
     Place_enemy_fort(x,y,math.random(1,10))
     print("placing fort",x,y)
 end
-
-data.explorables.ec_fort = ec_fort
+-- error in fort code remove temporarly 
+--data.explorables.ec_fort = ec_fort
 
 
 

@@ -1,7 +1,7 @@
 
 --- ENABLE CHEATS HERE
 local Unlock_All_Technologies = false
-local Start_with_Observers = false
+local Start_with_Observers = true
 
 
 

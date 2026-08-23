@@ -12,11 +12,11 @@ All power generation involves the Cube.
 > ** YOU MUST USE THE CUSTOM STARTING SCENARIO! **
 it will not spawn a cube otherwise
 
-READ THE CODEX! If you are lost the codex should explain everything. Let me know if it does not. 
+Read the codex! If you are lost the codex should explain everything. Let me know if it does not. 
 
 
 ## Features:
-    -The Cube in 4 forms 
+    -The Cube in 4 perfect forms 
     -Fully reworked tech tree
     -lots of new descriptions
     -Alternative recipes
@@ -41,7 +41,7 @@ READ THE CODEX! If you are lost the codex should explain everything. Let me know
     The Cube is our only source of potential energy.
 
     Study Notes:
-    The Cube is perfectly flat on its surface down to the nm 
+    The Cube is perfectly flat on its surface down to the pm 
     Its density is beyond all readings 
     The Cube appears to impart logic and emotions on nearby materials
     The Cube can harmonize with emotional materials to generate energy. 
@@ -54,5 +54,6 @@ If you want to cheat there is two bools at the top of the Cube_Scenario file. on
 
     -TimeTravel machine randomizes required input on requip with no downside
     -New Game does not use the Cube Scenario must use scenario select
-    -Hitbox of new visuals doesn not exist. Engine Cannot currently be import animated models for a mod.
-    -Gyroscope storage does not update visual until reload. same for both cube holder and storage comp
+    -Hitbox of new visuals doesn not exist. Engine Cannot currently import hitbox models for a mod.
+    -Engine doesn't support importing animated models for a mods 
+    -Gyroscope storage does not update visual until reload. same for both cube holder and storage comp.
