@@ -89,7 +89,8 @@ data.techs.tc_robot_basic = {
 }
 -- add all values to the tech 
 for key, value in pairs(data.values) do 
-	print(key, value.texture)
+	-- getting an extra one thats a ? not sure which it iss
+	--print(key, value.texture)
 	table.insert(data.techs.tc_robot_basic.unlocks, key)
 end
 

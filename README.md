@@ -52,6 +52,7 @@ If you want to cheat there is two bools at the top of the Cube_Scenario file. on
 
 ## Known Bugs 
 
+    -time travel machine stops when it selects a bot as the next step
     -TimeTravel machine randomizes required input on requip with no downside
     -New Game does not use the Cube Scenario must use scenario select
     -Hitbox of new visuals doesn not exist. Engine Cannot currently import hitbox models for a mod.
