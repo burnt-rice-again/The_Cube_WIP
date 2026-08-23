@@ -6,11 +6,6 @@ TODO
     improvements to timetravel UI element
 
 
-Known Bugs 
-    - TimeTravel machine randomizes required input on requip with no downside
-    - New Game does not use the Cube Scenario must use scenario select
-    - Hitbox of new visuals doesn not exist. Engine Cannot currently be import animated models for a mod.
-    - Gyroscope storage does not update visual until reload. same for both cube holder and storage comp
 
 
 --- stuff i cant do because there isnt a method 
@@ -26,7 +21,7 @@ Currently the game does not support animated visuals when imported by a mod
 Small Whishlist for devs 
     import animated models 
     add tech / value filter for registers on comps
-    
+
 
 
 
