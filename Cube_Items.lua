@@ -326,7 +326,7 @@ data.items.ic_soul_angry = {
 }
 create_alt_recipe("ic_soul_angry", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_soul_plasma = 50, ic_fuel = 20, blight_crystal = 5, ic_soul_happy = 5 }, 
+	{ic_cube_red = 1, ic_soul_plasma = 50, phase_leaf = 10, ic_soul_happy = 5 }, 
 	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
 	10,
 	{ic_cube_empty = 1}),
