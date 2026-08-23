@@ -537,6 +537,7 @@ function Place_enemy_fort(x,y,cost)
             cord = {x = x, y = y},
             range = start_area_size,
             frame_filter = "f_building",
+            bonues = 15,
         })
         cost = cost - 1
     end

@@ -1,3 +1,10 @@
+TODO 
+    add bases to capture back in 
+
+    new cube .glb files
+    imporive new 3d files 
+    improvements to timetravel UI element
+
 
 Known Bugs 
     - TimeTravel machine randomizes required input on requip with no downside

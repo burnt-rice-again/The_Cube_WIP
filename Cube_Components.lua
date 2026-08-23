@@ -870,7 +870,7 @@ function c_blight_magnifier:on_add(comp)
 	comp:Activate()
 end
 
-
+--  attempt to make blight crystals dissapear over time but resource nodes dont update
 local cc_unstable_resource = Comp:RegisterComponent("cc_unstable_resource",{
 	name = "Unstable Resource",
 	desc = "Reduces Resource over time",
@@ -897,3 +897,25 @@ function cc_unstable_resource:on_update(comp,cause)
 
 	end
 end
+
+
+-- this is just to test research progression 
+local cc_cheat_tech = Comp:RegisterComponent("cc_cheat_tech",{
+	name = "Unstable Cheat",
+	desc = "Reduces Resource over time",
+	activation = "OnComponentRegisterChange",
+	texture = data.items.blight_crystal.texture,
+	get_ui = true,
+	registers = {{ tip = "Research to cheat"}}
+})
+
+function cc_cheat_tech:on_update(comp, cause)
+	local reg = comp:GetRegisterId(1)
+
+	if reg then 
+		comp.faction:Unlock(reg)
+	end
+
+
+end
+

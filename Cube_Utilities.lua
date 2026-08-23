@@ -200,3 +200,4 @@ function EntityHasCube(ent)
 	end
 	return false
 end
+

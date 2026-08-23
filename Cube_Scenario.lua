@@ -1,4 +1,7 @@
 
+--- ENABLE CHEATS HERE
+local Unlock_All_Technologies = false
+local Start_with_Observers = true
 
 
 
@@ -45,11 +48,13 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	faction:Unlock("tc_cube_basic")
 	faction:Unlock("tc_upgrades_basic")
 	-- Research Unlock for testing 
-	-- for key, val in pairs(data.techs) do 
-	-- 	if "tc_" == string.sub(key, 1, 3) then 
-	-- 		faction:Unlock(key)
-	-- 	end
-	-- end
+	if Unlock_All_Technologies then 
+		for key, val in pairs(data.techs) do 
+			if "tc_" == string.sub(key, 1, 3) then 
+				faction:Unlock(key)
+			end
+		end
+	end
 	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
@@ -215,6 +220,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- recharger:AddComponent("cc_pipe_output")
 	-- recharger:AddComponent("cc_cube_storage")
 	-- recharger:AddComponent("cc_crystal_power_red")
+	-- recharger:AddComponent("cc_cheat_tech")
 	-- recharger:AddItem("ic_soul_plasma",100)
 	-- recharger:AddItem("crystal_powder",60)
 	-- recharger:AddItem("ic_cube_red")
@@ -282,6 +288,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
 
-	--tester_spawn_observers(faction, loc.x,loc.y)
+	if Start_with_Observers then tester_spawn_observers(faction, loc.x,loc.y) end
+	 
 end
 
