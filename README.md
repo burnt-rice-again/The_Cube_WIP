@@ -4,7 +4,7 @@ Welcome to this challenge Mod involving THE CUBE
 
 It involves a fully overhauled tech tree to involve the Cube
 
-You will need to optimsise your factory for Cube Time 
+You will need to optimsise your factory for Cube Time.
 Lots of new features and interesting designs. It is not simply a reshuffle of crafting recipes. 
 Some new recipes may require you to design new infastructure and behaviours. 
 All power generation involves the Cube.
