@@ -639,7 +639,7 @@ data.techs.tc_building5= {
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
-		"f_building1x1e","f_building2x2a","f_building1x1h",
+		"f_building1x1e","f_building2x2a","f_building1x1h","f_wall_bli"
 	},
 	require_tech = {  "tc_building4" },
 	progress_count = 100,
@@ -653,7 +653,7 @@ data.techs.tc_building6= {
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
-		"f_building2x1d","f_building3x2b","f_wall_bli"
+		"f_building2x1d","f_building3x2b",
 	},
 	require_tech = {  "tc_building5" },
 	progress_count = 100,

@@ -367,7 +367,7 @@ data.items.ic_time_crystal = {
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
-	texture = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.png",
+	texture = "The_Cube_WIP/textures/TimeCrystal.png",
 	production_recipe = CreateProductionRecipe({ blight_crystal = 9, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
 data.items.blight_crystal.name = "Unstable Chrono Crystal"

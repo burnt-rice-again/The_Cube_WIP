@@ -40,28 +40,28 @@ data.frames.f_building2x1b.construction_recipe = CreateConstructionRecipe({ conc
 data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, metalplate = 16, steelblock = 9 }, 40)
 -- f_building1x1h
 -- lvl2 
-data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 16, datakey_robot = 2 }, 40)
-data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 9, datakey_robot = 2 }, 40)
+data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 16, reinforced_plate = 6, ic_soul_happy = 4, ic_time_crystal = 1 }, 40)
 data.frames.f_building2x1c.component_boost = 0
 data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
-data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 16, reinforced_plate = 6, ic_soul_happy = 2 }, 40)
 data.frames.f_building2x1d.component_boost = 0
 data.frames.f_wall_bli.construction_recipe = CreateConstructionRecipe({ reinforced_plate = 1, concreteslab = 4, wire = 2}, 20)
 data.frames.f_wall_bli.race = "robot"
 data.frames.f_wall_bli.name = "Reinforced Wall"
-data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, wire = 12, steelblock = 16, datakey_robot = 5 }, 40)
+data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, wire = 8, steelblock = 16, datakey_robot = 5 }, 40)
 data.frames.f_building2x2b.component_boost = 0
-data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 40, reinforced_plate = 20, ic_soul_happy = 4 }, 40)
 data.frames.f_building3x2b.components = {{"cc_moduleefficiency_s","hidden"}}
 data.frames.f_building2x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x2a.component_boost = 0
-data.frames.f_building2x2c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, ic_time_crystal = 2 }, 40)
 data.frames.f_building2x2c.component_boost = 0
-data.frames.f_building2x2d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, ic_time_crystal = 2 }, 40)
 data.frames.f_building2x2d.component_boost = 0
-data.frames.f_building2x2e.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building2x2e.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 16, ic_time_crystal = 5, fused_electrodes = 9 }, 40)
 data.frames.f_building2x2e.component_boost = 0
-data.frames.f_building3x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
+data.frames.f_building3x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 40, reinforced_plate = 25, ic_time_crystal = 5, fused_electrodes = 16 }, 40)
 data.frames.f_building3x2a.component_boost = 0
 -- flying frames
 data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ ldframe = 1, datakey_robot = 2, metalplate = 4 }, { c_robotics_factory = 50 })
