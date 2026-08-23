@@ -50,8 +50,9 @@ READ THE CODEX! If you are lost the codex should explain everything. Let me know
 
 If you want to cheat there is two bools at the top of the Cube_Scenario file. one unlocks all the techs another reveals the map
 
-##Known Bugs 
-    - TimeTravel machine randomizes required input on requip with no downside
-    - New Game does not use the Cube Scenario must use scenario select
-    - Hitbox of new visuals doesn not exist. Engine Cannot currently be import animated models for a mod.
-    - Gyroscope storage does not update visual until reload. same for both cube holder and storage comp
+## Known Bugs 
+
+    -TimeTravel machine randomizes required input on requip with no downside
+    -New Game does not use the Cube Scenario must use scenario select
+    -Hitbox of new visuals doesn not exist. Engine Cannot currently be import animated models for a mod.
+    -Gyroscope storage does not update visual until reload. same for both cube holder and storage comp
