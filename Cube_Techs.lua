@@ -19,7 +19,7 @@ data.tech_categories = {
 		name = "Independant Thought",
 		initial_tech = "tc_robot_basic",
 		sub_categories = { "Independance", "Humility" },
-		texture = "Main/skin/Icons/Special/Technologies/Basic.png",
+		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
 		--textures = {"Main/skin/Icons/Special/Technologies/Basic.png","Main/skin/Icons/Special/Technologies/Basic.png","Main/skin/Icons/Special/Technologies/Basic.png"}
 	},
 	{
@@ -33,7 +33,7 @@ data.tech_categories = {
 		name = "Upgrades",
 		initial_tech = "tc_upgrades_basic",
 		sub_categories = { "Expanded Functions", "Maximum Lethality"},
-		texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+		texture = "Main/skin/Icons/Special/Technologies/Basic.png",
 		--textures = {"Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png"}
 	},
 }
@@ -89,6 +89,7 @@ data.techs.tc_robot_basic = {
 }
 -- add all values to the tech 
 for key, value in pairs(data.values) do 
+	print(key, value.texture)
 	table.insert(data.techs.tc_robot_basic.unlocks, key)
 end
 
@@ -97,7 +98,7 @@ end
 data.techs.tc_upgrades_basic = {
 	name = "Basic Components", -- recovered database etc.
 	desc = "essential components for basic tasks",
-	texture = "Main/skin/Icons/Special/Technologies/Robots.png",
+	texture = "Main/skin/Icons/Special/Technologies/Basic.png",
 	unlocks = {
 		"c_assembler",
 		-- starting componenets

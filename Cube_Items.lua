@@ -77,6 +77,7 @@ data.items.wire.production_recipe = false
 data.items.wire.race = "virus"
 data.items.wire.index = 1011
 data.items.wire.tag = "resource"
+data.items.wire.texture = "The_Cube_WIP/textures/wire.png"
 --- AntiCube 
 data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"

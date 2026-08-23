@@ -154,7 +154,6 @@ data.visuals.vc_time_crystal = {
 	cull_ratio = CONTAINER_CULL_DIST
 }
 
-
 data.visuals.vc_sea_grass = Tool.Copy(data.visuals.v_succulent_04)
 data.visuals.vc_sea_grass.scale = {3,3,3}
 data.visuals.vc_sea_grass.flags = "RandomRotation|RandomScale|RandomTranslation"

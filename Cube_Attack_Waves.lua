@@ -141,7 +141,7 @@ end
 function Delay.destroy_ent(arg) 
 
 	local bot = arg.ent
-    print("Destroying", bot)
+    --print("Destroying", bot)
 	if bot ~= nil then 
 		bot:Destroy()
 	end
@@ -353,7 +353,7 @@ function  cc_time_travel_machine:on_update(comp, cause)
 
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse tiem travel machine
-        print("cost__reg", comp:GetRegisterNum(2))
+        --print("cost__reg", comp:GetRegisterNum(2))
         comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
         spawn_robot_attack(comp, comp:GetRegisterNum(2), {range = self.range})
         
