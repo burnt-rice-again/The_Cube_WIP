@@ -179,6 +179,10 @@ data.codex.xc_cube_green = {
         1 - Target Location (None if there is not a plantable position in range)
         <img image="The_Cube_WIP/textures/Codex_Images/Planter_Registers.png"/>  
 
+        A new instruction has been added to check for foundations
+
+        <img image="The_Cube_WIP/textures/Codex_Images/foundation.png"/>
+
         <img image="The_Cube_WIP/textures/Codex_Images/Farm_Showing_Range.png"/>  
         ]],
 }

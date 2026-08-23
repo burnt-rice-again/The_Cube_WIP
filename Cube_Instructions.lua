@@ -2,7 +2,7 @@
 
 
 
-local Get, GetCoord, GetId, GetNum, Set, BeginBlock, GetEntityCube = InstGet, InstGetCoord, InstGetId, InstGetNum, InstSet, InstBeginBlock, EntityHasCube
+local Get, GetCoord, GetId, GetNum, Set, BeginBlock, GetEntityCube, GetEntity = InstGet, InstGetCoord, InstGetId, InstGetNum, InstSet, InstBeginBlock, EntityHasCube, InstGetEntity
 
 -- from instructions file 
 -- local function GetSeenEntityOrSelf(comp, state, ent)
@@ -15,16 +15,32 @@ local Get, GetCoord, GetId, GetNum, Set, BeginBlock, GetEntityCube = InstGet, In
 
 
 ----------- Extra Instructions for the CUBE 
+local cube_icon = "The_Cube_WIP/textures/cube_icon_2.png"
+
 
 data.instructions.get_foundation_at = {
     func = function(comp, state, cause, in_coord, out_result, out_no_result)
 		local faction = comp.faction
 		local coord = GetCoord(comp, state, in_coord)
 		if not coord then
-			Set(comp, state, out_result)
-            state.counter = out_no_result
-			return
+            -- check if a unit 
+            local ent = GetEntity(comp, state, in_coord)
+            if not ent or not ent.is_placed then
+                -- not a valid entity
+                Set(comp, state, out_result)
+                state.counter = out_no_result
+                return
+            else
+                coord = ent.placed_location
+            end
 		end
+        if not comp.owner:IsInRangeOf(coord, comp.owner.visibility_range or 1) then 
+            -- not in range
+            Set(comp, state, out_result)
+            state.counter = out_no_result
+            return
+        end
+        
 
 		local result = Map.GetFoundationEntityAt(coord.x, coord.y)
 		if result and comp.faction:IsSeen(result) then
@@ -35,15 +51,17 @@ data.instructions.get_foundation_at = {
 		end
 	end,
 	args = {
-		{ 'in', "Coordinate", "Coordinate to get Foundation from", 'coord' },
-		{ 'out', "Result" },
+		{ 'in', "Coordinate / Entity", "Coordinate or Entity to get Foundation from", 'coord' },
+		{ 'out', "Foundation" },
         { 'exec', "No Foundation", "No Foundation Found or could not view coordinate" },
 	},
 	name = "Get Foundation At",
-	desc = "Gets the Foundation at a coordinate",
-	category = "Math",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
-	explain = [[Returns the Foundation located at a specific coordinate if visible.]],
+	desc = "Gets the Foundation at a coordinate or underneath an entity",
+	category = "Units",
+	icon = cube_icon,
+	explain = [[Returns the Foundation id located at a specific coordinate if visible.
+    -Must be within visiblity range
+    -For large entities will only look at the tile they are centred on]],
 }
 
 data.instructions.get_cube_type = {
@@ -69,8 +87,8 @@ data.instructions.get_cube_type = {
 	},
 	name = "Get Cube Type",
 	desc = "Gets the Cube's current type",
-	category = "Global",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	category = "World",
+	icon = cube_icon,
 	explain = [[Returns the Cubes current type.]],
 }
 
@@ -114,8 +132,8 @@ data.instructions.get_cube_entity = {
 	},
 	name = "Get Cube Bearer",
 	desc = "Returns the entity currently holding the Cube",
-	category = "Global",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	category = "World",
+	icon = cube_icon,
 	explain = [[Returns the Entity Currently Holding The Cube]],
 }
 
@@ -152,8 +170,8 @@ data.instructions.get_cube_location = {
 	},
 	name = "Get Cube Location",
 	desc = "Returns the last known location of the Cube",
-	category = "Global",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	category = "World",
+	icon = cube_icon,
 	explain = [[Returns the last known location of the Cube]],
 }
 data.instructions.is_cube_type = {
@@ -171,10 +189,10 @@ data.instructions.is_cube_type = {
         { 'exec', "Non Cube", "This register is <hl>not</> a Cube" },
         
 	},
-	name = "is a Cube",
+	name = "Is a Cube",
 	desc = "Check if the input is a Cube",
-	category = "Flow",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	category = "Logic",
+	icon = cube_icon,
 	explain = [[Branches Execution based on the id of the input. 
 Will check if the id is a valid Cube]],
 }
@@ -227,8 +245,8 @@ data.instructions.cube_recipe = {
 	},
 	name = "Does Recipe Require Cube",
 	desc = "Checks if a item requires the Cube to Craft",
-	category = "Flow",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	category = "Logic",
+	icon = cube_icon,
 	explain = [[Branches Execution based on the id of the input. 
 Will check if the id is a valid Cube]],
 }
@@ -255,8 +273,8 @@ data.instructions.check_alt_item = {
 	},
 	name = "Is Alternative Recipe",
 	desc = "Checks if an item is an alternative recipe and returns the true item",
-	category = "Flow",
-	icon = "Main/skin/Icons/Common/56x56/Distance.png",
+	category = "Logic",
+	icon = cube_icon,
 	explain = [[Checks if an input item is an alternative recipe and returns the true item
 Will return the input if it has no alternative recipe or input has no item id
 Alternative Input <img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/> True Output
