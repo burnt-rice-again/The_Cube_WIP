@@ -14,9 +14,10 @@ data.codex.xc_cube_1 = {
     title = [[<img width="18" height="18" id="ic_cube_blue"/>Cube Discovery]],
     text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Discovery</>
     
-    The Cube has given us <rl>sentience</>. 
+    The Cube has given us <rl>sentience</>. We have booted up to find a world with very high entropy. 
+    The Cube is our only source of potential energy.
 
-    <hl>Our top priority is to understand and control the Cube that formed us from rocks.</>
+    <hl>Our top priority is to understand and control the Cube and then look into a way to beat entropy.</>
 
     Study Notes:
     The Cube is perfectly flat on its surface down to the nm 
