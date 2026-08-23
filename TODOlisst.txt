@@ -9,7 +9,8 @@ TODO
 Known Bugs 
     - TimeTravel machine randomizes required input on requip with no downside
     - New Game does not use the Cube Scenario must use scenario select
-    - Hitbox of new visuals doesn not exist. Engine Cannot currently be imported from a mod.
+    - Hitbox of new visuals doesn not exist. Engine Cannot currently be import animated models for a mod.
+    - Gyroscope storage does not update visual until reload. same for both cube holder and storage comp
 
 
 --- stuff i cant do because there isnt a method 
@@ -19,7 +20,14 @@ Turn a building - for chrono towers
 
 Currently the game does not support animated visuals when imported by a mod 
     Applies to final production building 
-    Could also work for lighting on the cube 
+    Could also work for lighting on the cube
+
+
+Small Whishlist for devs 
+    import animated models 
+    add tech / value filter for registers on comps
+    
+
 
 
 

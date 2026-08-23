@@ -45,3 +45,5 @@ READ THE CODEX! If you are lost the codex should explain everything. Let me know
     The Cube can harmonize with emotional materials to generate energy. 
 
 ---------------
+
+If you want to cheat there is two bools at the top of the Cube_Scenario file. one unlocks all the techs another reveals the map
