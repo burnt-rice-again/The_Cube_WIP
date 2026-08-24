@@ -1,6 +1,6 @@
 # THE CUBE HYPOTHESIS 
 
-Welcome to this challenge Mod involving THE CUBE
+Welcome to this challenge mod involving THE CUBE
 
 It involves a fully overhauled tech tree to involve the Cube
 
@@ -12,8 +12,7 @@ All power generation involves the Cube.
 > ** YOU MUST USE THE CUSTOM STARTING SCENARIO! **
 it will not spawn a cube otherwise
 
-Read the codex! If you are lost the codex should explain everything. Let me know if it does not. 
-
+If you are lost the codex should explain everything. Let me know if it does not. 
 
 ## Features:
     -The Cube in 4 perfect forms 
@@ -30,7 +29,7 @@ Read the codex! If you are lost the codex should explain everything. Let me know
 
     Dont forget to read the codex for help
 
-    new assest are a wip as I learn blender
+    new assets are a wip as I learn blender
 
 -------------
 
@@ -41,7 +40,7 @@ Read the codex! If you are lost the codex should explain everything. Let me know
     The Cube is our only source of potential energy.
 
     Study Notes:
-    The Cube is perfectly flat on its surface down to the pm 
+    The Cube is perfectly flat on its surface down to the nm 
     Its density is beyond all readings 
     The Cube appears to impart logic and emotions on nearby materials
     The Cube can harmonize with emotional materials to generate energy. 

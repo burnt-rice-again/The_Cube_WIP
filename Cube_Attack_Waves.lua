@@ -287,7 +287,7 @@ function  cc_time_travel_machine:on_remove(comp, cause)
     if comp.is_working then 
         spawn_robot_attack(comp, comp:GetRegisterNum(2) + 10, {range = self.range})
         comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
-    end 
+    end
 end
 
 local replace_cube_with <const> = {
@@ -307,17 +307,15 @@ local function delta_to_warning_text(delta)
         return "Advanced"
     elseif delta_lvl <= 6 then  
         return "Theoretical"
-    elseif delta_lvl <= 9 then  
-        return "Advanced"
-    elseif delta_lvl <= 14 then  
+    elseif delta_lvl <= 8 then  
         return "Alien"
-    elseif delta_lvl <= 20 then  
-        return "Just Magic"
-    elseif delta_lvl <= 30 then  
+    elseif delta_lvl <= 10 then  
+        return "Magical"
+    elseif delta_lvl <= 12 then  
         return "Mythical"
-    elseif delta_lvl <= 10 then  
+    elseif delta_lvl <= 16 then  
         return "Impossible"
-    elseif delta_lvl <= 10 then  
+    elseif delta_lvl <= 20 then  
         return "Unfathomable"
     end
 end

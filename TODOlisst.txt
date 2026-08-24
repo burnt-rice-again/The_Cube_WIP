@@ -1,6 +1,12 @@
-TODO 
+TODO code 
     add bases to capture back in 
+    mission briefing popups
+    more consistant lore 
+        explain the entropy problem 
+        More ENTRY 001 logs
+        Praise the Cube More 
 
+TODO visuals
     new cube .glb files
     imporive new 3d files 
     improvements to timetravel UI element
