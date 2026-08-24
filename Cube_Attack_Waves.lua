@@ -126,7 +126,9 @@ function cc_damage_check:on_take_damage(comp, amount)
                 Map.Defer(function()comp2:Destroy()end)
             end
         end
-        owner:Unplace()
+        owner.powered_down = true
+        --owner:Unplace()
+
         Map.Delay('destroy_ent', 2, {ent = owner})
     end
 end
@@ -258,7 +260,6 @@ function  cc_time_travel_machine:on_add(comp, cause)
         comp.extra_data.delta = 10
         comp.extra_data.supplied = {}
     end
-    comp.extra_data.supplied = {}
     --- set registers 
     if comp:RegisterIsEmpty(2) then 
         comp:SetRegisterNum(2,math.random(0,30))
@@ -472,7 +473,23 @@ function cc_time_travel_machine:get_ui(comp)
     </VerticalList>
 </Box>]], {
 		cmpimg = '<img id="' .. self.id .. '"/>',
-		tooltip = function(w)end,
+        tooltip = function(w)
+			local box = UI.New("<Box bg=popup_box_bg blur=true padding=12/>")
+			local r = box:Add("<VerticalList child_align=left child_padding=4/>")
+            r:Add("Text", { text = "Supplied items to raiding party"})
+            local h = r:Add("<HorizontalList child_align=center child_padding=4/>")
+            -- loop through extra data.supplied
+            local list_length = 0
+			for id,amt in pairs(comp.extra_data.supplied) do
+				h:Add("<Reg bg=item_default/>", { def_id = id, num = amt })
+                list_length = list_length + 1
+                if list_length >= 3 then 
+                    h = r:Add("<HorizontalList child_align=center child_padding=4/>")
+                    list_length = 0
+                end
+			end
+			return box
+		end,
         years = tostring(comp.extra_data.delta),
         reward_num =  delta_to_output(comp.extra_data.delta),
         alert_text = delta_to_warning_text(comp.extra_data.delta),
@@ -489,72 +506,191 @@ function cc_time_travel_machine:get_ui(comp)
 
 	return nil, nil , false, reg_ui
 end
+
+
+
+
+
+
+
+
+
+
 -- need to fix bug of unplaced units causing an error message 
 -- happens for pulse weapons maybe splash too
 -- need to include this as well
-local function TurretApplyDamage(compdef, comp, enemy, damage, damage_type, damager, extra_effect)
-	if damage_type then damage = math.ceil(CalcDamageReduction(damage, enemy.def.shield_type, damage_type)) end
-	if (comp.def.damage_air_bonus and enemy.def.cost_modifier) or
-		(comp.def.damage_ground_bonus and not enemy.def.cost_modifier) then
-		damage = math.ceil(damage * (comp.def.damage_air_bonus or comp.def.damage_ground_bonus))
-	end
+-- local function TurretApplyDamage(compdef, comp, enemy, damage, damage_type, damager, extra_effect)
+-- 	if damage_type then damage = math.ceil(CalcDamageReduction(damage, enemy.def.shield_type, damage_type)) end
+-- 	if (comp.def.damage_air_bonus and enemy.def.cost_modifier) or
+-- 		(comp.def.damage_ground_bonus and not enemy.def.cost_modifier) then
+-- 		damage = math.ceil(damage * (comp.def.damage_air_bonus or comp.def.damage_ground_bonus))
+-- 	end
 
-	AddDamagedEnemy(enemy, damage, damage_type)
-	enemy:RemoveHealth(damage, damager, damage_type)
-	if enemy.exists and enemy.health > 0 and extra_effect then extra_effect(compdef, comp, enemy) end
-end
-data.components.c_turret.damage_func = function(self, comp, e, trgloc)
-	local damager, damager_faction = comp.owner, comp.faction
-	local damage, damage_type, extra_effect = self.damage, self.damage_type, self.extra_effect
-	local degrade = 1
+-- 	AddDamagedEnemy(enemy, damage, damage_type)
+-- 	enemy:RemoveHealth(damage, damager, damage_type)
+-- 	if enemy.exists and enemy.health > 0 and extra_effect then extra_effect(compdef, comp, enemy) end
+-- end
+-- data.components.c_turret.damage_func = function(self, comp, e, trgloc)
+-- 	local damager, damager_faction = comp.owner, comp.faction
+-- 	local damage, damage_type, extra_effect = self.damage, self.damage_type, self.extra_effect
+-- 	local degrade = 1
 
-    -- add a check here for unplaced CUBE MOD
-    if damager.is_placed == false then return end
+--     -- add a check here for unplaced CUBE MOD
+--     --if damager.is_placed == false then return end
 
-	-- If e was destroyed or has moved more than 2 tiles away, see if there is another enemy at the location
-	if not e or not e.exists or e:GetRangeSquaredTo(trgloc) > 4 then
-		e = Map.GetEntityAt(trgloc.x, trgloc.y)
-		if not e or damager_faction:GetTrust(e) ~= "ENEMY" then
-			e = nil
-		end
-	end
-	if e then
-		-- Damage e for all weapon types except beam (so it will get damaged even if it is a resource or foundation)
-		TurretApplyDamage(self, comp, e, damage, damage_type, damager, extra_effect)
-		if self.beam_range then degrade = degrade - 0.1 end
-	end
+-- 	-- If e was destroyed or has moved more than 2 tiles away, see if there is another enemy at the location
+-- 	if not e or not e.exists or e:GetRangeSquaredTo(trgloc) > 4 then
+-- 		e = Map.GetEntityAt(trgloc.x, trgloc.y)
+-- 		if not e or damager_faction:GetTrust(e) ~= "ENEMY" then
+-- 			e = nil
+-- 		end
+-- 	end
+-- 	if e then
+-- 		-- Damage e for all weapon types except beam (so it will get damaged even if it is a resource or foundation)
+-- 		TurretApplyDamage(self, comp, e, damage, damage_type, damager, extra_effect)
+-- 		if self.beam_range then degrade = degrade - 0.1 end
+-- 	end
 
-	if self.blast then
-		if self.blast_fx then
-			UI.Run(function() View.PlayEffect(self.blast_fx, trgloc.x, trgloc.y) end)
-		end
-		local affects_flying = self.affects_flying
-		for _,enemy in ipairs(Map.GetEntitiesInRange(trgloc, self.blast, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION, damager_faction)) do
-			--  for splash damage, check trust if its an enemy (only specific splash damage affects air units)
-			if e ~= enemy and (affects_flying or not IsFlyingUnit(enemy)) then
-				TurretApplyDamage(self, comp, enemy, damage // 2, damage_type, damager, extra_effect) -- 50% splash damage
-			end
-		end
-	elseif self.pulse then
-		local affects_flying = self.affects_flying
-		for _,enemy in ipairs(Map.GetEntitiesInRange(damager, self.pulse, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION)) do
-			-- check trust if its an enemy (only specific pulse damage affects air units)
-			if e ~= enemy and (affects_flying or not IsFlyingUnit(enemy)) then
-				TurretApplyDamage(self, comp, enemy, damage, damage_type, damager, extra_effect)
-			end
-		end
-		if self.explode then
-			Map.Delay("DelayedDestroyEntity", self.explode, { ent = comp.owner })
-		end
-	elseif self.beam_range then -- beam style (railgun)
-		for _,enemy in ipairs(Map.GetEntitiesOnLine(damager, trgloc, self.beam_range, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION)) do -- TODO: needs to specifically add in the target entity
-			TurretApplyDamage(self, comp, enemy, math.floor(damage * degrade), damage_type, damager, extra_effect)
-			degrade = degrade - 0.1
-			if degrade <= 0.1 then break end
-		end
-	end
-end
+-- 	if self.blast then
+-- 		if self.blast_fx then
+-- 			UI.Run(function() View.PlayEffect(self.blast_fx, trgloc.x, trgloc.y) end)
+-- 		end
+-- 		local affects_flying = self.affects_flying
+-- 		for _,enemy in ipairs(Map.GetEntitiesInRange(trgloc, self.blast, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION, damager_faction)) do
+-- 			--  for splash damage, check trust if its an enemy (only specific splash damage affects air units)
+-- 			if e ~= enemy and (affects_flying or not IsFlyingUnit(enemy)) then
+-- 				TurretApplyDamage(self, comp, enemy, damage // 2, damage_type, damager, extra_effect) -- 50% splash damage
+-- 			end
+-- 		end
+-- 	elseif self.pulse then
+-- 		local affects_flying = self.affects_flying
+-- 		for _,enemy in ipairs(Map.GetEntitiesInRange(damager, self.pulse, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION)) do
+-- 			-- check trust if its an enemy (only specific pulse damage affects air units)
+-- 			if e ~= enemy and (affects_flying or not IsFlyingUnit(enemy)) then
+-- 				TurretApplyDamage(self, comp, enemy, damage, damage_type, damager, extra_effect)
+-- 			end
+-- 		end
+-- 		if self.explode then
+-- 			Map.Delay("DelayedDestroyEntity", self.explode, { ent = comp.owner })
+-- 		end
+-- 	elseif self.beam_range then -- beam style (railgun)
+-- 		for _,enemy in ipairs(Map.GetEntitiesOnLine(damager, trgloc, self.beam_range, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION)) do -- TODO: needs to specifically add in the target entity
+-- 			TurretApplyDamage(self, comp, enemy, math.floor(damage * degrade), damage_type, damager, extra_effect)
+-- 			degrade = degrade - 0.1
+-- 			if degrade <= 0.1 then break end
+-- 		end
+-- 	end
+-- end
 
+-- data.components.c_portable_radar.on_update = function(self, comp, cause)
+--     --if comp.owner.is_placed == false then return end 
+-- 	local numregs, filters, passthrough = comp.register_count
+-- 	for i=1,numregs-1 do
+-- 		local regnum, regid, regentity = comp:GetRegisterData(i)
+-- 		if regid then
+-- 			if not filters then
+-- 				filters = { regid, regnum, nil, nil, nil, nil }
+-- 			else
+-- 				local n = #filters
+-- 				filters[n+1], filters[n+2] = regid, regnum
+-- 			end
+-- 		elseif regentity and not passthrough then
+-- 			passthrough = regentity
+-- 		end
+-- 	end
+
+-- 	if not filters then
+-- 		if numregs > 0 then
+-- 			comp:SetRegister(numregs, { entity = passthrough }) -- passthrough for entity
+-- 		end
+-- 		if self.radar_show_area then
+-- 			if cause & CC_FINISH_WORK == CC_FINISH_WORK then
+-- 				--print("[portable_radar] Start Work")
+-- 				return comp:SetStateSleep(10)
+-- 			end
+
+-- 			local loc = comp.owner.location
+-- 			local len
+-- 			if comp.owner.visibility_range > self.range then
+-- 				len = math.random(self.range, comp.owner.visibility_range)
+-- 			else
+-- 				len = math.random(comp.owner.visibility_range, self.range)
+-- 			end
+
+-- 			local ang_deg = Map.GetTick()%360
+-- 			local loc_x = loc.x + math.floor(math.cos(math.rad(ang_deg))*(len))
+-- 			local loc_y = loc.y + math.floor(math.sin(math.rad(ang_deg))*(len))
+-- 			local self_range, comp_owner = self.radar_show_range+1, comp.owner
+
+-- 			local comp_faction = comp.faction
+-- 			Map.Defer(function()
+-- 				Map.SpawnChunks(loc_x-self_range-1, loc_y-self_range-1, (self_range*2)+2, (self_range*2)+2, comp_owner)
+-- 				comp_faction:RevealArea(loc_x, loc_y, self_range)
+-- 			end)
+
+-- 			Map.Delay("RadarHideArea", self.charge_time+10, { faction = comp_faction, x = loc_x, y = loc_y, range = self_range })
+-- 			return comp:SetStateStartWork(self.charge_time)
+-- 		end
+-- 		return
+-- 	end
+
+-- 	--------- mothership scanning using long range radar
+-- 	if filters[1] == "v_mothership" and (comp.id == "c_radar" or comp.id == "c_radar_array") then
+-- 		if comp.faction.extra_data.mothership == nil then
+-- 			Map.Defer(function()
+-- 				-- spawn it the first time you scan for it from a satellite
+-- 				comp.faction.extra_data.mothership = Map.CreateEntity(comp.faction, "f_mothership")
+-- 				comp.faction.extra_data.mothership:AddComponent("c_mothership_repair")
+-- 				comp.faction.extra_data.mothership:AddComponent("c_mothership_eject")
+-- 				--local fix = comp.faction.extra_data.mothership:AddComponent("c_explorable_fix", "hidden")
+-- 				--fix.extra_data.explorable_fix = "anomaly_particle"
+-- 			end)
+-- 		elseif comp.faction.extra_data.mothership:FindComponent("c_mothership_eject") == nil then
+-- 			Map.Defer(function()
+-- 				comp.faction.extra_data.mothership:AddComponent("c_mothership_eject")
+-- 			end)
+-- 		end
+-- 		comp:SetRegister(numregs, { entity = comp.faction.extra_data.mothership, })
+-- 		return comp:SetStateSleep(self.charge_time)
+-- 	end
+-- 	---------
+
+-- 	if cause & CC_FINISH_WORK ~= CC_FINISH_WORK then
+-- 		--print("[portable_radar] Start Work")
+-- 		if comp.is_working then
+-- 			return comp:SetStateContinueWork()
+-- 		end
+-- 		return comp:SetStateStartWork(TICKS_PER_SECOND)
+-- 	end
+
+-- 	local owner = comp.owner
+-- 	local loc = owner.location
+-- 	local range = self.range
+-- 	local num = REG_INFINITE
+-- 	Map.SpawnChunks(loc.x-(range//2), loc.y-(range//2), range, range, owner)
+-- 	local entity_filter, override_range = PrepareFilterEntity(filters)
+-- 	local closest_entity = Map.FindClosestEntity(owner, (override_range and math.min(math.max(override_range, 0), range) or range),
+-- 		function(e)
+-- 			local a,b = FilterEntity(owner, e, filters)
+-- 			if a and b then num = b end
+-- 			return a
+-- 		end, entity_filter)
+
+-- 	-- check result
+-- 	if closest_entity then
+-- 		comp:SetRegister(numregs, { entity = closest_entity, num = num })
+
+-- 		local faction = owner.faction
+-- 		if not faction:IsVisible(closest_entity) then
+-- 			local show_range, ent_x, ent_y = self.radar_show_range, closest_entity:GetLocationXY()
+-- 			faction:RevealArea(ent_x, ent_y, show_range)
+-- 			Map.Delay("RadarHideArea", 23, { faction = faction, x = ent_x, y = ent_y, range = show_range })
+-- 		end
+-- 	else
+-- 		comp:SetRegister(numregs, nil)
+-- 	end
+-- 	return comp:SetStateSleep(self.charge_time)
+-- end
 --<Image halign=fill margin=2 margin_top=42 height=8 id=powerexcess color=ui_light image=progress_mask/>
         -- req_comp = {'c_integrated_power_cell'},
         -- items = {fused_electrodes = 1},
