@@ -14,7 +14,7 @@ end
 
 -- called when mod is initializing
 function package:init()
-
+	--Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = package.on_player_faction_spawn
 end
 
 -- called when starting up a new game
@@ -292,3 +292,4 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	 
 end
 
+--
