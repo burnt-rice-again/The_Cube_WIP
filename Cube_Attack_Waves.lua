@@ -240,7 +240,7 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
     },
 	get_ui = false,
 	output_item = "fused_electrodes",
-    wait_ticks = 300,
+    wait_ticks = 60*5*2,--3min
     range = 10,
 })
 
@@ -382,23 +382,22 @@ function  cc_time_travel_machine:on_update(comp, cause)
                 can_make, missing, no_space = comp:PrepareProduceProcess({[order] = 1},{fused_electrodes = delta_to_output(comp.extra_data.delta)})
             else 
                 no_space = comp:PrepareGenerateProcess({fused_electrodes = delta_to_output(comp.extra_data.delta)})
-                can_make = true
+
+                can_make = false
+                local garage = owner:GetSlotsByType("garage")
+                for key, val in pairs(garage) do
+                    if val.id == order then
+                        val.entity:Destroy()
+                        can_make = true
+                        break
+                    end
+                end
                 -- for frame inputs 
             end
         end
         if can_make then 
             if is_frame == true then 
-                local garage = owner:GetSlotsByType("garage")
-                local check = true
-                for key, val in pairs(garage) do 
-                    if val.id == order then 
-                        check = false 
-                        val.entity:Destroy()
-                        break 
-                    end
-                end
-                -- reuturn if no frame found 
-                if check then comp:SetStateSleep(1000) return end 
+                
             else 
                 comp:FulfillProcess()
             end
@@ -489,6 +488,71 @@ function cc_time_travel_machine:get_ui(comp)
     
 
 	return nil, nil , false, reg_ui
+end
+-- need to fix bug of unplaced units causing an error message 
+-- happens for pulse weapons maybe splash too
+-- need to include this as well
+local function TurretApplyDamage(compdef, comp, enemy, damage, damage_type, damager, extra_effect)
+	if damage_type then damage = math.ceil(CalcDamageReduction(damage, enemy.def.shield_type, damage_type)) end
+	if (comp.def.damage_air_bonus and enemy.def.cost_modifier) or
+		(comp.def.damage_ground_bonus and not enemy.def.cost_modifier) then
+		damage = math.ceil(damage * (comp.def.damage_air_bonus or comp.def.damage_ground_bonus))
+	end
+
+	AddDamagedEnemy(enemy, damage, damage_type)
+	enemy:RemoveHealth(damage, damager, damage_type)
+	if enemy.exists and enemy.health > 0 and extra_effect then extra_effect(compdef, comp, enemy) end
+end
+data.components.c_turret.damage_func = function(self, comp, e, trgloc)
+	local damager, damager_faction = comp.owner, comp.faction
+	local damage, damage_type, extra_effect = self.damage, self.damage_type, self.extra_effect
+	local degrade = 1
+
+    -- add a check here for unplaced CUBE MOD
+    if damager.is_placed == false then return end
+
+	-- If e was destroyed or has moved more than 2 tiles away, see if there is another enemy at the location
+	if not e or not e.exists or e:GetRangeSquaredTo(trgloc) > 4 then
+		e = Map.GetEntityAt(trgloc.x, trgloc.y)
+		if not e or damager_faction:GetTrust(e) ~= "ENEMY" then
+			e = nil
+		end
+	end
+	if e then
+		-- Damage e for all weapon types except beam (so it will get damaged even if it is a resource or foundation)
+		TurretApplyDamage(self, comp, e, damage, damage_type, damager, extra_effect)
+		if self.beam_range then degrade = degrade - 0.1 end
+	end
+
+	if self.blast then
+		if self.blast_fx then
+			UI.Run(function() View.PlayEffect(self.blast_fx, trgloc.x, trgloc.y) end)
+		end
+		local affects_flying = self.affects_flying
+		for _,enemy in ipairs(Map.GetEntitiesInRange(trgloc, self.blast, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION, damager_faction)) do
+			--  for splash damage, check trust if its an enemy (only specific splash damage affects air units)
+			if e ~= enemy and (affects_flying or not IsFlyingUnit(enemy)) then
+				TurretApplyDamage(self, comp, enemy, damage // 2, damage_type, damager, extra_effect) -- 50% splash damage
+			end
+		end
+	elseif self.pulse then
+		local affects_flying = self.affects_flying
+		for _,enemy in ipairs(Map.GetEntitiesInRange(damager, self.pulse, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION)) do
+			-- check trust if its an enemy (only specific pulse damage affects air units)
+			if e ~= enemy and (affects_flying or not IsFlyingUnit(enemy)) then
+				TurretApplyDamage(self, comp, enemy, damage, damage_type, damager, extra_effect)
+			end
+		end
+		if self.explode then
+			Map.Delay("DelayedDestroyEntity", self.explode, { ent = comp.owner })
+		end
+	elseif self.beam_range then -- beam style (railgun)
+		for _,enemy in ipairs(Map.GetEntitiesOnLine(damager, trgloc, self.beam_range, FF_OPERATING|FF_WALL|FF_GATE|FF_ENEMYFACTION)) do -- TODO: needs to specifically add in the target entity
+			TurretApplyDamage(self, comp, enemy, math.floor(damage * degrade), damage_type, damager, extra_effect)
+			degrade = degrade - 0.1
+			if degrade <= 0.1 then break end
+		end
+	end
 end
 
 --<Image halign=fill margin=2 margin_top=42 height=8 id=powerexcess color=ui_light image=progress_mask/>
