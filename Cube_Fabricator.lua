@@ -26,10 +26,10 @@ local function replace_cube(recipe, entity)
 			anti_count = anti_count - 1
 		end
 	end
-	-- spawn more anti cubes on craft
-	-- if recipe.ingredients and recipe.ingredients.ic_cube_sphere ~= nil then 
-	-- 	Place_Anti_Cube(entity, true)
-	-- end
+	--spawn more anti cubes on craft
+	if recipe.ingredients and recipe.ingredients.ic_cube_sphere ~= nil then 
+		Place_Anti_Cube(entity, true)
+	end
 end
 local function check_waste_and_output(recipe, outputs)
 	local cube_names = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red', 'ic_cube_sphere'}
