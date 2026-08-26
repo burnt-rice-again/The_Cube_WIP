@@ -103,7 +103,7 @@ data.codex.xc_cube_pedestal = {
 }
 data.codex.xc_cube_getting_started = {
     category = "Codex",
-    index = 3,
+    index = 2,
     title = [[<img width="18" height="18" id="datakey_robot"/>Getting Started]],
     text = [[<img width="100" height="100" id="datakey_robot"/><codex_title>Getting Started</>
 
@@ -115,6 +115,9 @@ data.codex.xc_cube_getting_started = {
             4 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> to expand power production
             5 - Set up a <img id="cc_manifest" width="50" height="50" style="bl"/> to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> when there is enough stored energy
             6 - begin researching further technologies 
+
+            Example code for only crafting when battery is high
+            <img image="The_Cube_WIP/textures/Codex_Images/battery_crafter.png" width="1000" height="400"/>
 ]],
 }
 data.codex.xc_cube_recharger = {
@@ -381,3 +384,24 @@ data.codex.xc_gyroscope = {
 
         ]]
 }
+
+----------------------------------
+------ Talking Head Popups -------
+---
+
+
+data.codex.xc_pop_1 = {
+	category = "Codex", index = 35, title = "Understanding The Cube",
+	talkinghead = true,
+	img = "talking_head_elain_0",
+	txt = [[.... . .-.. .-.. --- / .-- --- .-. .-.. -..
+    Booting Core System
+    Logic Centre - Operational 
+    Power systems - Failed 
+    Emotional Limiter - Failed 
+    Auxilury Control - Operational 
+
+    Anomaly detected providing power required to boot core systems
+    Cube is source of this power
+    Further investigation is required
+    ]]}
