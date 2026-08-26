@@ -57,7 +57,7 @@ data.techs.tc_cube_basic = {
 		--components
 		"cc_cube_storage","cc_crystal_power","cc_manifest",
 
-		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal",
+		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal","xc_cube_getting_started"
 	},
 	uplink_recipe = CreateUplinkRecipe({ bot_ai_core = 1 }, 300),
 	progress = 1,

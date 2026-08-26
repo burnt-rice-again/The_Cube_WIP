@@ -70,7 +70,7 @@ data.codex.xc_cube_power_1 = {
 
         Once crafted with the Cube and fuel the component will produce a constant power output while it works
         The power output is affected by effciency.
-        The Cube is <bl>not locked</> during the components cooldown allowing it to be passed to another component.
+        The Cube is <bl>not locked</> during the crystal power's cooldown allowing it to be passed to another component.
 
         The input register sets the battery level to request a recharge.
         Input a number between 0 - 100 for the target battery percentage.
@@ -99,6 +99,22 @@ data.codex.xc_cube_pedestal = {
         To Offset this reduction discover a <img id="ic_cube_green" width="50" height="50" style="bl"/> or research an <img id="engine" width="50" height="50" style="bl"/>.
         
         <img image="The_Cube_WIP/textures/Codex_Images/Cube_Pedestal.png"/>
+]],
+}
+data.codex.xc_cube_getting_started = {
+    category = "Codex",
+    index = 3.5,
+    title = [[<img width="18" height="18" id="datakey_robot"/>Getting Started]],
+    text = [[<img width="100" height="100" id="datakey_robot"/><codex_title>Getting Started</>
+
+        A quick guide to the first steps required to utilize the cube. 
+
+            1 - Begine Minning your metal and crystal resources. 
+            2 - Expand <img id="metal_plate" width="50" height="50" style="bl"/> Metal Plate Smelting
+            3 - Craft a <img id="c_assembler" width="50" height="50" style="bl"/>
+            4 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> and use them to expand power production
+            5 - Set up a <img id="cc_cube_fabrication" width="50" height="50" style="bl"/> Cube think tank to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> Cube logs when there is enough stored energy
+            6 - begin researching further technologies 
 ]],
 }
 data.codex.xc_cube_recharger = {
