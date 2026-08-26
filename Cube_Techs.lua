@@ -94,8 +94,6 @@ for key, value in pairs(data.values) do
 	table.insert(data.techs.tc_robot_basic.unlocks, key)
 end
 
-
-
 data.techs.tc_upgrades_basic = {
 	name = "Basic Components", -- recovered database etc.
 	desc = "essential components for basic tasks",
@@ -132,7 +130,7 @@ data.techs.tc_cube_blue_1 = {
 		"crystal_powder","cc_cube_recharger",
 		"xc_cube_recharger"
 	},
-	require_tech = { "tc_cube_basic" },
+	require_tech = { "tc_robot_metallurgy_1" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1 }, 50),
 	category = "Cube Curiosity"
@@ -177,7 +175,7 @@ data.techs.tc_cube_red_1 = {
 		"ic_cube_red","reinforced_plate",
 		"xc_cube_red",
 	},
-	require_tech = { "tc_cube_basic" },
+	require_tech = { "tc_robot_metallurgy_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
 	category = "Cube Curiosity",
@@ -261,7 +259,7 @@ data.techs.tc_cube_green_1= {
 	unlocks = {
 		"ic_cube_green","xc_cube_green",
 	},
-	require_tech = { "tc_cube_basic" },
+	require_tech = { "tc_robot_metallurgy_1" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1 }, 50),
 	category = "Cube Curiosity",
