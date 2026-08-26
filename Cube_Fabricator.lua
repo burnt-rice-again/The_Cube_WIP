@@ -305,7 +305,7 @@ cc_cube_fabrication:RegisterComponent("cc_manifest",{
 	production_effect = "fx_uplink",--"fx_digital_in",--"fx_digital",
 	power = -1000,
 	production_recipe = CreateProductionRecipe({["metalplate"]=20,["crystal"]=16, datakey_robot = 4}, {["c_fabricator"] = 150, c_assembler = 50}, 1),
-})	
+})
 
 cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	name = "Soul Refinery",
