@@ -103,17 +103,17 @@ data.codex.xc_cube_pedestal = {
 }
 data.codex.xc_cube_getting_started = {
     category = "Codex",
-    index = 3.5,
+    index = 3,
     title = [[<img width="18" height="18" id="datakey_robot"/>Getting Started]],
     text = [[<img width="100" height="100" id="datakey_robot"/><codex_title>Getting Started</>
 
         A quick guide to the first steps required to utilize the cube. 
 
             1 - Begine Minning your metal and crystal resources. 
-            2 - Expand <img id="metal_plate" width="50" height="50" style="bl"/> Metal Plate Smelting
-            3 - Craft a <img id="c_assembler" width="50" height="50" style="bl"/>
-            4 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> and use them to expand power production
-            5 - Set up a <img id="cc_manifest" width="50" height="50" style="bl"/> Cube think tank to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> Cube logs when there is enough stored energy
+            2 - Expand <img id="metalplate" width="50" height="50" style="bl"/> Smelting
+            3 - Craft an <img id="c_assembler" width="50" height="50" style="bl"/>
+            4 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> to expand power production
+            5 - Set up a <img id="cc_manifest" width="50" height="50" style="bl"/> to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> when there is enough stored energy
             6 - begin researching further technologies 
 ]],
 }

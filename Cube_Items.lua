@@ -43,13 +43,13 @@ data.items.datakey_robot = {
 	slot_type = "storage",
 	race = "robot",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 1 }, { cc_manifest = 25, cc_green_brain = 5 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 30, cc_green_brain = 10 }, 5, {ic_cube_blue = 1}),
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_empty = 1, reinforced_plate = 1, }, 
-	{cc_green_brain = 25 , cc_red_furnace = 5},
-	10, {ic_cube_blue = 1}),
+	{ic_cube_empty = 1, reinforced_plate = 6, }, 
+	{cc_green_brain = 60 , cc_red_furnace = 15},
+	100, {ic_cube_blue = 1}),
 	{desc = "Bulk Cube Log Filling"}
 )
 -- Red Cube items

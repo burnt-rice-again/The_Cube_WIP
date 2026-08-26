@@ -815,7 +815,7 @@ data.techs.tc_weapons1 = {
 		-- new resources
 		'c_repairkit',"c_repairer","c_melee_pulse","c_adv_portable_turret",
 	},
-	require_tech = {"tc_robot_metallurgy_1" },
+	require_tech = {"tc_robot_metallurgy_2" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
 	category = "Maximum Lethality",
@@ -910,7 +910,7 @@ data.techs.tc_robot_storage1 = {
 		-- new resources
 		"c_small_storage", 
 	},
-	require_tech = {"tc_robot_metallurgy_1" },
+	require_tech = {"tc_cube_blue_1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ steelblock = 1}, 50),
 	category = "Expanded Functions",
