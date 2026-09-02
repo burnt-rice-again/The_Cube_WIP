@@ -237,7 +237,7 @@ local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     name = 'Wire Weed Planter',
     texture = "The_Cube_WIP/textures/wire_seed.png",
     desc = "Plants the contained seed at nearby unobstructed tiles, Select for seeds with higher yields",
-    visual = "v_succulent_01",
+    visual = "vc_planter",
     race = "virus",
     production_recipe = CreateProductionRecipeWithWaste({ ic_cube_green = 1 }, { cc_manifest = 300 },1, {ic_cube_green = 1}),
     range = 2,
@@ -336,6 +336,7 @@ function cc_planter:on_update(comp, cause)
             })
 
             plant:Place(cord,comp.owner,false)
+            comp:RotateComponent(plant)
             comp:SetRegisterCoord(1, nil)
         -- TODO add turn and throw effect 
     end)

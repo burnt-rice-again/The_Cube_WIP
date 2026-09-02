@@ -58,7 +58,9 @@ local meshes = {
 
 -- cube component
 data.visuals.vc_cube_blue = { 
-    mesh = meshes.cube_blue, 
+    mesh = "The_Cube_WIP/textures/In Progress BlockBench/cube_2.glb", 
+	scale = {0.06,0.06,0.06},
+	mesh_offset = {0,0,100000},
 }
 data.visuals.vc_cube_empty = { 
     mesh = meshes.cube_blue, 
@@ -115,11 +117,11 @@ data.visuals.vc_chrono_tower = {
 }
 
 
-data.visuals.vc_cube_blue = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/Cube_3.glb",
-	--mesh_offset = { 0, 0, 1000000},
-	scale = {0.03,0.03,0.03},
-}
+-- data.visuals.vc_cube_blue = {
+-- 	mesh = "The_Cube_WIP/textures/In Progress Blender/Cube_3.glb",
+-- 	--mesh_offset = { 0, 0, 1000000},
+-- 	scale = {0.03,0.03,0.03},
+-- }
 -- change other cubes cull distance 
 data.visuals.v_gears.cull_ratio = 1 
 data.visuals.v_alien_data.cull_ratio = 1 
@@ -191,6 +193,13 @@ data.visuals.vc_crop_phase_seed3 = Tool.Copy(data.visuals.vc_crop_phase_seed0) -
 data.visuals.vc_crop_phase_seed3.scale = {1.4,1.4,1.4}
 data.visuals.vc_crop_phase_seed4 = Tool.Copy(data.visuals.vc_crop_phase_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_phase_seed4.scale = {1.7,1.7,1.7}
+
+----------- Seed Planters
+data.visuals.vc_planter = {
+	mesh = "The_Cube_WIP/textures/In Progress BlockBench/Planter.glb",
+	scale = {0.5,0.5,0.5}
+}
+
 
 ----------- Cubes as
 data.visuals.vc_cube_sphere_item = Tool.Copy(data.visuals.v_explorable_blightanomaly_02)
