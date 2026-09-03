@@ -235,7 +235,7 @@ end
 
 local cc_planter = Comp:RegisterComponent('cc_planter_wire',{
     name = 'Wire Weed Planter',
-    texture = "The_Cube_WIP/textures/wire_seed.png",
+    texture = "The_Cube_WIP/textures/planter_icon_wire.png",
     desc = "Plants the contained seed at nearby unobstructed tiles, Select for seeds with higher yields",
     visual = "vc_planter",
     race = "virus",
@@ -264,7 +264,7 @@ cc_planter.base_id = 'cc_planter'
 
 cc_planter:RegisterComponent('cc_planter_phase_leaf',{
     name = 'Phase Flower Planter',
-    texture = "The_Cube_WIP/textures/phase_seed.png",
+    texture = "The_Cube_WIP/textures/planter_icon_phase.png",
     seed_id = 'fc_crop_phase_seed0',
     drop = 'phase_leaf',
     default_grow_time = 800,
