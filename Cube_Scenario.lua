@@ -18,6 +18,15 @@ function package:init()
 	Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = nil
 	Game.GetModPackage("Main/Freeplay").on_world_spawn = nil
 	Game.GetModPackage("Main/Freeplay").setup_scenario = nil
+	data.world_events = {}
+	data.explorables.graveyard_drop = nil
+	data.codex.x_human_robot_datacube = nil
+	data.codex.x_human_human_datacube = nil
+	data.codex.x_freeplay_restart = nil
+
+	data.codex.x_freeplay_start = nil
+
+
 end
 
 -- called when starting up a new game
