@@ -211,7 +211,7 @@ Frame:RegisterFrame("fc_gyro",{
 	health_points = 5,
 	race = "robot",
 	construction_recipe = CreateConstructionRecipe({ic_time_crystal = 10, concreteslab = 30, steelblock = 40, phase_leaf = 64, fused_electrodes = 32, ldframe = 9},1),
-	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	texture = "The_Cube_WIP/textures/gyro_icon_2.png",
 	trigger_channels = "building",
 	visual = 'vc_static_gyro',--"v_blight_stabilizer",
 	size = "Large",

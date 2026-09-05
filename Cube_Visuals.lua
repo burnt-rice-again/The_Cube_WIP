@@ -128,7 +128,7 @@ data.visuals.v_alien_data.cull_ratio = 1
 data.visuals.v_virus_data.cull_ratio = 1 
 
 data.visuals.vc_static_gyro = {
-	mesh = "The_Cube_WIP/textures/In Progress BlockBench/Gyro/gyro_bb_1.glb",
+	mesh = "The_Cube_WIP/textures/gyro.glb",
 	mesh_offset = { 0, 0, 225},
 	mesh_sockets = { ["Medium1"] = {0,0,0}, ["fx"] = {0,0,0}},
 	sockets = {
