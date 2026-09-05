@@ -422,7 +422,7 @@ data.items.ic_micro_universe = {
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = "Main/textures/tech/blight/blight_terra_03_1.png",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 1, ic_proto_sent = 1, ic_matter = 1, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 16, ic_proto_sent = 16, ic_matter = 16, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
 }
 
 
