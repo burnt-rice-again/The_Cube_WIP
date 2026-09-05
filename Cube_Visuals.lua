@@ -130,7 +130,7 @@ data.visuals.v_virus_data.cull_ratio = 1
 data.visuals.vc_static_gyro = {
 	mesh = "The_Cube_WIP/textures/In Progress Blender/Gyro Self Made/Static_Gyro3.glb",
 	mesh_offset = { 0, 0, 200},
-	mesh_sockets = { ["Medium1"] = {0,0,0}, },
+	mesh_sockets = { ["Medium1"] = {0,0,0}, ["fx"] = {0,0,0}},
 	sockets = {
 		{ "Medium1", "Medium" },
 		{ "", "Internal" },

@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
+local Unlock_All_Technologies = true
 local Start_with_Observers = false
 
 
@@ -24,6 +24,10 @@ function package:on_world_spawn()
 	local faction_time_bots = Map.CreateFaction("time_bots")
 	faction_time_bots.default_trust = "ENEMY"
 
+	
+
+
+
 end
 
 local function tester_spawn_observers(faction, x,y)
@@ -42,6 +46,10 @@ end
 -- called when a new player faction is spawned or respawned
 --- Start with an adv base + cube 
 function package:on_player_faction_spawn(faction, is_respawn)
+	local settings = Map.GetSettings()
+	if settings.unlock_all_techs == true then Unlock_All_Technologies = true end
+	if settings.library then faction.extra_data.library = Tool.Copy (settings.library) end 
+
 	
 	-- starting techs 
 	faction:Unlock("tc_robot_basic")
@@ -166,7 +174,28 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	transport:GetSlot(2):SetLockedItem()
 	transport.logistics_carrier = true
 	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
 	transport:Place(loc.x+4,loc.y+4)
+
+		--- new game plus bots 
+	if (settings.extra_bots) then 
+		for key, val in pairs(settings.extra_bots) do
+			--local ent = Map.CreateEntity(faction, val.frame)
+			local ent = CreateFrameOrBlueprint(faction, val)
+			-- local ent = Tool.StringToTable(val.ent)
+			-- ent.powered_down = false
+			-- if val.behavior_id then 
+			local b_comp = ent:FindComponent("c_behavior", true, 1, true)
+			if b_comp ~= nil and b_comp.has_extra_data and b_comp.extra_data.main_id then 
+				SetBehavior(b_comp, b_comp.extra_data.main_id)
+				-- SetBehavior(b_comp, val.behavior_id)
+				--Action.SendForEntity("Behavior", ent, { comp = b_comp })
+
+			end
+			ent:Place(loc.x-8,loc.y)
+		end
+	end
+
 
 
 	------------------------------
@@ -214,17 +243,22 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_empty", num = 1 })
 	-- volcano:Place(loc.x+3,loc.y+6)
 
+	local gyro = Map.CreateEntity(faction, "fc_gyro")
+	gyro:AddComponent("cc_cube_storage")
+	gyro:AddItem("ic_broken_reality", 20)
+	gyro:AddItem("ic_proto_sent", 20)
+	gyro:AddItem("ic_matter", 20)
+	gyro:Place(loc.x,loc.y-10)
 
-
-	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	-- recharger:AddComponent("cc_pipe_output")
-	-- recharger:AddComponent("cc_cube_storage")
-	-- recharger:AddComponent("cc_crystal_power_red")
-	-- recharger:AddComponent("cc_cheat_tech")
-	-- recharger:AddItem("ic_soul_plasma",100)
-	-- recharger:AddItem("crystal_powder",60)
-	-- recharger:AddItem("ic_cube_red")
-	-- recharger:Place(loc.x-3,loc.y+10)
+	local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	recharger:AddComponent("cc_pipe_output")
+	recharger:AddComponent("cc_cube_storage")
+	recharger:AddComponent("cc_crystal_power_red")
+	recharger:AddComponent("cc_cheat_tech")
+	recharger:AddItem("ic_soul_plasma",100)
+	recharger:AddItem("crystal_powder",60)
+	--recharger:AddItem("ic_cube_red")
+	recharger:Place(loc.x-3,loc.y+10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- recharger:AddComponent("cc_time_travel_machine")

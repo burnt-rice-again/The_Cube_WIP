@@ -157,7 +157,7 @@ data.codex.xc_cube_alt = {
         An instruction is available to check if the input is an alternative recipe. Will Return the original item if available. 
         <img image="The_Cube_WIP/textures/Codex_Images/alt_recipe_block.png"/>
 
-        Functionally all produced items are the original. The alternative only shows up in recipe descriptions.
+        Functionally all produced items are the original. The alternative only shows up in crafting registers.
 
         ]],
 }
@@ -372,13 +372,36 @@ data.codex.xc_gyroscope = {
     title = [[<img width="18" height="18" id="fc_gyro"/>End Goal]],
     text = [[<img width="100" height="100" id="fc_gyro"/><codex_title>End Game</>
 
-        Their is little more we can learn from the <bl>CUBE</> in this universe
+        There is little more we can learn from the <bl>CUBE</> in this universe
 
-        It is now possible to make a new microuniverse from the CUBE to continue further study. 
-        Building plans have been added for a Mirco Universe Stabilizer
+        It is now possible to make a new nested microuniverse,
+        Building plans have been added for an Anti Entropy Loom.
+
         It will require an atronomical amount of resources to activate.
 
-        Good Luck to the new universes that shall spawn. 
+        To truly test your skill either build a factory to produce as many Micro Universes as possible.
+
+        Or read the following instructions.
+
+        <rl>Warning this is new game plus</>
+
+        <hl>Include a bot in the Loom's garage to start new game plus</>
+
+        Once the micro universe is complete you can enter it by including a bot in the Loom's garage slot.
+        There will be a confirmation message
+        
+        A new world will begin with the following adjustments
+            1 - All techs will be unlocked 
+            2 - The bot in the garage will be sent to the new universe 
+                - if the bot was powered down it will be powered on 
+                - if the bot had a behviour it will be turned on 
+                - it will not include items or bots in a nested garage
+            3 - your blueprint library will automatically be transffered 
+
+        <img image="The_Cube_WIP/textures/Codex_Images/gyro_new_game_plus.png"/>
+
+        Attempt to build and power the Universe Loom as fast as possible. 
+        For an added challenge make a fully automated script starting only from the transfered bot.
 
         <img id="fc_gyro" width="150" height="150"/>
 
@@ -388,20 +411,141 @@ data.codex.xc_gyroscope = {
 ----------------------------------
 ------ Talking Head Popups -------
 ---
-
-
+-- Apppears on game start 
 data.codex.xc_pop_1 = {
 	category = "Codex", index = 35, title = "Understanding The Cube",
-	talkinghead = true,
-	img = "talking_head_elain_0",
-	txt = [[.... . .-.. .-.. --- / .-- --- .-. .-.. -..
-    Booting Core System
-    Logic Centre - Operational 
-    Power systems - Failed 
-    Emotional Limiter - Failed 
-    Auxilury Control - Operational 
+    mission_steps = {
 
-    Anomaly detected providing power required to boot core systems
-    Cube is source of this power
-    Further investigation is required
-    ]]}
+        -- 1 startup 
+        {
+            img = data.techs.tc_cube_blue_1.texture,
+            talkinghead = true, 
+            txt = [[.... . .-.. .-.. --- / .-- --- .-. .-.. -..
+
+            Booting Core System
+
+            Logic Centre - Operational 
+            Power systems - Failed 
+            Emotional Limiter - Failed 
+            Auxilury Control - Operational 
+
+            Anomaly detected providing power required to boot core systems
+            Cube is source of this power
+            Further investigation is required]],
+            
+        },
+        { --- 2
+            img = data.techs.tc_cube_blue_1.texture,
+            talkinghead = true, 
+            txt = [[First Steps 
+            
+            <hl>Tasks required for sustainability:</>
+                1 - Mine nearby resources for construction 
+                2 - Craft Uplink for investigating new technologies
+                3 - Research steel production
+            ]],
+            step_txt = "Mine Nearby Resources and craft an Uplink to research steel production"
+            
+        },
+        { -- 3 metal 1
+            img = data.techs.tc_cube_blue_1.texture,
+            talkinghead = true, 
+            txt = [[
+    With stronger steel frames the cube can be supported on <hl>new buildings</> with a <img id="cc_cube_storage" width="50" height="50"/>.
+    Curiosity heuristic has opened avenues for further study of the Cube
+
+    However great buffers of power will be required. 
+    Begin expanding power production through the use of crystal generators <img id="cc_crystal_power" width="50" height="50"/>
+    Then study the cube to produce cube logs. <img id="datakey_robot" width="50" height="50"/>
+    ]],
+            step_txt = "Setup a Cube Log Production facility with the power to support it"
+            
+        },
+        {  --- 4 blue 1
+            img = data.items.ic_cube_empty.texture,
+            talkinghead = true, 
+            txt = [[
+
+    Study Results: The cube can empathise with materials at the right frequency to change thier state. 
+
+    Crystals are the prime candiate for refinging.
+
+    Set up Crystal Powder production <img id="crystal_powder" width="50" height="50"/>
+    ]],
+            step_txt = "Setup a Crystal Powder Production and research further Cube techs"
+        },     
+        { --- 5 red 1
+            img = data.items.ic_cube_red.texture,
+            talkinghead = true, 
+            txt = [[THE CUBE MELTS
+            
+    Deep in the fires of the earth. A churning sea of hatred
+
+    The cube melts its exterior away. 
+    ]],
+            step_txt = "Find uses for the FURY CUBE"
+        },
+
+        {-- 6 anti cube splitting
+            img = data.items.ic_cube_sphere.texture,
+            talkinghead = true, 
+            txt = [[
+
+    Impossible a sphere inside the cube!
+    ]],
+            step_txt = "Crack open the Cube"
+        },
+        {-- 7 final project
+            img = data.items.ic_micro_universe.texture,
+            talkinghead = true, 
+            txt = [[It is time 
+
+    The research is complete. 
+    The facts are clear
+
+    This universe has run out of potential energy
+
+    However that is not the end!
+
+    There is a way to make new universes! with new potential!
+
+    Create our final prject.
+
+    May the chain continue.
+    ]],
+            step_txt = "Complete the work"
+        },
+    },
+    steps = 10,
+    goal_check = function(faction)
+
+        if faction:IsUnlocked("tc_cube_anti_4") then return 7 end
+        if faction:IsUnlocked("tc_cube_blue_3") then return 6 end
+        if faction:IsUnlocked("tc_cube_red_1") then return 5 end
+        if faction:IsUnlocked("tc_cube_blue_1") then return 4 end
+        if faction:IsUnlocked("tc_robot_metallurgy_1") then return 3 end
+        return 2
+    end,
+	
+
+}
+-- Appears when steel is researched because cube techs are unlcoked 
+data.codex.xc_pop_2 = {
+	category = "Codex", index = 35, title = "Understanding The Cube",
+	talkinghead = true,
+	img = data.techs.tc_cube_blue_1.texture,
+	txt = [[
+     
+    ]]
+}
+-- Appears when green cube is researched 
+data.codex.xc_pop_2 = {
+	category = "Codex", index = 35, title = "Understanding The Cube",
+	talkinghead = true,
+	img = data.techs.tc_cube_blue_1.texture,
+	txt = [[
+    
+    The Cube has been energized.
+    Its 
+    ]]
+}

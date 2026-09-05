@@ -410,7 +410,7 @@ data.techs.tc_cube_anti_4= {
 data.techs.tc_robot_metallurgy_1 = {
 	order = 2,
 	name = "Simple Metallurgy", -- recovered database etc.
-	desc = "Steel foundarys are the 1st step in advancing to stronger building materials ",
+	desc = "Steel foundarys are the 1st step in advancing to stronger building materials\n<hl>This research will begin the inestigation into the cube</>",
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
@@ -424,7 +424,7 @@ data.techs.tc_robot_metallurgy_1 = {
 data.techs.tc_robot_metallurgy_2 = {
 	order = 2,
 	name = "More Materials", -- recovered database etc.
-	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
+	desc = "Crush Laterite into Contrete or smelt it into Aluminium\n<hl>This research will unlock another strand of self introspection</>",
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
@@ -472,7 +472,7 @@ data.techs.tc_robot_frames_1 = {
 		-- new resources
 		"c_robotics_factory",
 	},
-	require_tech = { "tc_upgrades_basic" },
+	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1}, 25),
 	category = "Independance",

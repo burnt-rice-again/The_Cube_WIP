@@ -43,7 +43,7 @@ data.items.datakey_robot = {
 	slot_type = "storage",
 	race = "robot",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 30, cc_green_brain = 10 }, 5, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 50, cc_green_brain = 10 }, 5, {ic_cube_blue = 1}),
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
@@ -417,7 +417,7 @@ data.items.ic_micro_universe = {
 	index = 12,
 	tag = 'hitech_material',
 	race = "robot",
-	desc = 'Our Duty Complete\nSo long as the chain continues this string of Universes shall never truly die',
+	desc = 'Our Duty Complete\nSo long as the chain continues this string of Universes shall never truly die\n<rl>Add a bot to the Anti Entropy Loom\'s garage to begin new game plus</>',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,

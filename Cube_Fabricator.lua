@@ -41,6 +41,47 @@ local function check_waste_and_output(recipe, outputs)
 	end	
 	return outputs
 end
+
+local function new_game_plus(comp)
+	local garage = comp.owner:GetSlotsByType("garage")
+	for key, val in pairs(garage) do
+		if val.entity then
+			UI.Run("new_game_plus", comp)
+			break
+		end
+	end
+	
+end
+function UIMsg.new_game_plus(comp) 
+
+	UI.AddLayout('<ConfirmDialog title="Begin New Universe" body = "Start a new univers. You will keep all technologies and start with an additional unit placed in this buildings garage slot"/>', {
+		construct = function(w)
+			w.list:Add("<Text height=64 margin_top=10/>", { text = "Days since cube awakening: " .. tostring(Map:GetTotalDays()) })
+		end,
+		cancel = function(w) w:RemoveFromParent() end,
+		ok = function(w)
+			print("OK")
+			w:RemoveFromParent()
+			local settings = Tool.Copy(Map:GetSettings())
+			settings.scenario = "The_Cube_WIP/Scenario"
+			settings.unlock_all_techs = true
+
+			local owner = comp.owner
+			local garage = owner:GetSlotsByType("garage")
+			settings.extra_bots = {}
+			for key, val in pairs(garage) do
+				if (val.entity) then 
+					--print(val.entity)
+					table.insert(settings.extra_bots, MakeBlueprintFromEntity(val.entity))
+				end
+			end
+			settings.library = comp.faction.extra_data.library
+			Game.NewGame(settings)
+		end,
+	}, 99)
+
+	--Game.NewGame({scenario = "The_Cube_WIP/Scenario"})
+end 
 ---------------------------------
 
 local cc_cube_fabrication = Comp:RegisterComponent("cc_cube_fabrication", {
@@ -161,7 +202,7 @@ function cc_cube_fabrication:on_update(comp, cause)
 		local drone_slot = is_bot_production and comp:GetProcessOutputSlot()
 		local bot_ingredient_extra_datas = comp:FulfillProcess(is_bot_production)
 		replace_cube(production_recipe, comp.owner)
-
+		if (product_def.id == "ic_micro_universe") then new_game_plus(comp) end 
 
 		if is_bot_production then
 			local owner = comp.owner
@@ -316,7 +357,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	texture = "Main/textures/icons/components/component_adv_refinery_01_l.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
 	visual = "v_adv_refinery_01_m",  --"v_scienceanalyzer_l",
 	production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -250,
+	power = -2000,
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
 	range = 8,
@@ -331,7 +372,7 @@ cc_cube_fabrication:RegisterComponent("cc_red_furnace",{
 	race = "robot",
 	attachment_size = "Large",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -250,
+	power = -5000,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, crystal_powder = 100, ic_soul_plasma = 100}, { cc_manifest = 30, }, 1, {ic_cube_red = 1}),
 })
 
@@ -344,18 +385,19 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 	attachment_size = "Large",
 	production_effect = "fx_alien_liquid",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -250,
+	power = -500,
 	production_recipe = CreateProductionRecipe({ wire = 100, ic_soul_plasma = 40, datakey_robot = 20 }, { c_assembler = 100, }),
 })
 
 cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	name = "The Anti Entropy Loom",
 	texture = "The_Cube_WIP/textures/gyro_texture.png",
-	desc = "The knot in the tapestry\nTo continue this string of universes so the World shall never truly end",
+	desc = "The knot in the tapestry\nContinue this string of universes so the World shall never truly end\n<rl>Add a bot to the Anti Entropy Loom\'s garage to begin new game plus</>",
 	race = "robot",
 	attachment_size = "Hidden",
 	get_ui = true,
 	production_recipe = false,
-	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -2000,
+	production_effect = "fx_digital",--"fx_digital_in",--"fx_digital",
+	power = -5--000,
 })
+

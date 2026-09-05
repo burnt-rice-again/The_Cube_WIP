@@ -222,7 +222,7 @@ cc_scrap_converter:RegisterComponent("cc_cube_recharger", {
 	desc = "Uses Ridiculous amounts of power to Recharge The Cube",
 	attachment_size = "Small",
 	visual = "v_blightpowergenerator_01_m",
-	power = -500,
+	power = -1250,
 	production_recipe = CreateProductionRecipe({ metalplate = 5, crystal = 20, datakey_robot = 1 }, { c_fabricator = 30, c_assembler = 20 }),
 	recipes = {
 		{ 	id = "bug_carapace", 
