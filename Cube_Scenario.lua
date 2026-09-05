@@ -23,8 +23,16 @@ function package:init()
 	data.codex.x_human_robot_datacube = nil
 	data.codex.x_human_human_datacube = nil
 	data.codex.x_freeplay_restart = nil
-
 	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_techtree = nil
+	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_start = nil
+
 
 
 end
