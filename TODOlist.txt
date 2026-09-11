@@ -25,7 +25,7 @@ Currently the game does not support animated visuals when imported by a mod
 
 
 Small Whishlist for devs 
-    import animated models 
+    import animated models  c
     add tech / value filter for registers on comps
 
 
