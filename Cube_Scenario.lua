@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = true
+local Unlock_All_Technologies = false
 local Start_with_Observers = false
 
 
@@ -24,16 +24,16 @@ function package:init()
 	data.codex.x_human_human_datacube = nil
 	data.codex.x_freeplay_restart = nil
 	data.codex.x_freeplay_start = nil
-	data.codex.x_freeplay_techtree = nil
-	data.codex.x_freeplay_start = nil
-	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_techtree = {category = "Mission",}
+	data.codex.x_freeplay_builduplink = nil
+	data.codex.x_tutorial = {category = "Mission",}
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_start = nil
 
-
+	MapMsg.OnFactionCount = function() return end
 
 end
 
