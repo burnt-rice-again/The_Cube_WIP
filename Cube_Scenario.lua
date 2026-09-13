@@ -186,6 +186,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 		--- new game plus bots 
 	if (settings.extra_bots) then 
+		faction:Unlock("xc_new_game_plus")
 		for key, val in pairs(settings.extra_bots) do
 			--local ent = Map.CreateEntity(faction, val.frame)
 			local ent = CreateFrameOrBlueprint(faction, val)

@@ -453,6 +453,32 @@ data.codex.xc_gyroscope = {
 
         ]]
 }
+data.codex.xc_new_game_plus = {
+    category = "Codex",
+    index = 1,
+    title = [[<img width="18" height="18" id="ic_micro_universe"/>New Game Plus]],
+    text = [[<img width="100" height="100" id="ic_micro_universe"/><codex_title>New Game Plus</>
+        A new universe with new possibilities
+        Life has taken hold here but this Universe is still finite. 
+        Continue the chain deeper so the world never ends. 
+        
+        <hl>Race to compleete the Anti Entropy Loom and start the next universe down.</> 
+
+        Once the next universe is ready the confirmation box will tell you how fast you were. 
+
+        <img image="The_Cube_WIP/textures/Codex_Images/new_game_plus.png"/>
+        ]],
+    talkinghead = true, 
+    img = data.components.cc_gyro_fabricator.texture,
+    txt = [[
+    A new universe with new possibilities
+    Life has taken hold here but this Universe is still finite. 
+    Continue the chain deeper so the world never ends. 
+    
+    <hl>Race to compleete the Anti Entropy Loom and start the next universe down.</> 
+
+    Once the next universe is ready the confirmation box will tell you how fast you were. ]]
+}
 
 ----------------------------------
 ------ Talking Head Popups -------

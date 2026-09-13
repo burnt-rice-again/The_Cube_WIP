@@ -54,9 +54,18 @@ local function new_game_plus(comp)
 end
 function UIMsg.new_game_plus(comp) 
 
-	UI.AddLayout('<ConfirmDialog title="Begin New Universe" body = "Start a new univers. You will keep all technologies and start with an additional unit placed in this buildings garage slot"/>', {
+	UI.AddLayout('<ConfirmDialog title="Begin New Universe" body = "Start a new universe. You will keep all technologies and start with an additional unit placed in this buildings garage slot"/>', {
 		construct = function(w)
-			w.list:Add("<Text height=64 margin_top=10/>", { text = "Days since cube awakening: " .. tostring(Map:GetTotalDays()) })
+			w.list:Add("<Text margin_top=10/>", { text = "Days since cube awakening: " .. tostring(Map:GetTotalDays()) })
+			local settings = Map:GetSettings()
+			if settings.run_times then
+				w.list:Add("<Text margin_top=3/>", { text = "Previous Run Times: " })
+				for i, v in ipairs(settings.run_times) do 
+					w.list:Add("<Text margin_top=1/>", { text = tostring(v) })
+				end
+			end 
+			
+			
 		end,
 		cancel = function(w) w:RemoveFromParent() end,
 		ok = function(w)
@@ -65,7 +74,8 @@ function UIMsg.new_game_plus(comp)
 			local settings = Tool.Copy(Map:GetSettings())
 			settings.scenario = "The_Cube_WIP/Scenario"
 			settings.unlock_all_techs = true
-
+			if not settings.run_times then settings.run_times = {} end
+			table.insert(settings.run_times, Map:GetTotalDays())
 			local owner = comp.owner
 			local garage = owner:GetSlotsByType("garage")
 			settings.extra_bots = {}
