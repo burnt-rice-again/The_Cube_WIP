@@ -152,14 +152,25 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_tiny_energy_transmit", string.format("%.f%%", 100/def.uplink_rate), "Uplink Speed") then goto full end
 		end
 		-- CUBE addition for planters
-		if comp.extra_data.yield then
+		if comp and comp.has_extra_data and comp.extra_data.yield then
 			if AddStat("icon_small_seed", string.format("<gl>%.f</>", comp.extra_data.yield), "Yield") then goto full end
 		end
-		if comp.extra_data.growth_time then
+		if comp and comp.has_extra_data and comp.extra_data.growth_time then
 			max_lines = max_lines + 1
 			if AddStat("icon_small_time", string.format("<gl>%.f</>", comp.extra_data.growth_time / TICKS_PER_SECOND), "Growth Time [seconds]") then goto full end
 		end
 	end
+
+	if header_type == "STAT_EXTRA_DATA" then 
+		if comp and comp.yield then
+			if AddStat("icon_small_seed", string.format("<gl>%.f</>", comp.yield), "Yield") then goto full end
+		end
+		if comp and comp.growth_time then
+			max_lines = max_lines + 1
+			if AddStat("icon_small_time", string.format("<gl>%.f</>", comp.growth_time / TICKS_PER_SECOND), "Growth Time [seconds]") then goto full end
+		end
+	end 
+
 
 	if def.extra_stat then
 		for _,v in ipairs(def.extra_stat) do
@@ -812,7 +823,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 	local can_alt = (ingredients and not have_locks)
 	if not can_alt and mode == "summed" then mode = false end
 	local show_no_stats = (mode == "summed")
-	local remain_stat_lines = (show_all_stats and 10002) or (show_no_stats and -1) or 3
+	local remain_stat_lines = (show_all_stats and 10002) or (show_no_stats and -1) or 4
 	remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_MAIN', def, options and comp, entity, faction)
 
 	local additional_title, additional_stats
@@ -849,8 +860,11 @@ local function UpdateDefinitionTooltip(deftooltip)
 			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, stat_comp, entity, faction) or remain_stat_lines
 			if remain_stat_lines < 0 then break end
 		end
+	elseif options.slot and options.slot.has_extra_data and options.slot.extra_data.yield then 
+		print(options.slot.extra_data, options.slot.id)
+		remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_EXTRA_DATA', {}, options.slot.extra_data , entity, faction)
 	end
-
+	
 	if remain_stat_lines < 0 and not show_no_stats then
 		list:Add('<Text text="・ ・ ・ ・ ・" color=light_gray size=8 textalign=center/>')
 	end
