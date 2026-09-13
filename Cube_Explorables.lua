@@ -21,6 +21,67 @@ data.explorables.ruined_component = nil
 data.explorables.roaming_bot = nil
 data.explorables.m_world_a = nil
 
+------------------ Explorables 
+local cc_explorable_fix_volcano = Comp:RegisterComponent("cc_explorable_fix_volcano", {
+	name = "Repair Required",
+	texture = "Main/textures/icons/components/int.png",
+	--effect = "fx_leaves",
+	activation = "OnAnyItemSlotChange",
+	type = "Puzzle",
+	on_solved = function(comp, explorable_race, faction)
+		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		Map.Defer(function ()
+			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
+			comp.owner:AddComponent("cc_cube_melter")
+			comp.owner:AddItem(comp.extra_data.explorable_fix)
+			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
+			if comp_puzzle then comp_puzzle:Destroy() end
+			if not faction:IsUnlocked("tc_cube_red_1") then faction:Unlock("tc_cube_red_1") end
+			comp:Destroy()
+		end)
+	end,
+	explorable_fix = "ic_cube_empty",
+	slots = {cube = 1}
+})
+function cc_explorable_fix_volcano:on_update(comp, cause)
+	local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
+	local slot = comp.owner:FindSlot(fix_item, 1)
+	if slot then
+		Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
+	end
+end
+
+local cc_explorable_fix_wire_weed = Comp:RegisterComponent("cc_explorable_fix_wire_weed", {
+	name = "Repair Required",
+	texture = "Main/textures/icons/components/int.png",
+	--effect = "fx_leaves",
+	activation = "OnAnyItemSlotChange",
+	type = "Puzzle",
+	explorable_fix = "datakey_robot",
+	on_solved = function(comp, explorable_race, faction)
+		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		if not faction:IsUnlocked("tc_cube_green_1") then faction:Unlock("tc_cube_green_1") end
+		Map.Defer(function ()
+			comp.owner:AddItem("cc_planter_wire", 1, false, {
+				yield = 1 + math.floor(math.random()*math.random() * 5 ),
+				growth_time = 300 - math.random(-100, 100),
+			})
+
+			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
+			if comp_puzzle then comp_puzzle:Destroy() end
+			--comp:Destroy()
+		end)
+	end,
+	on_update = function(self, comp, cause)
+		local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
+		local slot = comp.owner:FindSlot(fix_item, 1)
+		if slot then
+			Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
+		end
+	end
+})
+table.insert(data.puzzles.robot, "cc_explorable_fix_volcano")
+table.insert(data.puzzles.robot, "cc_explorable_fix_wire_weed")
 
 local ec_volcano = {
     name = "volcano",
@@ -72,7 +133,7 @@ function ec_wire_weed:GetRelevancy(x, y, info)
 end
 
 function ec_wire_weed:SpawnExplorable(x, y)
-    local weed = Map.CreateEntity("world", "fc_wire_weed", 'vc_sea_grass', true)
+    local weed = Map.CreateEntity("world", "fc_wire_weed", true)
     weed.extra_data.rewards = {crystal = 1}
     -- add fixx item lvl1 
     local fix = weed:AddComponent("cc_explorable_fix_wire_weed", "hidden")
