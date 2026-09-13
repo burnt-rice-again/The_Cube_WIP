@@ -114,7 +114,7 @@ end
 -- display the Cubes current form 
 function cube_locator:update()
     local faction = Game.GetLocalPlayerFaction()
-    if faction then 
+    if faction then
         --update reg id
         local extra_data = faction.extra_data
         self.cube_id = extra_data.cube_type

@@ -76,6 +76,7 @@ function UIMsg.new_game_plus(comp)
 				end
 			end
 			settings.library = comp.faction.extra_data.library
+			settings.seed = math.random(55823361)
 			Game.NewGame(settings)
 		end,
 	}, 99)

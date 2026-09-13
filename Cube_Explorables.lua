@@ -31,7 +31,7 @@ function ec_volcano:GetRelevancy(x, y, info)
 end
 
 local function add_volcano(x,y)
-    local volcano = Map.CreateEntity("world", "fc_volcano")
+    local volcano = Map.CreateEntity("world", "fc_volcano",true)
 
 	volcano.extra_data.rewards = {ic_cube_red = 1}
 
@@ -69,19 +69,17 @@ function ec_wire_weed:GetRelevancy(x, y, info)
 	if info.blightness_delta > 0 then return 0.0 end
 
 	return 0.2
-
-
 end
 
 function ec_wire_weed:SpawnExplorable(x, y)
-    local ruin_comp = Map.CreateEntity("world", "f_explorable", 'vc_sea_grass', true)
-    ruin_comp.extra_data.rewards = {cc_planter_wire = 1}
-    ruin_comp:Place(x, y, math.random(4)-1)
+    local weed = Map.CreateEntity("world", "fc_wire_weed", 'vc_sea_grass', true)
+    weed.extra_data.rewards = {crystal = 1}
     -- add fixx item lvl1 
-    local fix = ruin_comp:AddComponent("cc_explorable_fix_wire_weed", "hidden")
+    local fix = weed:AddComponent("cc_explorable_fix_wire_weed", "hidden")
     fix.extra_data.explorable_fix = "datakey_robot"
-    ruin_comp:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
-
+    weed:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
+    weed.extra_data.auto_destroy = true
+    weed:Place(x, y, math.random(4)-1)
 end
 
 data.explorables.ec_wire_weed = ec_wire_weed

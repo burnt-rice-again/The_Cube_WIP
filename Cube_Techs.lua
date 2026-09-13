@@ -259,7 +259,7 @@ data.techs.tc_cube_green_1= {
 	unlocks = {
 		"ic_cube_green","xc_cube_green",
 	},
-	require_tech = { "tc_robot_metallurgy_1" },
+	require_tech = { "tc_robot_metallurgy_1", 'tc_cube_blue_1' },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1 }, 50),
 	category = "Cube Curiosity",
@@ -410,7 +410,7 @@ data.techs.tc_cube_anti_4= {
 data.techs.tc_robot_metallurgy_1 = {
 	order = 2,
 	name = "Simple Metallurgy", -- recovered database etc.
-	desc = "Steel foundarys are the 1st step in advancing to stronger building materials\n<hl>This research will begin the inestigation into the cube</>",
+	desc = "Steel foundarys are the 1st step in advancing to stronger building materials\n<hl>This research will unlock inestigations into the cube</>",
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
@@ -424,7 +424,7 @@ data.techs.tc_robot_metallurgy_1 = {
 data.techs.tc_robot_metallurgy_2 = {
 	order = 2,
 	name = "More Materials", -- recovered database etc.
-	desc = "Crush Laterite into Contrete or smelt it into Aluminium\n<hl>This research will unlock another strand of self introspection</>",
+	desc = "Stronger materials for construction\n<hl>This research will unlock another strand of self introspection</>",
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources

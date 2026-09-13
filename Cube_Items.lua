@@ -113,16 +113,16 @@ data.items.steelblock.visual = data.items.metalbar.visual
 -- 	{desc = "Laterite Steel Alloy"}
 -- )
 
-data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
+data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now that is all that's left"
 data.items.concreteslab.production_recipe = CreateProductionRecipe(
-{steelblock = 1, metalore = 4  }, {c_fabricator = 30}, 1)
+{steelblock = 2, metalore = 4  }, {c_fabricator = 30}, 1)
 data.items.concreteslab.tag = "simple_material"
 data.items.concreteslab.race = "robot"
 create_alt_recipe("concreteslab", 
 	CreateProductionRecipe(
 	{reinforced_plate = 1, wire = 5, metalore = 5}, 
 	{c_fabricator = 25},
-	6),
+	8),
 	{desc = "Reinforced Concrete Mixing"}
 )
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40, c_assembler = 30}, 1)

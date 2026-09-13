@@ -82,8 +82,8 @@ data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({
 data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 1, fused_electrodes = 1},25)
 
 -- remove blight charger from some bots 
-data.frames.f_flyer_bot.components = { "c_higrade_capacitor", "hidden" }
-data.frames.f_flyer_m.components = { "c_higrade_capacitor", "hidden" }
+data.frames.f_flyer_bot.components = {{ "c_higrade_capacitor", "hidden" }}
+data.frames.f_flyer_m.components = {{ "c_higrade_capacitor", "hidden" }}
 
 
 local function on_destroy_drop(self, entity, damager)
@@ -183,10 +183,7 @@ data.frames.f_explorable:RegisterFrame("fc_volcano", {
 	texture = "The_Cube_WIP/textures/Volcano.png",
 	trigger_channels = "building",
 	visual = "blight_set_03",
-    components = {
-		{ "cc_cube_storage", 'hidden' },
-		--{"c_explorable_netwalk", 'hidden'}
-	},
+	slots = {cube = 1},
 	is_explorable = true,
 })
 data.frames.f_explorable:RegisterFrame("fc_wire_weed", {

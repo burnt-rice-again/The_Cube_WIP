@@ -420,7 +420,8 @@ data.codex.xc_pop_1 = {
         {
             img = data.techs.tc_cube_blue_1.texture,
             talkinghead = true, 
-            txt = [[.... . .-.. .-.. --- / .-- --- .-. .-.. -..
+            txt = [[
+            .... . .-.. .-.. --- / .-- --- .-. .-.. -..
 
             Booting Core System
 
@@ -437,12 +438,15 @@ data.codex.xc_pop_1 = {
         { --- 2
             img = data.techs.tc_cube_blue_1.texture,
             talkinghead = true, 
-            txt = [[First Steps 
+            txt = [[
+            First Steps 
             
             <hl>Tasks required for sustainability:</>
                 1 - Mine nearby resources for construction 
                 2 - Craft Uplink for investigating new technologies
                 3 - Research steel production
+
+            <bl>Codex has been updated</>
             ]],
             step_txt = "Mine Nearby Resources and craft an Uplink to research steel production"
             
@@ -457,6 +461,9 @@ data.codex.xc_pop_1 = {
     However great buffers of power will be required. 
     Begin expanding power production through the use of crystal generators <img id="cc_crystal_power" width="50" height="50"/>
     Then study the cube to produce cube logs. <img id="datakey_robot" width="50" height="50"/>
+    
+    <bl>New Tech Category Unlocked</>
+    <bl>Codex has been updated</>
     ]],
             step_txt = "Setup a Cube Log Production facility with the power to support it"
             
@@ -471,6 +478,8 @@ data.codex.xc_pop_1 = {
     Crystals are the prime candiate for refinging.
 
     Set up Crystal Powder production <img id="crystal_powder" width="50" height="50"/>
+    
+    <bl>Codex has been updated</>
     ]],
             step_txt = "Setup a Crystal Powder Production and research further Cube techs"
         },     
@@ -509,7 +518,7 @@ data.codex.xc_pop_1 = {
 
     There is a way to make new universes! with new potential!
 
-    Create our final prject.
+    Create our final project.
 
     May the chain continue.
     ]],

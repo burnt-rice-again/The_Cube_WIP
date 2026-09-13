@@ -1,7 +1,7 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = true
-local Start_with_Observers = true
+local Unlock_All_Technologies = false
+local Start_with_Observers = false
 
 
 
@@ -25,10 +25,10 @@ function package:init()
 	data.codex.x_freeplay_restart = nil
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_techtree = {category = "Mission",}
-	data.codex.x_freeplay_builduplink = nil
+	data.codex.x_freeplay_builduplink = {category = "Mission",}
 	data.codex.x_tutorial = {category = "Mission",}
-	data.codex.x_freeplay_start = nil
-	data.codex.x_freeplay_start = nil
+	data.codex.x_freeplay_blight_discovery = {category = "Mission",}
+	data.codex.x_freeplay_blight = {category = "Mission",}
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_start = nil
 	data.codex.x_freeplay_start = nil
@@ -268,6 +268,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	gyro:AddItem("ic_broken_reality", 20)
 	gyro:AddItem("ic_proto_sent", 20)
 	gyro:AddItem("ic_matter", 20)
+	gyro:AddItem("ic_cube_empty", 1)
+
 	gyro:Place(loc.x,loc.y-10)
 
 	local recharger = Map.CreateEntity(faction, "f_building2x2c")
@@ -276,7 +278,10 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	recharger:AddComponent("cc_crystal_power_red")
 	recharger:AddComponent("cc_cheat_tech")
 	recharger:AddItem("ic_soul_plasma",100)
-	recharger:AddItem("crystal_powder",60)
+	recharger:AddItem("crystal_powder",40)
+	recharger:AddItem("reinforced_plate",40)
+
+
 	--recharger:AddItem("ic_cube_red")
 	recharger:Place(loc.x-3,loc.y+10)
 

@@ -746,7 +746,6 @@ local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
 		Map.Defer(function ()
 			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
 			comp.owner:AddComponent("cc_cube_melter")
-			comp.owner:AddComponent("cc_cube_storage","hidden")
 			comp.owner:AddItem(comp.extra_data.explorable_fix)
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
 			if comp_puzzle then comp_puzzle:Destroy() end
@@ -765,7 +764,12 @@ function cc_explorable_fix:on_update(comp, cause)
 	end
 end
 
-cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
+local cc_explorable_fix_wire_weed = Comp:RegisterComponent("cc_explorable_fix_wire_weed", {
+	name = "Repair Required",
+	texture = "Main/textures/icons/components/int.png",
+	--effect = "fx_leaves",
+	activation = "OnAnyItemSlotChange",
+	type = "Puzzle",
 	explorable_fix = "datakey_robot",
 	on_solved = function(comp, explorable_race, faction)
 		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
@@ -781,11 +785,16 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 			comp:Destroy()
 		end)
 	end,
-	on_remove = function(comp, cause)
-		Map.DropItemAt(comp.owner.location, "cc_planter_wire",1, "f_dropped_resource")
-		Map.DropItemAt(comp.owner.location, "wire",5, "f_dropped_resource")
+	on_update = function(self, comp, cause)
+		local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
+		local slot = comp.owner:FindSlot(fix_item, 1)
+		if slot then
+			Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
+		end
 	end
 })
+table.insert(data.puzzles.robot, "cc_explorable_fix_volcano")
+table.insert(data.puzzles.robot, "cc_explorable_fix_wire_weed")
 
 --Resource Rejeneration 
 -- via green cube or anti-cube 
@@ -873,7 +882,7 @@ end
 function c_blight_magnifier:on_add(comp)
 	comp:Activate()
 end
-
+	
 --  attempt to make blight crystals dissapear over time but resource nodes dont update
 local cc_unstable_resource = Comp:RegisterComponent("cc_unstable_resource",{
 	name = "Unstable Resource",
