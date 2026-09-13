@@ -50,7 +50,7 @@ data.components.c_behavior.production_recipe = CreateProductionRecipe({["datakey
 data.components.c_shared_storage.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 
 data.components.c_signal_reader.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
-data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 2, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1	, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["datakey_robot"] = 2}, {['c_assembler'] = 5},1 )
@@ -769,9 +769,13 @@ cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
 	explorable_fix = "datakey_robot",
 	on_solved = function(comp, explorable_race, faction)
 		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
-		if not faction:IsUnlocked("tc_cube_green_2") then faction:Unlock("tc_cube_green_2") end
+		if not faction:IsUnlocked("tc_cube_green_1") then faction:Unlock("tc_cube_green_1") end
 		Map.Defer(function ()
-			comp.owner:AddItem("cc_planter_wire")
+			comp.owner:AddItem("cc_planter_wire", 1, false, {
+				yield = 1 + math.floor(math.random()*math.random() * 5 ),
+				growth_time = 300 - math.random(-100, 100),
+			})
+
 			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
 			if comp_puzzle then comp_puzzle:Destroy() end
 			comp:Destroy()

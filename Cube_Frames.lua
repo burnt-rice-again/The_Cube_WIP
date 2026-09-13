@@ -81,6 +81,10 @@ data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ cr
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)
 data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 1, fused_electrodes = 1},25)
 
+-- remove blight charger from some bots 
+data.frames.f_flyer_bot.components = { "c_higrade_capacitor", "hidden" }
+data.frames.f_flyer_m.components = { "c_higrade_capacitor", "hidden" }
+
 
 local function on_destroy_drop(self, entity, damager)
 	-- don't do anything unless killed or if this entity belongs to a player controlled faction

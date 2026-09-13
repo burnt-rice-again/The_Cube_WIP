@@ -1,7 +1,7 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
-local Start_with_Observers = false
+local Unlock_All_Technologies = true
+local Start_with_Observers = true
 
 
 
@@ -133,7 +133,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:Place(loc.x-1, loc.y-1)
 	faction.home_entity = home_entity
 
-	local new_entity = Map.CreateEntity(faction, "f_building1x1a")
+	local new_entity = Map.CreateEntity(faction, "f_building1x1d")
 	new_entity:AddComponent("c_fabricator")
 	new_entity:SetRegister(5,{id="metalplate",num=REG_INFINITE})
 	new_entity:AddItem("metalplate", 40)

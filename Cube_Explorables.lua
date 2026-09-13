@@ -78,7 +78,7 @@ function ec_wire_weed:SpawnExplorable(x, y)
     ruin_comp.extra_data.rewards = {cc_planter_wire = 1}
     ruin_comp:Place(x, y, math.random(4)-1)
     -- add fixx item lvl1 
-    local fix = ruin_comp:AddComponent("c_explorable_fix", "hidden")
+    local fix = ruin_comp:AddComponent("cc_explorable_fix_wire_weed", "hidden")
     fix.extra_data.explorable_fix = "datakey_robot"
     ruin_comp:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
 

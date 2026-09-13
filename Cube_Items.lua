@@ -103,6 +103,8 @@ data.items.steelblock.production_recipe = CreateProductionRecipe(
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = "robot"
 data.items.steelblock.tag = "simple_material"
+data.items.steelblock.visual = data.items.metalbar.visual
+
 -- create_alt_recipe("steelblock",
 -- 	CreateProductionRecipeWithWaste(
 -- 	{laterite = 40, metalplate = 20, ic_cube_red = 1}, 
