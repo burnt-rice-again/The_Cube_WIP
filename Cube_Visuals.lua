@@ -58,9 +58,9 @@ local meshes = {
 
 -- cube component
 data.visuals.vc_cube_blue = { 
-    mesh = "The_Cube_WIP/textures/In Progress BlockBench/cube_2.glb", 
-	scale = {0.06,0.06,0.06},
-	mesh_offset = {0,0,100000},
+    mesh = "The_Cube_WIP/textures/ultra_cube.glb", 
+	scale = {0.11,0.11,0.11},
+	mesh_offset = {0,0,100},
 }
 data.visuals.vc_cube_empty = { 
     mesh = meshes.cube_blue, 
@@ -128,9 +128,9 @@ data.visuals.v_alien_data.cull_ratio = 1
 data.visuals.v_virus_data.cull_ratio = 1 
 
 data.visuals.vc_static_gyro = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/Gyro Self Made/Static_Gyro3.glb",
-	mesh_offset = { 0, 0, 200},
-	mesh_sockets = { ["Medium1"] = {0,0,0}, },
+	mesh = "The_Cube_WIP/textures/gyro.glb",
+	mesh_offset = { 0, 0, 225},
+	mesh_sockets = { ["Medium1"] = {0,0,0}, ["fx"] = {0,0,0}},
 	sockets = {
 		{ "Medium1", "Medium" },
 		{ "", "Internal" },

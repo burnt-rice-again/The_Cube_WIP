@@ -50,7 +50,7 @@ data.components.c_behavior.production_recipe = CreateProductionRecipe({["datakey
 data.components.c_shared_storage.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 
 data.components.c_signal_reader.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
-data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 2, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
+data.components.c_portable_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1	, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_scout_radar.production_recipe = CreateProductionRecipe({["datakey_robot"] = 1, ["crystal"] = 2}, {['c_assembler'] = 5},1 )
 data.components.c_signpost.production_recipe = CreateProductionRecipe({ ["datakey_robot"] = 1}, {['c_assembler'] = 5},1 )
 data.components.c_deconstructor.production_recipe = CreateProductionRecipe({["metalplate"] = 4, ["datakey_robot"] = 2}, {['c_assembler'] = 5},1 )
@@ -734,54 +734,6 @@ function cc_boost_tower:get_reg_error(comp, cause)
 	end
 end
 
------------------- Explorables 
-local cc_explorable_fix = Comp:RegisterComponent("cc_explorable_fix_volcano", {
-	name = "Repair Required",
-	texture = "Main/textures/icons/components/int.png",
-	--effect = "fx_leaves",
-	activation = "OnAnyItemSlotChange",
-	type = "Puzzle",
-	on_solved = function(comp, explorable_race, faction)
-		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
-		Map.Defer(function ()
-			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
-			comp.owner:AddComponent("cc_cube_melter")
-			comp.owner:AddComponent("cc_cube_storage","hidden")
-			comp.owner:AddItem(comp.extra_data.explorable_fix)
-			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
-			if comp_puzzle then comp_puzzle:Destroy() end
-			if not faction:IsUnlocked("tc_cube_red_1") then faction:Unlock("tc_cube_red_1") end
-			comp:Destroy()
-		end)
-	end,
-	explorable_fix = "ic_cube_empty",
-	slots = {cube = 1}
-})
-function cc_explorable_fix:on_update(comp, cause)
-	local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
-	local slot = comp.owner:FindSlot(fix_item, 1)
-	if slot then
-		Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
-	end
-end
-
-cc_explorable_fix:RegisterComponent("cc_explorable_fix_wire_weed", {
-	explorable_fix = "datakey_robot",
-	on_solved = function(comp, explorable_race, faction)
-		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
-		if not faction:IsUnlocked("tc_cube_green_2") then faction:Unlock("tc_cube_green_2") end
-		Map.Defer(function ()
-			comp.owner:AddItem("cc_planter_wire")
-			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
-			if comp_puzzle then comp_puzzle:Destroy() end
-			comp:Destroy()
-		end)
-	end,
-	on_remove = function(comp, cause)
-		Map.DropItemAt(comp.owner.location, "cc_planter_wire",1, "f_dropped_resource")
-		Map.DropItemAt(comp.owner.location, "wire",5, "f_dropped_resource")
-	end
-})
 
 --Resource Rejeneration 
 -- via green cube or anti-cube 
@@ -869,7 +821,7 @@ end
 function c_blight_magnifier:on_add(comp)
 	comp:Activate()
 end
-
+	
 --  attempt to make blight crystals dissapear over time but resource nodes dont update
 local cc_unstable_resource = Comp:RegisterComponent("cc_unstable_resource",{
 	name = "Unstable Resource",

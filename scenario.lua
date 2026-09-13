@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
+local Unlock_All_Technologies = true
 local Start_with_Observers = false
 
 
@@ -18,10 +18,6 @@ function package:init()
 	Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = nil
 	Game.GetModPackage("Main/Freeplay").on_world_spawn = nil
 	Game.GetModPackage("Main/Freeplay").setup_scenario = nil
-
-
-	MapMsg.OnFactionCount = function() return end
-
 end
 
 -- called when starting up a new game
@@ -120,7 +116,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:Place(loc.x-1, loc.y-1)
 	faction.home_entity = home_entity
 
-	local new_entity = Map.CreateEntity(faction, "f_building1x1d")
+	local new_entity = Map.CreateEntity(faction, "f_building1x1a")
 	new_entity:AddComponent("c_fabricator")
 	new_entity:SetRegister(5,{id="metalplate",num=REG_INFINITE})
 	new_entity:AddItem("metalplate", 40)
@@ -186,7 +182,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 		--- new game plus bots 
 	if (settings.extra_bots) then 
-		faction:Unlock("xc_new_game_plus")
 		for key, val in pairs(settings.extra_bots) do
 			--local ent = Map.CreateEntity(faction, val.frame)
 			local ent = CreateFrameOrBlueprint(faction, val)
@@ -256,8 +251,6 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	gyro:AddItem("ic_broken_reality", 20)
 	gyro:AddItem("ic_proto_sent", 20)
 	gyro:AddItem("ic_matter", 20)
-	gyro:AddItem("ic_cube_red", 1)
-
 	gyro:Place(loc.x,loc.y-10)
 
 	local recharger = Map.CreateEntity(faction, "f_building2x2c")
@@ -266,10 +259,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	recharger:AddComponent("cc_crystal_power_red")
 	recharger:AddComponent("cc_cheat_tech")
 	recharger:AddItem("ic_soul_plasma",100)
-	recharger:AddItem("crystal_powder",40)
-	recharger:AddItem("reinforced_plate",40)
-
-
+	recharger:AddItem("crystal_powder",60)
 	--recharger:AddItem("ic_cube_red")
 	recharger:Place(loc.x-3,loc.y+10)
 

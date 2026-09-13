@@ -10,6 +10,10 @@ data.techs.t_robots_ai.require_tech = {'tc_blank'}
 data.techs.t_signals1.require_tech = {'tc_blank'}
 data.techs.t_structures1.require_tech = {'tc_blank'}
 data.techs.t_power0.require_tech = {'tc_blank'}
+data.techs.t_blight_research = data.techs.tc_blank
+data.techs.t_robots_blight_discovery = data.techs.tc_blank
+
+
 
 
 ------------
@@ -123,7 +127,7 @@ local order_weapons_2 = 222
 data.techs.tc_cube_blue_1 = {
 	order = 2,
 	name = "Blue Cube Refining", -- recovered database etc.
-	desc = "The Cubes Materials are Unfathomable, But our own are not ",
+	desc = "The Cubes Materials are Unfathomable, But our own are not\n<hl>This research will unlock expanded functions</>",
 	texture = data.items.ic_cube_blue.texture,
 	unlocks = {
 		"ic_cube_empty",-- new resources
@@ -168,14 +172,14 @@ data.techs.tc_cube_blue_3 = {
 data.techs.tc_cube_red_1 = {
 	order = 1,
 	name = "Hidden Fury", -- recovered database etc.
-	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\n<hl>Unlock this technology by finding a place to melt the Cube</>",
+	desc = "Deep in the earth the planet rages. A molten ocean of dreams forever trapped under a thin blanket of reality.\n<hl>Find a fissure to the underworld</>\n<hl>Boil a sleeping cube in its hellfire</>",
 	texture = data.items.ic_cube_red.texture,
 	unlocks = {
 		-- new resources
 		"ic_cube_red","reinforced_plate",
 		"xc_cube_red",
 	},
-	require_tech = { "tc_robot_metallurgy_1" },
+	require_tech = { "tc_robot_metallurgy_1", "tc_cube_blue_1" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1 }, 300),
 	category = "Cube Curiosity",
@@ -259,7 +263,7 @@ data.techs.tc_cube_green_1= {
 	unlocks = {
 		"ic_cube_green","xc_cube_green",
 	},
-	require_tech = { "tc_robot_metallurgy_1" },
+	require_tech = { "tc_robot_metallurgy_1", 'tc_cube_blue_1' },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1 }, 50),
 	category = "Cube Curiosity",
@@ -301,7 +305,7 @@ data.techs.tc_cube_green_4 = {
 		-- phase farming 
 		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
 	},
-	require_tech = { "tc_cube_green_3" },
+	require_tech = { "tc_cube_anti_0", "tc_cube_green_3" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ic_soul_happy = 1 }, 300),
 	category = "Cube Obsession",
@@ -340,7 +344,7 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
-		"blight_crystal","ic_time_crystal","xc_cube_anti","xc_cube_time_crystal",
+		"blight_crystal","ic_time_crystal","xc_cube_time_crystal",
 	},
 	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,
@@ -410,7 +414,7 @@ data.techs.tc_cube_anti_4= {
 data.techs.tc_robot_metallurgy_1 = {
 	order = 2,
 	name = "Simple Metallurgy", -- recovered database etc.
-	desc = "Steel foundarys are the 1st step in advancing to stronger building materials ",
+	desc = "Steel foundarys are the 1st step in advancing to stronger building materials\n<hl>This research will unlock inestigations into the cube</>",
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
@@ -424,7 +428,7 @@ data.techs.tc_robot_metallurgy_1 = {
 data.techs.tc_robot_metallurgy_2 = {
 	order = 2,
 	name = "More Materials", -- recovered database etc.
-	desc = "Crush Laterite into Contrete or smelt it into Aluminium",
+	desc = "Stronger materials for construction\n<hl>This research will unlock another strand of self introspection</>",
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
@@ -472,7 +476,7 @@ data.techs.tc_robot_frames_1 = {
 		-- new resources
 		"c_robotics_factory",
 	},
-	require_tech = { "tc_upgrades_basic" },
+	require_tech = { "tc_upgrades_basic","tc_robot_metallurgy_1" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1}, 25),
 	category = "Independance",

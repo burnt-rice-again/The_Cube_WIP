@@ -14,10 +14,10 @@
             "type": "Addon"
         },
         "Scenario": {
-            "name": "THE CUBE START",
+            "name": "Scenario",
             "entry": "Cube_Scenario.lua",
-            "dependencies": [ "Main/Data" ],
-            "type": "Scenario"
+            "dependencies": [ "Main/Freeplay" ],
+            "type": "Addon"
         }
     }
 }

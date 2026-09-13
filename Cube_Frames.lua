@@ -81,6 +81,10 @@ data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ cr
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)
 data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 1, fused_electrodes = 1},25)
 
+-- remove blight charger from some bots 
+data.frames.f_flyer_bot.components = {{ "c_higrade_capacitor", "hidden" }}
+data.frames.f_flyer_m.components = {{ "c_higrade_capacitor", "hidden" }}
+
 
 local function on_destroy_drop(self, entity, damager)
 	-- don't do anything unless killed or if this entity belongs to a player controlled faction
@@ -179,10 +183,7 @@ data.frames.f_explorable:RegisterFrame("fc_volcano", {
 	texture = "The_Cube_WIP/textures/Volcano.png",
 	trigger_channels = "building",
 	visual = "blight_set_03",
-    components = {
-		{ "cc_cube_storage", 'hidden' },
-		--{"c_explorable_netwalk", 'hidden'}
-	},
+	slots = {cube = 1},
 	is_explorable = true,
 })
 data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
@@ -210,14 +211,14 @@ Frame:RegisterFrame("fc_gyro",{
 	desc = "Just Imagine it spinning\nIt would look so cool",
 	health_points = 5,
 	race = "robot",
-	construction_recipe = CreateConstructionRecipe({steelblock = 1, concreteslab = 1},1),
-	texture = "The_Cube_WIP/textures/gyro_texture.png",
+	construction_recipe = CreateConstructionRecipe({ic_time_crystal = 10, concreteslab = 30, steelblock = 40, phase_leaf = 64, fused_electrodes = 32, ldframe = 9},1),
+	texture = "The_Cube_WIP/textures/gyro_icon_2.png",
 	trigger_channels = "building",
 	visual = 'vc_static_gyro',--"v_blight_stabilizer",
 	size = "Large",
 	no_foundations = true,
 	is_explorable = true,
-	slots = {storage = 6 },
+	slots = {storage = 6, garage = 1 },
 	components = {
 		{ "cc_gyro_fabricator", 'hidden' },
 		--{"c_explorable_netwalk", 'hidden'}

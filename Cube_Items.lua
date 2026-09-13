@@ -43,7 +43,7 @@ data.items.datakey_robot = {
 	slot_type = "storage",
 	race = "robot",
 	stack_size = 20,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 30, cc_green_brain = 10 }, 5, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_blue = 1, metalplate = 5 }, { cc_manifest = 50, cc_green_brain = 10 }, 5, {ic_cube_blue = 1}),
 }
 create_alt_recipe("datakey_robot",
 	CreateProductionRecipeWithWaste(
@@ -103,6 +103,8 @@ data.items.steelblock.production_recipe = CreateProductionRecipe(
 data.items.steelblock.texture = "The_Cube_WIP/textures/steel_beam.png"
 data.items.steelblock.race = "robot"
 data.items.steelblock.tag = "simple_material"
+data.items.steelblock.visual = data.items.metalbar.visual
+
 -- create_alt_recipe("steelblock",
 -- 	CreateProductionRecipeWithWaste(
 -- 	{laterite = 40, metalplate = 20, ic_cube_red = 1}, 
@@ -111,16 +113,16 @@ data.items.steelblock.tag = "simple_material"
 -- 	{desc = "Laterite Steel Alloy"}
 -- )
 
-data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now all thats left is their ruins"
+data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now that is all that's left"
 data.items.concreteslab.production_recipe = CreateProductionRecipe(
-{steelblock = 1, metalore = 4  }, {c_fabricator = 30}, 1)
+{steelblock = 2, metalore = 4  }, {c_fabricator = 30}, 1)
 data.items.concreteslab.tag = "simple_material"
 data.items.concreteslab.race = "robot"
 create_alt_recipe("concreteslab", 
 	CreateProductionRecipe(
 	{reinforced_plate = 1, wire = 5, metalore = 5}, 
 	{c_fabricator = 25},
-	6),
+	8),
 	{desc = "Reinforced Concrete Mixing"}
 )
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40, c_assembler = 30}, 1)
@@ -182,7 +184,7 @@ data.items.ic_cube_red = {
 data.items.ic_cube_green = {
 	name = "RESTLESS CUBE",
 	index = 1002,
-	desc = "<hl>THE CUBE IS RESTLESS</>\nSpeeds up holding unit",
+	desc = "<hl>THE CUBE IS SHIMMERING</>\nSpeeds up bots",
 	locked_desc = "Find a large weed in the plains and claim a cutting",
 	tag = "cube",
 	slot_type = "cube",
@@ -205,7 +207,9 @@ data.items.ic_cube_sphere = {
 	name = "ANTI - CUBE",
 	index = 1004,
 	desc = [[<hl>Heresey, there is a sphere inside the cube!</>
-<rl>WARNING: extremly unstable around the Cube</>]],
+<rl>WARNING: extremly unstable around the Cube</>
+The Anti-Cube can exist in an infinate number of states simultaneously.
+]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
@@ -214,7 +218,7 @@ data.items.ic_cube_sphere = {
 	visual = 'vc_cube_sphere_item',
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_cube_red = 1, ic_soul_plasma = 1,  }, 
-	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 2, ic_cube_empty = 1}),
 	--production_recipe = CreateProductionRecipeWithWaste(
 	-- { ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
 	-- 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
@@ -417,12 +421,12 @@ data.items.ic_micro_universe = {
 	index = 12,
 	tag = 'hitech_material',
 	race = "robot",
-	desc = 'Our Duty Complete\nSo long as the chain continues this string of Universes shall never truly die',
+	desc = 'Our Duty Complete\nSo long as the chain continues this string of Universes shall never truly die\n<rl>Add a bot to the Anti Entropy Loom\'s garage to begin new game plus</>',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = "Main/textures/tech/blight/blight_terra_03_1.png",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 1, ic_proto_sent = 1, ic_matter = 1, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 16, ic_proto_sent = 16, ic_matter = 16, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
 }
 
 

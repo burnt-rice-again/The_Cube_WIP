@@ -2,6 +2,7 @@ import fnmatch
 from pathlib import Path, PurePosixPath
 import zipfile
 
+# zips only important files using gitignore patterns
 
 def load_gitignore_patterns(root: Path) -> list[str]:
     patterns: list[str] = []

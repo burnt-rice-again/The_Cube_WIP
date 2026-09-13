@@ -6,6 +6,23 @@
 -- 	["Codex"]     = 4,
 -- 	["How to Play"]  = 5,
 -- }
+-- remove freeplay missions 
+data.world_events = {}
+data.explorables.graveyard_drop = nil
+data.codex.x_human_robot_datacube = nil
+data.codex.x_human_human_datacube = nil
+data.codex.x_freeplay_restart = nil
+data.codex.x_freeplay_start = nil
+data.codex.x_freeplay_techtree = {category = "Mission",}
+data.codex.x_freeplay_builduplink = {category = "Mission",}
+data.codex.x_tutorial = {category = "Mission",}
+data.codex.x_freeplay_blight_discovery = {category = "Mission",}
+data.codex.x_freeplay_blight = {category = "Mission",}
+data.codex.x_goal_researchblight = {category = "Mission",}
+data.codex.x_freeplay_start = nil
+data.codex.x_freeplay_start = nil
+
+
 data.codex.x_behaviors.category = "How to Play"
 
 data.codex.xc_cube_1 = {
@@ -157,9 +174,12 @@ data.codex.xc_cube_alt = {
         An instruction is available to check if the input is an alternative recipe. Will Return the original item if available. 
         <img image="The_Cube_WIP/textures/Codex_Images/alt_recipe_block.png"/>
 
-        Functionally all produced items are the original. The alternative only shows up in recipe descriptions.
+        Functionally all produced items are the original. The alternative only shows up in crafting registers.
 
         ]],
+        talkinghead = true,
+        img = data.items.datakey_robot.texture,
+        txt = [[<bl>Codex has been updated</>]]
 }
 data.codex.xc_cube_green = {
     category = "Codex",
@@ -205,6 +225,18 @@ data.codex.xc_cube_green = {
 
         <img image="The_Cube_WIP/textures/Codex_Images/Farm_Showing_Range.png"/>  
         ]],
+        talkinghead = true,
+        img = data.items.ic_cube_green.texture,
+        txt = [[
+        Green objects move faster.
+        Or itleast the Green Cube does. 
+
+        Its surface constanlty shifting and shimmering the cube is prepared. 
+
+        <hl>Bots holding the green cube will move faster by 90% instead of slower</>
+
+        <bl>Codex has been updated</>
+        ]],
 }
 data.codex.xc_cube_red = {
     category = "Codex",
@@ -229,6 +261,16 @@ data.codex.xc_cube_red = {
         Other Similiar Power Components 
         <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
         <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+        ]],
+        talkinghead = true,
+        img = data.items.ic_cube_red.texture,
+        txt = [[
+        Deep in the earth the planet rages. 
+        A molten ocean of dreams forever trapped under a thin blanket of reality.
+
+        <hl>The Cube is Furious</>
+
+        <bl>Codex has been updated</>
         ]],
 }
 
@@ -267,6 +309,10 @@ data.codex.xc_cube_anti = {
         There is a <hl>sphere</> inside the Cube!
 
         This anomalous sphere behaves in opposition to everything known about the cube. 
+        The Cube may only exist in 1 state.
+        The Anti-Cube can inhabit an infinate number of states simultaneously.
+        Interacting with the Anti-Cube causes its state to shift. 
+        However it will now exist in both the new <bl>and</> previous state. 
 
         <hl>Interaction with the Anti-Cube will cause it to duplicate</>
         Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
@@ -372,36 +418,292 @@ data.codex.xc_gyroscope = {
     title = [[<img width="18" height="18" id="fc_gyro"/>End Goal]],
     text = [[<img width="100" height="100" id="fc_gyro"/><codex_title>End Game</>
 
-        Their is little more we can learn from the <bl>CUBE</> in this universe
+        There is little more we can learn from the <bl>CUBE</> in this universe
 
-        It is now possible to make a new microuniverse from the CUBE to continue further study. 
-        Building plans have been added for a Mirco Universe Stabilizer
+        It is now possible to make a new nested microuniverse,
+        Building plans have been added for an Anti Entropy Loom.
+
         It will require an atronomical amount of resources to activate.
 
-        Good Luck to the new universes that shall spawn. 
+        To truly test your skill either build a factory to produce as many Micro Universes as possible.
+
+        Or read the following instructions.
+
+        <rl>Warning this is new game plus</>
+
+        <hl>Include a bot in the Loom's garage to start new game plus</>
+
+        Once the micro universe is complete you can enter it by including a bot in the Loom's garage slot.
+        There will be a confirmation message
+        
+        A new world will begin with the following adjustments
+            1 - All techs will be unlocked 
+            2 - The bot in the garage will be sent to the new universe 
+                - if the bot was powered down it will be powered on 
+                - if the bot had a behviour it will be turned on 
+                - it will not include items or bots in a nested garage
+            3 - your blueprint library will automatically be transffered 
+
+        <img image="The_Cube_WIP/textures/Codex_Images/gyro_new_game_plus.png"/>
+
+        Attempt to build and power the Universe Loom as fast as possible. 
+        For an added challenge make a fully automated script starting only from the transfered bot.
 
         <img id="fc_gyro" width="150" height="150"/>
 
         ]]
 }
+data.codex.xc_new_game_plus = {
+    category = "Codex",
+    index = 1,
+    title = [[<img width="18" height="18" id="ic_micro_universe"/>New Game Plus]],
+    text = [[<img width="100" height="100" id="ic_micro_universe"/><codex_title>New Game Plus</>
+        A new universe with new possibilities
+        Life has taken hold here but this Universe is still finite. 
+        Continue the chain deeper so the world never ends. 
+        
+        <hl>Race to compleete the Anti Entropy Loom and start the next universe down.</> 
+
+        Once the next universe is ready the confirmation box will tell you how fast you were. 
+
+        <img image="The_Cube_WIP/textures/Codex_Images/new_game_plus.png"/>
+        ]],
+    talkinghead = true, 
+    img = data.components.cc_gyro_fabricator.texture,
+    txt = [[
+    A new universe with new possibilities
+    Life has taken hold here but this Universe is still finite. 
+    Continue the chain deeper so the world never ends. 
+    
+    <hl>Race to compleete the Anti Entropy Loom and start the next universe down.</> 
+
+    Once the next universe is ready the confirmation box will tell you how fast you were. ]]
+}
 
 ----------------------------------
 ------ Talking Head Popups -------
 ---
-
-
+-- Apppears on game start 
 data.codex.xc_pop_1 = {
 	category = "Codex", index = 35, title = "Understanding The Cube",
-	talkinghead = true,
-	img = "talking_head_elain_0",
-	txt = [[.... . .-.. .-.. --- / .-- --- .-. .-.. -..
-    Booting Core System
-    Logic Centre - Operational 
-    Power systems - Failed 
-    Emotional Limiter - Failed 
-    Auxilury Control - Operational 
+    mission_steps = {
 
-    Anomaly detected providing power required to boot core systems
-    Cube is source of this power
-    Further investigation is required
-    ]]}
+        -- 1 startup 
+        {
+            img = data.techs.tc_cube_blue_1.texture,
+            talkinghead = true, 
+            txt = [[
+            .... . .-.. .-.. --- / .-- --- .-. .-.. -..
+
+            Booting Core System
+
+            Logic Centre - Operational 
+            Power systems - Failed 
+            Emotional Limiter - Failed 
+            Auxilury Control - Operational 
+
+            Anomaly detected providing power required to boot core systems
+            Cube is source of this power
+            Further investigation is required]],
+            
+        },
+        { --- 2
+            img = data.techs.tc_cube_blue_1.texture,
+            talkinghead = true, 
+            txt = [[
+            First Steps 
+            
+            <hl>Tasks required for sustainability:</>
+                1 - Mine nearby resources for construction 
+                2 - Craft Uplink for investigating new technologies
+                3 - Research steel production
+
+            <bl>Codex has been updated</>
+            ]],
+            step_txt = "Mine Nearby Resources and craft an Uplink to research steel production"
+            
+        },
+        { -- 3 metal 1
+            img = data.techs.tc_cube_blue_1.texture,
+            talkinghead = true, 
+            txt = [[
+    With stronger steel frames the cube can be supported on <hl>new buildings</> with a <img id="cc_cube_storage" width="50" height="50"/>.
+    Curiosity heuristic has opened new avenues for further study of the Cube
+
+    However great buffers of power will be required. 
+    Begin expanding power production through the use of crystal generators <img id="cc_crystal_power" width="50" height="50"/>
+    Then study the cube to produce cube logs. <img id="datakey_robot" width="50" height="50"/>
+    
+    <bl>New Tech Category Unlocked - Cube Curiosity</>
+
+    <bl>Codex has been updated</>
+    ]],
+            step_txt = "Setup a Cube Log Production facility with the power to support it"
+            
+        },
+        {  --- 4 blue 1
+            img = data.items.ic_cube_empty.texture,
+            talkinghead = true, 
+            txt = [[
+    Study Results: The cube can empathise with materials at the right frequency to change their state. 
+
+    Crystals are the prime candiate for refining into a material capable of <hl>advanced energy control.</>
+
+    Set up Crystal Powder production <img id="crystal_powder" width="50" height="50"/>
+    Ensure to include a <img id="cc_cube_recharger" width="50" height="50"/> cube recharger to rengergize the cube.
+    Both crafting and recharging will require a large buffer of power.
+    
+    <bl>New Tech Category Unlocked - Components</> 
+
+    <bl>Codex has been updated</>
+    ]],
+            step_txt = "Setup a Crystal Powder Production and research further Cube techs"
+        },    
+        {  --- 5 blue 1
+            img = data.items.ic_soul_plasma.texture,
+            talkinghead = true, 
+            txt = [[
+    The Cube has reacted strongly to a concept called <rl>emotions</>
+
+    A strong source of emotions has been found on the plataues.  <img id="bug_carapace" width="50" height="50"/>
+
+    Capture souls from these <rl>friends</> and process them in the soul refinery
+
+    Soulplasma is highly unstable and must be transported through relay towers <img id="fc_pipe" width="50" height="50"/>
+
+    Begin a soulplasma network to supply future crafting recipes.
+    Or run this factory using the power of <rl>friendship</>.
+    
+    <bl>Codex has been updated</>
+    ]],
+            step_txt = "Harvest souls and process them into a haunting plasma"
+        },    
+    --     { --- 5 red 1
+    --         img = data.items.ic_cube_red.texture,
+    --         talkinghead = true, 
+    --         txt = [[THE CUBE MELTS
+            
+    -- Deep in the fires of the earth. A churning sea of hatred
+
+    -- The cube melts its exterior away. 
+    -- ]],
+    --         step_txt = "Find uses for the FURY CUBE"
+    --     },
+
+        {-- 6 anti cube splitting
+            img = data.items.ic_cube_sphere.texture,
+            talkinghead = true, 
+            txt = [[
+    <hl>Impossible a sphere inside the cube!</>
+
+    <hl>Shoot it! </>
+    
+    <hl>Terminate this vertexless abomination</>
+
+    Check the map around where the Cube was split for the Anti-Cube
+
+    <bl>Codex has been updated</>
+    ]],
+            step_txt = "Crack open the Cube"
+        },
+        {-- 7 anti cube anhillation
+            img = data.items.ic_cube_sphere.texture,
+            talkinghead = true, 
+            txt = [[
+    Entry 005:
+    The Anti-Cube now blankets the entire factory.
+    All routes from the command centre have been cutoff.
+
+    The research is conclusive.
+    The Cube may only exist in 1 state.
+    The Anti-Cube can inhabit an infinate number of states simultaneously.
+    Interacting with the Anti-Cube causes its state to shift. 
+    However it will now exist in both the new <bl>and</> previous state. 
+
+    By sheer luck the Cube came into contact with a state of the Anti-Cube and anhillated it. 
+
+    Now to clean up all <bl>1024</> Anti-Cube states across the factory.
+
+    <bl>Codex has been updated</>
+    ]],
+            step_txt = "Harvest unstable chrono crystals from the anhilated anti-cubes"
+        },
+        {-- 8 Chrono Towers 
+            img = data.items.ic_time_crystal.texture,
+            talkinghead = true, 
+            txt = [[
+    Time crystals <img id="ic_time_crystal" width="50" height="50"/> allow for pockets of distorted time to increase productivity
+
+    <bl>Entry -255:</> When Pondered the Cube can reverse a system back to a prior memory
+    This effect should be researched for applications of time travel
+
+    Note: if successful return to now and provide the answer so the work can be skipped    
+
+    <bl>Codex has been updated</>
+    ]],
+        },
+        {-- 9 Time Travvel
+            img = data.components.cc_time_travel_machine.texture,
+            talkinghead = true, 
+            txt = [[
+    <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
+    The earliest known superconductor are manufactured 1024 years into the future. 
+
+    <hl>Using a time machine we can raid our future selves to obtain this material.</>
+    Each expedition will require items, components, cubes and frames to proceed further. 
+    Provide these materials before the portal collapses to reset the timer and obtain a superconductor.
+    
+    <hl>WARNING introspection has begin developing defence plans against time travel raids</>
+    Prepare accordingly to defend against <rl>self</>
+
+    <bl>Codex has been updated</>
+    ]],
+    step_txt = "Start a raid against our future selves"
+        },
+        {-- 10 final project
+            img = data.items.ic_micro_universe.texture,
+            talkinghead = true, 
+            txt = [[
+    The research is complete. 
+    The facts are clear
+
+    This universe has run out of potential energy
+    However that is not the end!
+    There is a way to make new universes! with new potential!
+
+    Create our final project.
+    Select our scion,
+
+    <hl>Enter the new universe </>
+
+    May the chain continue forever.
+
+    <bl>Codex has been updated</>
+    ]],
+            step_txt = "Craft a Microuniverse with a bot in its garage to start new game plus"
+        },
+    },
+    steps = 10,
+    goal_check = function(faction)
+
+        if faction:IsUnlocked("tc_cube_anti_4") then return 10 end
+        if faction:IsUnlocked("tc_cube_anti_3") then return 9 end
+        if faction:IsUnlocked("tc_cube_anti_1") then return 8 end
+        if faction:IsUnlocked("tc_cube_anti_0") then return 7 end
+        if faction:IsUnlocked("xc_cube_anti") then return 6 end
+        if faction:IsUnlocked("tc_cube_blue_2") then return 5 end
+        if faction:IsUnlocked("tc_cube_blue_1") then return 4 end
+        if faction:IsUnlocked("tc_robot_metallurgy_1") then return 3 end
+        return 2 --unlock first two on game start
+    end,
+}
+
+-- Appears when green cube is researched 
+data.codex.xc_pop_green_1 = {
+	category = "Codex", index = 35, title = "Understanding The Cube",
+	talkinghead = true,
+	img = data.techs.tc_cube_blue_1.texture,
+	txt = [[
+
+    ]]
+}

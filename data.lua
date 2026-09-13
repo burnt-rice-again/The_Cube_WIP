@@ -33,7 +33,6 @@ package.includes = {
 
 -- called when mod is initializing
 function package:init()
-
 end
 
 

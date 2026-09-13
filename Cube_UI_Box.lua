@@ -3,7 +3,7 @@ local package = ...
 -- define the layout of the widget
 local cube_locator_layout <const> =
 [[
-	<Box dock=top-left padding=3 margin_top=139 margin_left = 6>
+	<Box dock=top-left padding=3 margin_top={margin_top} margin_left = 5>
 		<Canvas on_click={goto_cube} tooltip={cube_tooltip}>
             <Reg bg=item_default def_id={cube_id} on_click={goto_cube} width=40 height=40/>
         </Canvas>
@@ -17,6 +17,7 @@ local cube_ids = {"ic_cube_blue", 'ic_cube_green', 'ic_cube_empty', 'ic_cube_red
 
 -- called when the registered widget is created
 function cube_locator:construct()
+    self.margin_top = 128
 end
 -- Check to see if the Cube is on the Map 
 local function lost_cube_check_faction(faction)
@@ -114,7 +115,7 @@ end
 -- display the Cubes current form 
 function cube_locator:update()
     local faction = Game.GetLocalPlayerFaction()
-    if faction then 
+    if faction then
         --update reg id
         local extra_data = faction.extra_data
         self.cube_id = extra_data.cube_type
@@ -124,6 +125,11 @@ function cube_locator:update()
             if ent ~= nil then 
                 Action.SendForLocalFaction("update_cube_location",{ent.key,id,ent.location})
             end
+        end
+        if (faction:IsUnlocked("tc_cube_anti_4")) then 
+            self.margin_top = 140
+        else
+            self.margin_top = 167
         end
     end
 end

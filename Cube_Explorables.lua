@@ -21,6 +21,67 @@ data.explorables.ruined_component = nil
 data.explorables.roaming_bot = nil
 data.explorables.m_world_a = nil
 
+------------------ Explorables 
+local cc_explorable_fix_volcano = Comp:RegisterComponent("cc_explorable_fix_volcano", {
+	name = "Repair Required",
+	texture = "Main/textures/icons/components/int.png",
+	--effect = "fx_leaves",
+	activation = "OnAnyItemSlotChange",
+	type = "Puzzle",
+	on_solved = function(comp, explorable_race, faction)
+		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		Map.Defer(function ()
+			comp.owner.faction = faction.id--Map.GetPlayerFactions()[1]
+			comp.owner:AddComponent("cc_cube_melter")
+			comp.owner:AddItem(comp.extra_data.explorable_fix)
+			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
+			if comp_puzzle then comp_puzzle:Destroy() end
+			if not faction:IsUnlocked("tc_cube_red_1") then faction:Unlock("tc_cube_red_1") end
+			comp:Destroy()
+		end)
+	end,
+	explorable_fix = "ic_cube_empty",
+	slots = {cube = 1}
+})
+function cc_explorable_fix_volcano:on_update(comp, cause)
+	local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
+	local slot = comp.owner:FindSlot(fix_item, 1)
+	if slot then
+		Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
+	end
+end
+
+local cc_explorable_fix_wire_weed = Comp:RegisterComponent("cc_explorable_fix_wire_weed", {
+	name = "Repair Required",
+	texture = "Main/textures/icons/components/int.png",
+	--effect = "fx_leaves",
+	activation = "OnAnyItemSlotChange",
+	type = "Puzzle",
+	explorable_fix = "datakey_robot",
+	on_solved = function(comp, explorable_race, faction)
+		comp.owner:SetRegister(FRAMEREG_SIGNAL, nil)
+		if not faction:IsUnlocked("tc_cube_green_1") then faction:Unlock("tc_cube_green_1") end
+		Map.Defer(function ()
+			comp.owner:AddItem("cc_planter_wire", 1, false, {
+				yield = 1 + math.floor(math.random()*math.random() * 5 ),
+				growth_time = 300 - math.random(-100, 100),
+			})
+
+			local comp_puzzle = comp.owner:FindComponent ("c_explorable_netwalk")
+			if comp_puzzle then comp_puzzle:Destroy() end
+			--comp:Destroy()
+		end)
+	end,
+	on_update = function(self, comp, cause)
+		local fix_item = comp.has_extra_data and comp.extra_data.explorable_fix or self.explorable_fix
+		local slot = comp.owner:FindSlot(fix_item, 1)
+		if slot then
+			Map.Defer(function() if comp.exists and slot.exists and slot.unreserved_stack > 0 then FactionAction.ExplorableSolvePuzzle(comp.faction, { comp = comp, consume_slot = slot  }) end end)
+		end
+	end
+})
+table.insert(data.puzzles.robot, "cc_explorable_fix_volcano")
+table.insert(data.puzzles.robot, "cc_explorable_fix_wire_weed")
 
 local ec_volcano = {
     name = "volcano",
@@ -31,7 +92,7 @@ function ec_volcano:GetRelevancy(x, y, info)
 end
 
 local function add_volcano(x,y)
-    local volcano = Map.CreateEntity("world", "fc_volcano")
+    local volcano = Map.CreateEntity("world", "fc_volcano",true)
 
 	volcano.extra_data.rewards = {ic_cube_red = 1}
 
@@ -69,19 +130,17 @@ function ec_wire_weed:GetRelevancy(x, y, info)
 	if info.blightness_delta > 0 then return 0.0 end
 
 	return 0.2
-
-
 end
 
 function ec_wire_weed:SpawnExplorable(x, y)
-    local ruin_comp = Map.CreateEntity("world", "f_explorable", 'vc_sea_grass', true)
-    ruin_comp.extra_data.rewards = {cc_planter_wire = 1}
-    ruin_comp:Place(x, y, math.random(4)-1)
+    local weed = Map.CreateEntity("world", "fc_wire_weed", true)
+    weed.extra_data.rewards = {crystal = 1}
     -- add fixx item lvl1 
-    local fix = ruin_comp:AddComponent("c_explorable_fix", "hidden")
+    local fix = weed:AddComponent("cc_explorable_fix_wire_weed", "hidden")
     fix.extra_data.explorable_fix = "datakey_robot"
-    ruin_comp:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
-
+    weed:SetRegister(FRAMEREG_SIGNAL, { id = "datakey_robot", num = 1 })
+    weed.extra_data.auto_destroy = true
+    weed:Place(x, y, math.random(4)-1)
 end
 
 data.explorables.ec_wire_weed = ec_wire_weed
