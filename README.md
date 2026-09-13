@@ -9,9 +9,6 @@ Lots of new features and interesting designs. It is not simply a reshuffle of cr
 Some new recipes may require you to design new infastructure and behaviours. 
 All power generation involves the Cube.
 
-> ** YOU MUST USE THE CUSTOM STARTING SCENARIO! **
-it will not spawn a cube otherwise
-
 If you are lost the codex should explain everything. Let me know if it does not. 
 
 ## Features:
@@ -52,7 +49,6 @@ If you want to cheat there is two bools at the top of the Cube_Scenario file. on
 ## Known Bugs 
 
     -TimeTravel machine randomizes required input on requip with no downside
-    -New Game does not use the Cube Scenario must use scenario select
     -Hitbox of new visuals doesn not exist. Engine Cannot currently import hitbox models for a mod.
     -Engine doesn't support importing animated models for a mods 
     -Gyroscope storage does not update visual until reload. same for both cube holder and storage comp.
