@@ -160,7 +160,7 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 			if AddStat("icon_small_time", string.format("<gl>%.f</>", comp.extra_data.growth_time / TICKS_PER_SECOND), "Growth Time [seconds]") then goto full end
 		end
 	end
-
+	-- cube for components that are in an inventory 
 	if header_type == "STAT_EXTRA_DATA" then 
 		if comp and comp.yield then
 			if AddStat("icon_small_seed", string.format("<gl>%.f</>", comp.yield), "Yield") then goto full end
@@ -860,7 +860,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 			remain_stat_lines = v[2] == "hidden" and comp_def.get_ui and AddStats(remain_stat_lines, list, 'STAT_COMPONENT', comp_def, stat_comp, entity, faction) or remain_stat_lines
 			if remain_stat_lines < 0 then break end
 		end
-	elseif options.slot and options.slot.has_extra_data and options.slot.extra_data.yield then 
+	elseif options and  options.slot and options.slot.has_extra_data and options.slot.extra_data.yield then 
 		print(options.slot.extra_data, options.slot.id)
 		remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_EXTRA_DATA', {}, options.slot.extra_data , entity, faction)
 	end

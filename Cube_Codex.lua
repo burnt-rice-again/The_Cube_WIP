@@ -456,13 +456,14 @@ data.codex.xc_pop_1 = {
             talkinghead = true, 
             txt = [[
     With stronger steel frames the cube can be supported on <hl>new buildings</> with a <img id="cc_cube_storage" width="50" height="50"/>.
-    Curiosity heuristic has opened avenues for further study of the Cube
+    Curiosity heuristic has opened new avenues for further study of the Cube
 
     However great buffers of power will be required. 
     Begin expanding power production through the use of crystal generators <img id="cc_crystal_power" width="50" height="50"/>
     Then study the cube to produce cube logs. <img id="datakey_robot" width="50" height="50"/>
     
-    <bl>New Tech Category Unlocked</>
+    <bl>New Tech Category Unlocked - Cube Curiosity</>
+
     <bl>Codex has been updated</>
     ]],
             step_txt = "Setup a Cube Log Production facility with the power to support it"
@@ -472,37 +473,82 @@ data.codex.xc_pop_1 = {
             img = data.items.ic_cube_empty.texture,
             talkinghead = true, 
             txt = [[
+    Study Results: The cube can empathise with materials at the right frequency to change their state. 
 
-    Study Results: The cube can empathise with materials at the right frequency to change thier state. 
-
-    Crystals are the prime candiate for refinging.
+    Crystals are the prime candiate for refining into a material capable of <hl>advanced energy control.</>
 
     Set up Crystal Powder production <img id="crystal_powder" width="50" height="50"/>
+    Ensure to include a <img id="cc_cube_recharger" width="50" height="50"/> cube recharger to rengergize the cube.
+    Both crafting and recharging will require a large buffer of power.
     
+    <bl>New Tech Category Unlocked - Components</> 
+
     <bl>Codex has been updated</>
     ]],
             step_txt = "Setup a Crystal Powder Production and research further Cube techs"
-        },     
-        { --- 5 red 1
-            img = data.items.ic_cube_red.texture,
+        },    
+        {  --- 4 blue 1
+            img = data.items.ic_soul_plasma.texture,
             talkinghead = true, 
-            txt = [[THE CUBE MELTS
-            
-    Deep in the fires of the earth. A churning sea of hatred
+            txt = [[
+    The Cube has reacted strongly to a concept called <rl>emotions</>
 
-    The cube melts its exterior away. 
+    A strong source of emotions has been found on the plataues.  <img id="bug_carapace" width="50" height="50"/>
+
+    Capture souls from these <rl>friends</> and process them in the soul refinery
+
+    Soulplasma is highly unstable and must be transported through relay towers <img id="fc_pipe" width="50" height="50"/>
+
+    Begin a soulplasma network to supply future crafting recipes.
+    Or run this factory using the power of <rl>friendship</>.
+    
+    <bl>Codex has been updated</>
     ]],
-            step_txt = "Find uses for the FURY CUBE"
-        },
+            step_txt = ""
+        },    
+    --     { --- 5 red 1
+    --         img = data.items.ic_cube_red.texture,
+    --         talkinghead = true, 
+    --         txt = [[THE CUBE MELTS
+            
+    -- Deep in the fires of the earth. A churning sea of hatred
+
+    -- The cube melts its exterior away. 
+    -- ]],
+    --         step_txt = "Find uses for the FURY CUBE"
+    --     },
 
         {-- 6 anti cube splitting
             img = data.items.ic_cube_sphere.texture,
             talkinghead = true, 
             txt = [[
+    <hl>Impossible a sphere inside the cube!</>
 
-    Impossible a sphere inside the cube!
+    <hl>Shoot it! </>
+    
+    <hl>Terminate this vertexless abomination</>
     ]],
             step_txt = "Crack open the Cube"
+        },
+        {-- 7 anti cube anhillation
+            img = data.items.ic_cube_sphere.texture,
+            talkinghead = true, 
+            txt = [[
+    Entry 005:
+    The anti-cube now blankets the entire factory.
+    All routes from the command centre have been cutoff.
+
+    The research is conclusive.  
+    The Cube may only exist in 1 state.
+    The Anti-Cube can inhabit an infinate number of states simultaneously.
+    Interacting with the Anti-Cube causes its state to shift. 
+    However it will now exist in both the new <bl>and</> previous state. 
+
+    By sheer luck the Cube came into contact with a state of the Anti-Cube and anhillated it. 
+
+    Now to clean up all <bl>1024</> Anti-Cube states across the factory.
+    ]],
+            step_txt = "Harvest unstable chrono crystals from the anhilated anti-cubes"
         },
         {-- 7 final project
             img = data.items.ic_micro_universe.texture,
@@ -528,9 +574,9 @@ data.codex.xc_pop_1 = {
     steps = 10,
     goal_check = function(faction)
 
-        if faction:IsUnlocked("tc_cube_anti_4") then return 7 end
+        if faction:IsUnlocked("tc_cube_blue_4") then return 7 end
         if faction:IsUnlocked("tc_cube_blue_3") then return 6 end
-        if faction:IsUnlocked("tc_cube_red_1") then return 5 end
+        if faction:IsUnlocked("tc_cube_blue_2") then return 5 end
         if faction:IsUnlocked("tc_cube_blue_1") then return 4 end
         if faction:IsUnlocked("tc_robot_metallurgy_1") then return 3 end
         return 2
