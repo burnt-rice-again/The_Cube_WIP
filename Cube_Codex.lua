@@ -177,6 +177,9 @@ data.codex.xc_cube_alt = {
         Functionally all produced items are the original. The alternative only shows up in crafting registers.
 
         ]],
+        talkinghead = true,
+        img = data.items.datakey_robot.texture,
+        txt = [[<bl>Codex has been updated</>]]
 }
 data.codex.xc_cube_green = {
     category = "Codex",
