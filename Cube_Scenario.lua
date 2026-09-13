@@ -18,20 +18,7 @@ function package:init()
 	Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = nil
 	Game.GetModPackage("Main/Freeplay").on_world_spawn = nil
 	Game.GetModPackage("Main/Freeplay").setup_scenario = nil
-	data.world_events = {}
-	data.explorables.graveyard_drop = nil
-	data.codex.x_human_robot_datacube = nil
-	data.codex.x_human_human_datacube = nil
-	data.codex.x_freeplay_restart = nil
-	data.codex.x_freeplay_start = nil
-	data.codex.x_freeplay_techtree = {category = "Mission",}
-	data.codex.x_freeplay_builduplink = {category = "Mission",}
-	data.codex.x_tutorial = {category = "Mission",}
-	data.codex.x_freeplay_blight_discovery = {category = "Mission",}
-	data.codex.x_freeplay_blight = {category = "Mission",}
-	data.codex.x_freeplay_start = nil
-	data.codex.x_freeplay_start = nil
-	data.codex.x_freeplay_start = nil
+
 
 	MapMsg.OnFactionCount = function() return end
 
@@ -268,7 +255,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	gyro:AddItem("ic_broken_reality", 20)
 	gyro:AddItem("ic_proto_sent", 20)
 	gyro:AddItem("ic_matter", 20)
-	gyro:AddItem("ic_cube_empty", 1)
+	gyro:AddItem("ic_cube_red", 1)
 
 	gyro:Place(loc.x,loc.y-10)
 

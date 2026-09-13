@@ -6,6 +6,23 @@
 -- 	["Codex"]     = 4,
 -- 	["How to Play"]  = 5,
 -- }
+-- remove freeplay missions 
+data.world_events = {}
+data.explorables.graveyard_drop = nil
+data.codex.x_human_robot_datacube = nil
+data.codex.x_human_human_datacube = nil
+data.codex.x_freeplay_restart = nil
+data.codex.x_freeplay_start = nil
+data.codex.x_freeplay_techtree = {category = "Mission",}
+data.codex.x_freeplay_builduplink = {category = "Mission",}
+data.codex.x_tutorial = {category = "Mission",}
+data.codex.x_freeplay_blight_discovery = {category = "Mission",}
+data.codex.x_freeplay_blight = {category = "Mission",}
+data.codex.x_goal_researchblight = {category = "Mission",}
+data.codex.x_freeplay_start = nil
+data.codex.x_freeplay_start = nil
+
+
 data.codex.x_behaviors.category = "How to Play"
 
 data.codex.xc_cube_1 = {
@@ -205,6 +222,18 @@ data.codex.xc_cube_green = {
 
         <img image="The_Cube_WIP/textures/Codex_Images/Farm_Showing_Range.png"/>  
         ]],
+        talkinghead = true,
+        img = data.items.ic_cube_green.texture,
+        txt = [[
+        Green objects move faster.
+        Or itleast the Green Cube does. 
+
+        Its surface constanlty shifting and shimmering the cube is prepared. 
+
+        <hl>Bots holding the green cube will move faster by 90% instead of slower</>
+
+        <bl>Codex has been updated</>
+        ]],
 }
 data.codex.xc_cube_red = {
     category = "Codex",
@@ -229,6 +258,16 @@ data.codex.xc_cube_red = {
         Other Similiar Power Components 
         <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
         <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+        ]],
+        talkinghead = true,
+        img = data.items.ic_cube_red.texture,
+        txt = [[
+        Deep in the earth the planet rages. 
+        A molten ocean of dreams forever trapped under a thin blanket of reality.
+
+        <hl>The Cube is Furious</>
+
+        <bl>Codex has been updated</>
         ]],
 }
 
@@ -267,6 +306,10 @@ data.codex.xc_cube_anti = {
         There is a <hl>sphere</> inside the Cube!
 
         This anomalous sphere behaves in opposition to everything known about the cube. 
+        The Cube may only exist in 1 state.
+        The Anti-Cube can inhabit an infinate number of states simultaneously.
+        Interacting with the Anti-Cube causes its state to shift. 
+        However it will now exist in both the new <bl>and</> previous state. 
 
         <hl>Interaction with the Anti-Cube will cause it to duplicate</>
         Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
@@ -487,7 +530,7 @@ data.codex.xc_pop_1 = {
     ]],
             step_txt = "Setup a Crystal Powder Production and research further Cube techs"
         },    
-        {  --- 4 blue 1
+        {  --- 5 blue 1
             img = data.items.ic_soul_plasma.texture,
             talkinghead = true, 
             txt = [[
@@ -504,7 +547,7 @@ data.codex.xc_pop_1 = {
     
     <bl>Codex has been updated</>
     ]],
-            step_txt = ""
+            step_txt = "Harvest souls and process them into a haunting plasma"
         },    
     --     { --- 5 red 1
     --         img = data.items.ic_cube_red.texture,
@@ -527,6 +570,10 @@ data.codex.xc_pop_1 = {
     <hl>Shoot it! </>
     
     <hl>Terminate this vertexless abomination</>
+
+    Check the map around where the Cube was split for the Anti-Cube
+
+    <bl>Codex has been updated</>
     ]],
             step_txt = "Crack open the Cube"
         },
@@ -535,10 +582,10 @@ data.codex.xc_pop_1 = {
             talkinghead = true, 
             txt = [[
     Entry 005:
-    The anti-cube now blankets the entire factory.
+    The Anti-Cube now blankets the entire factory.
     All routes from the command centre have been cutoff.
 
-    The research is conclusive.  
+    The research is conclusive.
     The Cube may only exist in 1 state.
     The Anti-Cube can inhabit an infinate number of states simultaneously.
     Interacting with the Anti-Cube causes its state to shift. 
@@ -547,60 +594,87 @@ data.codex.xc_pop_1 = {
     By sheer luck the Cube came into contact with a state of the Anti-Cube and anhillated it. 
 
     Now to clean up all <bl>1024</> Anti-Cube states across the factory.
+
+    <bl>Codex has been updated</>
     ]],
             step_txt = "Harvest unstable chrono crystals from the anhilated anti-cubes"
         },
-        {-- 7 final project
+        {-- 8 Chrono Towers 
+            img = data.items.ic_time_crystal.texture,
+            talkinghead = true, 
+            txt = [[
+    Time crystals <img id="ic_time_crystal" width="50" height="50"/> allow for pockets of distorted time to increase productivity
+
+    <bl>Entry -255:</> When Pondered the Cube can reverse a system back to a prior memory
+    This effect should be researched for applications of time travel
+
+    Note: if successful return to now and provide the answer so the work can be skipped    
+
+    <bl>Codex has been updated</>
+    ]],
+        },
+        {-- 9 Time Travvel
+            img = data.components.cc_time_travel_machine.texture,
+            talkinghead = true, 
+            txt = [[
+    <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
+    The earliest known superconductor are manufactured 1024 years into the future. 
+
+    <hl>Using a time machine we can raid our future selves to obtain this material.</>
+    Each expedition will require items, components, cubes and frames to proceed further. 
+    Provide these materials before the portal collapses to reset the timer and obtain a superconductor.
+    
+    <hl>WARNING introspection has begin developing defence plans against time travel raids</>
+    Prepare accordingly to defend against <rl>self</>
+
+    <bl>Codex has been updated</>
+    ]],
+    step_txt = "Start a raid against our future selves"
+        },
+        {-- 10 final project
             img = data.items.ic_micro_universe.texture,
             talkinghead = true, 
-            txt = [[It is time 
-
+            txt = [[
     The research is complete. 
     The facts are clear
 
     This universe has run out of potential energy
-
     However that is not the end!
-
     There is a way to make new universes! with new potential!
 
     Create our final project.
+    Select our scion,
 
-    May the chain continue.
+    <hl>Enter the new universe </>
+
+    May the chain continue forever.
+
+    <bl>Codex has been updated</>
     ]],
-            step_txt = "Complete the work"
+            step_txt = "Craft a Microuniverse with a bot in its garage to start new game plus"
         },
     },
     steps = 10,
     goal_check = function(faction)
 
-        if faction:IsUnlocked("tc_cube_blue_4") then return 7 end
-        if faction:IsUnlocked("tc_cube_blue_3") then return 6 end
+        if faction:IsUnlocked("tc_cube_anti_4") then return 10 end
+        if faction:IsUnlocked("tc_cube_anti_3") then return 9 end
+        if faction:IsUnlocked("tc_cube_anti_1") then return 8 end
+        if faction:IsUnlocked("tc_cube_anti_0") then return 7 end
+        if faction:IsUnlocked("xc_cube_anti") then return 6 end
         if faction:IsUnlocked("tc_cube_blue_2") then return 5 end
         if faction:IsUnlocked("tc_cube_blue_1") then return 4 end
         if faction:IsUnlocked("tc_robot_metallurgy_1") then return 3 end
-        return 2
+        return 2 --unlock first two on game start
     end,
-	
+}
 
-}
--- Appears when steel is researched because cube techs are unlcoked 
-data.codex.xc_pop_2 = {
-	category = "Codex", index = 35, title = "Understanding The Cube",
-	talkinghead = true,
-	img = data.techs.tc_cube_blue_1.texture,
-	txt = [[
-     
-    ]]
-}
 -- Appears when green cube is researched 
-data.codex.xc_pop_2 = {
+data.codex.xc_pop_green_1 = {
 	category = "Codex", index = 35, title = "Understanding The Cube",
 	talkinghead = true,
 	img = data.techs.tc_cube_blue_1.texture,
 	txt = [[
-    
-    The Cube has been energized.
-    Its 
+
     ]]
 }

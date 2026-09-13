@@ -142,9 +142,10 @@ function Place_Anti_Cube(entity, do_again)
 	-- 		location = location.location
 	-- 	end
 	-- look for frame with space 
+	if not entity.faction:IsUnlocked("xc_cube_anti") then entity.faction:Unlock("xc_cube_anti") end
 	local range = 5
 	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 1, 1,range, FF_OWNFACTION, entity.faction)
-	for key, val in pairs(list_nearby) do 
+	for key, val in pairs(list_nearby) do
 		
 		if val:AddItem("ic_cube_sphere") ~= nil then
 			val:PlayEffect("fx_ping")
@@ -167,6 +168,7 @@ function Place_Anti_Cube(entity, do_again)
 		end
 	end)
 	if do_again == true then  Place_Anti_Cube(entity, false) end 
+	
 end 
 -- @id string checks if id is an alt recipe and returns the original item id if found or input id
 function SwitchAltIdForBase(id)

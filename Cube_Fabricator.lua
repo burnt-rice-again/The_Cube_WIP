@@ -15,7 +15,7 @@ local function replace_cube(recipe, entity)
 		for waste,num in pairs(recipe.byproduct) do
 			if waste == "ic_cube_sphere" then
 				-- special placement of anticube in area
-				anti_count = anti_count + 1
+				anti_count = num
 			else
 				AddCubeThroughFixed(entity,waste)
 			end

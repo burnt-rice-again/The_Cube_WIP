@@ -184,7 +184,7 @@ data.items.ic_cube_red = {
 data.items.ic_cube_green = {
 	name = "RESTLESS CUBE",
 	index = 1002,
-	desc = "<hl>THE CUBE IS RESTLESS</>\nSpeeds up holding unit",
+	desc = "<hl>THE CUBE IS SHIMMERING</>\nSpeeds up bots",
 	locked_desc = "Find a large weed in the plains and claim a cutting",
 	tag = "cube",
 	slot_type = "cube",
@@ -207,7 +207,9 @@ data.items.ic_cube_sphere = {
 	name = "ANTI - CUBE",
 	index = 1004,
 	desc = [[<hl>Heresey, there is a sphere inside the cube!</>
-<rl>WARNING: extremly unstable around the Cube</>]],
+<rl>WARNING: extremly unstable around the Cube</>
+The Anti-Cube can exist in an infinate number of states simultaneously.
+]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
@@ -216,7 +218,7 @@ data.items.ic_cube_sphere = {
 	visual = 'vc_cube_sphere_item',
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_cube_red = 1, ic_soul_plasma = 1,  }, 
-	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
+	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 2, ic_cube_empty = 1}),
 	--production_recipe = CreateProductionRecipeWithWaste(
 	-- { ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
 	-- 1, {ic_cube_sphere = 1, ic_cube_empty = 1}),
