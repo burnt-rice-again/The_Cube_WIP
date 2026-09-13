@@ -151,6 +151,14 @@ local function AddStats(max_lines, list, header_type, def, comp, entity, faction
 		if def.uplink_rate then
 			if AddStat("icon_tiny_energy_transmit", string.format("%.f%%", 100/def.uplink_rate), "Uplink Speed") then goto full end
 		end
+		-- CUBE addition for planters
+		if comp.extra_data.yield then
+			if AddStat("icon_small_seed", string.format("<gl>%.f</>", comp.extra_data.yield), "Yield") then goto full end
+		end
+		if comp.extra_data.growth_time then
+			max_lines = max_lines + 1
+			if AddStat("icon_small_time", string.format("<gl>%.f</>", comp.extra_data.growth_time / TICKS_PER_SECOND), "Growth Time [seconds]") then goto full end
+		end
 	end
 
 	if def.extra_stat then
