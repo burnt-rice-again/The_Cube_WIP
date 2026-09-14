@@ -60,7 +60,8 @@ local meshes = {
 data.visuals.vc_cube_blue = { 
     mesh = "The_Cube_WIP/textures/ultra_cube.glb", 
 	scale = {0.11,0.11,0.11},
-	mesh_offset = {0,0,100},
+	flags = "NoShadows"
+	--mesh_offset = {0,0,0},
 }
 data.visuals.vc_cube_empty = { 
     mesh = meshes.cube_blue, 
