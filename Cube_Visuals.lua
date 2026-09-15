@@ -58,15 +58,12 @@ local meshes = {
 
 -- cube component
 data.visuals.vc_cube_blue = { 
-    mesh = "The_Cube_WIP/textures/ultra_cube.glb", 
+    mesh = "The_Cube_WIP/textures/cube_blue.glb", 
 	scale = {0.11,0.11,0.11},
-	flags = "NoShadows"
-	--mesh_offset = {0,0,0},
 }
 data.visuals.vc_cube_empty = { 
-    mesh = meshes.cube_blue, 
-    --scale = { 4, 4, 4 },
-	flags = "NoMainPass",
+    mesh = "The_Cube_WIP/textures/cube_empty.glb", 
+	scale = {0.11,0.11,0.11},
 }
 data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Containers_Blight_Data.Containers_Blight_Data'"}
 -- components 

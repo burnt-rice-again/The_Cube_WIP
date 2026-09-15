@@ -165,7 +165,7 @@ data.items.ic_cube_empty = {
 	stack_size = 1,
 	race = "alien",
 	texture = "The_Cube_WIP/textures/cube_blue_drained.png",
-	visual = "v_gears",
+	visual = "vc_cube_empty",
 	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
 }
 data.items.ic_cube_red = {
