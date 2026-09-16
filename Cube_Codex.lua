@@ -36,7 +36,7 @@ data.codex.xc_cube_1 = {
 
     <hl>Our top priority is to understand and control the Cube and then look into a way to beat entropy.</>
 
-    Study Notes:
+    <bl>Study Notes:</>
     The Cube is perfectly flat on its surface down to the nm 
     Its density is beyond all readings 
     The Cube appears to impart logic and emotions on nearby materials
@@ -647,7 +647,7 @@ data.codex.xc_pop_1 = {
             talkinghead = true, 
             txt = [[
     <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
-    The earliest known superconductor are manufactured 1024 years into the future. 
+    The earliest known superconductors are manufactured 1024 years into the future. 
 
     <hl>Using a time machine we can raid our future selves to obtain this material.</>
     Each expedition will require items, components, cubes and frames to proceed further. 
@@ -680,7 +680,7 @@ data.codex.xc_pop_1 = {
 
     <bl>Codex has been updated</>
     ]],
-            step_txt = "Craft a Microuniverse with a bot in its garage to start new game plus"
+            step_txt = "Craft a Microuniverse with a bot in the loom's garage to start new game plus"
         },
     },
     steps = 10,

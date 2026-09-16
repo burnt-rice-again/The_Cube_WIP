@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
+local Unlock_All_Technologies = true
 local Start_with_Observers = false
 
 
@@ -183,6 +183,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	transport.disconnected = false
 	transport.extra_data.name = "CUBEy"
 	transport:Place(loc.x+4,loc.y+4)
+	transport:AddItem("ic_cube_empty")
+
 
 		--- new game plus bots 
 	if (settings.extra_bots) then 
