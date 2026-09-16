@@ -191,7 +191,7 @@ data.codex.xc_cube_green = {
 
         <bl>Bots holding the Restless Cube recieve a 80% move speed bonus instead.</>
 
-        <bl>Seeds are ocassionaly dropped from destroyed flowers.</><img id="v_is_flower" width="50" height="50"/>
+        <bl>Seeds are dropped from destroyed flowers.</><img id="v_is_flower" width="50" height="50"/>
         Farming requires the <bl>Restless Cube</> to plant these new crops 
         A planter will request the Cube when it has a plantable position available in range
         
