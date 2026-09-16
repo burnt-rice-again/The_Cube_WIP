@@ -680,7 +680,7 @@ data.codex.xc_pop_1 = {
 
     <bl>Codex has been updated</>
     ]],
-            step_txt = "Craft a Microuniverse with a bot in the loom's garage to start new game plus"
+    step_txt = "Craft a Microuniverse with a bot in the loom's garage to start new game plus"
         },
     },
     steps = 10,

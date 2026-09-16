@@ -28,7 +28,7 @@ data.frames.f_building2x1g.construction_recipe = CreateConstructionRecipe({ meta
 data.frames.f_building2x1f.construction_recipe = CreateConstructionRecipe({ metalplate = 8, crystal = 4, datakey_robot = 1 }, 20)
 -- lvl 1 
 data.frames.f_building1x1c.construction_recipe = CreateConstructionRecipe({ metalplate = 8,  crystal = 4 }, 20)
-data.frames.f_building1x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 16,  crystal = 8  }, 20)
+data.frames.f_building1x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 8,  crystal = 4  }, 20)
 data.frames.f_building2x1a.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 8, datakey_robot = 2 }, 30)
 data.frames.f_building2x2f.construction_recipe = CreateConstructionRecipe({ metalplate = 4, steelblock = 12, datakey_robot = 4 }, 30)
 data.frames.f_building1x1b.construction_recipe = CreateConstructionRecipe({ steelblock = 9, concreteslab = 12, datakey_robot = 1 }, 20)
@@ -75,11 +75,17 @@ data.frames.f_drone_defense_a.production_recipe = CreateProductionRecipe({ ldfra
 data.frames.f_beacon_l.construction_recipe = CreateConstructionRecipe({ beacon_frame = 5, ic_soul_happy = 1, phase_leaf = 2},25)
 
 -- foundations 
+data.frames.f_human_foundation_basic.construction_recipe = CreateConstructionRecipe({ concreteslab = 1},25)
+data.frames.f_human_foundation_basic.cost_modifier = 0.75
 data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_human_foundation_adv.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ crystal_powder = 1, reinforced_plate = 1},25)
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)
 data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 1, fused_electrodes = 1},25)
+data.frames.f_human_foundation_basic.race = "robot"
+data.frames.f_human_foundation1.race = "robot"
+data.frames.f_human_foundation_adv.race = "robot"
+
 
 -- remove blight charger from some bots 
 data.frames.f_flyer_bot.components = {{ "c_higrade_capacitor", "hidden" }}

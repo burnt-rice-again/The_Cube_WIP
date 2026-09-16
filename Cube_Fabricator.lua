@@ -376,7 +376,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 })
 
 cc_cube_fabrication:RegisterComponent("cc_red_furnace",{
-	name = "Mantle Tear 2",
+	name = "Mantle Tear",
 	texture = "Main/textures/icons/alien/alienbuilding_alienheart.png",
 	desc = "Refined Sadness petrified into a moment of anguish",
 	visual = "v_explorable_blightanomaly_01",

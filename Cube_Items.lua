@@ -72,7 +72,7 @@ data.items.phase_leaf.race = "virus"
 data.items.phase_leaf.desc = "The fractal nature of this leaf causes anomlaous space distorations\nUseful for many alternative crafting recipes"
 
 data.items.wire.name = "Neurotic Reed Fibre"
-data.items.wire.desc = "Conductive reed fibre, wound and ready for higher conceptualization"
+data.items.wire.desc = "Neurotic reed fibre, wound and ready for higher conceptualization"
 data.items.wire.production_recipe = false
 data.items.wire.race = "virus"
 data.items.wire.index = 1011
@@ -113,7 +113,7 @@ data.items.steelblock.visual = data.items.metalbar.visual
 -- 	{desc = "Laterite Steel Alloy"}
 -- )
 
-data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now that is all that's left"
+data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now they are all that's left"
 data.items.concreteslab.production_recipe = CreateProductionRecipe(
 {steelblock = 2, metalore = 4  }, {c_fabricator = 30}, 1)
 data.items.concreteslab.tag = "simple_material"
@@ -122,7 +122,7 @@ create_alt_recipe("concreteslab",
 	CreateProductionRecipe(
 	{reinforced_plate = 1, wire = 5, metalore = 5}, 
 	{c_fabricator = 25},
-	8),
+	10),
 	{desc = "Reinforced Concrete Mixing"}
 )
 data.items.beacon_frame.production_recipe = CreateProductionRecipe({steelblock = 5, datakey_robot = 1}, {c_fabricator = 40, c_assembler = 30}, 1)
@@ -149,7 +149,7 @@ data.items.ic_cube_blue = {
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
-	texture = "Main/textures/icons/items/robot_research_cube.png",
+	texture = 'The_Cube_WIP/textures/cube_blue.png',
 	visual = "vc_cube_blue",--"v_robot_data",
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
@@ -164,7 +164,7 @@ data.items.ic_cube_empty = {
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
-	texture = "The_Cube_WIP/textures/cube_blue_drained.png",
+	texture = "The_Cube_WIP/textures/cube_empty.png",
 	visual = "vc_cube_empty",
 	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
 }

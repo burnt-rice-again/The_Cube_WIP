@@ -23,7 +23,7 @@ local cc_crystal_power = Comp:RegisterComponent("cc_crystal_power", {
 	name = "Crystal Power", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/components/component_crystalpower_01_s.png",
 	desc = [[Produces a small amount of power with the cube and crystals
-		<img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/items/robot_research_cube.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+		<img width="50" height="50" image="The_Cube_WIP/textures/cube_blue.png"/><img width="50" height="50" image="Main/textures/icons/items/rawcrystal.png"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="The_Cube_WIP/textures/cube_blue.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Will Produce constant power for a set duration once the inputs are supplied.
 Will Request inputs when battery % below input register (must have battery)
 Power output is affected by component effciency boosts.]],

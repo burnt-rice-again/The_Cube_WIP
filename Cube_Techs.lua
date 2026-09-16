@@ -428,7 +428,7 @@ data.techs.tc_robot_metallurgy_1 = {
 data.techs.tc_robot_metallurgy_2 = {
 	order = 2,
 	name = "More Materials", -- recovered database etc.
-	desc = "Stronger materials for construction\n<hl>This research will unlock another strand of self introspection</>",
+	desc = "Stronger materials for construction",
 	texture = data.items.concreteslab.texture,
 	unlocks = {
 		-- new resources
@@ -484,7 +484,7 @@ data.techs.tc_robot_frames_1 = {
 data.techs.tc_robot_frames_2 = {
 	order = 1,
 	name = "Robotics II", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "<hl>Expanaded core capacity complete. Preparing auxilary systems for development</>",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resoures
@@ -531,7 +531,7 @@ data.techs.tc_robot_frames_5 = {
 		-- new resources
 		"f_bot_1s_as","f_bot_1m1s",
 	},
-	require_tech = { "tc_robot_frames_4" },
+	require_tech = { "tc_building4","tc_robot_frames_4" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ reinforced_plate = 1, ic_soul_happy = 1}, 50),
 	category = "Humility",
@@ -625,7 +625,7 @@ data.techs.tc_building3= {
 data.techs.tc_building4= {
 	order = 30,
 	name = "Circuited Buildings", -- recovered database etc.
-	desc = "",
+	desc = "<hl>Despite our achievements the cube is still an anomaly.</>\n\n<hl>By being humble we will grow further still</>",
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
@@ -819,7 +819,7 @@ data.techs.tc_weapons1 = {
 		-- new resources
 		'c_repairkit',"c_repairer","c_melee_pulse","c_adv_portable_turret",
 	},
-	require_tech = {"tc_robot_metallurgy_2" },
+	require_tech = {"tc_robot_frames_2" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
 	category = "Maximum Lethality",
@@ -1026,7 +1026,7 @@ data.techs.tc_robot_floor_1 = {
 	unlocks = {
 		"f_human_foundation1","f_human_foundation_adv"
 	},
-	require_tech = { "tc_robot_metallurgy_2"},
+	require_tech = { "tc_robot_frames_2","tc_robot_metallurgy_2"},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1}, 50),
 	category = "Maximum Lethality",

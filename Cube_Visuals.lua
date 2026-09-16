@@ -114,12 +114,6 @@ data.visuals.vc_chrono_tower = {
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 
-
--- data.visuals.vc_cube_blue = {
--- 	mesh = "The_Cube_WIP/textures/In Progress Blender/Cube_3.glb",
--- 	--mesh_offset = { 0, 0, 1000000},
--- 	scale = {0.03,0.03,0.03},
--- }
 -- change other cubes cull distance 
 data.visuals.v_gears.cull_ratio = 1 
 data.visuals.v_alien_data.cull_ratio = 1 
