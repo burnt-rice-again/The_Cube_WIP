@@ -202,14 +202,28 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 	--power = -5, -- -20a
 	slots = {storage = 4, cube = 1 },
 	--construction_recipe = CreateConstructionRecipe({ concreteslab = 20, steelblock = 20 }, 120),
-	texture = "Main/textures/icons/values/plateau.png",
+	texture = data.values.v_is_flower.texture,
 	visual = "vc_sea_grass",
     components = {
 		--{ "cc_explorable_fix", 'hidden' },
 		--{"c_explorable_netwalk", 'hidden'}
 	},
 	is_explorable = true,
+	on_destroy = function(self, entity, damager)
+		if not damager then return end
+		Map.DropItemAt(entity.location, "cc_planter_wire", 1,{
+			yield = 1, 
+			growth_time = 300 + math.random(-100,100)
+		}, "f_dropped_resource")
+	end,
+	drop_on_deconstruct = function(x, y)
+		Map.DropItemAt(x,y, "cc_planter_wire", 1,{
+			yield = 1, 
+			growth_time = 300 + math.random(-100,100)
+		}, "f_dropped_resource")
+	end,
 })
+
 
 -- Endgame Building
 Frame:RegisterFrame("fc_gyro",{
@@ -238,5 +252,30 @@ Frame:RegisterFrame("fc_testing_observer",{
 	name = "obeserving tower",
 	visibility_range = 150,
 })
+
+----- Plants 
+---
+data.frames.f_phase_plant.on_destroy = function(self, entity, damager)
+	--phase plants drop a leaf even without a damager due to self-destruction by on_trigger of c_phase_plant
+	if entity.faction.is_player_controlled then return end
+	Map.DropItemAt(entity.location, "phase_leaf", math.random(3), "f_dropped_resource")
+	if (math.random() > 0) then 
+		Map.DropItemAt(entity.location, "cc_planter_phase_leaf",1,{
+			growth_time = 1000 + math.random(-300,300),
+			yield = 1
+		}, "f_dropped_resource")
+	end
+end
+data.frames.f_damage_plant.on_destroy = function(self, entity, damager)
+	--phase plants drop a leaf even without a damager due to self-destruction by on_trigger of c_phase_plant
+	if entity.faction.is_player_controlled then return end
+	Map.DropItemAt(entity.location, "phase_leaf", math.random(3), "f_dropped_resource")
+	if (math.random() > 0) then 
+		Map.DropItemAt(entity.location, "cc_planter_phase_leaf",1,{
+			growth_time = 1000 + math.random(-300,300),
+			yield = 1
+		}, "f_dropped_resource")
+	end
+end
 
 

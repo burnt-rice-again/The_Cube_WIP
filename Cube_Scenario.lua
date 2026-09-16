@@ -1,7 +1,7 @@
 
 --- ENABLE CHEATS HERE
 local Unlock_All_Technologies = false
-local Start_with_Observers = false
+local Start_with_Observers = true
 
 
 
@@ -253,24 +253,24 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_empty", num = 1 })
 	-- volcano:Place(loc.x+3,loc.y+6)
 
-	local gyro = Map.CreateEntity(faction, "fc_gyro")
-	gyro:AddComponent("cc_cube_storage")
-	gyro:AddItem("ic_broken_reality", 20)
-	gyro:AddItem("ic_proto_sent", 20)
-	gyro:AddItem("ic_matter", 20)
-	gyro:AddItem("ic_cube_red", 1)
-	gyro:Place(loc.x,loc.y-10)
+	-- local gyro = Map.CreateEntity(faction, "fc_gyro")
+	-- gyro:AddComponent("cc_cube_storage")
+	-- gyro:AddItem("ic_broken_reality", 20)
+	-- gyro:AddItem("ic_proto_sent", 20)
+	-- gyro:AddItem("ic_matter", 20)
+	-- gyro:AddItem("ic_cube_red", 1)
+	-- gyro:Place(loc.x,loc.y-10)
 
-	local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	recharger:AddComponent("cc_pipe_output")
-	recharger:AddComponent("cc_cube_storage")
-	recharger:AddComponent("cc_crystal_power_red")
-	recharger:AddComponent("cc_cheat_tech")
-	recharger:AddItem("ic_soul_plasma",100)
-	recharger:AddItem("crystal_powder",40)
-	recharger:AddItem("reinforced_plate",40)
-	recharger:AddItem("ic_cube_red")
-	recharger:Place(loc.x-3,loc.y+10)
+	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	-- recharger:AddComponent("cc_pipe_output")
+	-- recharger:AddComponent("cc_cube_storage")
+	-- recharger:AddComponent("cc_crystal_power_red")
+	-- recharger:AddComponent("cc_cheat_tech")
+	-- recharger:AddItem("ic_soul_plasma",100)
+	-- recharger:AddItem("crystal_powder",40)
+	-- recharger:AddItem("reinforced_plate",40)
+	-- recharger:AddItem("ic_cube_red")
+	-- recharger:Place(loc.x-3,loc.y+10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- recharger:AddComponent("cc_time_travel_machine")
