@@ -190,7 +190,7 @@ data.items.ic_cube_green = {
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
-	texture = "Main/textures/icons/items/virus_research_data.png",
+	texture = "The_Cube_WIP/textures/cube_green.png",
 	visual = "vc_cube_green",
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_cube_blue = 1, crystal_powder = 1 }, { cc_manifest = 25, },1, {ic_cube_green = 1}),--phase_leaf = 6

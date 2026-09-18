@@ -5,7 +5,7 @@ local cube_locator_layout <const> =
 [[
 	<Box dock=top-left padding=3 margin_top={margin_top} margin_left = 5>
 		<Canvas on_click={goto_cube} tooltip={cube_tooltip}>
-            <Reg bg=item_default def_id={cube_id} on_click={goto_cube} width=40 height=40/>
+            <Reg bg=item_default def_id={cube_id} on_click={goto_cube} width=50 height=50/>
         </Canvas>
 	</Box>
 ]]
