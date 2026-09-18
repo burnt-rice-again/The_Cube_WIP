@@ -31,10 +31,6 @@ function package:on_world_spawn()
 	local faction_time_bots = Map.CreateFaction("time_bots")
 	faction_time_bots.default_trust = "ENEMY"
 
-	
-
-
-
 end
 
 local function tester_spawn_observers(faction, x,y)
@@ -333,7 +329,33 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
-
+	transport = Map.CreateEntity(faction, "f_bot_1m_a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_empty")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_bot_1m_a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_red")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_bot_1m_a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_green")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
 	if Start_with_Observers then tester_spawn_observers(faction, loc.x,loc.y) end
 	 
 end

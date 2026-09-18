@@ -65,6 +65,10 @@ data.visuals.vc_cube_empty = {
     mesh = "The_Cube_WIP/textures/cube_empty.glb", 
 	scale = {0.11,0.11,0.11},
 }
+data.visuals.vc_cube_green = { 
+    mesh = "The_Cube_WIP/textures/cube_green.glb", 
+	scale = {0.11,0.11,0.11},
+}
 data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Containers_Blight_Data.Containers_Blight_Data'"}
 -- components 
 data.visuals.vc_cube_storage = { 
