@@ -178,7 +178,7 @@ data.items.ic_cube_red = {
 	stack_size = 1,
 	race = "alien",
 	texture = "Main/textures/icons/items/alien_datacube.png",
-	visual = "v_alien_data",
+	visual = "vc_cube_red",
 	--production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1 }, { c_robotics_factory = 200, }),
 }
 data.items.ic_cube_green = {
