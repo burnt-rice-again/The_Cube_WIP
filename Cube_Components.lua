@@ -623,7 +623,7 @@ local cc_temp_boost = Comp:RegisterComponent("cc_temp_boost", {
 	activation = "Manual",
 	boost = 50,
 	boost_id = "component_boost", -- or move_boost
-	wait_ticks = 25,
+	wait_ticks = 100,
 })
 function cc_temp_boost:update_boost(comp, remove)
 	local owner = comp.owner

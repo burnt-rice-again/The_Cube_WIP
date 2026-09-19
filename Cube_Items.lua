@@ -177,7 +177,7 @@ data.items.ic_cube_red = {
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
-	texture = "Main/textures/icons/items/alien_datacube.png",
+	texture = "The_Cube_WIP/textures/cube_red.png",
 	visual = "vc_cube_red",
 	--production_recipe = CreateProductionRecipe({ crystal_powder = 2, hdframe = 1 }, { c_robotics_factory = 200, }),
 }
@@ -360,8 +360,8 @@ data.items.ic_fuel = {
 	slot_type = "storage",
 	stack_size = 20,
 	production_recipe = CreateProductionRecipe(
-	{ phase_leaf = 10, crystal_powder = 1, blight_crystal = 2}, 
-	{ cc_soul_refinery = 20, cc_red_furnace = 15 }, 20),
+	{ phase_leaf = 40, ic_soul_plasma = 1, blight_crystal = 2}, 
+	{ cc_soul_refinery = 100, cc_red_furnace = 30 }, 40),
 }
 data.items.ic_time_crystal = {
 	name = 'Chrono Crystal',
