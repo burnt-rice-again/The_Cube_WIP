@@ -117,7 +117,7 @@ data.visuals.vc_tower1 = {
 data.visuals.vc_chrono_tower = {
 	mesh = "The_Cube_WIP/textures/BoostTower_1.glb",	
 	--mesh_offset = {0,0,100	},
-	scale = {0.2,0.2,0.2},
+	scale = {0.18,0.18,0.18},
 	mesh_sockets = { ["fx"] = {0,0,1470} },
 	--cull_ratio = CONTAINER_CULL_DIST
 }
