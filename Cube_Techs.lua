@@ -303,7 +303,7 @@ data.techs.tc_cube_green_4 = {
 	unlocks = {
 		-- new resources
 		-- phase farming 
-		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
+		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant',"ic_time_crystal_alt"
 	},
 	require_tech = { "tc_cube_anti_0", "tc_cube_green_3" },
 	progress_count = 100,

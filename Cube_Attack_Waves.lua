@@ -230,7 +230,7 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
 	visual = "v_teleporter_01_l",  --"v_scienceanalyzer_l",
 	effect = "fx_unit_teleport",
 	slots = { garage = 1 },
-	power = 0,---1000,
+	power = -11111,
 	production_recipe = CreateProductionRecipe({["steelblock"]=100,["concreteslab"]=100,["phase_leaf"]=50,["wire"] = 50}, {["c_assembler"] = 150}, 1),
 	activation = "OnAnyItemSlotChange",
 	--power = -500,
@@ -334,9 +334,9 @@ end
 
 local function new_order_id(comp)
     local req <const> = {
-    "ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty","ic_cube_sphere",
+    "ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty",
     "c_adv_portable_turret","c_shield_generator2","c_shield_generator","c_radio_transmitter","c_radio_receiver",
-    "ic_soul_angry","ic_soul_happy","phase_leaf","ic_time_crystal","ic_time_crystal","ic_time_crystal",
+    "ic_soul_angry","ic_soul_happy","phase_leaf","phase_leaf","ic_time_crystal","ic_time_crystal","ic_time_crystal",
     "f_bot_1s_b","f_bot_1m1s","f_flyer_m"
     }
     local new_id = req[math.random(1,#req)]

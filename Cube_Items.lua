@@ -375,6 +375,11 @@ data.items.ic_time_crystal = {
 	texture = "The_Cube_WIP/textures/TimeCrystal.png",
 	production_recipe = CreateProductionRecipe({ blight_crystal = 9, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
+create_alt_recipe("ic_time_crystal",
+	CreateProductionRecipeWithWaste(
+		{blight_crystal = 12, ic_soul_happy = 1, phase_leaf = 10, reinforced_plate = 2 }, 
+		{cc_manifest = 100, cc_green_brain = 50},
+		4),{desc = "More effcient chrono crystal stabilization using phase leaves"})
 data.items.blight_crystal.name = "Unstable Chrono Crystal"
 data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>anhillation</> of the AntiCube"
 

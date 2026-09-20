@@ -11,8 +11,9 @@ TODO visuals
     imporive new 3d files 
     improvements to timetravel UI element
 
+waste outputs should show up in the tool tip for crafting
 
-
+restless cube alt recipe shows both in tooltip
 
 --- stuff i cant do because there isnt a method 
 biome probabilites 
