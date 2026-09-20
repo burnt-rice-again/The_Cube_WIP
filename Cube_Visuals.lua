@@ -178,7 +178,7 @@ data.visuals.vc_crop_wire_seed3.scale = {1.4,1.4,1.4}
 data.visuals.vc_crop_wire_seed4 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed4.scale = {1.7,1.7,1.7}
 
-data.visuals.vc_crop_phase = Tool.Copy(data.visuals.v_phase_plant)
+data.visuals.vc_crop_phase = Tool.Copy(data.visuals.v_damage_plant)
 data.visuals.vc_crop_phase.scale = {2,2,2}
 data.visuals.vc_crop_phase.flags = "RandomRotation|RandomScale|RandomTranslation"
 
