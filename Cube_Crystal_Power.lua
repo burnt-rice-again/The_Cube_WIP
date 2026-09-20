@@ -138,6 +138,8 @@ Power output is affected by component effciency boosts.]],
 	cube_out = "ic_cube_empty",
 	charge_time = 600*5,
 	drain_rate = 20000,
+	attachment_size = "Large",
+
 })
 
 -----------------------------------------------------------------------------

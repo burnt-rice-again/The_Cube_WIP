@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = true
+local Unlock_All_Technologies = false
 local Start_with_Observers = false
 
 
@@ -321,11 +321,18 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	-- defence_block:Place(loc.x+1,loc.y-6)
 
-	-- --- booot tower 
+	--- booot tower 
+	-- local defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	-- defence_block:Place(loc.x,loc.y+8)
+	-- home_entity:AddItem("ic_fuel", 40)
+
 	-- defence_block = Map.CreateEntity(faction, "fc_boost_tower")
 	-- defence_block:Place(loc.x,loc.y+8)
 	-- home_entity:AddItem("ic_fuel", 40)
 
+	-- defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	-- defence_block:Place(loc.x,loc.y+8)
+	-- home_entity:AddItem("ic_fuel", 40)
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
