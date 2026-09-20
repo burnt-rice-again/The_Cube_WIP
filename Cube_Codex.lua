@@ -360,8 +360,8 @@ data.codex.xc_cube_time_crystal = {
 data.codex.xc_cube_boost = {
     category = "Codex",
     index = 11,
-    title = [[<img width="18" height="18" id="ic_fuel"/>Boost Modules]],
-    text = [[<img width="100" height="100" id="ic_fuel"/><codex_title>Boost Modules</>
+    title = [[<img width="18" height="18" id="ic_time_crystal"/>Boost Modules]],
+    text = [[<img width="100" height="100" id="ic_time_crystal"/><codex_title>Boost Modules</>
 
         Effciency modules now require fuel to operate. 
         

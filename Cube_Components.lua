@@ -135,6 +135,11 @@ data.components.c_advanced_refinery.slots = {anomaly = 1}
 data.components.c_light.production_recipe = CreateProductionRecipe({metalplate=1,crystal=1}, {c_assembler = 50})
 data.components.c_light_rgb.production_recipe = CreateProductionRecipe({metalplate=1,crystal=1}, {c_assembler = 50})
 
+-- integrated power 
+data.components.c_integrated_power_cell.power = 0
+data.components.c_integrated_power_cell.range = 30
+
+
 -- speed modules 
 
 
@@ -168,6 +173,17 @@ local battery = data.components.c_medium_capacitor
 battery.power_storage = battery.power_storage * battery_modifier
 battery.drain_rate = battery.drain_rate * battery_modifier
 battery.charge_rate = battery.charge_rate * battery_modifier 
+
+
+data.components.c_modulehealth.production_recipe = CreateProductionRecipe({ reinforced_plate = 2, wire = 1 }, { c_assembler = 30, })
+data.components.c_modulehealth_s.production_recipe = CreateProductionRecipe({ reinforced_plate = 4, wire = 2 }, { c_assembler = 30, })
+data.components.c_modulehealth_m.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, wire = 4 }, { c_assembler = 30, })
+data.components.c_modulehealth_l.production_recipe = CreateProductionRecipe({ reinforced_plate = 16, wire = 9 }, { c_assembler = 30, })
+
+data.components.c_modulevisibility.production_recipe = CreateProductionRecipe({ reinforced_plate = 1, ic_soul_happy = 1 }, { c_assembler = 30, })
+data.components.c_modulevisibility_s.production_recipe = CreateProductionRecipe({ reinforced_plate = 2, ic_soul_happy = 2 }, { c_assembler = 30, })
+data.components.c_modulevisibility_m.production_recipe = CreateProductionRecipe({ reinforced_plate = 3, ic_soul_happy = 4 }, { c_assembler = 30, })
+data.components.c_modulevisibility_l.production_recipe = CreateProductionRecipe({ reinforced_plate = 4, ic_soul_happy = 9 }, { c_assembler = 30, })
 
 -------------------------------------------------------
 ----- Fueled Boost Modules -----------------------------------
@@ -225,12 +241,13 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],
 	activation = "OnAnyItemSlotChange",
 	boost = 25,
 	boost_id = "component_boost", -- or move_boost
-	fuel = "ic_fuel",
+	fuel = "ic_time_crystal",
 	fuel_time = 1000, -- fuel_time / boost = working_time
 	registers = {
 		{ read_only = true, tip = "Requires",},
-	}
+	},
 })
+cc_moduleefficiency.charge_time = cc_moduleefficiency.fuel_time
 function cc_moduleefficiency:update_boost(comp, remove)
 	--print(self, comp, remove)
 	local owner = comp.owner
@@ -267,6 +284,8 @@ function cc_moduleefficiency:on_update(comp, cause)
 			--consume next bit of fuel 
 			comp:FulfillProcess()
 			comp.extra_data.boost_active = true 
+			-- recalculate boost
+			self:update_boost(comp)
 			comp:SetStateStartWork(self.fuel_time*comp.effective_boost/100) 
 			
 			comp:SetRegister(1)
@@ -277,9 +296,9 @@ function cc_moduleefficiency:on_update(comp, cause)
 			comp:FlagRegisterError(1)
 			comp:SetStateSleep(1000)
 			comp.extra_data.boost_active = false
+			self:update_boost(comp)
 		end
-		-- recalculate boosts
-		self:update_boost(comp)
+		
 	else
 		-- still consuming so go back to sleep 
 		comp:SetStateContinueWork()
@@ -298,7 +317,7 @@ end
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
 	name = "Small Time Distortion Module",
 	desc = [[Time Distortion Increases Unit Effciency by 50%
-Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],	
+Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Small",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
@@ -308,7 +327,7 @@ Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
 	name = "Medium Time Distortion Module",
 	desc = [[Time Distortion Increases Unit Effciency by 100%
-Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],	
+Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Medium",
 	texture = data.components.c_moduleefficiency_m.texture,
 	visual = data.components.c_moduleefficiency_m.visual,
@@ -318,7 +337,7 @@ Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	name = "Large Time Distortion Module",
 	desc = [[Time Distortion Increases Unit Effciency by 150%
-Uses <img width="50" height="50" id="ic_time_crystal"/> as Fuel"]],	
+Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Large",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
@@ -654,7 +673,7 @@ end
 --- 
 local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	name = "Chrono Field Module",
-	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
+	desc = "Dilates Time around the target unit\n\nRequires Phase Fuel",
 	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
 	get_ui = true,
 	power = -100,
@@ -663,7 +682,7 @@ local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 		{ tip = "Chrono Field Target"},
 		{ read_only = true, tip = "Requires",},
 	},
-	fuel = "ic_fuel",
+	fuel = "ic_time_crystal",
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	wait_ticks = cc_temp_boost.wait_ticks,
 	slots = {storage = 1},

@@ -275,6 +275,7 @@ data.items.bug_carapace = {
 	visual = "vc_souls", -- "v_scaramar1",
 	slot_type = "storage",
 	stack_size = 20,
+	--mining_recipe = CreateMiningRecipe({c_miner = 30})
 }
 data.items.ic_soul_plasma = {
 	name = "Ectoplasma",
@@ -350,7 +351,7 @@ create_alt_recipe("ic_soul_angry",
 -- 	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_plasma = 10, ic_cube_yellow = 1, ic_soul_happy = 1, reinforced_plate = 20 }, { cc_manifest = 60 }, 5, {ic_cube_yellow = 1}),
 -- }
 data.items.ic_fuel = {
-	name = "Rocket Fuel",
+	name = "Phase Fuel",
 	index = 1020,
 	race = "robot",
 	desc = "3,2,1 Liftoff",
@@ -373,7 +374,7 @@ data.items.ic_time_crystal = {
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
 	texture = "The_Cube_WIP/textures/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ blight_crystal = 9, wire = 12,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	production_recipe = CreateProductionRecipe({ blight_crystal = 9, phase_leaf = 16,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
 create_alt_recipe("ic_time_crystal",
 	CreateProductionRecipeWithWaste(
@@ -389,43 +390,43 @@ data.items.ic_broken_reality = {
 	name = 'Unstable Understanding',
 	index = 11,
 	tag = 'hitech_material',
-	race = "robot",
-	desc = 'How to cook a Universe\nIngriedent 1 - Forget the laws of reality to surpass them',
+	race = "blight",
+	desc = 'How to cook a Universe\nIngriedent 2 - Forget the laws of reality to surpass them',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_cluster.visual,
 	texture = data.items.anomaly_cluster.texture,
-	production_recipe = CreateProductionRecipe({ fused_electrodes = 10, ic_cube_sphere = 1, phase_leaf = 20,  ic_fuel = 10 }, { cc_manifest = 100, cc_red_furnace = 50 }, 1),
+	production_recipe = CreateProductionRecipe({ fused_electrodes = 10, ic_cube_sphere = 1, phase_leaf = 20,  blight_crystal = 10 }, { cc_manifest = 100, cc_red_furnace = 50 }, 1),
 }
 data.items.ic_proto_sent = {
 	name = 'Proto-Sentinece',
 	index = 11,
 	tag = 'hitech_material',
-	race = "robot",
-	desc = 'How to cook a Universe\nIngriedent 3\nIf a Universe is created and no one can witness it, does it exist?',
+	race = "blight",
+	desc = 'How to cook a Universe\nIngriedent 1 - If a Universe is created and no one can witness it, does it exist?',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = data.items.anomaly_heart.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 100 }, 1, {ic_cube_green = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 50 }, 4, {ic_cube_empty = 1}),
 }
 data.items.ic_matter = {
 	name = 'Primordial Matter',
 	index = 11,
 	tag = 'hitech_material',
-	race = "robot",
-	desc = 'How to cook a Universe\nIngriedent 2 - A Generous portion of matter',
+	race = "blight",
+	desc = 'How to cook a Universe\nIngriedent 3 - A Generous portion of matter',
 	stack_size = 20,
 	slot_type = 'storage',
 	visual = data.items.obsidian.visual,
 	texture = data.items.obsidian.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, reinforced_plate = 20, fused_electrodes = 10,  ic_fuel = 10, ic_cube_red = 1 }, { cc_red_furnace = 100 }, 5, {ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
 }
 data.items.ic_micro_universe = {
 	name = 'Micro Universe',
 	index = 12,
 	tag = 'hitech_material',
-	race = "robot",
+	race = "blight",
 	desc = 'Our Duty Complete\nSo long as the chain continues this string of Universes shall never truly die\n<rl>Add a bot to the Anti Entropy Loom\'s garage to begin new game plus</>',
 	stack_size = 20,
 	slot_type = 'storage',

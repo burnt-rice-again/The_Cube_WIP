@@ -160,13 +160,13 @@ Requires drastically less Cube time compared to crystal power]],
 data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
 	name = "Phase Fuel Generator", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
-	desc = [[Consumes Phase Fuel for energy 
-<img width="50" height="50" id="ic_fuel"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	desc = [[Consumes Chrono Crystals for energy 
+<img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Less effcient but very portable]],
 	visual = "v_power_cell_01_s",
 	power_storage = 50000,
 	drain_rate = 1000,
-	consume_item = "ic_fuel",
+	consume_item = "ic_time_crystal",
 	wait_ticks = 20,
 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
 })

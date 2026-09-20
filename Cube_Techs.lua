@@ -59,7 +59,7 @@ data.techs.tc_cube_basic = {
 		-- starting resources		
 		"ic_cube_blue","datakey_robot","bug_carapace",
 		--components
-		"cc_cube_storage","cc_crystal_power","cc_manifest",
+		"cc_crystal_power","cc_manifest",
 
 		"xc_cube_1","xc_cube_power_1","xc_cube_pedestal","xc_cube_getting_started","xc_pop_1"
 	},
@@ -223,7 +223,7 @@ data.techs.tc_cube_red_4 = {
 	},
 	require_tech = { "tc_cube_anti_0"},
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ic_cube_sphere = 1, phase_leaf = 1 }, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_red_5 = {
@@ -237,7 +237,7 @@ data.techs.tc_cube_red_5 = {
 	},
 	require_tech = { "tc_cube_red_4"},
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1, ic_time_crystal = 1 }, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_red_6 = {
@@ -252,7 +252,7 @@ data.techs.tc_cube_red_6 = {
 	},
 	require_tech = { "tc_cube_red_5"},
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1, fused_electrodes = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ ldframe = 1, ic_cube_sphere = 1,ic_time_crystal = 1, fused_electrodes = 1 }, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_1= {
@@ -295,34 +295,34 @@ data.techs.tc_cube_green_3 = {
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1, ic_soul_plasma = 1, wire = 1 }, 300),
 	category = "Cube Curiosity",
 }
-data.techs.tc_cube_green_4 = {
-	order = 1,
-	name = "Farming", -- recovered database etc.
+data.techs.tc_cube_anti_1 = {
+	order = 40,
+	name = "Phase Leaf Farming", -- recovered database etc.
 	desc = "At the smallest level division may cause some floating point errors\n\nThe fractal nature of this leaf causes anomlaous space distorations",
 	texture = data.items.phase_leaf.texture,
 	unlocks = {
 		-- new resources
 		-- phase farming 
-		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant',"ic_time_crystal_alt"
+		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
 	},
 	require_tech = { "tc_cube_anti_0", "tc_cube_green_3" },
-	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ ic_soul_happy = 1 }, 300),
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 50),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_5 = {
 	order = 2,
 	name = "Boost Speed",
-	desc = "BRRRRRRRMMMM BRRRRR BRRRRMMMMMMMMMM\nBEEP BEEP\n BRRRRRRMMMMMMM",
+	desc = "BRRRRRRRMMMM BRRRRR BRRRRMMMMMMMMMM\nBEEP BEEP\nBRRRRRRMMMMMMM",
 	texture = "Main/textures/icons/items/human/engine.png",
 	unlocks = {
 		-- new resources
 		"xc_cube_boost",
-		"engine","ic_fuel","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
+		"engine","cc_modulespeed","cc_modulespeed_s","cc_modulespeed_m","cc_modulespeed_l",
 	},
 	require_tech = { "tc_cube_green_4" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1}, 100),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_time_crystal = 1}, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_6 = {
@@ -331,11 +331,11 @@ data.techs.tc_cube_green_6 = {
 	desc = "Uses phase fuel to provide power anywhere",
 	texture = "Main/textures/icons/components/Component_PowerCell_01_S.png",
 	unlocks = {
-		'cc_power_phase',"ic_broken_reality"
+		'cc_power_phase', 'ic_proto_sent'
 	},
 	require_tech = { "tc_cube_green_5" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, reinforced_plate = 1, ic_fuel = 1}, 100),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, ic_time_crystal = 1, engine = 1, ic_soul_plasma = 1}, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
@@ -344,25 +344,25 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
-		"blight_crystal","ic_time_crystal","xc_cube_time_crystal",
+		"blight_crystal","xc_cube_time_crystal",
 	},
 	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
 	category = "Cube Curiosity",
 }
-data.techs.tc_cube_anti_1= {
-	order = 40,
+data.techs.tc_cube_green_4= {
+	order = 1,
 	name = "Localized Chrono Field Creation", -- recovered database etc.
 	desc = "Stablizied chrono fields can create pockets of distorted time",
 	texture = data.components.cc_moduleefficiency_l.texture,
 	unlocks = {
 		-- new resources
-		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
+		"ic_time_crystal","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
 	},
 	require_tech = { "tc_cube_anti_0", },
-	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1 }, 100),
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, blight_crystal = 1 }, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_2 = {
@@ -375,8 +375,8 @@ data.techs.tc_cube_anti_2 = {
 		"fc_boost_tower","xc_cube_boost","ic_soul_angry_alt"
 	},
 	require_tech = { "tc_cube_anti_1"},
-	progress_count = 25,
-	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_angry = 1, phase_leaf = 1 }, 100),
+	progress_count = 50,
+	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, phase_leaf = 1 }, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_3= {
@@ -386,10 +386,10 @@ data.techs.tc_cube_anti_3= {
 	texture = data.items.fused_electrodes.texture,
 	unlocks = {
 		-- new resources
-		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel","ic_proto_sent"
+		"cc_time_travel_machine","fused_electrodes","xc_cube_time_travel","ic_broken_reality",
 	},
 	require_tech = { "tc_cube_anti_2", },
-	progress_count = 50,
+	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1, ic_soul_plasma = 1, phase_leaf = 1, ic_cube_sphere = 1}, 100),
 	category = "Cube Obsession",
 }
@@ -414,11 +414,11 @@ data.techs.tc_cube_anti_4= {
 data.techs.tc_robot_metallurgy_1 = {
 	order = 2,
 	name = "Simple Metallurgy", -- recovered database etc.
-	desc = "Steel foundarys are the 1st step in advancing to stronger building materials\n<hl>This research will unlock inestigations into the cube</>",
+	desc = "The strength of steel is required to support the cube on a platform\n<hl>This research will unlock inestigations into the cube</>",
 	texture = data.items.steelblock.texture,
 	unlocks = {
 		-- new resources
-		"steelblock","beacon_frame","f_beacon"
+		"steelblock","cc_cube_storage","beacon_frame","f_beacon"
 	},
 	require_tech = { "tc_robot_basic" },
 	progress_count = 10,
@@ -441,12 +441,12 @@ data.techs.tc_robot_metallurgy_2 = {
 }
 data.techs.tc_robot_metallurgy_3 = {
 	order = 2,
-	name = "Advanced Utility", -- recovered database etc.
-	desc = "Strike the earth",
+	name = "Core Functions Upgrade", -- recovered database etc.
+	desc = "The two building blocks of a factory, mining and distribution",
 	texture = data.components.c_adv_miner.texture,
 	unlocks = {
 		-- new resources
-		"c_adv_miner","f_beacon_l",
+		"c_adv_miner","f_beacon_l","concreteslab_alt"
 	},
 	require_tech = { "tc_robot_metallurgy_2" },
 	progress_count = 50,
@@ -455,16 +455,17 @@ data.techs.tc_robot_metallurgy_3 = {
 }
 data.techs.tc_robot_metallurgy_4 = {
 	order = 2,
-	name = "Heavy Miners", -- recovered database etc.
-	desc = "Bigger is better",
-	texture = data.components.c_extractor.texture,
+	name = "Utility Modules", -- recovered database etc.
+	desc = "",
+	texture = data.components.c_modulehealth.texture,
 	unlocks = {
 		-- new resources
-		"c_extractor","concreteslab_alt"
+		"c_modulehealth", "c_modulehealth_s", "c_modulehealth_m", "c_modulehealth_l",
+		"c_modulevisibility", "c_modulevisibility_s", "c_modulevisibility_m", "c_modulevisibility_l",
 	},
 	require_tech = { "tc_robot_metallurgy_3" },
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1,phase_leaf = 1 }, 25),
+	uplink_recipe = CreateUplinkRecipe({ metalplate = 1, steelblock = 1, ic_soul_angry = 1,reinforced_plate = 1 }, 25),
 	category = "Independance",
 }
 data.techs.tc_robot_frames_1 = {

@@ -226,3 +226,4 @@ data.visuals.v_blightcrystalpower_01_m.light_color = {1,0.5,0,0}
 --data.visuals.v_crystalpower_01_s.light_offset = {0,0,1}
 
 data.visuals.v_human_powerplant.sockets = nil
+data.visuals.v_explorable_blightanomaly_01.sockets = nil

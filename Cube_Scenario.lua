@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
+local Unlock_All_Technologies = true
 local Start_with_Observers = false
 
 
@@ -333,6 +333,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- defence_block = Map.CreateEntity(faction, "fc_boost_tower")
 	-- defence_block:Place(loc.x,loc.y+8)
 	-- home_entity:AddItem("ic_fuel", 40)
+	
 	-- testing visuals 
 	-- local mug = Map.CreateEntity(faction, "fc_mug")
 	-- mug:Place(loc.x, loc.y+5)
@@ -363,6 +364,9 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- transport.disconnected = false
 	-- transport.extra_data.name = "CUBEy"
 	-- transport:Place(loc.x+4,loc.y+4)
+
+	home_entity:AddItem("ic_time_crystal", 40)
+	home_entity:AddItem("cc_moduleefficiency_m", 2)
 
 
 	if Start_with_Observers then tester_spawn_observers(faction, loc.x,loc.y) end
