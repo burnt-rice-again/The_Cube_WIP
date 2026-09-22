@@ -194,7 +194,7 @@ fc_crop:RegisterFrame('fc_crop_phase_plant',{
     is_flower = true,
     on_remove = wake_up_planter,
     drop = 'phase_leaf',
-	components = {{ "cc_phase_plant_all", "hidden" },},
+	--components = {{ "cc_phase_plant_all", "hidden" },},
 })
 
 -- modify phase component to hit own units 

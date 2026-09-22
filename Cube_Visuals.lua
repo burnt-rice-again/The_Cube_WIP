@@ -118,7 +118,7 @@ data.visuals.vc_chrono_tower = {
 	mesh = "The_Cube_WIP/textures/BoostTower_1.glb",	
 	--mesh_offset = {0,0,100	},
 	scale = {0.18,0.18,0.18},
-	mesh_sockets = { ["fx"] = {0,0,1470} },
+	mesh_sockets = { ["fx"] = {0,0,1470}},
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 
@@ -178,7 +178,7 @@ data.visuals.vc_crop_wire_seed3.scale = {1.4,1.4,1.4}
 data.visuals.vc_crop_wire_seed4 = Tool.Copy(data.visuals.vc_crop_wire_seed0) -- v_succulent_05_A
 data.visuals.vc_crop_wire_seed4.scale = {1.7,1.7,1.7}
 
-data.visuals.vc_crop_phase = Tool.Copy(data.visuals.v_damage_plant)
+data.visuals.vc_crop_phase = Tool.Copy(data.visuals.v_phase_plant)
 data.visuals.vc_crop_phase.scale = {2,2,2}
 data.visuals.vc_crop_phase.flags = "RandomRotation|RandomScale|RandomTranslation"
 
@@ -206,6 +206,7 @@ data.visuals.vc_cube_sphere_item = Tool.Copy(data.visuals.v_explorable_blightano
 data.visuals.vc_cube_sphere_item.scale = {0.1,.1,.1}
 data.visuals.vc_cube_sphere_item.tile_size = nil
 data.visuals.vc_cube_sphere_item.explorable_name = nil
+data.visuals.vc_cube_sphere_item.sockets = nil
 
 
 data.visuals.vc_cube_sphere_frame = Tool.Copy(data.visuals.vc_cube_sphere_item)

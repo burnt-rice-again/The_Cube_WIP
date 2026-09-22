@@ -42,7 +42,7 @@ end
 -- need to specifically check dropped items
 local function Check_For_Dropped_Cube(location)     
     -- print("dropped cube check loc", location)
-    local entity_list = nil 
+    local entity_list = nil
     if location == nil then
         entity_list =  Map.GetFaction("world").entities
     else

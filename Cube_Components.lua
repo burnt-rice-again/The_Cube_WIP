@@ -682,7 +682,7 @@ local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 		{ tip = "Chrono Field Target"},
 		{ read_only = true, tip = "Requires",},
 	},
-	fuel = "ic_time_crystal",
+	fuel = {"ic_time_crystal","ic_soul_plasma"},
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	wait_ticks = cc_temp_boost.wait_ticks,
 	slots = {storage = 1},
@@ -721,7 +721,7 @@ function cc_boost_tower:on_update(comp, cause)
 		-- check for fuel 
 		-- if you relocate the tower you can probably skip the wait time.
 		-- if they figure that out then good on them im not patching it
-		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel]=1},20)
+		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel[1]]=1, [self.fuel[2]]=1},20)
 		if can_make then
 			comp:FulfillProcess()
 			comp:SetRegister(2)

@@ -295,19 +295,18 @@ data.techs.tc_cube_green_3 = {
 	uplink_recipe = CreateUplinkRecipe({ crystal_powder = 1, ic_soul_plasma = 1, wire = 1 }, 300),
 	category = "Cube Curiosity",
 }
-data.techs.tc_cube_anti_1 = {
-	order = 40,
-	name = "Phase Leaf Farming", -- recovered database etc.
-	desc = "At the smallest level division may cause some floating point errors\n\nThe fractal nature of this leaf causes anomlaous space distorations",
-	texture = data.items.phase_leaf.texture,
+data.techs.tc_cube_green_4= {
+	order = 1,
+	name = "Localized Chrono Field Creation", -- recovered database etc.
+	desc = "Stablizied chrono fields can create pockets of distorted time",
+	texture = data.components.cc_moduleefficiency_l.texture,
 	unlocks = {
 		-- new resources
-		-- phase farming 
-		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
+		"ic_time_crystal","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
 	},
-	require_tech = { "tc_cube_anti_0", "tc_cube_green_3" },
+	require_tech = { "tc_cube_anti_0", },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 50),
+	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, blight_crystal = 1 }, 100),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_green_5 = {
@@ -351,18 +350,19 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 100),
 	category = "Cube Curiosity",
 }
-data.techs.tc_cube_green_4= {
-	order = 1,
-	name = "Localized Chrono Field Creation", -- recovered database etc.
-	desc = "Stablizied chrono fields can create pockets of distorted time",
-	texture = data.components.cc_moduleefficiency_l.texture,
+data.techs.tc_cube_anti_1 = {
+	order = 40,
+	name = "Phase Leaf Farming", -- recovered database etc.
+	desc = "At the smallest level division may cause some floating point errors\n\nThe fractal nature of this leaf causes anomlaous space distorations",
+	texture = data.items.phase_leaf.texture,
 	unlocks = {
 		-- new resources
-		"ic_time_crystal","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
+		-- phase farming 
+		"phase_leaf","cc_planter_phase_leaf",'fc_crop_phase_seed0','fc_crop_phase_plant'
 	},
-	require_tech = { "tc_cube_anti_0", },
+	require_tech = { "tc_cube_anti_0", "tc_cube_green_3" },
 	progress_count = 50,
-	uplink_recipe = CreateUplinkRecipe({ phase_leaf = 1, blight_crystal = 1 }, 100),
+	uplink_recipe = CreateUplinkRecipe({ blight_crystal = 1 }, 50),
 	category = "Cube Obsession",
 }
 data.techs.tc_cube_anti_2 = {
@@ -470,8 +470,8 @@ data.techs.tc_robot_metallurgy_4 = {
 }
 data.techs.tc_robot_frames_1 = {
 	order = 1,
-	name = "Robotics I", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Robotics Factory", -- recovered database etc.
+	desc = "Which came first the factory or the bot?",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -484,7 +484,7 @@ data.techs.tc_robot_frames_1 = {
 }
 data.techs.tc_robot_frames_2 = {
 	order = 1,
-	name = "Robotics II", -- recovered database etc.
+	name = "Core Robotics", -- recovered database etc.
 	desc = "<hl>Expanaded core capacity complete. Preparing auxilary systems for development</>",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -495,10 +495,13 @@ data.techs.tc_robot_frames_2 = {
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1}, 25),
 	category = "Independance",
+	talkinghead = [[<hl>Expanaded core capacity complete. Preparing auxilary systems for development</>
+	
+	<bl>New Tech Category Unlocked</>]]
 }
 data.techs.tc_robot_frames_3 = {
 	order = 1,
-	name = "Robotics III", -- recovered database etc.
+	name = "Dual Robots", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -511,7 +514,7 @@ data.techs.tc_robot_frames_3 = {
 }
 data.techs.tc_robot_frames_4 = {
 	order = 1,
-	name = "Robotics IV", -- recovered database etc.
+	name = "Transportation Bots", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -525,7 +528,7 @@ data.techs.tc_robot_frames_4 = {
 }
 data.techs.tc_robot_frames_5 = {
 	order = 1,
-	name = "Robotics V", -- recovered database etc.
+	name = "Next Generation Bots", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -539,7 +542,7 @@ data.techs.tc_robot_frames_5 = {
 }
 data.techs.tc_robot_frames_6 = {
 	order = 1,
-	name = "Robotics VI", -- recovered database etc.
+	name = "Heavy Bot", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -553,7 +556,7 @@ data.techs.tc_robot_frames_6 = {
 }
 data.techs.tc_robot_frames_7 = {
 	order = 1,
-	name = "Robotics VII", -- recovered database etc.
+	name = "Enlightened Robotics", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -567,7 +570,7 @@ data.techs.tc_robot_frames_7 = {
 }
 data.techs.tc_robot_frames_8 = {
 	order = 1,
-	name = "Robotics VIII", -- recovered database etc.
+	name = "Mobile Command Robotics", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {

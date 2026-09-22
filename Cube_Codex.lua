@@ -126,7 +126,7 @@ data.codex.xc_cube_getting_started = {
 
         A quick guide to the first steps required to utilize the cube. 
 
-            1 - Begine Minning your metal and crystal resources. 
+            1 - Begin Minning your metal and crystal resources. 
             2 - Expand <img id="metalplate" width="50" height="50" style="bl"/> Smelting
             3 - Craft an <img id="c_assembler" width="50" height="50" style="bl"/>
             4 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> to expand power production
@@ -162,7 +162,7 @@ data.codex.xc_cube_alt = {
 
         There are some alternative recipes available for items made with the Cube 
 
-        All alternative recipes have a yellow background 
+        <hl>All alternative recipes have a yellow background</> 
 
         Typically these recipes cost more resources but significantly less Cube time.
         They also offer new ways to change the Cubes form.

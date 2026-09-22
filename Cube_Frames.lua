@@ -158,14 +158,15 @@ function fc_cube_sphere:on_destroy(frame, destroyer)
 end 
 
 -- Boost Tower
-data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
+--data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
 	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
 	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
 	visual = "vc_chrono_tower",
 	components = {
-		{"cc_boost_tower","hidden"}
+		{"cc_boost_tower","hidden"},
+		{'cc_pipe_output_h', "hidden"}
 	},
 	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50),
 	trigger_channels = "building",
