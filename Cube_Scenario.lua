@@ -168,7 +168,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	flier:Place(loc.x+4,loc.y+3)
 
 	-- cub with cube transporter 
-	local transport = Map.CreateEntity(faction, "f_bot_1m_a")
+	local transport = Map.CreateEntity(faction, "f_bot_1m_c") --"f_bot_1m_a"
 	transport:AddComponent("cc_cube_storage")
 	--transport:AddItem("ic_cube_empty")
 	transport:GetSlot(1):SetLockedItem()
