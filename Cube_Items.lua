@@ -217,7 +217,7 @@ The Anti-Cube can exist in an infinate number of states simultaneously.
 	texture = "Main/textures/icons/alien/alienunit_worker_a.png",
 	visual = 'vc_cube_sphere_item',
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_red = 1, ic_soul_plasma = 1,  }, 
+	{ ic_cube_red = 1, ic_soul_plasma = 100,  }, 
 	{ cc_manifest = 200, }, 1, {ic_cube_sphere = 2, ic_cube_empty = 1}),
 	--production_recipe = CreateProductionRecipeWithWaste(
 	-- { ic_cube_blue = 1, crystal = 1, }, { cc_manifest = 200, cc_red_furnace = 50},
@@ -432,7 +432,7 @@ data.items.ic_micro_universe = {
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = "Main/textures/tech/blight/blight_terra_03_1.png",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 64, ic_proto_sent = 64, ic_matter = 64, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 1, ic_proto_sent = 1, ic_matter = 1, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
 }
 
 

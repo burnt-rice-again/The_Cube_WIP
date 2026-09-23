@@ -9,11 +9,8 @@ TODO visuals
     imporive new 3d files 
     improvements to timetravel UI element
 
-restless cube alt recipe shows both in tooltip
-
 locked items show up in fabricator UI 
 Tool Tip for Cube time 
-Production ing tooltip needs to show items without recipes
 
 --- stuff i cant do because there isnt a method 
 biome probabilites 

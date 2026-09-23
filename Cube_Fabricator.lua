@@ -60,9 +60,9 @@ function UIMsg.new_game_plus(comp)
 			local settings = Map:GetSettings()
 			if settings.run_times then
 				w.list:Add("<Text margin_top=3/>", { text = "Previous Run Times: " })
-				for i, v in ipairs(settings.run_times) do 
-					w.list:Add("<Text margin_top=1/>", { text = tostring(v) })
-				end
+				--for i, v in ipairs(settings.run_times) do 
+					w.list:Add("<Text margin_top=1/>", { text = tostring(settings.run_times):sub(2,-2) })
+				--end
 			end 
 			
 			
