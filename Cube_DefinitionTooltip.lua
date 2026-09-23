@@ -276,6 +276,14 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 	local data_all, counts, durations, producers, levels, maxlevels = data.all, {}, {}, {}, {}, {}
 	local function add_ingredient(id, num, lvl, bp_components)
 		local def, ingredients, amount, defproducers, producer, ticks = data_all[id]
+		if id:find('ic_cube') then 
+		   counts[id] = (counts[id] or 0) + num
+		   levels[id] = lvl
+		   ticks = 0
+		   producers[id] = "v_destroyed"
+		   durations[id] = 1
+		   return lvl 
+	    end 
 		if     def.production_recipe   then defproducers, ingredients, amount = def.production_recipe.producers, def.production_recipe.ingredients, def.production_recipe.amount
 		elseif def.mining_recipe       then defproducers = def.mining_recipe
 		elseif def.construction_recipe then ingredients, producer, ticks = def.construction_recipe.ingredients, "v_construction", def.construction_recipe.ticks
@@ -287,14 +295,6 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 			producers[id] = "v_destroyed"
 			durations[id] = 1
 			return lvl
-		end 
- 		if def_id:find('ic_cube') then 
-			counts[id] = (counts[id] or 0) + num
-			levels[id] = lvl
-			ticks = 0
-			producers[id] = "v_destroyed"
-			durations[id] = 1
-			return lvl 
 		end 
 		if defproducers then
 			local seenpid, anypid, seenticks, anyticks
@@ -313,9 +313,9 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 
 		lvl = math.max(levels[id] or 0, lvl)
 		local maxlvl = lvl
-		if ingredients then -- ~def_id:find('ic_cube')
+		if ingredients then
 			for sub_id, sub_num in pairs(ingredients) do
-				if sub_id:find('ic_cube') == nil then
+				if sub_id:find('ic_cube') == nil or true then
 					maxlvl = math.max(maxlvl, add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1))
 				end
 			end
