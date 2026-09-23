@@ -280,10 +280,22 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 		elseif def.mining_recipe       then defproducers = def.mining_recipe
 		elseif def.construction_recipe then ingredients, producer, ticks = def.construction_recipe.ingredients, "v_construction", def.construction_recipe.ticks
 		elseif def.uplink_recipe       then ingredients, producer, ticks = def.uplink_recipe.ingredients, "c_uplink", def.uplink_recipe.ticks
-		else return lvl end
-
-		if def_id:find('ic_cube')then return lvl end 
-
+		else 
+			counts[id] = (counts[id] or 0) + num
+			levels[id] = lvl
+			ticks = 0
+			producers[id] = "v_destroyed"
+			durations[id] = 1
+			return lvl
+		end 
+ 		if def_id:find('ic_cube') then 
+			counts[id] = (counts[id] or 0) + num
+			levels[id] = lvl
+			ticks = 0
+			producers[id] = "v_destroyed"
+			durations[id] = 1
+			return lvl 
+		end 
 		if defproducers then
 			local seenpid, anypid, seenticks, anyticks
 			for pid,pticks in pairs(defproducers) do
@@ -333,7 +345,9 @@ local function IngredientRequirementsGraph(list, def_id, bp, seen_unlocks)
 		for id,level in pairs(levels) do
 			if level == i then
 				hl:Add("<Reg width=48 height=48 bg=item_default margin_left=8 on_click={onclickreg}/>", { def_id = id, num = counts[id] })
-				hl:Add("<Reg width=48 height=48 bg=item_default margin_right=8 on_click={onclickreg}/>", { def_id = producers[id], num = string.format("x%3.1f", durations[id] * counts[id] / durations[def_id]) })
+				if producers[id] ~= "v_destroyed" then
+					hl:Add("<Reg width=48 height=48 bg=item_default margin_right=8 on_click={onclickreg}/>", { def_id = producers[id], num = string.format("x%3.1f", durations[id] * counts[id] / durations[def_id]) })
+				end
 			end
 		end
 	end

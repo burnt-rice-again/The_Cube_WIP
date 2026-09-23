@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
+local Unlock_All_Technologies = true
 local Start_with_Observers = false
 
 
@@ -187,7 +187,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 		faction:Unlock("xc_new_game_plus")
 		for key, val in pairs(settings.extra_bots) do
 			--local ent = Map.CreateEntity(faction, val.frame)
-			local ent = CreateFrameOrBlueprint(faction, val)
+			local ent = CreateFrameOrBlueprint(faction, val.bp)
+			DeserializeCompExtraData(ent, val.extra_data)
+			DeserializeItems(ent, val.items)
+			-- clear goto register 
+			ent:SetRegister(FRAMEREG_GOTO)
 			-- local ent = Tool.StringToTable(val.ent)
 			-- ent.powered_down = false
 			-- if val.behavior_id then 
@@ -334,35 +338,33 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	home_entity:AddItem("ic_time_crystal", 40)
 	
 	-- testing visuals 
-	-- local mug = Map.CreateEntity(faction, "fc_mug")
-	-- mug:Place(loc.x, loc.y+5)
-	-- transport = Map.CreateEntity(faction, "f_building1x1a")
-	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_empty")
-	-- transport:GetSlot(1):SetLockedItem()
-	-- transport:GetSlot(2):SetLockedItem()
-	-- transport.logistics_carrier = true
-	-- transport.disconnected = false
-	-- transport.extra_data.name = "CUBEy"
-	-- transport:Place(loc.x+4,loc.y+4)
-	-- transport = Map.CreateEntity(faction, "f_building1x1a")
-	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_red")
-	-- transport:GetSlot(1):SetLockedItem()
-	-- transport:GetSlot(2):SetLockedItem()
-	-- transport.logistics_carrier = true
-	-- transport.disconnected = false
-	-- transport.extra_data.name = "CUBEy"
-	-- transport:Place(loc.x+4,loc.y+4)
-	-- transport = Map.CreateEntity(faction, "f_building1x1a")
-	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_green")
-	-- transport:GetSlot(1):SetLockedItem()
-	-- transport:GetSlot(2):SetLockedItem()
-	-- transport.logistics_carrier = true
-	-- transport.disconnected = false
-	-- transport.extra_data.name = "CUBEy"
-	-- transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_building1x1a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_empty")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_building1x1a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_red")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_building1x1a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_green")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
 
 	-- home_entity:AddItem("cc_moduleefficiency_m", 2)
 

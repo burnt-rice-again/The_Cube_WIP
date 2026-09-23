@@ -231,23 +231,21 @@ end
 -- on update/onremove/onadd should be the same for all the new boost modules
 local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	name = "Internal Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 25%
-Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
+	desc = [[Time Distortion Increases Unit Effciency by 50%]],	
 	attachment_size = "Internal", race = "robot", index = 1050,
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 2, ic_time_crystal = 1, ic_soul_angry = 1 }, { c_assembler = 30, }),
 	-- new items 
 	activation = "OnAnyItemSlotChange",
-	boost = 25,
+	boost = 50,
 	boost_id = "component_boost", -- or move_boost
 	fuel = "ic_time_crystal",
-	fuel_time = 1000, -- fuel_time / boost = working_time
+	fuel_time = 1000*25, -- fuel_time / boost = working_time
 	registers = {
 		{ read_only = true, tip = "Requires",},
 	},
 })
-cc_moduleefficiency.charge_time = cc_moduleefficiency.fuel_time
 function cc_moduleefficiency:update_boost(comp, remove)
 	--print(self, comp, remove)
 	local owner = comp.owner
@@ -316,43 +314,50 @@ end
 
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
 	name = "Small Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 50%
+	desc = [[Time Distortion Increases Unit Effciency by 100%
 Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Small",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 4, ic_time_crystal = 2, ic_soul_angry = 4 }, { c_assembler = 60, }),
-	boost = 50,
+	boost = 100,
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
 	name = "Medium Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 100%
+	desc = [[Time Distortion Increases Unit Effciency by 150%
 Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Medium",
 	texture = data.components.c_moduleefficiency_m.texture,
 	visual = data.components.c_moduleefficiency_m.visual,
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 9, ic_time_crystal = 3, ic_soul_angry = 9 }, { c_assembler = 60, }),
-	boost = 100,
+	boost = 150,
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	name = "Large Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 150%
+	desc = [[Time Distortion Increases Unit Effciency by 200%
 Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Large",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 16, ic_time_crystal = 4, ic_soul_angry = 16 }, { c_assembler = 60, }),
-	boost = 150,
+	boost = 200,
 })
+data.components.cc_moduleefficiency.fuel_time = math.ceil(data.components.cc_moduleefficiency.fuel_time / data.components.cc_moduleefficiency.boost)
+cc_moduleefficiency.charge_time = cc_moduleefficiency.fuel_time
+data.components.cc_moduleefficiency_s.fuel_time = math.ceil(data.components.cc_moduleefficiency_s.fuel_time / data.components.cc_moduleefficiency_s.boost)
+data.components.cc_moduleefficiency_s.charge_time = data.components.cc_moduleefficiency_s.fuel_time
+data.components.cc_moduleefficiency_m.fuel_time = math.ceil(data.components.cc_moduleefficiency_m.fuel_time / data.components.cc_moduleefficiency_m.boost)
+data.components.cc_moduleefficiency_m.charge_time = data.components.cc_moduleefficiency_m.fuel_time
+data.components.cc_moduleefficiency_l.fuel_time = math.ceil(data.components.cc_moduleefficiency_l.fuel_time / data.components.cc_moduleefficiency_l.boost)
+data.components.cc_moduleefficiency_l.charge_time = data.components.cc_moduleefficiency_l.fuel_time
 -- Movement Boost - removed fuel requirement
 local cc_modulespeed = Comp:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 25%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+	desc = [[Thrusters Increase Unit Speed by 25%]],
 	attachment_size = "Internal",
 	visual = "v_generic_i",
 	texture = data.components.c_modulespeed.texture,
-	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1, ic_fuel = 2 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1 }, { c_assembler = 60, }),
 	boost = 30,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
@@ -379,12 +384,11 @@ function cc_modulespeed:update_boost(comp, remove)
 end
 cc_modulespeed:RegisterComponent("cc_modulespeed_s",{
 	name = "Small Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 50%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+	desc = [[Thrusters Increase Unit Speed by 50%]],
 	attachment_size = "Small",
 	texture = data.components.c_modulespeed_s.texture,
 	visual = data.components.c_modulespeed_s.visual,
-	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2, ic_fuel = 4 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2 }, { c_assembler = 60, }),
 	boost = 50,
 	boost_id = "move_boost", -- or move_boost	
 	fuel = false,
@@ -392,12 +396,11 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 })
 cc_modulespeed:RegisterComponent("cc_modulespeed_m",{
 	name = "Medium Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 80%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+	desc = [[Thrusters Increase Unit Speed by 80%]],
 	attachment_size = "Medium",
 	texture = data.components.c_modulespeed_m.texture,
 	visual = data.components.c_modulespeed_m.visual,
-	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4, ic_fuel = 9 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4 }, { c_assembler = 60, }),
 	boost = 80,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
@@ -405,12 +408,11 @@ Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
 })
 cc_modulespeed:RegisterComponent("cc_modulespeed_l",{
 	name = "Large Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 120%
-Uses <img width="50" height="50" id="ic_fuel"/> as Fuel"]],
+	desc = [[Thrusters Increase Unit Speed by 120%]],
 	attachment_size = "Large",
 	texture = data.components.c_modulespeed_l.texture,
 	visual = data.components.c_modulespeed_l.visual,
-	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8, ic_fuel = 16 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8 }, { c_assembler = 60, }),
 	boost = 120,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
@@ -730,7 +732,7 @@ function cc_boost_tower:on_update(comp, cause)
 			comp:StopEffects()
 			comp.owner:LookAt(target)
 			--comp:PlayEffect("fx_miner","fx",target)--fx_railgun
-			comp:PlayEffect("fx_photon_beam","fx",target)
+			comp:PlayEffect("fx_photon_beam","fx",target,{speed=0.01})
 		else 
 			comp:SetRegister(2,missing)
 			comp:FlagRegisterError(2)

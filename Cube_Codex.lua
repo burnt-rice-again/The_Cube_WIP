@@ -109,7 +109,7 @@ data.codex.xc_cube_pedestal = {
     text = [[<img width="100" height="100" id="cc_cube_storage"/><codex_title>Cube Storage</>
 
         The Cube is <hl>extremly heavy</> and must be stored on a specific Cube Pedestal 
-        The Pedestal uses a Medium Socket.
+        The Pedestal uses a Medium Socket and must be constructed with steel <img id="steelblock" width="50" height="50" style="bl"/>
 
         When a Cube is present is will slow the bots movement speed by <hl>80%</> and provide 1000 <img width="50" height="50" image="Main/textures/icons/values/power.png"/>
         
@@ -363,19 +363,24 @@ data.codex.xc_cube_boost = {
     title = [[<img width="18" height="18" id="ic_time_crystal"/>Boost Modules]],
     text = [[<img width="100" height="100" id="ic_time_crystal"/><codex_title>Boost Modules</>
 
-        Effciency modules now require fuel to operate. 
+        <bl>Stablizied Chrono Crystals have the power to create pockets of distorted time</>
+
+        Effciency modules now require <img id="ic_time_crystal" width="50" height="50" style="bl"/> to operate. 
         
         <img id="cc_moduleefficiency_l" width="50" height="50"/><img id="ic_time_crystal" width="50" height="50"/>
 
-        Modules will automatically request a full stack but only consume 1 at a time.
+        Modules will automatically request chrono crystals when equipped.
+        Larger Modules will provide bigger effciency bonuses but run for a shorter amount of time (same fuel economy).
+        
 
         <hl>Chrono Towers</><img id="fc_boost_tower" width="50" height="50"/>
         Chrono Towers will dilate time around another unit within their range. 
         Select a target unit with the first register. 
         When the tower is ready it will boost the unit. 
 
-        Multiple boost towers affecting the same unit will have diminshing returns 
-            - The time the chrono-boost applies is halved for each existing boost by another chrono tower
+        Chrono towers will require <img id="ic_soul_plasma" width="50" height="50" style="bl"/> in additon to <img id="ic_time_crystal" width="50" height="50" style="bl"/>
+        
+        Multiple boost towers affecting the same unit will have diminshing returns.
         ]],
 }
 data.codex.xc_cube_time_travel = {

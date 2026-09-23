@@ -82,7 +82,11 @@ function UIMsg.new_game_plus(comp)
 			for key, val in pairs(garage) do
 				if (val.entity) then 
 					--print(val.entity)
-					table.insert(settings.extra_bots, MakeBlueprintFromEntity(val.entity))
+					table.insert(settings.extra_bots, { 
+						bp = MakeBlueprintFromEntity(val.entity), 
+						extra_data = SerializeCompExtraData(val.entity),
+						items = SerializeItems(val.entity)
+					})
 				end
 			end
 			settings.library = comp.faction.extra_data.library
@@ -409,6 +413,6 @@ cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	get_ui = true,
 	production_recipe = false,
 	production_effect = "fx_digital",--"fx_digital_in",--"fx_digital",
-	power = -50000,
+	power = 1 -- -50000,
 })
 

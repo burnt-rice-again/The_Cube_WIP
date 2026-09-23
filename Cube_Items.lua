@@ -289,12 +289,12 @@ data.items.ic_soul_plasma = {
 	stack_size = 100,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, bug_carapace = 5, crystal_powder = 10 },
-	{ cc_soul_refinery = 50 },
-	50, {ic_cube_blue = 1}),
+	{ cc_soul_refinery = 100 },
+	50, {ic_cube_empty = 1}),
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, bug_carapace = 10, phase_leaf = 20, ic_time_crystal = 1 }, 
+	{ic_cube_blue = 1, bug_carapace = 10, phase_leaf = 20 }, 
 	{cc_soul_refinery = 10,},
 	50,
 	{ic_cube_empty = 1}),

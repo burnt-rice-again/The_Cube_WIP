@@ -1,19 +1,19 @@
 TODO code 
     add bases to capture back in 
-    mission briefing popups
     more consistant lore 
         explain the entropy problem 
         More ENTRY 001 logs
         Praise the Cube More 
 
 TODO visuals
-    new cube .glb files
     imporive new 3d files 
     improvements to timetravel UI element
 
-waste outputs should show up in the tool tip for crafting
-
 restless cube alt recipe shows both in tooltip
+
+locked items show up in fabricator UI 
+Tool Tip for Cube time 
+Production ing tooltip needs to show items without recipes
 
 --- stuff i cant do because there isnt a method 
 biome probabilites 

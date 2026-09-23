@@ -203,3 +203,59 @@ function EntityHasCube(ent)
 	return false
 end
 
+function SerializeCompExtraData(ent)
+	local data = {}
+	table.insert(data, Tool.Copy(ent.extra_data))
+	for key,val in ipairs(ent.components) do 
+		--print(val.extra_data)
+		table.insert(data, Tool.Copy(val.extra_data))
+	end
+	return data
+end
+function DeserializeCompExtraData(ent, data)
+	local i = 1
+	if next(data[i]) ~= nil then ent.extra_data = Tool.Copy(data[i]) end
+	for key,val in ipairs(ent.components) do 
+		i = i + 1
+		--print(data[i], val.id, next(data[i]) ~= nil)
+		if next(data[i]) ~= nil then 
+			val.extra_data = Tool.Copy(data[i])
+			if val.def.on_add then val.def:on_add(val) end
+		end
+	end
+	return data
+end
+function SerializeItems(ent)
+	local data = {}
+	for key, val in ipairs(ent.slots) do 
+		local slot_data = {}
+		print(val, val.id, val.stack, val.extra_data)
+		if val.entity == nil then 
+			if val.id ~= nil and val.stack > 0 then 
+				slot_data.id = val.id
+				slot_data.stack = val.stack
+				slot_data.extra_data = Tool.Copy(val.extra_data)
+			end
+			if val.locked then 
+				slot_data.lock = val.id
+			end
+		end
+		table.insert(data, slot_data)
+	end 
+	return data
+end 
+function DeserializeItems(ent, data)
+	for key, val in ipairs(ent.slots) do 
+		local slot_data = data[key]
+		if slot_data.stack ~= nil and slot_data.stack > 0 then
+			if slot_data.extra_data ~= nil then 
+				val:SetItemAndStack(slot_data.id, slot_data.stack, Tool.Copy(slot_data.extra_data))
+			else 
+				val:SetItemAndStack(slot_data.id, slot_data.stack)
+			end
+		end
+		if slot_data.locked then
+			val:SetLockedItem(slot_data.id)
+		end
+	end 
+end 
