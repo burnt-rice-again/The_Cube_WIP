@@ -231,7 +231,7 @@ function SerializeItems(ent)
 		local slot_data = {}
 		print(val, val.id, val.stack, val.extra_data)
 		if val.entity == nil then 
-			if val.id ~= nil and val.stack > 0 then 
+			if val.id ~= nil and val.stack > 0 and val.type ~= "cube" then 
 				slot_data.id = val.id
 				slot_data.stack = val.stack
 				slot_data.extra_data = Tool.Copy(val.extra_data)

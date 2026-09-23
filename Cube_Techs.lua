@@ -495,9 +495,7 @@ data.techs.tc_robot_frames_2 = {
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({ datakey_robot = 1, steelblock = 1}, 25),
 	category = "Independance",
-	talkinghead = [[<hl>Expanaded core capacity complete. Preparing auxilary systems for development</>
-	
-	<bl>New Tech Category Unlocked</>]]
+	talkinghead = "<hl>Expanaded core capacity complete. Preparing auxilary systems for development</><bl>New Tech Category Unlocked</>"
 }
 data.techs.tc_robot_frames_3 = {
 	order = 1,

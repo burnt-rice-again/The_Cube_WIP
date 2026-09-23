@@ -179,7 +179,11 @@ data.codex.xc_cube_alt = {
         ]],
         talkinghead = true,
         img = data.items.datakey_robot.texture,
-        txt = [[<bl>Codex has been updated</>]]
+        txt = [[
+        Catalyst have been discoverd as laternatives to known crafting recipes
+        These new recipes require more advanced materials but are faster processes
+        
+        <bl>Codex has been updated</>]]
 }
 data.codex.xc_cube_green = {
     category = "Codex",
@@ -233,7 +237,7 @@ data.codex.xc_cube_green = {
 
         Its surface constanlty shifting and shimmering the cube is prepared. 
 
-        <hl>Bots holding the green cube will move faster by 90% instead of slower</>
+        <hl>Bots holding the green cube will move faster by 80% instead of slower</>
 
         <bl>Codex has been updated</>
         ]],
@@ -380,7 +384,7 @@ data.codex.xc_cube_boost = {
 
         Chrono towers will require <img id="ic_soul_plasma" width="50" height="50" style="bl"/> in additon to <img id="ic_time_crystal" width="50" height="50" style="bl"/>
         
-        Multiple boost towers affecting the same unit will have diminshing returns.
+        Multiple chrono towers boosting the same unit will have diminshing returns.
         ]],
 }
 data.codex.xc_cube_time_travel = {
@@ -420,15 +424,15 @@ data.codex.xc_cube_time_travel = {
 data.codex.xc_gyroscope = {
     category = "Codex",
     index = 12,
-    title = [[<img width="18" height="18" id="fc_gyro"/>End Goal]],
-    text = [[<img width="100" height="100" id="fc_gyro"/><codex_title>End Game</>
+    title = [[<img width="18" height="18" id="fc_gyro"/>The Anti Entropy Project]],
+    text = [[<img width="100" height="100" id="fc_gyro"/><codex_title>The Anti Entropy Project</>
 
         There is little more we can learn from the <bl>CUBE</> in this universe
 
         It is now possible to make a new nested microuniverse,
         Building plans have been added for an Anti Entropy Loom.
 
-        It will require an atronomical amount of resources to activate.
+        It will require an astronomical amount of resources to activate.
 
         To truly test your skill either build a factory to produce as many Micro Universes as possible.
 
@@ -437,23 +441,35 @@ data.codex.xc_gyroscope = {
         <rl>Warning this is new game plus</>
 
         <hl>Include a bot in the Loom's garage to start new game plus</>
+        Be sure to supply the chosen bot with items and componets for the journey ahead.
 
         Once the micro universe is complete you can enter it by including a bot in the Loom's garage slot.
         There will be a confirmation message
         
-        A new world will begin with the following adjustments
-            1 - All techs will be unlocked 
-            2 - The bot in the garage will be sent to the new universe 
-                - if the bot was powered down it will be powered on 
-                - if the bot had a behviour it will be turned on 
-                - it will not include items or bots in a nested garage
-            3 - your blueprint library will automatically be transffered 
-
         <img image="The_Cube_WIP/textures/Codex_Images/gyro_new_game_plus.png"/>
+
+        <bl>A new world will begin with the following adjustments:</>
+            1 - All techs will be unlocked 
+
+            2 - The bot in the garage will be sent to the new universe 
+                    - if the bot was powered down it will be powered on 
+                    - if the bot had a behviour it will be turned on 
+                    - items stored in the bot will be included 
+                    - plant yield/growth time and time travel progress will be preserved for components on or stored in the bot
+                    - register values will be preserved (links to entites will break)
+                        - goto register will be cleared 
+                    - entities in garage slots will be excluded
+                    - the cube will be excluded 
+
+            3 - your blueprint library will automatically be transferred
+            4 - World generation settings will be identical to this world with a new random seed
+            5 - Bug hostility will not be reset and start at its current level
+            6 - Clicking the restart game button will restart with the new bot included
 
         Attempt to build and power the Universe Loom as fast as possible. 
         For an added challenge make a fully automated script starting only from the transfered bot.
 
+        Good luck travellers
         <img id="fc_gyro" width="150" height="150"/>
 
         ]]
@@ -467,9 +483,12 @@ data.codex.xc_new_game_plus = {
         Life has taken hold here but this Universe is still finite. 
         Continue the chain deeper so the world never ends. 
         
-        <hl>Race to compleete the Anti Entropy Loom and start the next universe down.</> 
+        <hl>Race to complete the Anti Entropy Loom and start the next universe down.</> 
 
-        Once the next universe is ready the confirmation box will tell you how fast you were. 
+        Once the next universe is ready the confirmation box will tell you how fast you were.
+        It will show all your previous times as well. 
+
+        Supply the sent robot carefully with supplies and components for the fastest start
 
         <img image="The_Cube_WIP/textures/Codex_Images/new_game_plus.png"/>
         ]],
@@ -520,8 +539,8 @@ data.codex.xc_pop_1 = {
             
             <hl>Tasks required for sustainability:</>
                 1 - Mine nearby resources for construction 
-                2 - Craft Uplink for investigating new technologies
-                3 - Research steel production
+                2 - Craft an uplink for investigating new technologies
+                3 - Research steel production to produce a component capable of holding the cube
 
             <bl>Codex has been updated</>
             ]],
@@ -529,10 +548,10 @@ data.codex.xc_pop_1 = {
             
         },
         { -- 3 metal 1
-            img = data.techs.tc_cube_blue_1.texture,
-            talkinghead = true, 
+            img = data.components.cc_cube_storage.texture,
+            talkinghead = true,
             txt = [[
-    With stronger steel frames the cube can be supported on <hl>new buildings</> with a <img id="cc_cube_storage" width="50" height="50"/>.
+    With stronger steel frames the cube can be supported on <hl>new buildings</> with a <img id="cc_cube_storage" width="50" height="50" style="bl"/>
     Curiosity heuristic has opened new avenues for further study of the Cube
 
     However great buffers of power will be required. 
@@ -544,7 +563,6 @@ data.codex.xc_pop_1 = {
     <bl>Codex has been updated</>
     ]],
             step_txt = "Setup a Cube Log Production facility with the power to support it"
-            
         },
         {  --- 4 blue 1
             img = data.items.ic_cube_empty.texture,
@@ -582,19 +600,7 @@ data.codex.xc_pop_1 = {
     <bl>Codex has been updated</>
     ]],
             step_txt = "Harvest souls and process them into a haunting plasma"
-        },    
-    --     { --- 5 red 1
-    --         img = data.items.ic_cube_red.texture,
-    --         talkinghead = true, 
-    --         txt = [[THE CUBE MELTS
-            
-    -- Deep in the fires of the earth. A churning sea of hatred
-
-    -- The cube melts its exterior away. 
-    -- ]],
-    --         step_txt = "Find uses for the FURY CUBE"
-    --     },
-
+        },
         {-- 6 anti cube splitting
             img = data.items.ic_cube_sphere.texture,
             talkinghead = true, 
@@ -615,7 +621,7 @@ data.codex.xc_pop_1 = {
             img = data.items.ic_cube_sphere.texture,
             talkinghead = true, 
             txt = [[
-    Entry 005:
+    <bl>Entry 005:</>
     The Anti-Cube now blankets the entire factory.
     All routes from the command centre have been cutoff.
 
@@ -629,9 +635,22 @@ data.codex.xc_pop_1 = {
 
     Now to clean up all <bl>1024</> Anti-Cube states across the factory.
 
+    <bl>New Tech Category Unlocked - Cube Obsession</> 
+
     <bl>Codex has been updated</>
     ]],
             step_txt = "Harvest unstable chrono crystals from the anhilated anti-cubes"
+        },
+        {-- 8 Chrono Towers 
+            img = data.items.phase_leaf.texture,
+            talkinghead = true, 
+            txt = [[
+    <img id="phase_leaf" width="50" height="50" style="bl"/> are a shimmering plant found on plataues
+
+    The fractal nature of this leaf causes anomalous space distortions.
+
+    Useful for many alternative crafting recipes
+    ]],
         },
         {-- 8 Chrono Towers 
             img = data.items.ic_time_crystal.texture,
@@ -658,8 +677,8 @@ data.codex.xc_pop_1 = {
     Each expedition will require items, components, cubes and frames to proceed further. 
     Provide these materials before the portal collapses to reset the timer and obtain a superconductor.
     
-    <hl>WARNING introspection has begin developing defence plans against time travel raids</>
-    Prepare accordingly to defend against <rl>self</>
+    <hl>WARNING introspection module has begin developing defence plans against time travel raids</>
+    Prepare accordingly to defend against <rl>_SELF</>
 
     <bl>Codex has been updated</>
     ]],
@@ -676,8 +695,9 @@ data.codex.xc_pop_1 = {
     However that is not the end!
     There is a way to make new universes! with new potential!
 
-    Create our final project.
-    Select our scion,
+    Create our final project
+    Select our scion
+    Equip them for the journey ahead
 
     <hl>Enter the new universe </>
 
@@ -688,11 +708,12 @@ data.codex.xc_pop_1 = {
     step_txt = "Craft a Microuniverse with a bot in the loom's garage to start new game plus"
         },
     },
-    steps = 10,
+    steps = 11,
     goal_check = function(faction)
 
-        if faction:IsUnlocked("tc_cube_anti_4") then return 10 end
-        if faction:IsUnlocked("tc_cube_anti_3") then return 9 end
+        if faction:IsUnlocked("tc_cube_anti_4") then return 11 end
+        if faction:IsUnlocked("tc_cube_anti_3") then return 10 end
+        if faction:IsUnlocked("tc_cube_green_4") then return 9 end
         if faction:IsUnlocked("tc_cube_anti_1") then return 8 end
         if faction:IsUnlocked("tc_cube_anti_0") then return 7 end
         if faction:IsUnlocked("xc_cube_anti") then return 6 end

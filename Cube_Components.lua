@@ -357,7 +357,7 @@ local cc_modulespeed = Comp:RegisterComponent("cc_modulespeed",{
 	attachment_size = "Internal",
 	visual = "v_generic_i",
 	texture = data.components.c_modulespeed.texture,
-	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 2, steelblock = 4, datakey_robot = 1, ldframe = 1 }, { c_assembler = 60, }),
 	boost = 30,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
@@ -388,7 +388,7 @@ cc_modulespeed:RegisterComponent("cc_modulespeed_s",{
 	attachment_size = "Small",
 	texture = data.components.c_modulespeed_s.texture,
 	visual = data.components.c_modulespeed_s.visual,
-	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 4, steelblock = 9, datakey_robot = 2, ldframe = 2 }, { c_assembler = 60, }),
 	boost = 50,
 	boost_id = "move_boost", -- or move_boost	
 	fuel = false,
@@ -400,7 +400,7 @@ cc_modulespeed:RegisterComponent("cc_modulespeed_m",{
 	attachment_size = "Medium",
 	texture = data.components.c_modulespeed_m.texture,
 	visual = data.components.c_modulespeed_m.visual,
-	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 9, steelblock = 16, datakey_robot = 4, ldframe = 3 }, { c_assembler = 60, }),
 	boost = 80,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
@@ -412,7 +412,7 @@ cc_modulespeed:RegisterComponent("cc_modulespeed_l",{
 	attachment_size = "Large",
 	texture = data.components.c_modulespeed_l.texture,
 	visual = data.components.c_modulespeed_l.visual,
-	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ engine = 16, steelblock = 25, datakey_robot = 8, ldframe = 4 }, { c_assembler = 60, }),
 	boost = 120,
 	boost_id = "move_boost", -- or move_boost
 	fuel = false,
