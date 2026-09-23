@@ -723,13 +723,3 @@ data.codex.xc_pop_1 = {
         return 2 --unlock first two on game start
     end,
 }
-
--- Appears when green cube is researched 
-data.codex.xc_pop_green_1 = {
-	category = "Codex", index = 35, title = "Understanding The Cube",
-	talkinghead = true,
-	img = data.techs.tc_cube_blue_1.texture,
-	txt = [[
-
-    ]]
-}
