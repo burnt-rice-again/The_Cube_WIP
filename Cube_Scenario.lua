@@ -364,7 +364,10 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- transport.extra_data.name = "CUBEy"
 	-- transport:Place(loc.x+4,loc.y+4)
 
-	-- home_entity:AddItem("cc_moduleefficiency_m", 2)
+	home_entity:AddItem("ldframe", 2)
+	home_entity:AddItem("steelblock", 2)
+	home_entity:AddItem("concreteslab", 2)
+
 
 
 	if Start_with_Observers then tester_spawn_observers(faction, loc.x,loc.y) end

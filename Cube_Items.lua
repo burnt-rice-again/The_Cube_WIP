@@ -114,6 +114,7 @@ data.items.steelblock.visual = data.items.metalbar.visual
 -- )
 
 data.items.concreteslab.desc = "With Concrete and Steel Humans ruled the world. Now they are all that's left"
+data.items.concreteslab.visual = "v_aluminium_sheet"
 data.items.concreteslab.production_recipe = CreateProductionRecipe(
 {steelblock = 2, metalore = 4  }, {c_fabricator = 30}, 1)
 data.items.concreteslab.tag = "simple_material"
