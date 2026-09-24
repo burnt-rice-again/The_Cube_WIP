@@ -769,3 +769,18 @@ data.codex.xc_pop_hidden_3 = {
     txt = data.items.ic_cube_posi.desc,
     img = data.items.ic_cube_posi.texture,
 }
+data.codex.xc_pop_time_travel_1024 = {
+    talkinghead = true,
+    category = "Codex", 
+    index = 80, 
+    title = "Time travel destination reached",
+    img = data.components.cc_time_travel_machine.texture,
+    txt = [[
+    <bl>Entry 80: Curiosity module reports complete success regarding time travel heuristic</>
+
+    A time delta of <bl>1024</> years was achieved.
+    Projected trajectories for our future development have been completely invalidated. 
+
+    All that's left is to walk our path
+    ]]
+}

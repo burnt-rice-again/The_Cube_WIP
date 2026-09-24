@@ -402,13 +402,16 @@ function  cc_time_travel_machine:on_update(comp, cause)
             -- update tally 
             comp.extra_data.delta = comp.extra_data.delta + 10
             comp.extra_data.supplied[order] = (comp.extra_data.supplied[order] or 0) + 1 
+            if comp.extra_data.delta > 1024 and not comp.faction:isUnlocked("xc_pop_time_travel_1024") and replace_cube_with[order] == nil then 
+                comp.faction:Unlock("xc_pop_time_travel_1024")
+                
+            end
             -- replace CUBE
             local new_id = replace_cube_with[order]
             if new_id ~= nil then 
                 AddCubeThroughFixed(owner,new_id)
                 --owner:AddItem(new_id)
             end 
-
             -- work again
             comp:SetStateStartWork(self.wait_ticks)
             comp:SetRegisterNum(2, math.random(0,30))
