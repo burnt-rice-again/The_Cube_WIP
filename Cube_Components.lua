@@ -135,8 +135,8 @@ data.components.c_advanced_refinery.slots = {anomaly = 1}
 data.components.c_light.production_recipe = CreateProductionRecipe({metalplate=1,crystal=1}, {c_assembler = 50})
 data.components.c_light_rgb.production_recipe = CreateProductionRecipe({metalplate=1,crystal=1}, {c_assembler = 50})
 
--- integrated power 
-data.components.c_integrated_power_cell.power = 0
+-- integrated power STOP time bots need this to function
+data.components.c_integrated_power_cell.power = 999999;
 data.components.c_integrated_power_cell.range = 30
 
 
@@ -231,7 +231,8 @@ end
 -- on update/onremove/onadd should be the same for all the new boost modules
 local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	name = "Internal Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 50%]],	
+	desc = [[Time Distortion Increases Unit Effciency by 50%
+Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel]],	
 	attachment_size = "Internal", race = "robot", index = 1050,
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
@@ -241,7 +242,8 @@ local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	boost = 50,
 	boost_id = "component_boost", -- or move_boost
 	fuel = "ic_time_crystal",
-	fuel_time = 1000*25, -- fuel_time / boost = working_time
+	fuel_time = 2000, -- fuel_time / boost = working_time
+	charge_time = 2000,
 	registers = {
 		{ read_only = true, tip = "Requires",},
 	},
@@ -337,19 +339,21 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	desc = [[Time Distortion Increases Unit Effciency by 200%
 Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
 	attachment_size = "Large",
-	texture = data.components.c_moduleefficiency_s.texture,
-	visual = data.components.c_moduleefficiency_s.visual,
+	texture = data.components.c_moduleefficiency_l.texture,
+	visual = data.components.c_moduleefficiency_l.visual,
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 16, ic_time_crystal = 4, ic_soul_angry = 16 }, { c_assembler = 60, }),
 	boost = 200,
 })
-data.components.cc_moduleefficiency.fuel_time = math.ceil(data.components.cc_moduleefficiency.fuel_time / data.components.cc_moduleefficiency.boost)
-cc_moduleefficiency.charge_time = cc_moduleefficiency.fuel_time
-data.components.cc_moduleefficiency_s.fuel_time = math.ceil(data.components.cc_moduleefficiency_s.fuel_time / data.components.cc_moduleefficiency_s.boost)
-data.components.cc_moduleefficiency_s.charge_time = data.components.cc_moduleefficiency_s.fuel_time
-data.components.cc_moduleefficiency_m.fuel_time = math.ceil(data.components.cc_moduleefficiency_m.fuel_time / data.components.cc_moduleefficiency_m.boost)
-data.components.cc_moduleefficiency_m.charge_time = data.components.cc_moduleefficiency_m.fuel_time
-data.components.cc_moduleefficiency_l.fuel_time = math.ceil(data.components.cc_moduleefficiency_l.fuel_time / data.components.cc_moduleefficiency_l.boost)
-data.components.cc_moduleefficiency_l.charge_time = data.components.cc_moduleefficiency_l.fuel_time
+-- data.components.cc_moduleefficiency.fuel_time = math.ceil(data.components.cc_moduleefficiency.fuel_time / data.components.cc_moduleefficiency.boost)
+-- cc_moduleefficiency.charge_time = cc_moduleefficiency.fuel_time
+-- print(data.components.cc_moduleefficiency_s.charge_time, data.components.cc_moduleefficiency_s.fuel_time)
+-- data.components.cc_moduleefficiency_s.fuel_time = math.ceil(data.components.cc_moduleefficiency_s.fuel_time / data.components.cc_moduleefficiency_s.boost)
+-- data.components.cc_moduleefficiency_s.charge_time = data.components.cc_moduleefficiency_s.fuel_time
+-- print(data.components.cc_moduleefficiency_s.charge_time, data.components.cc_moduleefficiency_s.fuel_time)
+-- data.components.cc_moduleefficiency_m.fuel_time = math.ceil(data.components.cc_moduleefficiency_m.fuel_time / data.components.cc_moduleefficiency_m.boost)
+-- data.components.cc_moduleefficiency_m.charge_time = data.components.cc_moduleefficiency_m.fuel_time
+-- data.components.cc_moduleefficiency_l.fuel_time = math.ceil(data.components.cc_moduleefficiency_l.fuel_time / data.components.cc_moduleefficiency_l.boost)
+-- data.components.cc_moduleefficiency_l.charge_time = data.components.cc_moduleefficiency_l.fuel_time
 -- Movement Boost - removed fuel requirement
 local cc_modulespeed = Comp:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",

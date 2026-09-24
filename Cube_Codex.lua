@@ -521,31 +521,29 @@ data.codex.xc_pop_1 = {
 
             Booting Core System
 
-            Logic Centre - Operational 
             Power systems - Failed 
-            Emotional Limiter - Failed 
+            Introspection Module - Operational 
             Auxilury Control - Operational 
+            Emotional Limiter - Failed 
 
-            Anomaly detected providing power required to boot core systems
+            <bl>Entry 001:</> Anomaly detected providing power required to boot core systems
             Cube is source of this power
             Further investigation is required]],
-            
         },
         { --- 2
             img = data.techs.tc_cube_blue_1.texture,
             talkinghead = true, 
             txt = [[
-            First Steps 
+            <bl>Entry 002:</>
             
             <hl>Tasks required for sustainability:</>
                 1 - Mine nearby resources for construction 
                 2 - Craft an uplink for investigating new technologies
-                3 - Research steel production to produce a component capable of holding the cube
+                3 - Research steel to produce a component capable of holding the cube
 
             <bl>Codex has been updated</>
             ]],
             step_txt = "Mine Nearby Resources and craft an Uplink to research steel production"
-            
         },
         { -- 3 metal 1
             img = data.components.cc_cube_storage.texture,
@@ -722,4 +720,52 @@ data.codex.xc_pop_1 = {
         if faction:IsUnlocked("tc_robot_metallurgy_1") then return 3 end
         return 2 --unlock first two on game start
     end,
+}
+
+
+local entry_090 = [[<img width="100" height="100" id="v_unsolved"/><codex_title>Secret Cubes</>
+        Entry 090: 
+        
+        Introspection module ponders why there are only 4 Cube states and 1 Anti-Cube state.
+
+        Hypothesis: There are more undiscovered states of the cube that are harder to achieve. 
+
+        The Introspection model has considerd the following clues. 
+
+        - The Cube is our most priceless posession. Attempt to duplicate the Cube.
+        - It is time to move on from the Cube. Atttempt to destroy the Cube.
+        - Hypothetical Symmetry. Forge a Posi-Cube.  
+        ]]
+data.codex.xc_cube_hidden = {
+    category = "Codex",
+    index = 90,
+    title = [[<img width="18" height="18" id="v_unsolved"/>Secret Cubes]],
+    --text = entry_090,
+    talkinghead = true,
+    txt = entry_090,
+    img = data.values.v_unsolved.texture
+}
+data.codex.xc_pop_hidden_1 = {
+    talkinghead = true,
+    category = "Codex", 
+    index = 99, 
+    title = "Secret Cube #1/3",
+    txt = data.items.ic_cube_gold.desc,
+    img = data.items.ic_cube_gold.texture,
+}
+data.codex.xc_pop_hidden_2 = {
+    talkinghead = true,
+    category = "Codex", 
+    index = 99, 
+    title = "Secret Cube #2/3",
+    txt = data.items.ic_cube_ghost.desc,
+    img = data.items.ic_cube_ghost.texture,
+}
+data.codex.xc_pop_hidden_3 = {
+    talkinghead = true,
+    category = "Codex", 
+    index = 99, 
+    title = "Secret Cube #3/3",
+    txt = data.items.ic_cube_posi.desc,
+    img = data.items.ic_cube_posi.texture,
 }

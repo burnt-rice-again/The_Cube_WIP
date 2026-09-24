@@ -173,8 +173,12 @@ local function build_random_bot(faction, frame_filter, bonus)
                 cost = cost + comp_cost_list.s[comp_id]
             elseif val[2] == "Internal" then 
                 comp_id = random_key(comp_keys.i)
-                bot:AddComponent(comp_id,"hidden")
-                cost = cost + comp_cost_list.i[comp_id]
+                if (comp_id ~= "c_shield_generator" or bonus > 2)
+                    and (comp_id ~= "c_shield_generator2" or bonus > 4)
+                    and (comp_id ~= "c_shield_generator3" or bonus > 6) then 
+                    bot:AddComponent(comp_id,"hidden")
+                    cost = cost + comp_cost_list.i[comp_id]
+                end
             elseif val[2] == "Large" then 
                 comp_id = random_key(comp_keys.l)
                 bot:AddComponent(comp_id)
@@ -188,6 +192,7 @@ local function build_random_bot(faction, frame_filter, bonus)
             bonus = bonus - 1
             local comp_id = random_key(comp_keys.i)
             bot:AddComponent(comp_id,"hidden")
+            bot:AddComponent("c_moduleefficiency", "hidden")
         end 
 
 
@@ -235,7 +240,7 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
 	activation = "OnAnyItemSlotChange",
 	--power = -500,
 	registers = {
-		--{tip = "<header>Request Charge</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
+        --{tip = "<header>Request Charge</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
         --{ read_only = true, ui_icon = "icon_small_time", tip = "<header>Years Travelled</>\n\nThe further into the future or past the more resources the robots can return\n\nHowever prepare for proportionally stronger retaliations from the inhabitants of that timeline"},
         { read_only = true, ui_icon = "icon_small_time", tip = "<header>Resupply Required</>\n\nItems/bots required to resupply the party"},
         { read_only = true, ui_icon = "icon_warning", tip = "<header>Defenders At Current Time</>\n\nThe Amount of defenders that will spawn if the portal collapses\nChanges with each jump in time."},
@@ -245,13 +250,8 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
     wait_ticks = 60*5*2,--3min
     range = 10,
 })
-
-local function time_delta_to_yield (delta)
-
-    local yield = math.min(20, math.ceil())
-
-
-    return 
+local function delta_to_output(delta)
+    return math.ceil(10 * delta/1024)
 end
 
 function  cc_time_travel_machine:on_add(comp, cause)
@@ -262,14 +262,11 @@ function  cc_time_travel_machine:on_add(comp, cause)
     end
     --- set registers 
     if comp:RegisterIsEmpty(2) then 
-        comp:SetRegisterNum(2,math.random(0,30))
+        comp:SetRegisterNum(2,math.random(0,30))--delta_to_output(comp.extra_data.delta)*2+10)
     end 
 
 
     comp:Activate()
-end
-local function delta_to_output(delta)
-    return math.ceil(10 * delta/1024)
 end
 local function spawn_robot_attack(comp, cost, options)
 
@@ -470,6 +467,8 @@ function cc_time_travel_machine:get_ui(comp)
         <HorizontalList> 
             <Reg def_id="v_alert" num={reward_num}/><Text text="   Threat Level:" style = "hl"/><Text text={alert_text} style = {alert_style}/>
         </HorizontalList>
+        <Text text = "Per alert level attackers get:"/>
+        <Text text = "20% efficiency and 200 health"/>
     </VerticalList>
 </Box>]], {
 		cmpimg = '<img id="' .. self.id .. '"/>',

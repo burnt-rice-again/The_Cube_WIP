@@ -73,6 +73,19 @@ data.visuals.vc_cube_red = {
     mesh = "The_Cube_WIP/textures/cube_red.glb", 
 	scale = {0.11,0.11,0.11},
 }
+-- hidden cubes 
+data.visuals.vc_cube_gold = { 
+    mesh = "The_Cube_WIP/textures/cube_gold.glb", 
+	scale = {0.11,0.11,0.11},
+}
+data.visuals.vc_cube_ghost = { 
+    mesh = "The_Cube_WIP/textures/cube_ghost.glb", 
+	scale = {0.11,0.11,0.11},
+}
+data.visuals.vc_cube_posi = { 
+    mesh = "The_Cube_WIP/textures/cube_posi.glb", 
+	scale = {0.11,0.11,0.11},
+}
 data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Containers_Blight_Data.Containers_Blight_Data'"}
 -- components 
 data.visuals.vc_cube_storage = { 

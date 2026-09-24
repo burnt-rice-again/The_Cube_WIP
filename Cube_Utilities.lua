@@ -94,12 +94,13 @@ function PlaceResourceNode(cord, resource, amt, frame, visual)
 		end
 	end)
 end
-function Update_cube_location_global(owner, item)
+
+function Update_cube_location_global(owner, item, faction2)
 
 	if item == nil then return end 
 
 	if owner:CountItem(item) > 0 then 
-		local faction = owner.faction
+		local faction = faction2 or owner.faction
 		faction.extra_data.cube_key = owner.key
 		faction.extra_data.cube_type = item
 		faction.extra_data.cube_cord = owner.location
@@ -231,7 +232,7 @@ function SerializeItems(ent)
 		local slot_data = {}
 		print(val, val.id, val.stack, val.extra_data)
 		if val.entity == nil then 
-			if val.id ~= nil and val.stack > 0 and val.type ~= "cube" then 
+			if val.id ~= nil and val.stack > 0 then 
 				slot_data.id = val.id
 				slot_data.stack = val.stack
 				slot_data.extra_data = Tool.Copy(val.extra_data)
@@ -248,7 +249,12 @@ function DeserializeItems(ent, data)
 	for key, val in ipairs(ent.slots) do 
 		local slot_data = data[key]
 		if slot_data.stack ~= nil and slot_data.stack > 0 then
-			if slot_data.extra_data ~= nil then 
+			if slot_data.id:find('ic_cube') ~= nil then 
+				val:SetItemAndStack("ic_cube_gold", 1)
+				ent.faction:Unlock("ic_cube_gold")
+				ent.faction:Unlock("xc_cube_hidden")
+				ent.faction:Unlock("xc_pop_hidden_1")
+			elseif slot_data.extra_data ~= nil then 
 				val:SetItemAndStack(slot_data.id, slot_data.stack, Tool.Copy(slot_data.extra_data))
 			else 
 				val:SetItemAndStack(slot_data.id, slot_data.stack)
@@ -259,3 +265,5 @@ function DeserializeItems(ent, data)
 		end
 	end 
 end 
+
+

@@ -83,7 +83,7 @@ data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
 data.items.ldframe.race = "robot"
 data.items.ldframe.production_recipe = CreateProductionRecipe(
-{ reinforced_plate = 2, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_happy = 1, blight_crystal = 9}, { cc_manifest = 20 }, 1)
+{ reinforced_plate = 2, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_angry = 1, blight_crystal = 9}, { cc_manifest = 20 }, 1)
 
 
 --------------------------------------
@@ -423,6 +423,7 @@ data.items.ic_matter = {
 	texture = data.items.obsidian.texture,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
 }
+local item_num = 1 
 data.items.ic_micro_universe = {
 	name = 'Micro Universe',
 	index = 12,
@@ -433,9 +434,49 @@ data.items.ic_micro_universe = {
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = "Main/textures/tech/blight/blight_terra_03_1.png",
-	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = 64, ic_proto_sent = 64, ic_matter = 64, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_broken_reality = item_num, ic_proto_sent = item_num, ic_matter = item_num, ic_cube_blue = 1}, { cc_gyro_fabricator = 100 }, 1, {ic_cube_blue = 1}),
 }
 
 
 
+-------------------- 
+--- easter egg ----
 
+data.items.ic_cube_gold = {
+	name = "Golden CUBE",
+	index = 1002,
+	desc = [[<hl>Entry 095: Attempt to duplicate the Cube Succeeded! It has shifted into another form</>
+<hl>According to ancient human texts this is an extremly valuable material. Analysis has however failed to find any useful application</>]],
+	tag = "cube",
+	slot_type = "cube",
+	stack_size = 1,
+	race = "alien",
+	texture = "The_Cube_WIP/textures/cube_gold.png",
+	visual = "vc_cube_gold",
+	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
+}
+data.items.ic_cube_ghost = {
+	name = "Companion CUBE",
+	index = 1002,
+	desc = [[<hl>Entry 096: Emotional Limiter sucessful allowing for attempted destruction of Cube.</>
+	The Enrichment Center is required to remind you that the Weighted Companion Cube cannot talk. In the event that it does talk The Enrichment Centre asks you to ignore its advice.</>]],
+	tag = "cube",
+	slot_type = "cube",
+	stack_size = 1,
+	race = "alien",
+	texture = "The_Cube_WIP/textures/cube_ghost.png",
+	visual = "vc_cube_ghost",
+	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
+}
+data.items.ic_cube_posi = {
+	name = "Posi-CUBE",
+	index = 1002,
+	desc = [[<hl>Entry 097: A unique cube that can only be crafted 1 time per Universe. What more could we want then the knowladge of more Cubes?</>]],
+	tag = "cube",
+	slot_type = "cube",
+	stack_size = 1,
+	race = "alien",
+	texture = "The_Cube_WIP/textures/cube_posi.png",
+	visual = "vc_cube_posi",
+	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
+}

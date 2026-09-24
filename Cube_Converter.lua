@@ -158,7 +158,16 @@ function cc_scrap_converter:on_update(comp, cause)
 			-- find one with same id 
 			if recipe.id == id then 
 				
-				if recipe.cube_out ~= nil then 
+				if recipe.cube_out == "ic_cube_posi" then 
+					if  not comp.faction:IsUnlocked("ic_cube_posi") then 
+						comp.faction:Unlock("ic_cube_posi")
+						comp.faction:Unlock("xc_cube_hidden")
+						comp.faction:Unlock("xc_pop_hidden_3")
+
+						AddCubeThroughFixed(comp.owner,recipe.cube_out)
+					end
+				elseif recipe.cube_out ~= nil then 
+					-- check for posi-cube-limit
 					--print("Add Cube")
 					AddCubeThroughFixed(comp.owner,recipe.cube_out)
 				end
@@ -288,6 +297,15 @@ cc_scrap_converter:RegisterComponent("cc_cube_melter", {
 		t = 5, 
 		to = {},
 		cube_out = "ic_cube_red",
+		--effect = "fx_alien_monolith_lightning"
+		},
+		{ 	id = "ic_cube_posi", 
+		amt = {["ic_cube_sphere"] = 1} , 
+		t = 5, 
+		to = {},
+		cube_out = "ic_cube_posi",
+		tech = "ic_cube_posi",
+		limit_1 = true,
 		--effect = "fx_alien_monolith_lightning"
 		}
 	},

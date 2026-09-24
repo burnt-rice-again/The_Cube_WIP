@@ -63,6 +63,8 @@ data.frames.f_building2x2e.construction_recipe = CreateConstructionRecipe({ conc
 data.frames.f_building2x2e.component_boost = 0
 data.frames.f_building3x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 40, reinforced_plate = 25, ic_time_crystal = 5, fused_electrodes = 16 }, 40)
 data.frames.f_building3x2a.component_boost = 0
+data.frames.f_building3x2a.components = nil
+
 -- flying frames
 data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ ldframe = 1, datakey_robot = 2, metalplate = 4 }, { c_robotics_factory = 50 })
 data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ ldframe = 2, ic_soul_happy = 4, reinforced_plate = 6 }, { c_robotics_factory = 80 })
@@ -280,3 +282,21 @@ data.frames.f_damage_plant.on_destroy = function(self, entity, damager)
 end
 
 
+data.frames.f_dropped_item.on_destroy = function(self, entity, damager_entity)
+
+	for key,val in pairs(entity.slots) do 
+		if val.id and val.id:find('ic_cube') ~= nil and val.id ~= "ic_cube_ghost" then 
+			local faction = damager_entity.faction
+			Map.Defer(function() 
+				Map.DropItemAt(damager_entity,"ic_cube_red",1)
+			end)
+			if faction and not faction:IsUnlocked("ic_cube_ghost") then 
+				print(faction)
+				faction:Unlock("ic_cube_ghost")
+				faction:Unlock("xc_cube_hidden")
+				faction:Unlock("xc_pop_hidden_2")
+				Map.DropItemAt(damager_entity,"ic_cube_ghost",1)
+			end
+		end
+	end
+end
