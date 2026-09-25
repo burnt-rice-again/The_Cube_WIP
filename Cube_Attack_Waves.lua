@@ -402,9 +402,10 @@ function  cc_time_travel_machine:on_update(comp, cause)
             -- update tally 
             comp.extra_data.delta = comp.extra_data.delta + 10
             comp.extra_data.supplied[order] = (comp.extra_data.supplied[order] or 0) + 1 
-            if comp.extra_data.delta > 1024 and not comp.faction:isUnlocked("xc_pop_time_travel_1024") and replace_cube_with[order] == nil then 
+            if comp.extra_data.delta > 1024 and not comp.faction:IsUnlocked("xc_pop_time_travel_1024") and replace_cube_with[order] == nil then 
                 comp.faction:Unlock("xc_pop_time_travel_1024")
-                
+                comp.faction:Unlock("ic_cube_super")
+                AddCubeThroughFixed(owner,"ic_cube_super")
             end
             -- replace CUBE
             local new_id = replace_cube_with[order]

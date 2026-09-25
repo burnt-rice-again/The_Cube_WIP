@@ -262,26 +262,21 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	recharger:Place(loc.x-3,loc.y+10)
 
 	local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	recharger:AddComponent("cc_time_travel_machine", "auto") --{delta = 1000, supplied = {}}
+	recharger:AddComponent("cc_time_travel_machine", "auto",{delta = 2000, supplied = {}})
 	recharger:AddComponent("c_turret")
 	recharger:AddComponent("cc_cube_storage")
 	recharger:AddComponent("c_power_cell")
 	recharger:Place(loc.x+6,loc.y-6)
 
-
-	-- local test_enemy = Map.CreateEntity(GetBugsFaction(), "f_scaramar2")
-	-- test_enemy:Place(loc.x-6,loc.y-12)
-
-
 	local pipe = Map.CreateEntity(faction, "fc_pipe")
 	--recharger:AddItem("ic_soul_plasma",20)
 	pipe:Place(loc.x-12,loc.y)
 	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",9)
+	pipe:AddItem("ic_soul_plasma",100)
 	pipe:Place(loc.x-8,loc.y+10)
 
 	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",1)
+	pipe:AddItem("ic_soul_plasma",100)
 	pipe:Place(loc.x-8,loc.y+4)
 
 	-- --testing soul refinery 
@@ -329,7 +324,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- testing visuals 
 	transport = Map.CreateEntity(faction, "f_building1x1a")
 	transport:AddComponent("cc_cube_storage")
-	transport:AddItem("ic_cube_empty")
+	transport:AddItem("ic_cube_ghost")
 	transport:GetSlot(1):SetLockedItem()
 	transport:GetSlot(2):SetLockedItem()
 	transport.logistics_carrier = true

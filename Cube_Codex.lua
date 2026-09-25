@@ -734,7 +734,8 @@ local entry_090 = [[<img width="100" height="100" id="v_unsolved"/><codex_title>
 
         - The Cube is our most priceless posession. Attempt to duplicate the Cube.
         - It is time to move on from the Cube. Atttempt to destroy the Cube.
-        - Hypothetical Symmetry. Forge a Posi-Cube.  
+        - Hypothetical Symmetry. Forge a Posi-Cube.
+        - Stolen research from a 2^10 time. 
         ]]
 data.codex.xc_cube_hidden = {
     category = "Codex",
@@ -749,7 +750,7 @@ data.codex.xc_pop_hidden_1 = {
     talkinghead = true,
     category = "Codex", 
     index = 99, 
-    title = "Secret Cube #1/3",
+    title = "Secret Cube #1/4",
     txt = data.items.ic_cube_gold.desc,
     img = data.items.ic_cube_gold.texture,
 }
@@ -757,7 +758,7 @@ data.codex.xc_pop_hidden_2 = {
     talkinghead = true,
     category = "Codex", 
     index = 99, 
-    title = "Secret Cube #2/3",
+    title = "Secret Cube #2/4",
     txt = data.items.ic_cube_ghost.desc,
     img = data.items.ic_cube_ghost.texture,
 }
@@ -765,7 +766,7 @@ data.codex.xc_pop_hidden_3 = {
     talkinghead = true,
     category = "Codex", 
     index = 99, 
-    title = "Secret Cube #3/3",
+    title = "Secret Cube #3/4",
     txt = data.items.ic_cube_posi.desc,
     img = data.items.ic_cube_posi.texture,
 }
@@ -773,14 +774,16 @@ data.codex.xc_pop_time_travel_1024 = {
     talkinghead = true,
     category = "Codex", 
     index = 80, 
-    title = "Time travel destination reached",
-    img = data.components.cc_time_travel_machine.texture,
+    title = "Secret Cube #4/4",
+    img = data.items.ic_cube_super.texture,
     txt = [[
-    <bl>Entry 80: Curiosity module reports complete success regarding time travel heuristic</>
+    <bl>Entry 98: Curiosity module reports complete success regarding time travel heuristic</>
 
-    A time delta of <bl>1024</> years was achieved.
-    Projected trajectories for our future development have been completely invalidated. 
+    An Astonishing time delta of <bl>1024</> years was(will be) achieved.
+    Projected trajectories for future development have been completely invalidated. 
 
-    All that's left is to walk our path
+    All that's left is to walk the path
+
+    <rl>Entry 099: Introspection model malfunctioning. Understanding of self not consistant with future timelines. Rebooting..........</>
     ]]
 }

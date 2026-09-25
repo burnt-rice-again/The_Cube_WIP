@@ -483,12 +483,12 @@ data.items.ic_cube_posi = {
 data.items.ic_cube_super = {
 	name = "Neutronium-CUBE",
 	index = 1002,
-	desc = [[<hl>Entry 098: </>]],
+	desc = [[<rl>Entry 098: Introspection model malfunctioning. Understanding of self not calculatable with future timelines. Rebooting..........</>]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
 	race = "alien",
-	texture = "The_Cube_WIP/textures/cube_posi.png",
-	visual = "vc_cube_posi",
+	texture = "The_Cube_WIP/textures/cube_super.png",
+	visual = "vc_cube_super",
 	--production_recipe = CreateProductionRecipe({ ic_cube_blue = 1, hdframe = 1 }, { c_robotics_factory = 200, }),
 }

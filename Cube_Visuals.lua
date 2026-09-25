@@ -86,6 +86,10 @@ data.visuals.vc_cube_posi = {
     mesh = "The_Cube_WIP/textures/cube_posi.glb", 
 	scale = {0.11,0.11,0.11},
 }
+data.visuals.vc_cube_super = { 
+    mesh = "The_Cube_WIP/textures/cube_super.glb", 
+	scale = {0.11,0.11,0.11},
+}
 data.visuals.vc_cube_purple = { mesh = "StaticMesh'/Game/Meshes/Containers/Containers_Blight_Data.Containers_Blight_Data'"}
 -- components 
 data.visuals.vc_cube_storage = { 
@@ -128,10 +132,11 @@ data.visuals.vc_tower1 = {
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
 data.visuals.vc_chrono_tower = {
-	mesh = "The_Cube_WIP/textures/BoostTower_1.glb",	
+	mesh = "The_Cube_WIP/textures/BoostTower_1.glb",
+	flags = "RandomRotation",
 	--mesh_offset = {0,0,100	},
-	scale = {0.18,0.18,0.18},
-	mesh_sockets = { ["fx"] = {0,0,1470}},
+	scale = {0.09,0.09,0.09},
+	mesh_sockets = { ["fx"] = {0,0,5470}},
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 
