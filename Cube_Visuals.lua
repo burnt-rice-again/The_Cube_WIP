@@ -132,8 +132,9 @@ data.visuals.vc_tower1 = {
 	--materials = {"The_Cube_WIP/textures/energy_spehere_from_online.jpg"}
 }
 data.visuals.vc_chrono_tower = {
-	mesh = "The_Cube_WIP/textures/BoostTower_1.glb",
+	mesh = "The_Cube_WIP/textures/chrono_tower.glb",
 	flags = "RandomRotation",
+	placement = "Min",
 	--mesh_offset = {0,0,100	},
 	scale = {0.09,0.09,0.09},
 	mesh_sockets = { ["fx"] = {0,0,5470}},

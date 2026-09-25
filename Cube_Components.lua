@@ -736,7 +736,7 @@ function cc_boost_tower:on_update(comp, cause)
 			comp:StopEffects()
 			comp.owner:LookAt(target)
 			--comp:PlayEffect("fx_miner","fx",target)--fx_railgun
-			comp:PlayEffect("fx_photon_beam","fx",target,{speed=0.01})
+			comp:PlayEffect("fx_photon_beam","fx",target,{anim_speed=0.01})
 		else 
 			comp:SetRegister(2,missing)
 			comp:FlagRegisterError(2)
