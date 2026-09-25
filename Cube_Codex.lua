@@ -150,7 +150,7 @@ data.codex.xc_cube_recharger = {
 
         Tip: The faster recipe will automatically be used when an electroplasma reciever <img id="cc_pipe_output" width="50" height="50"/> is also slotted on the same building. 
 
-        <img image="The_Cube_WIP/textures/Codex_Images/cube_recharger.png"/>
+        <img image="The_Cube_WIP/textures/Codex_Images/cube_recharger_2.png"/>
 
         ]],
 }
