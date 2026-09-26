@@ -105,19 +105,19 @@ data.visuals.v_explorable_blightanomaly_03.scale = {0.4,0.4,0.4}
 
 data.visuals.vc_souls ={
 	mesh = "The_Cube_WIP/textures/Soul_Visual.glb",
-	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	flags = "SmallObject |RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
 	cull_ratio = CONTAINER_CULL_DIST
 }
 data.visuals.vc_soul_happy ={
 	mesh = "The_Cube_WIP/textures/Soul_Happy.glb",
-	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	flags = "SmallObject | RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
 	scale = { 0.1, 0.1, 0.1, },
 	cull_ratio = CONTAINER_CULL_DIST
 }
 data.visuals.vc_soul_angry ={
 	mesh = "The_Cube_WIP/textures/Soul_Angry.glb",
-	flags = "RandomRotation | RandomScale | RandomTranslation | NoShadows | AlignToTerrain",
+	flags = "SmallObject",
 	scale = { 0.1, 0.1, 0.1, },
 	cull_ratio = CONTAINER_CULL_DIST
 }

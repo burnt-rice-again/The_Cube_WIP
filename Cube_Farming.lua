@@ -208,6 +208,7 @@ data.items.phase_leaf.production_recipe = CreateProductionRecipe({cc_planter_pha
 local function is_pos_plantable(comp, x,y, range)
     local owner = comp.owner
     return (owner:IsInRangeOf({x, y}, range) 
+    and Map.GetElevation(x,y) > Map.GetWaterHeight()
     and Map.GetEntityAt(x,y, FF_OWNFACTION | FF_ENEMYFACTION | FF_NEUTRALFACTION | FF_ALLYFACTION, comp.faction ) == nil 
     and Map.GetEntityAt(x,y,FF_RESOURCE) == nil
     and Map.GetBlightnessDelta(x, y, -1) <= 0 -- check not in blight

@@ -1,9 +1,8 @@
 TODO code 
-    add bases to capture back in 
-    more consistant lore 
-        explain the entropy problem 
         More ENTRY 001 logs
         Praise the Cube More 
+        planter power ui flickers 
+        planter errors over water
 
 TODO visuals
     imporive new 3d files 

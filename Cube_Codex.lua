@@ -694,6 +694,18 @@ data.codex.xc_pop_1 = {
         ]],
     step_txt = "Start a raid against our future selves"
         },
+        {-- 11 Time Travvel Attack
+            img = data.frames.f_bot_1s_adw.texture,
+            talkinghead = true, 
+            txt = [[
+            <hl>Warning Time Travel Portal Collapsed</>
+
+            <hl>Hostile threat emerging</>
+
+            Prepare for attack from <rl>_SELF</>
+        ]],
+    step_txt = "Start a raid against our future selves"
+        },
         {-- 11 final project
             img = data.items.ic_micro_universe.texture,
             talkinghead = true, 

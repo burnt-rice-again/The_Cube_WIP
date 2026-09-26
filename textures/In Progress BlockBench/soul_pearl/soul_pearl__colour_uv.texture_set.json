@@ -1,0 +1,8 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:texture_set": {
+		"color": "soul_pearl__colour_uv",
+		"metalness_emissive_roughness": "soul_pearl__mer_uv",
+		"heightmap": "soul_pearl__colour_uv_height"
+	}
+}
