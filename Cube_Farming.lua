@@ -338,7 +338,6 @@ function cc_planter:on_update(comp, cause)
             plant:Place(cord,comp.owner,false)
             comp:RotateComponent(plant)
             comp:SetRegisterCoord(1, nil)
-        -- TODO add turn and throw effect 
     end)
         else 
             comp:FlagRegisterError(2,"Can no longer Plant At Target")

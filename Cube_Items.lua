@@ -138,6 +138,8 @@ data.items.fused_electrodes.name = "Superconductor"
 data.items.fused_electrodes.desc = "This Material is beyond our current understanding\n1024 years into the future we will invent a way to manufacture it"
 data.items.fused_electrodes.production_recipe = false
 
+
+data.values.v_is_flower.desc = "Radar filter for <gl>wild flowers</> or <gl>fully grown crops</>"
 --------------------------------------
 ---- CUBE! -----------
 
