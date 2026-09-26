@@ -650,7 +650,7 @@ data.codex.xc_pop_1 = {
     Useful for many alternative crafting recipes
     ]],
         },
-        {-- 8 Chrono Towers 
+        {-- 9  
             img = data.items.ic_time_crystal.texture,
             talkinghead = true, 
             txt = [[
@@ -664,25 +664,37 @@ data.codex.xc_pop_1 = {
     <bl>Codex has been updated</>
     ]],
         },
-        {-- 9 Time Travvel
+        {-- 10 Time Travvel
             img = data.components.cc_time_travel_machine.texture,
             talkinghead = true, 
             txt = [[
     <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
-    The earliest known superconductors are manufactured 1024 years into the future. 
+    The earliest known superconductors are manufactured <bl>1024</> years into the future. 
 
     <hl>Using a time machine we can raid our future selves to obtain this material.</>
     Each expedition will require items, components, cubes and frames to proceed further. 
     Provide these materials before the portal collapses to reset the timer and obtain a superconductor.
     
-    <hl>WARNING introspection module has begin developing defence plans against time travel raids</>
+    <hl>WARNING introspection module has begun developing defence plans against time travel raids</>
     Prepare accordingly to defend against <rl>_SELF</>
 
     <bl>Codex has been updated</>
     ]],
     step_txt = "Start a raid against our future selves"
         },
-        {-- 10 final project
+        {-- 11 Time Travvel Attack
+            img = data.components.cc_time_travel_machine.texture,
+            talkinghead = true, 
+            txt = [[
+            <hl>Warning Time Travel Portal Collapsed</>
+
+            <hl>Hostile threat emerging</>
+
+            Prepare for attack from <rl>_SELF</>
+        ]],
+    step_txt = "Start a raid against our future selves"
+        },
+        {-- 11 final project
             img = data.items.ic_micro_universe.texture,
             talkinghead = true, 
             txt = [[
@@ -709,7 +721,8 @@ data.codex.xc_pop_1 = {
     steps = 11,
     goal_check = function(faction)
 
-        if faction:IsUnlocked("tc_cube_anti_4") then return 11 end
+        if faction:IsUnlocked("tc_cube_anti_4") then return 12 end
+        if faction.extra_data.xc_tt_attack ~= nil then return 11 end
         if faction:IsUnlocked("tc_cube_anti_3") then return 10 end
         if faction:IsUnlocked("tc_cube_green_4") then return 9 end
         if faction:IsUnlocked("tc_cube_anti_1") then return 8 end
@@ -721,7 +734,6 @@ data.codex.xc_pop_1 = {
         return 2 --unlock first two on game start
     end,
 }
-
 
 local entry_090 = [[<img width="100" height="100" id="v_unsolved"/><codex_title>Secret Cubes</>
         Entry 090: 

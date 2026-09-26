@@ -67,7 +67,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- blightness
 	faction.extra_data.blight_fog = 1
 	faction.has_blight_shield = true
-
+	faction.extra_data.best_time_delta = 0
 	-- set player trust  
 	faction:SetTrust("time_bots","ENEMY", true)
 	
@@ -260,12 +260,24 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- recharger:AddItem("ic_cube_red")
 	-- recharger:Place(loc.x-3,loc.y+10)
 
-	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	-- recharger:AddComponent("cc_time_travel_machine", "auto",{delta = 2000, supplied = {}})
-	-- recharger:AddComponent("c_turret")
-	-- recharger:AddComponent("cc_cube_storage")
-	-- recharger:AddComponent("c_power_cell")
-	-- recharger:Place(loc.x+6,loc.y-6)
+	local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	recharger:AddComponent("cc_time_travel_machine")
+	--recharger:AddComponent("cc_time_travel_machine", "auto",{delta = 2000, supplied = {}})
+	recharger:AddComponent("c_adv_portable_turret")
+	recharger:AddComponent("cc_cube_storage")
+	recharger:AddComponent("c_power_cell")
+	recharger:Place(loc.x+6,loc.y-6)
+
+	local turret = Map.CreateEntity(faction, "f_building1x1b")
+	turret:AddComponent("c_plasma_turret")
+	turret:Place(recharger)	
+	local turret = Map.CreateEntity(faction, "f_building1x1b")
+	turret:AddComponent("c_plasma_turret")
+	turret:Place(recharger)	
+	local turret = Map.CreateEntity(faction, "f_building1x1b")
+	turret:AddComponent("c_plasma_turret")
+	turret:Place(recharger)
+
 
 	-- local pipe = Map.CreateEntity(faction, "fc_pipe")
 	-- --recharger:AddItem("ic_soul_plasma",20)

@@ -109,44 +109,45 @@ local cc_damage_check = Comp:RegisterComponent("cc_damage_check",{
     name = "damage", 
     desc = "prevent frame from dropping comps when destroyed"
 })
-
--- prevent the units from dropping components 
+-- prevent the unit from dropping components on death
 -- owner.exists did not work or .is_updating
 function cc_damage_check:on_take_damage(comp, amount)
     local owner = comp.owner
     --print("Damage:",amount, " Health_old:",owner.health, "HealthNew:", owner.health-amount)
+    -- check if dying
     if owner.health-amount <= 0  then
+        -- make indestructible
         owner.max_health = 60000;
         owner:AddHealth(60000)
+        -- remove components on next tick
         for i = 1, owner.component_count do 
             local comp2 = owner:GetComponent(i)
             if comp2 ~= nil then 
-                --print(comp2.id, "Destroyed")
-                --comp2:Destroy()
                 Map.Defer(function()comp2:Destroy()end)
             end
         end
+        -- stop the bot from doing anything
         owner.powered_down = true
-        --owner:Unplace()
-
+        -- unplace bot so it cant be shot at
+        owner:Unplace()
+        -- will destroy the ent
+        -- any items / remainging comps it had will be dropped at its location
         Map.Delay('destroy_ent', 2, {ent = owner})
     end
 end
-function Delay.reset_max_health(arg) 
-
-	local bot = arg.ent
-
-	if bot ~= nil then 
-		bot.max_health = bot.def.health_points
-	end
-end
 function Delay.destroy_ent(arg) 
-
 	local bot = arg.ent
-    --print("Destroying", bot)
 	if bot ~= nil then 
 		bot:Destroy()
 	end
+end
+function Delay.reset_max_health(arg) 
+
+    local bot = arg.ent
+
+    if bot ~= nil then 
+        bot.max_health = bot.def.health_points
+    end
 end
 
 
@@ -352,7 +353,7 @@ function  cc_time_travel_machine:on_update(comp, cause)
         --print("cost__reg", comp:GetRegisterNum(2))
         comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
         spawn_robot_attack(comp, comp:GetRegisterNum(2), {range = self.range})
-        
+        comp.faction.extra_data.xc_tt_attack = true
         -- spawn attackers 
         comp:SetRegisterNum(2,0)
         comp:SetStateSleep(1000)
@@ -401,6 +402,9 @@ function  cc_time_travel_machine:on_update(comp, cause)
             end
             -- update tally 
             comp.extra_data.delta = comp.extra_data.delta + 10
+            if comp.faction.extra_data.best_time_delta < comp.extra_data.delta then
+                comp.faction.extra_data.best_time_delta = comp.extra_data.delta
+            end
             comp.extra_data.supplied[order] = (comp.extra_data.supplied[order] or 0) + 1 
             if comp.extra_data.delta > 1024 and not comp.faction:IsUnlocked("xc_pop_time_travel_1024") and replace_cube_with[order] == nil then 
                 comp.faction:Unlock("xc_pop_time_travel_1024")
