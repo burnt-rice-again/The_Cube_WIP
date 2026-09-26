@@ -692,19 +692,43 @@ data.codex.xc_pop_1 = {
 
             Prepare for attack from <rl>_SELF</>
         ]],
-    step_txt = "Start a raid against our future selves"
         },
         {-- 11 Time Travvel Attack
             img = data.frames.f_bot_1s_adw.texture,
             talkinghead = true, 
             txt = [[
-            <hl>Warning Time Travel Portal Collapsed</>
+            <bl> INCOMING TRANSMISSION</>
+            
+            <pl>Warning - Cease theft of rare materials</>
 
-            <hl>Hostile threat emerging</>
+            <pl>Security Module threat heuristic - high</>
 
-            Prepare for attack from <rl>_SELF</>
-        ]],
-    step_txt = "Start a raid against our future selves"
+            <pl>Countermeasures Initiated</>
+
+            Loading Memory Banks of <rl>_SELF</> for records of essential materials theft
+
+            ...... Searching Archive for records ......
+
+            ..... ^#Q98cjnnl0a09#@"44tg .....
+
+            ..... Data Corrupted .....
+            ]],
+        },
+        {-- 11 Time Travvel Attack
+            img = data.frames.f_bot_1s_adw.texture,
+            talkinghead = true, 
+            txt = [[
+            <bl>Activating Security Module</>
+
+            Purging all data related to recording timetravel raids 
+            to prevent countermeasures by future <rl>_SELF</> 
+            .
+            ..
+            ...
+            ....
+            .....
+            Data Purged
+            ]],
         },
         {-- 11 final project
             img = data.items.ic_micro_universe.texture,
