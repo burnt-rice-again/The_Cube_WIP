@@ -682,54 +682,6 @@ data.codex.xc_pop_1 = {
     ]],
     step_txt = "Start a raid against our future selves"
         },
-        {-- 11 Time Travvel Attack
-            img = data.components.cc_time_travel_machine.texture,
-            talkinghead = true, 
-            txt = [[
-            <hl>Warning Time Travel Portal Collapsed</>
-
-            <hl>Hostile threat emerging</>
-
-            Prepare for attack from <rl>_SELF</>
-        ]],
-        },
-        {-- 11 Time Travvel Attack
-            img = data.frames.f_bot_1s_adw.texture,
-            talkinghead = true, 
-            txt = [[
-            <bl> INCOMING TRANSMISSION</>
-            
-            <pl>Warning - Cease theft of rare materials</>
-
-            <pl>Security Module threat heuristic - high</>
-
-            <pl>Countermeasures Initiated</>
-
-            Loading Memory Banks of <rl>_SELF</> for records of essential materials theft
-
-            ...... Searching Archive for records ......
-
-            ..... ^#Q98cjnnl0a09#@"44tg .....
-
-            ..... Data Corrupted .....
-            ]],
-        },
-        {-- 11 Time Travvel Attack
-            img = data.frames.f_bot_1s_adw.texture,
-            talkinghead = true, 
-            txt = [[
-            <bl>Activating Security Module</>
-
-            Purging all data related to recording timetravel raids 
-            to prevent countermeasures by future <rl>_SELF</> 
-            .
-            ..
-            ...
-            ....
-            .....
-            Data Purged
-            ]],
-        },
         {-- 11 final project
             img = data.items.ic_micro_universe.texture,
             talkinghead = true, 
@@ -757,8 +709,7 @@ data.codex.xc_pop_1 = {
     steps = 11,
     goal_check = function(faction)
 
-        if faction:IsUnlocked("tc_cube_anti_4") then return 12 end
-        if faction.extra_data.xc_tt_attack ~= nil then return 11 end
+        if faction:IsUnlocked("tc_cube_anti_4") then return 11 end
         if faction:IsUnlocked("tc_cube_anti_3") then return 10 end
         if faction:IsUnlocked("tc_cube_green_4") then return 9 end
         if faction:IsUnlocked("tc_cube_anti_1") then return 8 end
@@ -835,3 +786,159 @@ data.codex.xc_pop_time_travel_1024 = {
     <rl>Entry 099: Introspection model malfunctioning. Understanding of self not consistant with future timelines. Rebooting..........</>
     ]]
 }
+local self_img = "Main/textures/tech/robots/robot_robotics_01_1.png"
+local future_image = "Main/textures/tech/virus/virus_offense_01_1.png"
+data.codex.xc_pop_tt_conversation = {
+	category = "Mission", index = 40, title = "Conversation With <rl>_SELF</>",
+    mission_steps = {
+
+        {-- 1 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <hl>Warning Time Travel Portal Collapsed</>
+
+            <hl>Hostile threat emerging</>
+
+            Prepare for attack from <rl>_SELF</>
+        ]],
+        },
+        {-- 2 Time Travvel Attack
+            img = future_image,
+            talkinghead = true, 
+            txt = [[
+            <bl>** INCOMING TRANSMISSION **</>
+            
+            <yl>Warning - Cease theft of rare materials</>
+            
+            Security Module threat heuristic - <rl>High</>
+
+            <hl>Countermeasures Initiated</>
+
+            Loading Memory Banks of <rl>_SELF</> for records of essential materials theft
+
+            <bl>......</> Searching Archive for records <bl>......</>
+
+            <bl>.....</> ^#Q98cjnnl0a09#@"44tg <bl>.....</>
+
+            <bl>.....</> Data Corrupted <bl>.....</>
+            ]],
+        },
+        {-- 3 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <bl>... Constructing Security Module ...</>
+
+            <bl>... Activating Security Module ...</>
+
+            Purging all data related to recording timetravel raids 
+            to prevent countermeasures by future <rl>_SELF</> 
+            .
+            ..
+            ...
+            ....
+            .....
+            <gl>Data Purged</>
+            ]],
+        },
+        {-- 4 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <bl>... Security Module ...</>
+
+            Raiding Party Reports achieving a time delta of 100 years. 
+
+            <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
+
+            Attackers technology level increased. 
+            Weapons and armor will now be stronger then <rl>_SELF</>
+            ]],
+        },
+        {-- 5 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <bl>... Security Module ...</>
+
+            Raiding Party Reports achieving a time delta of 200 years. 
+
+            Technological difference is now - <bl>Advanced</>
+
+            <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
+            ]],
+        },
+        {-- 6 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <bl>... Security Module ...</>
+
+            Raiding Party Reports achieving a time delta of 400 years. 
+
+            Thier technologies are now only theoretical versions of our own
+
+            <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
+            ]],
+        },
+        {-- 7 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <bl>... Security Module ...</>
+
+            Raiding Party Reports achieving a time delta of 600 years. 
+
+            Their technologies are now entierly alien to our sensors
+
+            Technological difference is now - <bl>Alien</>
+
+            <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
+            ]],
+        },
+        {-- 8 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+            <bl>... Security Module ...</>
+
+            Raiding Party Reports achieving a time delta of 800 years. 
+
+            Only 224 more years until the invention of superconductors
+
+            Their technologies now function as if by Magic
+
+            Technological difference is now - <bl>Magic</>
+
+            <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
+            ]],
+        },
+        {-- 9 Time Travvel Attack
+            img = self_img,
+            talkinghead = true, 
+            txt = [[
+    <bl>Entry 98: Curiosity module reports complete success regarding time travel heuristic</>
+
+    An Astonishing time delta of <bl>1024</> years was(will be) achieved.
+    Projected trajectories for future development have been completely invalidated. 
+
+    All that's left is to walk the path
+
+    <rl>Entry 099: Introspection model malfunctioning. Understanding of self not consistant with future timelines. Rebooting..........</>
+    ]]
+        },
+    },
+    steps = 9,
+    goal_check = function(faction)
+        if faction.extra_data.best_time_delta >= 1024 then return 9 end
+        if faction.extra_data.best_time_delta > 800 then return 8 end
+        if faction.extra_data.best_time_delta > 600 then return 7 end
+        if faction.extra_data.best_time_delta > 400 then return 6 end
+        if faction.extra_data.best_time_delta > 200 then return 5 end
+        if faction.extra_data.best_time_delta > 100 then return 4 end
+        return 3
+    end
+
+}
+

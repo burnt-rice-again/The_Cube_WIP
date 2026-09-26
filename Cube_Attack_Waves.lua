@@ -286,6 +286,7 @@ function  cc_time_travel_machine:on_remove(comp, cause)
     if comp.is_working then 
         spawn_robot_attack(comp, comp:GetRegisterNum(2) + 10, {range = self.range})
         comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
+        comp.faction:Unlock('xc_pop_tt_conversation')
     end
 end
 
@@ -351,9 +352,9 @@ function  cc_time_travel_machine:on_update(comp, cause)
     if cause & CC_FINISH_WORK ~= 0 then 
         -- collapse time travel machine
         --print("cost__reg", comp:GetRegisterNum(2))
-        comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
+        comp.faction:Unlock('xc_pop_tt_conversation')
         spawn_robot_attack(comp, comp:GetRegisterNum(2), {range = self.range})
-        comp.faction.extra_data.xc_tt_attack = true
+        comp.extra_data.delta = math.ceil(comp.extra_data.delta * 0.9)
         -- spawn attackers 
         comp:SetRegisterNum(2,0)
         comp:SetStateSleep(1000)
