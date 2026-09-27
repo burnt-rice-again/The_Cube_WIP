@@ -114,7 +114,7 @@ function AddCubeThroughFixed(entity, id)
 		-- could not add cube 
 		local slots = entity:GetSlotsByType("cube")
 		Debug.Assert(#slots > 0, "ERROR cant add cube to an entity with no cube slots")
-		if #slots > 0 then  
+		if #slots > 0 then
 			-- no cube slots 
 			for i, slot in ipairs(slots) do 
 				if slot.stack == 0 and slot.locked == true then

@@ -339,6 +339,11 @@ local function new_order_id(comp)
     "f_bot_1s_b","f_bot_1m1s","f_flyer_m"
     }
     local new_id = req[math.random(1,#req)]
+    -- make it so their is likely space for special CUBE
+    if (comp.extra_data.delta >= 1014 and comp.extra_data.delta < 1024 ) then
+        new_id = "ic_time_crystal"
+    end
+
     -- for testing 
     --new_id = "ic_cube_blue"
     comp:SetRegister(1, {id = new_id, num = 1})
@@ -410,6 +415,7 @@ function  cc_time_travel_machine:on_update(comp, cause)
             if comp.extra_data.delta > 1024 and not comp.faction:IsUnlocked("xc_pop_time_travel_1024") and replace_cube_with[order] == nil then 
                 comp.faction:Unlock("xc_pop_time_travel_1024")
                 comp.faction:Unlock("ic_cube_super")
+                comp.faction:Unlock("xc_cube_hidden")
                 AddCubeThroughFixed(owner,"ic_cube_super")
             end
             -- replace CUBE

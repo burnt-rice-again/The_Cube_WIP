@@ -323,8 +323,6 @@ function cc_planter:on_update(comp, cause)
             comp:FulfillProcess()
             AddCubeThroughFixed(comp.owner, self.output_cube)
             --comp.owner:AddItem(self.output_cube)
-            
-        
             --place crop 
             Map.Defer( function()
             --print('placing plant')

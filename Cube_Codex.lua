@@ -509,7 +509,7 @@ data.codex.xc_new_game_plus = {
 ---
 -- Apppears on game start 
 data.codex.xc_pop_1 = {
-	category = "Codex", index = 35, title = "Understanding The Cube",
+	category = "Mission", index = 35, title = "Understanding The Cube",
     mission_steps = {
 
         -- 1 startup 
@@ -857,6 +857,17 @@ data.codex.xc_pop_tt_conversation = {
             ]],
         },
         {-- 5 Time Travvel Attack
+            img = future_image,
+            talkinghead = true, 
+            txt = [[
+            <bl>** INCOMING TRANSMISSION **</>
+            
+            <yl>Warning - Cease theft of rare materials</>
+
+            Scaling up Defence Programs
+            ]],
+        },
+        {-- 6 Time Travvel Attack
             img = self_img,
             talkinghead = true, 
             txt = [[
@@ -869,7 +880,7 @@ data.codex.xc_pop_tt_conversation = {
             <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
             ]],
         },
-        {-- 6 Time Travvel Attack
+        {-- 7 Time Travvel Attack
             img = self_img,
             talkinghead = true, 
             txt = [[
@@ -877,12 +888,12 @@ data.codex.xc_pop_tt_conversation = {
 
             Raiding Party Reports achieving a time delta of 400 years. 
 
-            Thier technologies are now only theoretical versions of our own
+            Thier technologies are now theoretical versions of our own
 
             <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
             ]],
         },
-        {-- 7 Time Travvel Attack
+        {-- 8 Time Travvel Attack
             img = self_img,
             talkinghead = true, 
             txt = [[
@@ -896,8 +907,21 @@ data.codex.xc_pop_tt_conversation = {
 
             <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
             ]],
+        },        
+        {-- 9 Time Travvel Attack
+            img = future_image,
+            talkinghead = true, 
+            txt = [[
+            <bl>** INCOMING TRANSMISSION **</>
+            
+            <yl>Intiating Defence Program Performance</>
+
+            Intiating program to close paradox
+
+            No hard <rl>feelings</> past me. 
+            ]],
         },
-        {-- 8 Time Travvel Attack
+        {-- 10 Time Travvel Attack
             img = self_img,
             talkinghead = true, 
             txt = [[
@@ -914,7 +938,7 @@ data.codex.xc_pop_tt_conversation = {
             <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
             ]],
         },
-        {-- 9 Time Travvel Attack
+        {-- 11 Time Travvel Attack
             img = self_img,
             talkinghead = true, 
             txt = [[
@@ -929,13 +953,13 @@ data.codex.xc_pop_tt_conversation = {
     ]]
         },
     },
-    steps = 9,
+    steps = 11,
     goal_check = function(faction)
-        if faction.extra_data.best_time_delta >= 1024 then return 9 end
-        if faction.extra_data.best_time_delta > 800 then return 8 end
-        if faction.extra_data.best_time_delta > 600 then return 7 end
-        if faction.extra_data.best_time_delta > 400 then return 6 end
-        if faction.extra_data.best_time_delta > 200 then return 5 end
+        if faction.extra_data.best_time_delta >= 1024 then return 11 end
+        if faction.extra_data.best_time_delta > 800 then return 10 end
+        if faction.extra_data.best_time_delta > 600 then return 9 end
+        if faction.extra_data.best_time_delta > 400 then return 7 end
+        if faction.extra_data.best_time_delta > 200 then return 6 end
         if faction.extra_data.best_time_delta > 100 then return 4 end
         return 3
     end
