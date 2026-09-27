@@ -61,7 +61,7 @@ function UIMsg.new_game_plus(comp, ent)
 			if settings.run_times then
 				local best_run_time = math.min(table.unpack(settings.run_times))
 				if Map:GetTotalDays() < best_run_time then 
-					w.list:Add("<Text margin_top=3 style'yl'/>", { text = "New Fastest Time" })
+					w.list:Add("<Text margin_top=3 style='yl'/>", { text = "New Fastest Time" })
 				else 
 					w.list:Add("<Text margin_top=3/>", { text = "Fastest Time: " .. tostring(best_run_time) })
 				end

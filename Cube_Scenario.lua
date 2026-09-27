@@ -332,33 +332,33 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- home_entity:AddItem("ic_time_crystal", 40)
 	
 	-- -- testing visuals 
-	-- transport = Map.CreateEntity(faction, "f_building1x1a")
-	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_ghost")
-	-- transport:GetSlot(1):SetLockedItem()
-	-- transport:GetSlot(2):SetLockedItem()
-	-- transport.logistics_carrier = true
-	-- transport.disconnected = false
-	-- transport.extra_data.name = "CUBEy"
-	-- transport:Place(loc.x+4,loc.y+4)
-	-- transport = Map.CreateEntity(faction, "f_building1x1a")
-	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_red")
-	-- transport:GetSlot(1):SetLockedItem()
-	-- transport:GetSlot(2):SetLockedItem()
-	-- transport.logistics_carrier = true
-	-- transport.disconnected = false
-	-- transport.extra_data.name = "CUBEy"
-	-- transport:Place(loc.x+4,loc.y+4)
-	-- transport = Map.CreateEntity(faction, "f_building1x1a")
-	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_green")
-	-- transport:GetSlot(1):SetLockedItem()
-	-- transport:GetSlot(2):SetLockedItem()
-	-- transport.logistics_carrier = true
-	-- transport.disconnected = false
-	-- transport.extra_data.name = "CUBEy"
-	-- transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_building1x1a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_ghost")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_building1x1a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_red")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
+	transport = Map.CreateEntity(faction, "f_building1x1a")
+	transport:AddComponent("cc_cube_storage")
+	transport:AddItem("ic_cube_green")
+	transport:GetSlot(1):SetLockedItem()
+	transport:GetSlot(2):SetLockedItem()
+	transport.logistics_carrier = true
+	transport.disconnected = false
+	transport.extra_data.name = "CUBEy"
+	transport:Place(loc.x+4,loc.y+4)
 
 	-- home_entity:AddItem("ldframe", 2)
 	-- home_entity:AddItem("steelblock", 2)

@@ -1,0 +1,7 @@
+{
+	"format_version": "1.21.30",
+	"minecraft:texture_set": {
+		"color": "chrono_uv_metalness",
+		"metalness_emissive_roughness_subsurface": "chrono_uv_emissive"
+	}
+}
