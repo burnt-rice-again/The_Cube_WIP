@@ -59,6 +59,12 @@ function UIMsg.new_game_plus(comp, ent)
 			w.list:Add("<Text margin_top=10/>", { text = "Days since cube awakening: " .. tostring(Map:GetTotalDays()) })
 			local settings = Map:GetSettings()
 			if settings.run_times then
+				local best_run_time = math.min(table.unpack(settings.run_times))
+				if Map:GetTotalDays() < best_run_time then 
+					w.list:Add("<Text margin_top=3 style'yl'/>", { text = "New Fastest Time" })
+				else 
+					w.list:Add("<Text margin_top=3/>", { text = "Fastest Time: " .. tostring(best_run_time) })
+				end
 				w.list:Add("<Text margin_top=3/>", { text = "Previous Run Times: " })
 				--for i, v in ipairs(settings.run_times) do 
 				w.list:Add("<Text margin_top=1/>", { text = tostring(settings.run_times):sub(2,-2) })
