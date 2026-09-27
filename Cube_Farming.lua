@@ -216,7 +216,7 @@ local function is_pos_plantable(comp, x,y, range)
     )
 end
 
-local function find_plantable_position(self, comp)
+local function find_plantable_position(self, comp, exclude_x, exclude_y)
     local owner = comp.owner
     local area = owner.area
     local x, y, w, h = area[1], area[2], area[3]-1, area[4]-1
@@ -225,7 +225,7 @@ local function find_plantable_position(self, comp)
         for dy = y-h-range, y+h+range, 1 do
             -- check in range and no foundation and 
             --print( is_pos_plantable(comp,dx,dy,range), dx, dy)
-            if is_pos_plantable(comp,dx,dy,range) then 
+            if (dx ~= exclude_x or dy ~= exclude_y) and is_pos_plantable(comp,dx,dy,range) then 
                 -- place see 
                 return dx,dy
             end
@@ -306,6 +306,51 @@ local function clear_planter_position(comp)
     comp:SetRegister(2)
 end
 
+local start_process = function (self, comp, exclude_x, exclude_y)
+        -- is a spot already choosen 
+    local cord = comp:GetRegisterCoord(1)
+    local check = false
+    if cord == nil then
+        local x, y = find_plantable_position(self, comp, exclude_x, exclude_y)
+        
+        if x == nil then 
+            --- could not find pos
+            clear_planter_position(comp)
+            comp:SetStateSleep(2000)
+            --print("NO cord found")
+            return
+        else 
+            cord = {x = x, y = y}
+            comp:SetRegisterCoord(1, cord)
+            check = true 
+        end
+    end
+    local can_make, missing, has_slot = comp:PrepareConsumeProcess(self.ingriedents,1)
+    -- start working 
+    --print( can_make, missing, has_slot)
+    if can_make then 
+
+        if check or is_pos_plantable(comp,cord.x ,cord.y ,self.range) then
+        -- start working
+            comp:SetStateStartWork(self.wait_ticks) 
+            comp:SetRegisterCoord(1, cord)
+            comp:SetRegister(2)
+        else
+            clear_planter_position(comp)
+            comp:SetStateSleep()
+        end
+    else
+        -- wait for items to arrive
+        comp:SetRegister(2,missing)
+        if has_slot ~= false then 
+            comp:FlagRegisterError(2)
+        else 
+            comp:FlagRegisterError(2)
+        end
+        comp:SetStateSleep(500)
+    end
+end
+
 function cc_planter:on_update(comp, cause)
     -- activated 
     --print(cause, cause & CC_FINISH_WORK == true)
@@ -324,6 +369,7 @@ function cc_planter:on_update(comp, cause)
             AddCubeThroughFixed(comp.owner, self.output_cube)
             --comp.owner:AddItem(self.output_cube)
             --place crop 
+            local x, y = cord.x, cord.y
             Map.Defer( function()
             --print('placing plant')
             local plant = Map.CreateEntity(comp.faction, self.seed_id)
@@ -334,10 +380,12 @@ function cc_planter:on_update(comp, cause)
                 next_visual = 1,
             })
 
-            plant:Place(cord,comp.owner,false)
+            plant:Place(x,y,comp.owner,false)
             comp:RotateComponent(plant)
+            end)
             comp:SetRegisterCoord(1, nil)
-    end)
+            start_process(self, comp, x, y)
+
         else 
             comp:FlagRegisterError(2,"Can no longer Plant At Target")
             comp:CancelProcess()
@@ -349,49 +397,7 @@ function cc_planter:on_update(comp, cause)
         --print("back to work")
         comp:SetStateContinueWork()
     else
-
-        -- is a spot already choosen 
-        local cord = comp:GetRegisterCoord(1)
-        local check = false
-        if cord == nil then
-            local x, y = find_plantable_position(self, comp)
-            
-            if x == nil then 
-                --- could not find pos
-                clear_planter_position(comp)
-                comp:SetStateSleep(2000)
-                --print("NO cord found")
-                return
-            else 
-                cord = {x = x, y = y}
-                comp:SetRegisterCoord(1, cord)
-                check = true 
-            end
-        end
-        local can_make, missing, has_slot = comp:PrepareConsumeProcess(self.ingriedents,1)
-        -- start working 
-        --print( can_make, missing, has_slot)
-        if can_make then 
-
-            if check or is_pos_plantable(comp,cord.x ,cord.y ,self.range) then
-            -- start working
-                comp:SetStateStartWork(self.wait_ticks) 
-                comp:SetRegisterCoord(1, cord)
-                comp:SetRegister(2)
-            else
-                clear_planter_position(comp)
-                comp:SetStateSleep()
-            end
-        else
-            -- wait for items to arrive
-            comp:SetRegister(2,missing)
-            if has_slot ~= false then 
-                comp:FlagRegisterError(2)
-            else 
-                comp:FlagRegisterError(2)
-            end
-            comp:SetStateSleep(500)
-        end
+        start_process(self, comp)
     end
 end
 

@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = false
+local Unlock_All_Technologies = true
 local Start_with_Observers = false
 
 local package = ...
@@ -241,13 +241,13 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- volcano:AddComponent("cc_cube_melter")
 	-- volcano:Place(loc.x+3,loc.y+6)
 
-	-- local gyro = Map.CreateEntity(faction, "fc_gyro")
-	-- gyro:AddComponent("cc_cube_storage")
-	-- gyro:AddItem("ic_broken_reality", 20)
-	-- gyro:AddItem("ic_proto_sent", 20)
-	-- gyro:AddItem("ic_matter", 20)
-	-- --gyro:AddItem("ic_cube_red", 1)
-	-- gyro:Place(loc.x,loc.y-10)
+	local gyro = Map.CreateEntity(faction, "fc_gyro")
+	gyro:AddComponent("cc_cube_storage")
+	gyro:AddItem("ic_broken_reality", 20)
+	gyro:AddItem("ic_proto_sent", 20)
+	gyro:AddItem("ic_matter", 20)
+	--gyro:AddItem("ic_cube_red", 1)
+	gyro:Place(loc.x,loc.y-10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- recharger:AddComponent("cc_pipe_output")

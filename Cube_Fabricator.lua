@@ -46,13 +46,13 @@ local function new_game_plus(comp)
 	local garage = comp.owner:GetSlotsByType("garage")
 	for key, val in pairs(garage) do
 		if val.entity then
-			UI.Run("new_game_plus", comp)
+			UI.Run("new_game_plus", comp, val.entity)
 			break
 		end
 	end
 	
 end
-function UIMsg.new_game_plus(comp) 
+function UIMsg.new_game_plus(comp, ent) 
 
 	UI.AddLayout('<ConfirmDialog title="Begin New Universe" body = "Start a new universe. You will keep all technologies and start with an additional unit placed in this buildings garage slot"/>', {
 		construct = function(w)
@@ -61,11 +61,28 @@ function UIMsg.new_game_plus(comp)
 			if settings.run_times then
 				w.list:Add("<Text margin_top=3/>", { text = "Previous Run Times: " })
 				--for i, v in ipairs(settings.run_times) do 
-					w.list:Add("<Text margin_top=1/>", { text = tostring(settings.run_times):sub(2,-2) })
+				w.list:Add("<Text margin_top=1/>", { text = tostring(settings.run_times):sub(2,-2) })
 				--end
 			end 
+			--print( comp.owner:GetSlotsByType("garage")[1])
+			--w.list:Add("ItemSlot", { orig_i = 13, slot = comp.owner:GetSlotsByType("garage")[1], num = false })
 			
-			
+			-- display bot 
+			w.list:Add("<Text/>", {text = "The following bot and items will be sent to the new universe"})
+			local hl = w.list:Add("<HorizontalList child_padding=1/>")
+			hl:Add("<Reg width=48 height=48 bg=item_default margin_left=8 on_click={onclickreg}/>", { def_id = ent.id })
+			for key,val in ipairs(ent.components) do 
+				if val.def.attachment_size ~= "Hidden" then 
+					hl:Add("<Reg width=48 height=48 bg=item_default margin_left=8 on_click={onclickreg}/>", { def_id = val.id, num = 1 })
+				end
+			end
+			for key,val in ipairs(ent.slots) do 
+				if val.type ~= "garage" and val.stack > 0 then 
+					hl:Add("<Reg width=48 height=48 bg=item_default margin_left=8 on_click={onclickreg}/>", { def_id = val.id, num = val.stack })
+				elseif val.type == "cube" then 
+					hl:Add("<Reg width=48 height=48 bg=item_default margin_left=8 on_click={onclickreg}/>", { def_id = "ic_cube_blue", num = 1 })
+				end
+			end
 		end,
 		cancel = function(w) w:RemoveFromParent() end,
 		ok = function(w)
@@ -413,6 +430,6 @@ cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	get_ui = true,
 	production_recipe = false,
 	production_effect = "fx_digital",--"fx_digital_in",--"fx_digital",
-	power = -50000,
+	power = -1---50000,
 })
 

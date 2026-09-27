@@ -1,0 +1,7 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:texture_set": {
+		"color": "soul_happy_colour",
+		"metalness_emissive_roughness": "soul_happy_emissive"
+	}
+}

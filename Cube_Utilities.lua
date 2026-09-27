@@ -232,7 +232,11 @@ function SerializeItems(ent)
 		local slot_data = {}
 		print(val, val.id, val.stack, val.extra_data)
 		if val.entity == nil then 
-			if val.id ~= nil and val.stack > 0 then 
+			if val.type == "cube" then 
+				slot_data.id = val.id or "ic_cube_blue"
+				slot_data.stack = 1
+				slot_data.extra_data = Tool.Copy(val.extra_data)
+			elseif val.id ~= nil and val.stack > 0 then 
 				slot_data.id = val.id
 				slot_data.stack = val.stack
 				slot_data.extra_data = Tool.Copy(val.extra_data)
@@ -240,6 +244,7 @@ function SerializeItems(ent)
 			if val.locked then 
 				slot_data.lock = val.id
 			end
+			
 		end
 		table.insert(data, slot_data)
 	end 
