@@ -5,8 +5,7 @@ TODO code
         planter errors over water
 
 TODO visuals
-    imporive new 3d files 
-    improvements to timetravel UI element
+    imporove new 3d files 
 
 locked items show up in fabricator UI 
 Tool Tip for Cube time 
