@@ -196,12 +196,11 @@ data.components.c_modulevisibility_l.production_recipe = CreateProductionRecipe(
 -- Comps that have a .boost_id = boost type (component_boost or move_boost)
 -- Comps that have extra_data.boost_active == true 
 
-local function SumActiveModuleBoosts(owner, id, remove_comp)
+local function SumActiveModuleBoosts(owner, obj, remove_comp)
 	-- start at 100
+	local id = obj.boost_id
 	local sum = 100
-	for i=1,owner.component_count do
-		local boost_comp = owner:GetComponent(i)
-		
+	for key, boost_comp in ipairs(owner.components) do
 		if boost_comp ~= nil -- has comp at that socket
 		and boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
 		and boost_comp.extra_data.boost_active == true -- is comp active
@@ -226,6 +225,7 @@ local function SumActiveModuleBoosts(owner, id, remove_comp)
 			break
 		end
 	end	
+	--if remove_comp == false or remove_comp == nil then sum = sum + obj.boost end
 	return sum
 end
 -- on update/onremove/onadd should be the same for all the new boost modules
@@ -238,7 +238,7 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel]],
 	visual = "v_generic_i",
 	production_recipe = CreateProductionRecipe({ reinforced_plate = 2, ic_time_crystal = 1, ic_soul_angry = 1 }, { c_assembler = 30, }),
 	-- new items 
-	activation = "OnAnyItemSlotChange",
+	--activation = "Manual", -- change to OnAnyItemSlotChange
 	boost = 50,
 	boost_id = "component_boost", -- or move_boost
 	fuel = "ic_time_crystal",
@@ -255,64 +255,67 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
 	if owner[self.boost_id] == nil then return print("No Boost Id", self.boost_id) end
-	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
-	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self, remove )
+	print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
 function cc_moduleefficiency:on_add(comp, cause)	
-	comp.extra_data.boost_active = false
-	comp:Activate()
+	comp.extra_data.boost_active = true
+	Map.Defer(function()
+		self:update_boost(comp, false)
+	end)
+	--comp:Activate()
 end
 function cc_moduleefficiency:on_remove(comp, cause)	
 	comp.extra_data.boost_active = false
 	self:update_boost(comp,true)
 end
-function cc_moduleefficiency:on_update(comp, cause)	
+-- function cc_moduleefficiency:on_update(comp, cause)	
 	
-	-- check if installed on building for movement module
-	if comp.owner.has_movement == false and self.boost_id == "move_boost" then 
-		comp:FlagRegisterError(1)
-		comp:SetStateSleep(2000) 
-		return 
-	end 
+-- 	-- check if installed on building for movement module
+-- 	if comp.owner.has_movement == false and self.boost_id == "move_boost" then 
+-- 		comp:FlagRegisterError(1)
+-- 		comp:SetStateSleep(2000) 
+-- 		return 
+-- 	end 
 
-	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
-		-- start 
-		-- request stack size of item
-		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},3)
-		--comp:OrderItem(self.fuel, 20)
-		if can_make then 
-			--consume next bit of fuel 
-			comp:FulfillProcess()
-			comp.extra_data.boost_active = true 
-			-- recalculate boost
-			self:update_boost(comp)
-			comp:SetStateStartWork(self.fuel_time*comp.effective_boost/100) 
+-- 	if cause & CC_FINISH_WORK ~= 0 or comp.is_working == false then 
+-- 		-- start 
+-- 		-- request stack size of item
+-- 		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel] = 1},3)
+-- 		--comp:OrderItem(self.fuel, 20)
+-- 		if can_make then 
+-- 			--consume next bit of fuel 
+-- 			comp:FulfillProcess()
+-- 			comp.extra_data.boost_active = true 
+-- 			-- recalculate boost
+-- 			self:update_boost(comp)
+-- 			comp:SetStateStartWork(self.fuel_time*comp.effective_boost/100) 
 			
-			comp:SetRegister(1)
+-- 			comp:SetRegister(1)
 
-		else 
-			-- wait until fuel arrives 
-			comp:SetRegister(1,missing)
-			comp:FlagRegisterError(1)
-			comp:SetStateSleep(1000)
-			comp.extra_data.boost_active = false
-			self:update_boost(comp)
-		end
+-- 		else 
+-- 			-- wait until fuel arrives 
+-- 			comp:SetRegister(1,missing)
+-- 			comp:FlagRegisterError(1)
+-- 			comp:SetStateSleep(1000)
+-- 			comp.extra_data.boost_active = false
+-- 			self:update_boost(comp)
+-- 		end
 		
-	else
-		-- still consuming so go back to sleep 
-		comp:SetStateContinueWork()
-	end
-end
-function cc_moduleefficiency:get_reg_error(comp, cause)	
-	if comp:RegisterIsError(1) then 
-		if comp.owner.has_movement == false and self.boost_id == "move_boost" then 
-			return "Unit cannot move"
-		else 
-			return "Missing Fuel To Operate"
-		end
-	end
-end
+-- 	else
+-- 		-- still consuming so go back to sleep 
+-- 		comp:SetStateContinueWork()
+-- 	end
+-- end
+-- function cc_moduleefficiency:get_reg_error(comp, cause)	
+-- 	if comp:RegisterIsError(1) then 
+-- 		if comp.owner.has_movement == false and self.boost_id == "move_boost" then 
+-- 			return "Unit cannot move"
+-- 		else 
+-- 			return "Missing Fuel To Operate"
+-- 		end
+-- 	end
+-- end
 
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
 	name = "Small Time Distortion Module",
@@ -383,7 +386,7 @@ function cc_modulespeed:update_boost(comp, remove)
 	-- set remove when no nill 
 	if remove == true then remove = comp end 
 	if owner[self.boost_id] == nil then return print("No Boost Id", self.boost_id) end
-	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self, remove )
 	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
 cc_modulespeed:RegisterComponent("cc_modulespeed_s",{
@@ -625,10 +628,10 @@ function cc_cube_storage:update_boost(comp, reverse_polarity)
 	-- set remove when no nill 
 	if reverse_polarity == true then
 		comp.extra_data.boost_active = -1
-		owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id ) + self.boost * -2,0)
+		owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self ) + self.boost * -2,0)
 		return 
 	end
-	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, nil ),0)
+	owner[self.boost_id] = math.max((owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self, nil ),0)
 	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0), owner)
 end
 function cc_cube_storage:on_remove(comp)
@@ -654,13 +657,13 @@ function cc_temp_boost:update_boost(comp, remove)
 	local owner = comp.owner
 	-- set remove when not nil 
 	if remove == true then remove = comp end  
-	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self.boost_id, remove )
+	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self, remove )
 	--print(owner[self.boost_id],owner.def[self.boost_id])
 end
 function cc_temp_boost:on_add(comp, cause)
 	comp.extra_data.boost_active = true
 	self:update_boost(comp, false)
-	comp:Activate()
+	Map.Defer(function()comp:Activate()end)
 end
 function cc_temp_boost:on_remove(comp, cause)
 	comp.extra_data.boost_active = false

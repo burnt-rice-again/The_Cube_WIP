@@ -302,7 +302,9 @@ data.techs.tc_cube_green_4= {
 	texture = data.components.cc_moduleefficiency_l.texture,
 	unlocks = {
 		-- new resources
-		"ic_time_crystal","cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l","xc_cube_boost",
+		"ic_time_crystal","xc_cube_boost",
+		--"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+		"c_moduleefficiency","c_moduleefficiency_s","c_moduleefficiency_m","c_moduleefficiency_l"
 	},
 	require_tech = { "tc_cube_anti_0", },
 	progress_count = 50,

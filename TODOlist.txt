@@ -1,14 +1,17 @@
-TODO code 
+TODO
         More ENTRY 001 logs
         Praise the Cube More 
-        planter power ui flickers 
-        planter errors over water
+        companion cube texture
+        time crystals test balance for chronotowers/modules
+        red cube lost its emissive
+        effciency modules bug. not counting them all the time
 
-TODO visuals
-    imporove new 3d files 
+Ignoring 
+    locked items show up in fabricator UI 
 
-locked items show up in fabricator UI 
-Tool Tip for Cube time 
+
+
+
 
 --- stuff i cant do because there isnt a method 
 biome probabilites 
