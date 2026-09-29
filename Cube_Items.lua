@@ -423,7 +423,7 @@ data.items.ic_matter = {
 	slot_type = 'storage',
 	visual = data.items.obsidian.visual,
 	texture = data.items.obsidian.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, ldframe = 2,  reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
 }
 local item_num = 1 
 data.items.ic_micro_universe = {

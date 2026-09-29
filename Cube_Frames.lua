@@ -66,7 +66,8 @@ data.frames.f_building3x2a.component_boost = 0
 data.frames.f_building3x2a.components = nil
 
 -- flying frames
-data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ ldframe = 1, datakey_robot = 2, metalplate = 4 }, { c_robotics_factory = 50 })
+data.frames.f_flyer_bot.production_recipe = CreateProductionRecipe({ wire = 4, datakey_robot = 2, metalplate = 4 }, { c_robotics_factory = 50 })
+data.frames.f_flyer_bot.race = "robot"
 data.frames.f_flyer_m.production_recipe = CreateProductionRecipe({ ldframe = 2, ic_soul_happy = 4, reinforced_plate = 6 }, { c_robotics_factory = 80 })
 data.frames.f_drone_transfer_a.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 1, metalplate = 2 }, { c_robotics_factory = 80 })
 data.frames.f_drone_transfer_a2.production_recipe = CreateProductionRecipe({ ldframe = 1, ic_soul_happy = 1, reinforced_plate = 2, engine = 1 }, { c_robotics_factory = 80 })
@@ -170,7 +171,7 @@ local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 		{"cc_boost_tower","hidden"},
 		{'cc_pipe_output_h', "hidden"}
 	},
-	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_happy = 1, wire = 4, concreteslab = 9},50),
+	construction_recipe = CreateConstructionRecipe({reinforced_plate = 16, ic_soul_angry = 1, wire = 4, concreteslab = 9},50),
 	trigger_channels = "building",
 	size = "Other",
 	no_integrated_behavior = false,

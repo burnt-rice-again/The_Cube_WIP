@@ -303,8 +303,8 @@ data.techs.tc_cube_green_4= {
 	unlocks = {
 		-- new resources
 		"ic_time_crystal","xc_cube_boost",
-		--"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
-		"c_moduleefficiency","c_moduleefficiency_s","c_moduleefficiency_m","c_moduleefficiency_l"
+		"cc_moduleefficiency","cc_moduleefficiency_s","cc_moduleefficiency_m","cc_moduleefficiency_l",
+		--"c_moduleefficiency","c_moduleefficiency_s","c_moduleefficiency_m","c_moduleefficiency_l"
 	},
 	require_tech = { "tc_cube_anti_0", },
 	progress_count = 50,
@@ -505,7 +505,7 @@ data.techs.tc_robot_frames_3 = {
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
-		"f_bot_2s",
+		"f_bot_2s","f_flyer_bot",
 	},
 	require_tech = { "tc_robot_frames_2" },
 	progress_count = 25,
@@ -703,7 +703,7 @@ data.techs.tc_robot_fly_1 = {
 	texture = data.frames.f_flyer_bot.texture,
 	unlocks = {
 		-- new resources
-		"f_flyer_bot","f_flyer_m","c_landing_pad",
+		"f_flyer_m","c_landing_pad",
 	},
 	require_tech = { "tc_robot_frames_4" },
 	progress_count = 10,

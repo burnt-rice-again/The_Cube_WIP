@@ -292,7 +292,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	-- --testing soul refinery 
 	pipe = Map.CreateEntity(faction, "f_building2x2c")
-	pipe:AddComponent("cc_moduleefficiency_l")
+	pipe:AddComponent("cc_soul_refinery")
 	pipe:AddComponent("cc_cube_storage")
 	pipe:AddComponent("cc_moduleefficiency")
 	pipe:AddComponent("cc_moduleefficiency")
