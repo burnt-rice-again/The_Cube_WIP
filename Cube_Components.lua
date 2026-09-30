@@ -231,8 +231,7 @@ end
 -- on update/onremove/onadd should be the same for all the new boost modules
 local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	name = "Internal Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 50%
-Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel]],	
+	desc = [[Time Distortion Increases Unit Effciency by <bl>50%</>]],	
 	attachment_size = "Internal", race = "robot", index = 1050,
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
@@ -319,8 +318,7 @@ end
 
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
 	name = "Small Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 100%
-Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
+	desc = [[Time Distortion Increases Unit Effciency by <bl>100%</>]],
 	attachment_size = "Small",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
@@ -329,8 +327,7 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
 	name = "Medium Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 150%
-Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
+	desc = [[Time Distortion Increases Unit Effciency by <bl>150%</>]],
 	attachment_size = "Medium",
 	texture = data.components.c_moduleefficiency_m.texture,
 	visual = data.components.c_moduleefficiency_m.visual,
@@ -339,8 +336,7 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	name = "Large Time Distortion Module",
-	desc = [[Time Distortion Increases Unit Effciency by 200%
-Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],	
+	desc = [[Time Distortion Increases Unit Effciency by <bl>200%</>]],
 	attachment_size = "Large",
 	texture = data.components.c_moduleefficiency_l.texture,
 	visual = data.components.c_moduleefficiency_l.visual,
@@ -360,7 +356,7 @@ Uses <img width="50" height="50" id="ic_time_crystal" style="bl"/> as Fuel"]],
 -- Movement Boost - removed fuel requirement
 local cc_modulespeed = Comp:RegisterComponent("cc_modulespeed",{
 	name = "Internal Movement Speed Module",
-	desc = [[Thrusters Increase Unit Speed by 25%]],
+	desc = [[Thrusters Increase Unit Speed by <bl>25%</>]],
 	attachment_size = "Internal",
 	visual = "v_generic_i",
 	texture = data.components.c_modulespeed.texture,

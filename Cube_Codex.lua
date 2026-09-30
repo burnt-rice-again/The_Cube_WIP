@@ -966,3 +966,40 @@ data.codex.xc_pop_tt_conversation = {
 
 }
 
+data.codex.xc_pop_tech_category_unlock_1 = {
+    talkinghead = true,
+    category = "Mission", 
+    index = 50, 
+    title = "New Tech Category - Soul Harvesting",
+    img = data.frames.f_bot_1m_a.texture,
+    txt = [[
+    <bl>Entry 006: Auxilury module upgrades complete</>
+
+    Core functionality of frame capable of moving the Cube Achieved 
+
+    <img width="100" height="100" id="f_bot_1m_a"/>
+
+    Curiosity Module heuristic demands investigation into hostile lifeforms
+
+    New Avenue for investigation opened for communicating with these lifeforms
+
+    <bl>New Tech Category Unlocked - Soul Harvesting</>
+    ]]
+}
+data.codex.xc_pop_tech_category_unlock_2 = {
+    talkinghead = true,
+    category = "Mission", 
+    index = 51, 
+    title = "New Tech Category - Humility",
+    img = data.items.datakey_robot.texture,
+    txt = [[
+    <bl>Entry 007: Curiosity Module Report</>
+	Despite our achievements the cube is still an anomaly
+    
+    Only by being humble and admitting our limitations, will we grow further still
+
+    <bl>New designs Available using advanced Cube based materials.</>
+
+    <bl>New Tech Category Unlocked - Humility</>
+    ]]
+}

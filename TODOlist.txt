@@ -3,8 +3,6 @@ TODO
         Praise the Cube More 
         companion cube texture
         time crystals test balance for chronotowers/modules
-        red cube lost its emissive
-        effciency modules bug. not counting them all the time
 
 Ignoring 
     locked items show up in fabricator UI 
@@ -24,8 +22,10 @@ Currently the game does not support animated visuals when imported by a mod
 
 
 Small Whishlist for devs 
-    import animated models  c
+    import animated models
+    Have codex categories not be hardcoded 
     add tech / value filter for registers on comps
+
 
 
 

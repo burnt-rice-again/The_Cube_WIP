@@ -36,7 +36,7 @@ data.tech_categories = {
 	{
 		name = "Upgrades",
 		initial_tech = "tc_upgrades_basic",
-		sub_categories = { "Expanded Functions", "Maximum Lethality"},
+		sub_categories = { "Expanded Functions", "Soul Harvesting"},
 		texture = "Main/skin/Icons/Special/Technologies/Basic.png",
 		--textures = {"Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png","Main/skin/Icons/Special/Technologies/Aliens.png"}
 	},
@@ -491,7 +491,7 @@ data.techs.tc_robot_frames_2 = {
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resoures
-		"f_bot_1m_a","f_bot_1s_b",
+		"f_bot_1m_a","f_bot_1s_b","xc_pop_tech_category_unlock_1"
 	},
 	require_tech = { "tc_robot_frames_1" },
 	progress_count = 25,
@@ -633,7 +633,7 @@ data.techs.tc_building4= {
 	texture = data.frames.f_building2x2f.texture,
 	unlocks = {
 		-- new resources
-		"f_building2x1b","f_building2x2b"
+		"f_building2x1b","f_building2x2b","xc_pop_tech_category_unlock_2"
 	},
 	require_tech = {  "tc_building3" },
 	progress_count = 50,
@@ -817,7 +817,7 @@ data.techs.tc_network4 = {
 data.techs.tc_weapons1 = {
 	order = order_weapons_1,
 	name = "Adv Soul Capture Methods I", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		-- new resources
@@ -826,12 +826,12 @@ data.techs.tc_weapons1 = {
 	require_tech = {"tc_robot_frames_2" },
 	progress_count = 10,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_weapons2 = {
 	order = order_weapons_1,
 	name = "Adv Soul Capture Methods II", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_pulselasers","c_pulse_disrupter","c_repairport"
@@ -839,12 +839,12 @@ data.techs.tc_weapons2 = {
 	require_tech = { "tc_weapons1" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_weapons3 = {
 	order = order_weapons_1,
 	name = "Adv Soul Capture Methods III", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_portable_turret_red","c_turret","c_repairer_small_aoe",
@@ -852,12 +852,12 @@ data.techs.tc_weapons3 = {
 	require_tech = { "tc_weapons2" },
 	progress_count = 25,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, crystal_powder = 1, wire = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_weapons4 = {
 	order = order_weapons_1,
 	name = "Adv Soul Capture Methods IV", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		 "c_twin_autocannons","c_human_missilelauncher",
@@ -865,13 +865,13 @@ data.techs.tc_weapons4 = {
 	require_tech = { "tc_weapons3" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, crystal_powder = 1, reinforced_plate = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 
 data.techs.tc_weapons5 = {
 	order = order_weapons_2,
 	name = "Adv Soul Capture Methods V", -- recovered database etc.
-	desc = "The Cube must be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube must be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_plasma_turret","c_plasma_cannon",
@@ -879,12 +879,12 @@ data.techs.tc_weapons5 = {
 	require_tech = { "tc_weapons1", "tc_weapons4" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ wire = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_weapons6 = {
 	order = order_weapons_2,
 	name = "Adv Soul Capture Methods VI", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_railgun","c_light_cannon",
@@ -892,12 +892,12 @@ data.techs.tc_weapons6 = {
 	require_tech = { "tc_weapons5" },
 	progress_count = 50,
 	uplink_recipe = CreateUplinkRecipe({ ic_time_crystal = 1,  ic_soul_angry = 1, reinforced_plate = 1, crystal_powder = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_weapons7 = {
 	order = order_weapons_2,
 	name = "Adv Soul Capture Methods VII", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forges Needs Souls\nHARVEST THEM",
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_laser_turret","c_missile_turret",
@@ -905,7 +905,7 @@ data.techs.tc_weapons7 = {
 	require_tech = { "tc_weapons6" },
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ ldframe = 1,  ic_soul_angry = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 --- storages 
 
@@ -1033,7 +1033,7 @@ data.techs.tc_robot_floor_1 = {
 	require_tech = { "tc_robot_frames_2","tc_robot_metallurgy_2"},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_robot_floor_2 = {
 	order = floor_order,
@@ -1047,7 +1047,7 @@ data.techs.tc_robot_floor_2 = {
 	require_tech = { "tc_robot_floor_1",},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 data.techs.tc_robot_floor_3 = {
 	order = floor_order,
@@ -1060,7 +1060,7 @@ data.techs.tc_robot_floor_3 = {
 	require_tech = { "tc_robot_floor_2",},
 	progress_count = 100,
 	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1, ic_time_crystal = 1}, 50),
-	category = "Maximum Lethality",
+	category = "Soul Harvesting",
 }
 
 
