@@ -128,10 +128,10 @@ data.codex.xc_cube_getting_started = {
 
             1 - Begin Minning your metal and crystal resources. 
             2 - Expand <img id="metalplate" width="50" height="50" style="bl"/> Smelting
-            3 - Craft an <img id="c_assembler" width="50" height="50" style="bl"/>
-            4 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> to expand power production
-            5 - Set up a <img id="cc_manifest" width="50" height="50" style="bl"/> to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> when there is enough stored energy
-            6 - begin researching further technologies 
+            3 - Craft an <img id="c_assembler" width="50" height="50" style="bl"/> to expand auxilury capabilites
+            4 - Set up a <img id="cc_manifest" width="50" height="50" style="bl"/> to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> when there is enough stored energy
+            5 - Research Steel which is strong enough to hold the cube on a <img id="cc_cube_storage" width="50" height="50" style="bl"/>
+            6 - Craft more <img id="cc_crystal_power" width="50" height="50" style="bl"/> to expand power production
 
             Example code for only crafting when battery is high
             <img image="The_Cube_WIP/textures/Codex_Images/battery_crafter.png" width="1000" height="400"/>
@@ -368,14 +368,8 @@ data.codex.xc_cube_boost = {
     text = [[<img width="100" height="100" id="ic_time_crystal"/><codex_title>Boost Modules</>
 
         <bl>Stablizied Chrono Crystals have the power to create pockets of distorted time</>
-
-        Effciency modules now require <img id="ic_time_crystal" width="50" height="50" style="bl"/> to operate. 
         
-        <img id="cc_moduleefficiency_l" width="50" height="50"/><img id="ic_time_crystal" width="50" height="50"/>
-
-        Modules will automatically request chrono crystals when equipped.
-        Larger Modules will provide bigger effciency bonuses but run for a shorter amount of time (same fuel economy).
-        
+        Effciency modules can be crafted for stable time dilation<img id="cc_moduleefficiency_l" width="50" height="50" style="bl"/>
 
         <hl>Chrono Towers</><img id="fc_boost_tower" width="50" height="50"/>
         Chrono Towers will dilate time around another unit within their range. 

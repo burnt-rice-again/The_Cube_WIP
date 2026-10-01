@@ -3,11 +3,16 @@ local package = ...
 -- define the layout of the widget
 local cube_locator_layout <const> =
 [[
-	<Box dock=top-left padding=3 margin_top={margin_top} margin_left = 5>
-		<Canvas on_click={goto_cube} tooltip={cube_tooltip}>
-            <Reg bg=item_default def_id={cube_id} on_click={goto_cube} width=50 height=50/>
-        </Canvas>
-	</Box>
+    <VerticalList dock=top-left padding=3 margin_top={margin_top} margin_left = 5>
+	    <Box dock=top-left padding=3>
+            <Canvas on_click={goto_cube} tooltip={cube_tooltip}>
+                <Reg bg=item_default def_id={cube_id} on_click={goto_cube} width=50 height=50/>
+            </Canvas>
+        </Box>
+        <Box dock=top-left margin_top = 3 padding=3>
+            <Button id=camfollowcube width=32 height=32 icon=icon_small_camera on_click={on_toggle_follow} tooltip="Follows Cube"/>  
+        </Box>
+    </VerticalList>
 ]]
 
 -- register the widget layout
@@ -116,6 +121,10 @@ end
 function cube_locator:update()
     local faction = Game.GetLocalPlayerFaction()
     if faction then
+        -- update follow camera
+        if faction.extra_data.follow_cube and View.GetFollowEntity() == nil then 
+            self:on_toggle_follow(self.camfollowcube)
+        end
         --update reg id
         local extra_data = faction.extra_data
         self.cube_id = extra_data.cube_type
@@ -130,6 +139,38 @@ function cube_locator:update()
             self.margin_top = 140
         else
             self.margin_top = 167
+        end
+    end
+end
+function FactionAction.update_camera_toggle(faction, args)
+    if faction ~= nil and faction.has_extra_data then
+        if faction.extra_data.follow_cube ~= true then 
+            -- start following entity
+            faction.extra_data.follow_cube = true
+        else
+            -- stop following entity
+            faction.extra_data.follow_cube = false
+        end
+    end
+end
+function cube_locator:on_toggle_follow(btn)
+    local faction = Game.GetLocalPlayerFaction()
+    if faction then
+        Action.SendForLocalFaction("update_camera_toggle")
+        if faction.extra_data.follow_cube ~= true then 
+            -- start following entity
+            btn.active = true
+            local key = faction.extra_data.cube_key
+            if key then 
+                local ent = Map.GetEntityFromKey(key)
+                if ent ~= nil and ent.is_on_map then
+                    View.FollowEntity(ent) 
+                end
+            end
+        else
+            -- stop following entity
+            View.FollowEntity()
+            btn.active = false  
         end
     end
 end

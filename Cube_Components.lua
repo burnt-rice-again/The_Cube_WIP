@@ -583,9 +583,14 @@ local function Update_Cube_Effects(self, comp, cause)
 		-- when any cube has been added 
 		comp.extra_data.boost_active = true
 		self:update_boost(comp, boost_polarity)
-		anti_cube_explosion(comp)
+		anti_cube_explosion(comp) 
 		activate_other_comps(comp)
 		if stop_effects then comp:StopEffects() end
+		if comp.faction.extra_data.follow_cube == true then 
+			comp.faction:RunUI(function(ent)
+				View.FollowEntity(ent)
+			end, owner)
+		end
 		--comp.slots[1].locked = false
 	else
 		comp:StopEffects()
@@ -736,6 +741,12 @@ function cc_boost_tower:on_update(comp, cause)
 			comp.owner:LookAt(target)
 			--comp:PlayEffect("fx_miner","fx",target)--fx_railgun
 			comp:PlayEffect("fx_photon_beam","fx",target,{anim_speed=0.01})
+			comp:StopEffects()
+			comp:PlayWorkEffect("fx_alien_research_building", "fx_2")
+			--fx_alien_research_building
+			--fx_alien_pylon
+			--fx_alien_whirl
+			-- fx_alien_feeder
 		else 
 			comp:SetRegister(2,missing)
 			comp:FlagRegisterError(2)

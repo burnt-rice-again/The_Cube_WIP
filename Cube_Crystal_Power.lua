@@ -58,7 +58,7 @@ function cc_crystal_power:on_update(comp, cause)
 	--print((target or 1) >= comp.owner.battery_percent or 0 , target, comp.owner.battery_percent)
     if (target or 1) >= (comp.owner.battery_percent or 0)  then
         -- Perform Recharge
-        local can_make, missing, no_space = comp:PrepareProduceProcess(self.consume_list,self.output_list,2)
+        local can_make, missing, no_space = comp:PrepareProduceProcess(self.consume_list,self.output_list)
         if not can_make then
 			-- wait for materials 
             comp:FlagRegisterError(1)

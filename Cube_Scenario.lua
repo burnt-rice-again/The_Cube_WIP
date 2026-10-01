@@ -12,7 +12,6 @@ end
 
 -- called when mod is initializing
 function package:init()
-	print("init scenario file")
 	Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = nil
 	Game.GetModPackage("Main/Freeplay").on_world_spawn = nil
 	Game.GetModPackage("Main/Freeplay").setup_scenario = nil
@@ -210,19 +209,19 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 
 	-- spawn Farming Tester
-	new_entity = Map.CreateEntity(faction, "f_building2x2c")
-	new_entity:AddComponent("cc_planter_phase_leaf", "auto", {yield = 1, growth_time = 10})
-	new_entity:AddItem("cc_planter_wire")
-	new_entity:AddComponent("cc_cube_storage")
-	new_entity:AddComponent("c_adv_portable_turret")
-	new_entity:AddItem("ic_cube_green", 1)
-	new_entity:AddItem("crystal_powder", 10)
-	new_entity:AddItem("c_deconstructor", 1)
-	new_entity:AddItem("steelblock", 40)
-	new_entity:AddItem("c_portable_radar", 2)
-	new_entity:AddItem("c_deconstructor", 1)
-	home_entity:AddItem("cc_manifest")
-	new_entity:Place(loc.x+13, loc.y)
+	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
+	-- new_entity:AddComponent("cc_planter_phase_leaf", "auto", {yield = 1, growth_time = 10})
+	-- new_entity:AddItem("cc_planter_wire")
+	-- new_entity:AddComponent("cc_cube_storage")
+	-- new_entity:AddComponent("c_adv_portable_turret")
+	-- new_entity:AddItem("ic_cube_green", 1)
+	-- new_entity:AddItem("crystal_powder", 10)
+	-- new_entity:AddItem("c_deconstructor", 1)
+	-- new_entity:AddItem("steelblock", 40)
+	-- new_entity:AddItem("c_portable_radar", 2)
+	-- new_entity:AddItem("c_deconstructor", 1)
+	-- home_entity:AddItem("cc_manifest")
+	-- new_entity:Place(loc.x+13, loc.y)
 
 	-- new_entity = Map.CreateEntity(faction, "f_building2x2c")
 	-- new_entity:AddComponent("c_blight_magnifier")
@@ -243,9 +242,9 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	local gyro = Map.CreateEntity(faction, "fc_gyro")
 	gyro:AddComponent("cc_cube_storage")
-	gyro:AddItem("ic_broken_reality", 20)
-	gyro:AddItem("ic_proto_sent", 20)
-	gyro:AddItem("ic_matter", 20)
+	gyro:AddItem("ic_broken_reality", 64)
+	gyro:AddItem("ic_proto_sent", 64)
+	gyro:AddItem("ic_matter", 64)
 	--gyro:AddItem("ic_cube_red", 1)
 	gyro:Place(loc.x,loc.y-10)
 
@@ -301,7 +300,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	pipe:AddItem("ic_soul_angry",20)
 	pipe:AddItem("ic_soul_happy",20)
 	pipe:AddItem("bug_carapace",100)
-	pipe:AddItem("ic_time_crystal",20)
+	pipe:AddItem("ic_time_crystal",60)
 	pipe:AddItem("ic_cube_blue",1)
 	pipe:Place(loc.x-8,loc.y)
 

@@ -230,7 +230,7 @@ function SerializeItems(ent)
 	local data = {}
 	for key, val in ipairs(ent.slots) do 
 		local slot_data = {}
-		print(val, val.id, val.stack, val.extra_data)
+		--print(val, val.id, val.stack, val.extra_data)
 		if val.entity == nil then 
 			if val.type == "cube" then 
 				slot_data.id = val.id or "ic_cube_blue"

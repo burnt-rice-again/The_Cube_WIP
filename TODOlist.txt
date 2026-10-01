@@ -3,6 +3,8 @@ TODO
         Praise the Cube More 
         companion cube texture
         time crystals test balance for chronotowers/modules
+        fx to chrono tower 
+        save game before new game +
 
 Ignoring 
     locked items show up in fabricator UI 

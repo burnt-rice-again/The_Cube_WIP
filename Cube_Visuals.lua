@@ -137,7 +137,7 @@ data.visuals.vc_chrono_tower = {
 	placement = "Min",
 	--mesh_offset = {0,0,100	},
 	scale = {0.09,0.09,0.09},
-	mesh_sockets = { ["fx"] = {0,0,5470}},
+	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {0,0,4100}},
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 
@@ -149,7 +149,7 @@ data.visuals.v_virus_data.cull_ratio = 1
 data.visuals.vc_static_gyro = {
 	mesh = "The_Cube_WIP/textures/gyro.glb",
 	mesh_offset = { 0, 0, 225},
-	mesh_sockets = { ["Medium1"] = {0,0,0}, ["fx"] = {0,0,0}},
+	mesh_sockets = { ["Medium1"] = {0,0,0}, ["fx"] = {100,100,0}},
 	sockets = {
 		{ "Medium1", "Medium" },
 		{ "", "Internal" },

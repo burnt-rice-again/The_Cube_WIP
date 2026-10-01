@@ -242,7 +242,7 @@ Frame:RegisterFrame("fc_gyro",{
 	size = "Large",
 	no_foundations = true,
 	is_explorable = true,
-	slots = {storage = 12, garage = 1 },
+	slots = {storage = 14, garage = 1 },
 	components = {
 		{ "cc_gyro_fabricator", 'hidden' },
 		--{"c_explorable_netwalk", 'hidden'}

@@ -99,6 +99,15 @@ function UIMsg.new_game_plus(comp, ent)
 			settings.unlock_all_techs = true
 			if not settings.run_times then settings.run_times = {} end
 			table.insert(settings.run_times, Map:GetTotalDays())
+			-- Add Items back 
+			-- for key, val in pairs(data.items.ic_micro_universe.production_recipe.ingredients) do 
+			-- 	print(key, val)
+			-- 	if key ~= "ic_cube_blue" then 
+			-- 		comp.owner:AddItem(key, val)
+			-- 	end
+			-- end
+			--Game.DeleteGame("Auto_Save_Cube_Portal_" .. #settings.run_times)
+			Game.SaveGame("Auto_Save_Cube_Portal_" .. #settings.run_times)
 			local owner = comp.owner
 			local garage = owner:GetSlotsByType("garage")
 			settings.extra_bots = {}
@@ -115,11 +124,13 @@ function UIMsg.new_game_plus(comp, ent)
 			settings.library = comp.faction.extra_data.library
 			settings.seed = math.random(55823361)
 			Game.NewGame(settings)
+			--UI.Defer(function()end)
 		end,
 	}, 99)
 
 	--Game.NewGame({scenario = "The_Cube_WIP/Scenario"})
 end 
+
 ---------------------------------
 
 local cc_cube_fabrication = Comp:RegisterComponent("cc_cube_fabrication", {
@@ -399,6 +410,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
 	range = 8,
+	production_effect = "fx_alien_pylon",
 	--pipe_input = data.components.cc_pipe_input.on_update
 })
 
@@ -436,6 +448,6 @@ cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	get_ui = true,
 	production_recipe = false,
 	production_effect = "fx_digital",--"fx_digital_in",--"fx_digital",
-	power = -50000,
+	power = -1---50000,
 })
 
