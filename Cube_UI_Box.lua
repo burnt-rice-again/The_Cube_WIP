@@ -83,6 +83,14 @@ local function lost_cube_check(player_faction)
         end
     end
     if ent == nil then 
+        for key,val in pairs(player_faction.entities) do 
+            if val:CountItem("ic_cube_blue") > 0 then ent = val break end
+            if val:CountItem("ic_cube_green") > 0 then ent = val break end
+            if val:CountItem("ic_cube_red") > 0 then ent = val break end
+            if val:CountItem("ic_cube_empty") > 0 then ent = val break end
+        end
+    end
+    if ent == nil then 
         ent = Check_For_Dropped_Cube()
     end
     if ent ~= nil then 
