@@ -55,7 +55,7 @@ function cc_pipe_crane:on_update(comp, cause)
 
     if cause & CC_CHANGED_ITEMSLOT_AMOUNT or cause & CC_FINISH_SLEEP then 
         local slot = comp:GetSlot(1)
-        local holding = slot.stack
+        local holding = slot.unreserved_stack
         local owner = comp.owner
 
         local pipes = Map.GetEntitiesInRange(owner,self.range,FF_OWNFACTION)

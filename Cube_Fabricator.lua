@@ -200,7 +200,7 @@ function cc_cube_fabrication:on_update(comp, cause)
 	local product_def, blueprint_def = GetProduction(reg1_id, comp)
 
 	-- CUBE pipe input check 
-	if self.pipe_input ~= nil and comp.owner:CountItem("ic_soul_plasma") > 0 then 
+	if self.pipe_input ~= nil and comp.owner:CountItem("ic_soul_plasma", true) > 0 then 
 		self:pipe_input(comp, cause)
 	end
 

@@ -137,7 +137,7 @@ data.visuals.vc_chrono_tower = {
 	placement = "Min",
 	--mesh_offset = {0,0,100	},
 	scale = {0.08,0.08,0.08},
-	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {100,100,4050}},
+	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {-100,-100,4050}},
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 
@@ -246,4 +246,9 @@ data.visuals.v_blightcrystalpower_01_m.light_color = {1,0.5,0,0}
 --data.visuals.v_crystalpower_01_s.light_offset = {0,0,1}
 
 data.visuals.v_human_powerplant.sockets = nil
+data.visuals.v_human_powerplant.placement = "AtCenter"
+data.visuals.v_human_powerplant.tile_size = {1,1}
+data.visuals.v_human_powerplant.scale = {0.5,0.5,0.5}
+
+
 data.visuals.v_explorable_blightanomaly_01.sockets = nil

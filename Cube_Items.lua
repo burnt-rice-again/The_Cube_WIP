@@ -331,14 +331,14 @@ data.items.ic_soul_angry = {
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_soul_plasma = 50, ic_cube_red = 1, crystal_powder = 10 }, 
 	{cc_manifest = 200, cc_green_brain = 50, cc_red_furnace = 60},
-	5, {ic_cube_empty = 1}),
+	10, {ic_cube_red = 1}),
 }
 create_alt_recipe("ic_soul_angry", 
 	CreateProductionRecipeWithWaste(
 	{ic_cube_red = 1, ic_soul_plasma = 50, phase_leaf = 10, ic_soul_happy = 5 }, 
 	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
 	10,
-	{ic_cube_empty = 1}),
+	{ic_cube_red = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
 -- data.items.ic_living_metal = {
