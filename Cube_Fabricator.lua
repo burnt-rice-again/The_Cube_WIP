@@ -448,6 +448,6 @@ cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	get_ui = true,
 	production_recipe = false,
 	production_effect = "fx_digital",--"fx_digital_in",--"fx_digital",
-	power = -1---50000,
+	power = -50000,
 })
 

@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = true
+local Unlock_All_Technologies = false
 local Start_with_Observers = false
 
 local package = ...
@@ -241,23 +241,23 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- volcano:AddComponent("cc_cube_melter")
 	-- volcano:Place(loc.x+3,loc.y+6)
 
-	local gyro = Map.CreateEntity(faction, "fc_gyro")
-	gyro:AddComponent("cc_cube_storage")
-	gyro:AddItem("ic_broken_reality", 64)
-	gyro:AddItem("ic_proto_sent", 64)
-	gyro:AddItem("ic_matter", 64)
-	--gyro:AddItem("ic_cube_red", 1)
-	gyro:Place(loc.x,loc.y-10)
+	-- local gyro = Map.CreateEntity(faction, "fc_gyro")
+	-- gyro:AddComponent("cc_cube_storage")
+	-- gyro:AddItem("ic_broken_reality", 64)
+	-- gyro:AddItem("ic_proto_sent", 64)
+	-- gyro:AddItem("ic_matter", 64)
+	-- --gyro:AddItem("ic_cube_red", 1)
+	-- gyro:Place(loc.x,loc.y-10)
 
-	local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	recharger:AddComponent("cc_pipe_output")
-	recharger:AddComponent("cc_cube_storage")
-	recharger:AddComponent("cc_crystal_power_ultimate")
-	recharger:AddComponent("cc_cheat_tech")
-	recharger:AddItem("ic_time_crystal",100)
-	recharger:AddItem("fused_electrodes",40)
-	recharger:AddItem("ic_cube_red")
-	recharger:Place(loc.x-3,loc.y+10)
+	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	-- recharger:AddComponent("cc_pipe_output")
+	-- recharger:AddComponent("cc_cube_storage")
+	-- recharger:AddComponent("cc_crystal_power_ultimate")
+	-- recharger:AddComponent("cc_cheat_tech")
+	-- recharger:AddItem("ic_time_crystal",100)
+	-- recharger:AddItem("fused_electrodes",40)
+	-- recharger:AddItem("ic_cube_red")
+	-- recharger:Place(loc.x-3,loc.y+10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- --recharger:AddComponent("cc_time_travel_machine")
@@ -278,31 +278,31 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- turret:Place(recharger)
 
 
-	local pipe = Map.CreateEntity(faction, "fc_pipe")
-	--recharger:AddItem("ic_soul_plasma",20)
-	pipe:Place(loc.x-12,loc.y)
-	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",100)
-	pipe:Place(loc.x-8,loc.y+10)
+	-- local pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- --recharger:AddItem("ic_soul_plasma",20)
+	-- pipe:Place(loc.x-12,loc.y)
+	-- pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- pipe:AddItem("ic_soul_plasma",100)
+	-- pipe:Place(loc.x-8,loc.y+10)
 
-	pipe = Map.CreateEntity(faction, "fc_pipe")
-	pipe:AddItem("ic_soul_plasma",100)
-	pipe:Place(loc.x-8,loc.y+4)
+	-- pipe = Map.CreateEntity(faction, "fc_pipe")
+	-- pipe:AddItem("ic_soul_plasma",100)
+	-- pipe:Place(loc.x-8,loc.y+4)
 
-	-- --testing soul refinery 
-	pipe = Map.CreateEntity(faction, "f_building2x2c")
-	pipe:AddComponent("cc_soul_refinery")
-	pipe:AddComponent("cc_cube_storage")
-	pipe:AddComponent("cc_moduleefficiency")
-	pipe:AddComponent("cc_moduleefficiency")
-	pipe:AddComponent("cc_moduleefficiency")
-	--pipe:AddComponent("cc_pipe_output")
-	pipe:AddItem("ic_soul_angry",20)
-	pipe:AddItem("ic_soul_happy",20)
-	pipe:AddItem("bug_carapace",100)
-	pipe:AddItem("ic_time_crystal",60)
-	pipe:AddItem("ic_cube_blue",1)
-	pipe:Place(loc.x-8,loc.y)
+	-- -- --testing soul refinery 
+	-- pipe = Map.CreateEntity(faction, "f_building2x2c")
+	-- pipe:AddComponent("cc_soul_refinery")
+	-- pipe:AddComponent("cc_cube_storage")
+	-- pipe:AddComponent("cc_moduleefficiency")
+	-- pipe:AddComponent("cc_moduleefficiency")
+	-- pipe:AddComponent("cc_moduleefficiency")
+	-- --pipe:AddComponent("cc_pipe_output")
+	-- pipe:AddItem("ic_soul_angry",20)
+	-- pipe:AddItem("ic_soul_happy",20)
+	-- pipe:AddItem("bug_carapace",100)
+	-- pipe:AddItem("ic_time_crystal",60)
+	-- pipe:AddItem("ic_cube_blue",1)
+	-- pipe:Place(loc.x-8,loc.y)
 
 	-- pipe = Map.CreateEntity(faction, "f_building2x1f")
 	-- pipe:AddComponent("cc_power_souls")
@@ -320,57 +320,57 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- defence_block:Place(loc.x+1,loc.y-6)
 
 	-- Anti Cube Tester 	
-	local crafter = Map.CreateEntity(faction, "f_building3x2b")
-	crafter:AddComponent("cc_manifest")
-	crafter:AddComponent("cc_cube_storage")
-	crafter:AddItem("ic_cube_sphere")
-	crafter:AddItem("phase_leaf", 20)
-	crafter:AddItem("blight_crystal", 20)
-	crafter:AddItem("ic_soul_angry", 20)
-	crafter:AddItem("reinforced_plate", 20)
-	crafter:Place(loc.x-5,loc.y-5)
+	-- local crafter = Map.CreateEntity(faction, "f_building3x2b")
+	-- crafter:AddComponent("cc_manifest")
+	-- crafter:AddComponent("cc_cube_storage")
+	-- crafter:AddItem("ic_cube_sphere")
+	-- crafter:AddItem("phase_leaf", 20)
+	-- crafter:AddItem("blight_crystal", 20)
+	-- crafter:AddItem("ic_soul_angry", 20)
+	-- crafter:AddItem("reinforced_plate", 20)
+	-- crafter:Place(loc.x-5,loc.y-5)
 
 
-	-- booot tower 
-	local defence_block = Map.CreateEntity(faction, "fc_boost_tower")
-	defence_block:Place(loc.x,loc.y+8)
+	-- -- booot tower 
+	-- local defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	-- defence_block:Place(loc.x,loc.y+8)
 
-	defence_block = Map.CreateEntity(faction, "fc_boost_tower")
-	defence_block:Place(loc.x,loc.y+8)
+	-- defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	-- defence_block:Place(loc.x,loc.y+8)
 
-	defence_block = Map.CreateEntity(faction, "fc_boost_tower")
-	defence_block:AddComponent("c_small_storage")
-	defence_block:Place(loc.x,loc.y+8)
+	-- defence_block = Map.CreateEntity(faction, "fc_boost_tower")
+	-- defence_block:AddComponent("c_small_storage")
+	-- defence_block:Place(loc.x,loc.y+8)
 	-- home_entity:AddItem("ic_time_crystal", 40)
 	
 	-- -- testing visuals 
-	transport = Map.CreateEntity(faction, "f_building1x1a")
-	transport:AddComponent("cc_cube_storage")
-	transport:AddItem("ic_cube_ghost")
-	transport:GetSlot(1):SetLockedItem()
-	transport:GetSlot(2):SetLockedItem()
-	transport.logistics_carrier = true
-	transport.disconnected = false
-	transport.extra_data.name = "CUBEy"
-	transport:Place(loc.x+4,loc.y+4)
-	transport = Map.CreateEntity(faction, "f_building1x1a")
-	transport:AddComponent("cc_cube_storage")
-	transport:AddItem("ic_cube_red")
-	transport:GetSlot(1):SetLockedItem()
-	transport:GetSlot(2):SetLockedItem()
-	transport.logistics_carrier = true
-	transport.disconnected = false
-	transport.extra_data.name = "CUBEy"
-	transport:Place(loc.x+4,loc.y+4)
-	transport = Map.CreateEntity(faction, "f_building1x1a")
-	transport:AddComponent("cc_cube_storage")
-	transport:AddItem("ic_cube_green")
-	transport:GetSlot(1):SetLockedItem()
-	transport:GetSlot(2):SetLockedItem()
-	transport.logistics_carrier = true
-	transport.disconnected = false
-	transport.extra_data.name = "CUBEy"
-	transport:Place(loc.x+4,loc.y+4)
+	-- transport = Map.CreateEntity(faction, "f_building1x1a")
+	-- transport:AddComponent("cc_cube_storage")
+	-- transport:AddItem("ic_cube_ghost")
+	-- transport:GetSlot(1):SetLockedItem()
+	-- transport:GetSlot(2):SetLockedItem()
+	-- transport.logistics_carrier = true
+	-- transport.disconnected = false
+	-- transport.extra_data.name = "CUBEy"
+	-- transport:Place(loc.x+4,loc.y+4)
+	-- transport = Map.CreateEntity(faction, "f_building1x1a")
+	-- transport:AddComponent("cc_cube_storage")
+	-- transport:AddItem("ic_cube_red")
+	-- transport:GetSlot(1):SetLockedItem()
+	-- transport:GetSlot(2):SetLockedItem()
+	-- transport.logistics_carrier = true
+	-- transport.disconnected = false
+	-- transport.extra_data.name = "CUBEy"
+	-- transport:Place(loc.x+4,loc.y+4)
+	-- transport = Map.CreateEntity(faction, "f_building1x1a")
+	-- transport:AddComponent("cc_cube_storage")
+	-- transport:AddItem("ic_cube_green")
+	-- transport:GetSlot(1):SetLockedItem()
+	-- transport:GetSlot(2):SetLockedItem()
+	-- transport.logistics_carrier = true
+	-- transport.disconnected = false
+	-- transport.extra_data.name = "CUBEy"
+	-- transport:Place(loc.x+4,loc.y+4)
 
 	-- home_entity:AddItem("ldframe", 2)
 	-- home_entity:AddItem("steelblock", 2)
