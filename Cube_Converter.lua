@@ -155,7 +155,7 @@ function cc_scrap_converter:on_update(comp, cause)
 		if comp.id == "cc_cube_recharger" and comp.owner:CountItem("ic_soul_plasma") <= 0 then
 			local space =  comp.owner:CountFreeSpace("ic_soul_plasma")
 			if space > 0 then 
-				print(comp.owner:OrderItem("ic_soul_plasma", math.min(100, space)))
+				print(comp.owner:OrderItem("ic_soul_plasma", math.min(20, space)))
 			end
 		end
 		-- add cube back 

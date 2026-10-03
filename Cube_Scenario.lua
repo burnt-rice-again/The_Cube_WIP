@@ -15,7 +15,7 @@ function package:init()
 	Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = nil
 	Game.GetModPackage("Main/Freeplay").on_world_spawn = nil
 	Game.GetModPackage("Main/Freeplay").setup_scenario = nil
-
+	data.settings.foundation_frame = "f_human_foundation_basic"
 
 	MapMsg.OnFactionCount = function() return end
 
@@ -50,7 +50,8 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	if settings.unlock_all_techs == true then Unlock_All_Technologies = true end
 	if settings.library then faction.extra_data.library = Tool.Copy (settings.library) end 
 
-	
+
+
 	-- starting techs 
 	faction:Unlock("tc_robot_basic")
 	faction:Unlock("tc_cube_basic")
@@ -248,16 +249,15 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	--gyro:AddItem("ic_cube_red", 1)
 	gyro:Place(loc.x,loc.y-10)
 
-	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
-	-- recharger:AddComponent("cc_pipe_output")
-	-- recharger:AddComponent("cc_cube_storage")
-	-- recharger:AddComponent("cc_crystal_power_red")
-	-- recharger:AddComponent("cc_cheat_tech")
-	-- recharger:AddItem("ic_soul_plasma",100)
-	-- recharger:AddItem("crystal_powder",40)
-	-- recharger:AddItem("reinforced_plate",40)
-	-- recharger:AddItem("ic_cube_red")
-	-- recharger:Place(loc.x-3,loc.y+10)
+	local recharger = Map.CreateEntity(faction, "f_building2x2c")
+	recharger:AddComponent("cc_pipe_output")
+	recharger:AddComponent("cc_cube_storage")
+	recharger:AddComponent("cc_crystal_power_ultimate")
+	recharger:AddComponent("cc_cheat_tech")
+	recharger:AddItem("ic_time_crystal",100)
+	recharger:AddItem("fused_electrodes",40)
+	recharger:AddItem("ic_cube_red")
+	recharger:Place(loc.x-3,loc.y+10)
 
 	-- local recharger = Map.CreateEntity(faction, "f_building2x2c")
 	-- --recharger:AddComponent("cc_time_travel_machine")
@@ -318,6 +318,18 @@ function package:on_player_faction_spawn(faction, is_respawn)
 
 	-- defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	-- defence_block:Place(loc.x+1,loc.y-6)
+
+	-- Anti Cube Tester 	
+	local crafter = Map.CreateEntity(faction, "f_building3x2b")
+	crafter:AddComponent("cc_manifest")
+	crafter:AddComponent("cc_cube_storage")
+	crafter:AddItem("ic_cube_sphere")
+	crafter:AddItem("phase_leaf", 20)
+	crafter:AddItem("blight_crystal", 20)
+	crafter:AddItem("ic_soul_angry", 20)
+	crafter:AddItem("reinforced_plate", 20)
+	crafter:Place(loc.x-5,loc.y-5)
+
 
 	-- booot tower 
 	local defence_block = Map.CreateEntity(faction, "fc_boost_tower")

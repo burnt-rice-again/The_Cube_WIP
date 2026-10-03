@@ -33,6 +33,7 @@ package.includes = {
 
 -- called when mod is initializing
 function package:init()
+	data.settings.foundation_frame = "f_human_foundation_basic"
 end
 
 

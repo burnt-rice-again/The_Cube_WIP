@@ -68,6 +68,7 @@ create_alt_recipe("reinforced_plate",
 --- Green cube 
 data.items.phase_leaf.production_recipe = false
 data.items.phase_leaf.tag = "resource"
+data.items.phase_leaf.stack_size = 20
 data.items.phase_leaf.race = "virus"
 data.items.phase_leaf.desc = "The fractal nature of this leaf causes anomlaous space distorations\nUseful for many alternative crafting recipes"
 
@@ -155,7 +156,7 @@ data.items.ic_cube_blue = {
 	texture = 'The_Cube_WIP/textures/cube_blue.png',
 	visual = "vc_cube_blue",--"v_robot_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
+	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 25 },1,{ic_cube_blue = 1}),
 	--v_robot_data
 }
 
@@ -331,14 +332,14 @@ data.items.ic_soul_angry = {
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ ic_soul_plasma = 50, ic_cube_red = 1, crystal_powder = 10 }, 
 	{cc_manifest = 200, cc_green_brain = 50, cc_red_furnace = 60},
-	5, {ic_cube_empty = 1}),
+	5, {ic_cube_red = 1}),
 }
 create_alt_recipe("ic_soul_angry", 
 	CreateProductionRecipeWithWaste(
 	{ic_cube_red = 1, ic_soul_plasma = 50, phase_leaf = 10, ic_soul_happy = 5 }, 
 	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
 	10,
-	{ic_cube_empty = 1}),
+	{ic_cube_red = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
 -- data.items.ic_living_metal = {
@@ -411,7 +412,7 @@ data.items.ic_proto_sent = {
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = data.items.anomaly_heart.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 50 }, 4, {ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 50 }, 4, {ic_cube_blue = 1}),
 }
 data.items.ic_matter = {
 	name = 'Primordial Matter',
@@ -423,7 +424,7 @@ data.items.ic_matter = {
 	slot_type = 'storage',
 	visual = data.items.obsidian.visual,
 	texture = data.items.obsidian.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, ldframe = 2,  reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, ldframe = 1,  reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
 }
 local item_num = 64 
 data.items.ic_micro_universe = {

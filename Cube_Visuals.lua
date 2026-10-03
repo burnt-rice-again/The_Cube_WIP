@@ -136,8 +136,8 @@ data.visuals.vc_chrono_tower = {
 	flags = "RandomRotation",
 	placement = "Min",
 	--mesh_offset = {0,0,100	},
-	scale = {0.09,0.09,0.09},
-	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {0,0,4100}},
+	scale = {0.08,0.08,0.08},
+	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {-100,-100,4050}},
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 
@@ -169,7 +169,7 @@ data.visuals.vc_static_gyro = {
 }
 
 data.visuals.vc_time_crystal = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
+	mesh = "The_Cube_WIP/textures/chrono_crystal.glb",	
 	mesh_offset = {0,0,100	},
 	mesh_scale = {0,0,0.8},
 	cull_ratio = CONTAINER_CULL_DIST
@@ -215,7 +215,7 @@ data.visuals.vc_crop_phase_seed4.scale = {1.7,1.7,1.7}
 
 ----------- Seed Planters
 data.visuals.vc_planter = {
-	mesh = "The_Cube_WIP/textures/In Progress BlockBench/Planter.glb",
+	mesh = "The_Cube_WIP/textures/Planter.glb",
 	scale = {0.5,0.5,0.5}
 }
 
@@ -246,4 +246,9 @@ data.visuals.v_blightcrystalpower_01_m.light_color = {1,0.5,0,0}
 --data.visuals.v_crystalpower_01_s.light_offset = {0,0,1}
 
 data.visuals.v_human_powerplant.sockets = nil
+data.visuals.v_human_powerplant.placement = "AtCenter"
+data.visuals.v_human_powerplant.tile_size = {1,1}
+data.visuals.v_human_powerplant.scale = {0.5,0.5,0.5}
+
+
 data.visuals.v_explorable_blightanomaly_01.sockets = nil

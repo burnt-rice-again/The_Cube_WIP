@@ -875,7 +875,7 @@ local function UpdateDefinitionTooltip(deftooltip)
 			if remain_stat_lines < 0 then break end
 		end
 	elseif options and  options.slot and options.slot.has_extra_data and options.slot.extra_data.yield then 
-		print(options.slot.extra_data, options.slot.id)
+		--print(options.slot.extra_data, options.slot.id)
 		remain_stat_lines = AddStats(remain_stat_lines, list, 'STAT_EXTRA_DATA', {}, options.slot.extra_data , entity, faction)
 	end
 	

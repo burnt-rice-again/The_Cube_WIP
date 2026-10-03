@@ -54,3 +54,9 @@ If you want to cheat there is two bools at the top of the Cube_Scenario file. on
     -Gyroscope storage does not update visual until reload. same for both cube holder and storage comp.
     -Ghost of relay tower is larger then it should be when deciding where to build. once its placed it is the correct size
     -Heavy Minning laser needs recipe to mine
+
+
+## Compatibility 
+
+    -Compatible with mods that only add instructions 
+    -Not compatible with mods that add items or techs

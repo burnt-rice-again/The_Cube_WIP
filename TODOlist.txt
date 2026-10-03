@@ -1,16 +1,9 @@
 TODO
         More ENTRY 001 logs
         Praise the Cube More 
-        companion cube texture
-        time crystals test balance for chronotowers/modules
-        fx to chrono tower 
-        save game before new game +
 
 Ignoring 
     locked items show up in fabricator UI 
-
-
-
 
 
 --- stuff i cant do because there isnt a method 

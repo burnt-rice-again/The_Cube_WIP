@@ -42,27 +42,28 @@ data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ conc
 -- lvl2 
 data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 9, datakey_robot = 2 }, 40)
 data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 16, reinforced_plate = 6, ic_soul_happy = 4, ic_time_crystal = 1 }, 40)
-data.frames.f_building2x1c.component_boost = 0
+data.frames.f_building2x1c.component_boost = 50
 data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
 data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 16, reinforced_plate = 6, ic_soul_happy = 2 }, 40)
-data.frames.f_building2x1d.component_boost = 0
+data.frames.f_building2x1d.component_boost = 50
 data.frames.f_wall_bli.construction_recipe = CreateConstructionRecipe({ reinforced_plate = 1, concreteslab = 4, wire = 2}, 20)
 data.frames.f_wall_bli.race = "robot"
 data.frames.f_wall_bli.name = "Reinforced Wall"
 data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, wire = 8, steelblock = 16, datakey_robot = 5 }, 40)
 data.frames.f_building2x2b.component_boost = 0
+data.frames.f_building3x2b.component_boost = 30
 data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 40, reinforced_plate = 20, ic_soul_happy = 4 }, 40)
 data.frames.f_building3x2b.components = {{"cc_moduleefficiency_s","hidden"}}
 data.frames.f_building2x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x2a.component_boost = 0
 data.frames.f_building2x2c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, ic_time_crystal = 2 }, 40)
-data.frames.f_building2x2c.component_boost = 0
+data.frames.f_building2x2c.component_boost = 50
 data.frames.f_building2x2d.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, ic_time_crystal = 2 }, 40)
-data.frames.f_building2x2d.component_boost = 0
+data.frames.f_building2x2d.component_boost = 50
 data.frames.f_building2x2e.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 16, ic_time_crystal = 5, fused_electrodes = 9 }, 40)
-data.frames.f_building2x2e.component_boost = 0
+data.frames.f_building2x2e.component_boost = 50
 data.frames.f_building3x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 40, reinforced_plate = 25, ic_time_crystal = 5, fused_electrodes = 16 }, 40)
-data.frames.f_building3x2a.component_boost = 0
+data.frames.f_building3x2a.component_boost = 50
 data.frames.f_building3x2a.components = nil
 
 -- flying frames
@@ -79,8 +80,10 @@ data.frames.f_beacon_l.construction_recipe = CreateConstructionRecipe({ beacon_f
 
 -- foundations 
 data.frames.f_human_foundation_basic.construction_recipe = CreateConstructionRecipe({ concreteslab = 1},25)
+data.frames.f_human_foundation_basic.name = "Contrete Foundation"
+data.frames.f_human_foundation_basic.index = 40
 data.frames.f_human_foundation_basic.cost_modifier = 0.75
-data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
+data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3, wire = 1},25)
 data.frames.f_human_foundation_adv.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ crystal_powder = 1, reinforced_plate = 1},25)
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)
@@ -88,6 +91,12 @@ data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({
 data.frames.f_human_foundation_basic.race = "robot"
 data.frames.f_human_foundation1.race = "robot"
 data.frames.f_human_foundation_adv.race = "robot"
+data.frames.f_human_foundation2.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation3.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation4.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation5.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation6.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation7.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
 
 
 -- remove blight charger from some bots 
@@ -164,8 +173,9 @@ end
 --data.visuals.v_beacon_l.mesh_sockets = { ["fx"] = {0,0,100} }
 local fc_boost_tower = Frame:RegisterFrame("fc_boost_tower",{
 	name = "Chrono Field Module",
-	desc = "Dilates Time around the target unit\n\nRequires Advanced Fuel",
-	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
+	desc = [[Dilates Time around the target unit
+	Consumes <img width="50" height="50" id="ic_soul_plasma"/><img width="50" height="50" id="ic_time_crystal"/> ]],
+	texture = "The_Cube_WIP/textures/chrono_tower_2.png",
 	visual = "vc_chrono_tower",
 	components = {
 		{"cc_boost_tower","hidden"},

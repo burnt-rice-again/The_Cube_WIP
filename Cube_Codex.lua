@@ -46,7 +46,8 @@ data.codex.xc_cube_1 = {
     Crafting With the Cube will require a unit with a Cube Pedestal (M) and the desired building
 
     If you have lost the cube click the icon in the top left to focus on it.
-    <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube.png"/>
+    Or the camera button to follow the cube
+    <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube_2.png"/>
 
     <hl>If the Cube changes form inside a locked slot it will temporarily unlock the slot.</>
     <hl>Once the Cube leaves the slot it will relock it to the desired id.</>

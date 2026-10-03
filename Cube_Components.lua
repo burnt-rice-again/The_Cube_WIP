@@ -255,7 +255,7 @@ function cc_moduleefficiency:update_boost(comp, remove)
 	if remove == true then remove = comp end 
 	if owner[self.boost_id] == nil then return print("No Boost Id", self.boost_id) end
 	owner[self.boost_id] = (owner.def[self.boost_id] or 0) + SumActiveModuleBoosts(owner, self, remove )
-	print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
+	--print("Updated Boost", self.boost_id, owner[self.boost_id], (owner.def[self.boost_id] or 0))
 end
 function cc_moduleefficiency:on_add(comp, cause)	
 	comp.extra_data.boost_active = true
@@ -683,7 +683,8 @@ end
 --- 
 local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	name = "Chrono Field Module",
-	desc = "Dilates Time around the target unit\n\nRequires Phase Fuel",
+	desc = [[Dilates Time around the target unit
+	Consumes <img width="50" height="50" id="ic_soul_plasma"/><img width="50" height="50" id="ic_time_crystal"/> ]],
 	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
 	get_ui = true,
 	power = -100,
