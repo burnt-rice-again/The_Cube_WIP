@@ -50,11 +50,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	if settings.unlock_all_techs == true then Unlock_All_Technologies = true end
 	if settings.library then faction.extra_data.library = Tool.Copy (settings.library) end 
 
-	
-	print(faction)
-	for key,val in ipairs(faction ) do
-		print(key, val)
-	end
+
 
 	-- starting techs 
 	faction:Unlock("tc_robot_basic")

@@ -215,7 +215,7 @@ data.visuals.vc_crop_phase_seed4.scale = {1.7,1.7,1.7}
 
 ----------- Seed Planters
 data.visuals.vc_planter = {
-	mesh = "The_Cube_WIP/textures/In Progress BlockBench/Planter.glb",
+	mesh = "The_Cube_WIP/textures/Planter.glb",
 	scale = {0.5,0.5,0.5}
 }
 
