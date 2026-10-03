@@ -323,6 +323,18 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- defence_block = Map.CreateEntity(faction, "fc_cube_sphere")
 	-- defence_block:Place(loc.x+1,loc.y-6)
 
+	-- Anti Cube Tester 	
+	local crafter = Map.CreateEntity(faction, "f_building3x2b")
+	crafter:AddComponent("cc_manifest")
+	crafter:AddComponent("cc_cube_storage")
+	crafter:AddItem("ic_cube_sphere")
+	crafter:AddItem("phase_leaf", 20)
+	crafter:AddItem("blight_crystal", 20)
+	crafter:AddItem("ic_soul_angry", 20)
+	crafter:AddItem("reinforced_plate", 20)
+	crafter:Place(loc.x-5,loc.y-5)
+
+
 	-- booot tower 
 	local defence_block = Map.CreateEntity(faction, "fc_boost_tower")
 	defence_block:Place(loc.x,loc.y+8)

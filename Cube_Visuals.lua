@@ -169,7 +169,7 @@ data.visuals.vc_static_gyro = {
 }
 
 data.visuals.vc_time_crystal = {
-	mesh = "The_Cube_WIP/textures/In Progress Blender/TimeCrystal/TimeCrystal.glb",	
+	mesh = "The_Cube_WIP/textures/chrono_crystal.glb",	
 	mesh_offset = {0,0,100	},
 	mesh_scale = {0,0,0.8},
 	cull_ratio = CONTAINER_CULL_DIST

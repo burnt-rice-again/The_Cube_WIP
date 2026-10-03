@@ -683,7 +683,8 @@ end
 --- 
 local cc_boost_tower = Comp:RegisterComponent("cc_boost_tower", {
 	name = "Chrono Field Module",
-	desc = "Dilates Time around the target unit\n\nRequires Phase Fuel",
+	desc = [[Dilates Time around the target unit
+	Consumes <img width="50" height="50" id="ic_soul_plasma"/><img width="50" height="50" id="ic_time_crystal"/> ]],
 	texture = "The_Cube_WIP/textures/chrono_tower_cropped.png",
 	get_ui = true,
 	power = -100,
