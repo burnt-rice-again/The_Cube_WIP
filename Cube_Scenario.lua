@@ -15,7 +15,7 @@ function package:init()
 	Game.GetModPackage("Main/Freeplay").on_player_faction_spawn = nil
 	Game.GetModPackage("Main/Freeplay").on_world_spawn = nil
 	Game.GetModPackage("Main/Freeplay").setup_scenario = nil
-
+	data.settings.foundation_frame = "f_human_foundation_basic"
 
 	MapMsg.OnFactionCount = function() return end
 
@@ -51,6 +51,11 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	if settings.library then faction.extra_data.library = Tool.Copy (settings.library) end 
 
 	
+	print(faction)
+	for key,val in ipairs(faction ) do
+		print(key, val)
+	end
+
 	-- starting techs 
 	faction:Unlock("tc_robot_basic")
 	faction:Unlock("tc_cube_basic")

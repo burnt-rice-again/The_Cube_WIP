@@ -136,8 +136,8 @@ data.visuals.vc_chrono_tower = {
 	flags = "RandomRotation",
 	placement = "Min",
 	--mesh_offset = {0,0,100	},
-	scale = {0.09,0.09,0.09},
-	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {0,0,4100}},
+	scale = {0.08,0.08,0.08},
+	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {100,100,4050}},
 	--cull_ratio = CONTAINER_CULL_DIST
 }
 

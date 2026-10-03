@@ -1028,11 +1028,11 @@ data.techs.tc_robot_floor_1 = {
 	desc = "The Foundation tech for Foundations",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
-		"f_human_foundation1","f_human_foundation_adv"
+		"f_human_foundation1"
 	},
 	require_tech = { "tc_robot_frames_2","tc_robot_metallurgy_2"},
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, wire = 1}, 50),
 	category = "Soul Harvesting",
 }
 data.techs.tc_robot_floor_2 = {
@@ -1046,7 +1046,7 @@ data.techs.tc_robot_floor_2 = {
 	},
 	require_tech = { "tc_robot_floor_1",},
 	progress_count = 100,
-	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1}, 50),
+	uplink_recipe = CreateUplinkRecipe({ concreteslab = 1, reinforced_plate = 1, wire = 1}, 50),
 	category = "Soul Harvesting",
 }
 data.techs.tc_robot_floor_3 = {

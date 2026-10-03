@@ -155,7 +155,7 @@ data.items.ic_cube_blue = {
 	texture = 'The_Cube_WIP/textures/cube_blue.png',
 	visual = "vc_cube_blue",--"v_robot_data",
 	production_recipe = CreateProductionRecipeWithWaste(
-	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 50 },1,{ic_cube_blue = 1}),
+	{ ic_cube_green = 1, datakey_robot = 1 }, { cc_manifest = 25 },1,{ic_cube_blue = 1}),
 	--v_robot_data
 }
 

@@ -79,8 +79,10 @@ data.frames.f_beacon_l.construction_recipe = CreateConstructionRecipe({ beacon_f
 
 -- foundations 
 data.frames.f_human_foundation_basic.construction_recipe = CreateConstructionRecipe({ concreteslab = 1},25)
+data.frames.f_human_foundation_basic.name = "Contrete Foundation"
+data.frames.f_human_foundation_basic.index = 40
 data.frames.f_human_foundation_basic.cost_modifier = 0.75
-data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
+data.frames.f_human_foundation1.construction_recipe = CreateConstructionRecipe({ concreteslab = 3, wire = 1},25)
 data.frames.f_human_foundation_adv.construction_recipe = CreateConstructionRecipe({ concreteslab = 3},25)
 data.frames.f_foundation_adv.construction_recipe = CreateConstructionRecipe({ crystal_powder = 1, reinforced_plate = 1},25)
 data.frames.f_human_foundation9.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, reinforced_plate = 2, ic_time_crystal = 1},25)
@@ -88,6 +90,12 @@ data.frames.f_human_foundation8.construction_recipe = CreateConstructionRecipe({
 data.frames.f_human_foundation_basic.race = "robot"
 data.frames.f_human_foundation1.race = "robot"
 data.frames.f_human_foundation_adv.race = "robot"
+data.frames.f_human_foundation2.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation3.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation4.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation5.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation6.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
+data.frames.f_human_foundation7.construction_recipe = CreateConstructionRecipe({ concreteslab = 5, wire = 1},25)
 
 
 -- remove blight charger from some bots 

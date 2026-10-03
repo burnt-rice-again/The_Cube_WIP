@@ -20,9 +20,9 @@ local function replace_cube(recipe, entity)
 				AddCubeThroughFixed(entity,waste)
 			end
 		end
-		-- place anti cubes in output
+		-- place anti cubes in output 
 		while anti_count > 0 do 
-			Place_Anti_Cube(entity, false)
+			Place_Anti_Cube(entity, false, true)
 			anti_count = anti_count - 1
 		end
 	end

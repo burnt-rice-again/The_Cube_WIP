@@ -134,7 +134,7 @@ end
 
 -- @Entity From frame
 -- @Bool True to place two anticubes instead of 1
-function Place_Anti_Cube(entity, do_again)
+function Place_Anti_Cube(entity, do_again, ground_only)
 	-- location can be entity or location
 	if entity == nil then print("ERROR location is invalid for anticube") end 
 	-- if location.x == nil then
@@ -145,16 +145,18 @@ function Place_Anti_Cube(entity, do_again)
 	-- look for frame with space 
 	if not entity.faction:IsUnlocked("xc_cube_anti") then entity.faction:Unlock("xc_cube_anti") end
 	local range = 5
-	local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 1, 1,range, FF_OWNFACTION, entity.faction)
-	for key, val in pairs(list_nearby) do
-		
-		if val:AddItem("ic_cube_sphere") ~= nil then
-			val:PlayEffect("fx_ping")
-			if do_again == true then
-				  do_again = false 
-				  if val:AddItem("ic_cube_sphere") ~= nil then return end 
-			else return end 
-			-- check if another spot is available
+	if ground_only ~= true then
+		local list_nearby = Map.GetEntitiesInRange(entity.location.x, entity.location.y, 1, 1,range, FF_OWNFACTION, entity.faction)
+		for key, val in pairs(list_nearby) do
+			
+			if val:AddItem("ic_cube_sphere") ~= nil then
+				val:PlayEffect("fx_ping")
+				if do_again == true then
+					do_again = false 
+					if val:AddItem("ic_cube_sphere") ~= nil then return end 
+				else return end 
+				-- check if another spot is available
+			end
 		end
 	end
 	-- place as frame 

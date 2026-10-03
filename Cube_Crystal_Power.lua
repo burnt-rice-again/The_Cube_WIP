@@ -152,10 +152,10 @@ data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 <img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Requires drastically less Cube time compared to crystal power]],
 	visual = "v_power_cell_01_s",
-	power_storage = 10000,
+	power_storage = 150000,
 	drain_rate = 500,
 	consume_item = "ic_soul_plasma",
-	wait_ticks = 25,
+	wait_ticks = 300,
 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
 })
 data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
