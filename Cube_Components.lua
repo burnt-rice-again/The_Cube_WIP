@@ -235,7 +235,7 @@ local cc_moduleefficiency = Comp:RegisterComponent("cc_moduleefficiency", {
 	attachment_size = "Internal", race = "robot", index = 1050,
 	texture = data.components.c_moduleefficiency.texture,
 	visual = "v_generic_i",
-	production_recipe = CreateProductionRecipe({ reinforced_plate = 2, ic_time_crystal = 1, ic_soul_angry = 1 }, { c_assembler = 30, }),
+	production_recipe = CreateProductionRecipe({ ldframe = 1, ic_time_crystal = 1, ic_soul_angry = 1 }, { c_assembler = 30, }),
 	-- new items 
 	--activation = "Manual", -- change to OnAnyItemSlotChange
 	boost = 50,
@@ -322,7 +322,7 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_s",{
 	attachment_size = "Small",
 	texture = data.components.c_moduleefficiency_s.texture,
 	visual = data.components.c_moduleefficiency_s.visual,
-	production_recipe = CreateProductionRecipe({ reinforced_plate = 4, ic_time_crystal = 2, ic_soul_angry = 4 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ ldframe = 2, ic_time_crystal = 2, ic_soul_angry = 4 }, { c_assembler = 60, }),
 	boost = 100,
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
@@ -331,7 +331,7 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_m",{
 	attachment_size = "Medium",
 	texture = data.components.c_moduleefficiency_m.texture,
 	visual = data.components.c_moduleefficiency_m.visual,
-	production_recipe = CreateProductionRecipe({ reinforced_plate = 9, ic_time_crystal = 3, ic_soul_angry = 9 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ ldframe = 4, ic_time_crystal = 3, ic_soul_angry = 9 }, { c_assembler = 60, }),
 	boost = 150,
 })
 cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
@@ -340,7 +340,7 @@ cc_moduleefficiency:RegisterComponent("cc_moduleefficiency_l",{
 	attachment_size = "Large",
 	texture = data.components.c_moduleefficiency_l.texture,
 	visual = data.components.c_moduleefficiency_l.visual,
-	production_recipe = CreateProductionRecipe({ reinforced_plate = 16, ic_time_crystal = 4, ic_soul_angry = 16 }, { c_assembler = 60, }),
+	production_recipe = CreateProductionRecipe({ ldframe = 9, ic_time_crystal = 4, ic_soul_angry = 16 }, { c_assembler = 60, }),
 	boost = 200,
 })
 -- data.components.cc_moduleefficiency.fuel_time = math.ceil(data.components.cc_moduleefficiency.fuel_time / data.components.cc_moduleefficiency.boost)

@@ -81,11 +81,19 @@ data.items.wire.tag = "resource"
 data.items.wire.texture = "The_Cube_WIP/textures/wire.png"
 --- AntiCube 
 data.items.ldframe.name = "AntiPhysics Frame"
-data.items.ldframe.desc = "A Contained AntiCube ready for connection to a bot chassis"
+data.items.ldframe.desc = [[An AntiCube contained by other uniquely unstable materials
+<bl>This recipe consumes fewer Anti-Cubes</>]]
 data.items.ldframe.race = "robot"
 data.items.ldframe.production_recipe = CreateProductionRecipe(
-{ reinforced_plate = 2, phase_leaf = 4,ic_cube_sphere = 1, ic_soul_angry = 1, blight_crystal = 9}, { cc_manifest = 20 }, 1)
-
+{ reinforced_plate = 4, phase_leaf = 8,ic_cube_sphere = 1, ic_soul_angry = 1, blight_crystal = 9}, { cc_manifest = 100 }, 2)
+create_alt_recipe("ldframe",
+	CreateProductionRecipe(
+	{reinforced_plate = 8, ic_cube_sphere = 1, ic_soul_angry = 1, wire = 20, datakey_robot = 16}, 
+	{cc_manifest = 100},
+	1),
+	{desc = [[An AntiCube contained by large amounts of mentally stable materials
+<bl>This recipe is very ineffcient and consumes large amounts of Anti-Cubes</>]]}
+)
 
 --------------------------------------
 ---- Update Non Cube Existing Items -----------
@@ -211,9 +219,10 @@ data.items.ic_cube_sphere = {
 	name = "ANTI - CUBE",
 	index = 1004,
 	desc = [[<hl>Heresey, there is a sphere inside the cube!</>
-<rl>WARNING: extremly unstable around the Cube</>
+	
 The Anti-Cube can exist in an infinate number of states simultaneously.
-]],
+
+<rl>WARNING: extremly unstable around the Cube</>]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,

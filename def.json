@@ -1,10 +1,10 @@
 {
     "id": "The_Cube_WIP_dev",
-    "name": "The CUBE Hypothesis",
-    "version_name": "1.2",
-    "version_code": 1.2,
+    "name": "The CUBE Hypothesis_dev",
+    "version_name": "2 Balance Patch",
+    "version_code": 2,
     "author": "burnt_rice_again",
-    "homepage": "https://www.desyncedgame.com/",
+    "homepage": "https://github.com/burnt-rice-again/The_Cube_WIP",
     "description": "The Cube Hypothesis - A Challenge Mod Overhaul",
     "packages": {
         "Data": {
