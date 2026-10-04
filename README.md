@@ -9,7 +9,7 @@ Lots of new features and interesting designs. It is not simply a reshuffle of cr
 Some new recipes may require you to design new infastructure and behaviours. 
 All power generation involves the Cube.
 
-If you are lost the codex should explain everything. Let me know if it does not. 
+If you are lost the codex should explain everything.
 
 ## Features:
     -The Cube in 4 perfect forms 
@@ -30,9 +30,9 @@ If you are lost the codex should explain everything. Let me know if it does not.
 
 -------------
 
-## The Cube has given us sentience!
+## The Cube has provided power for core systems to run
 
-    Our top priority is to understand and control the Cube that formed us from rocks.
+    Our top priority is to understand and control the Cube.
     We have booted up to find a world with very high entropy. 
     The Cube is our only source of potential energy.
 
@@ -44,19 +44,14 @@ If you are lost the codex should explain everything. Let me know if it does not.
 
 ---------------
 
-If you want to cheat there is two bools at the top of the Cube_Scenario file. one unlocks all the techs another reveals the map
-
-## Known Bugs 
-
-    -TimeTravel machine randomizes required input on requip with no downside
-    -Hitbox of new visuals doesn not exist. Engine Cannot currently import hitbox models for a mod.
-    -Engine doesn't support importing animated models for a mods 
-    -Gyroscope storage does not update visual until reload. same for both cube holder and storage comp.
-    -Ghost of relay tower is larger then it should be when deciding where to build. once its placed it is the correct size
-    -Heavy Minning laser needs recipe to mine
-
 
 ## Compatibility 
 
     -Compatible with mods that only add instructions 
     -Not compatible with mods that add items or techs
+
+## Known modding limitations
+
+    -Can't import animated models for buildings. 
+    -Hitbox of new visuals does not exist.
+    -Gyroscope storage does not update visual for held cube

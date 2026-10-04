@@ -95,7 +95,7 @@ data.items.crystal.desc = "A Crystal chunk capable of emotional resonance with t
 data.items.metalplate.production_recipe = CreateProductionRecipe({metalore = 2}, {c_fabricator = 30}, 1)
 data.items.metalplate.desc = "Fighting against entropy homogenzied matter can be smelted"
 
-data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_miner = 15})
+--data.items.laterite.mining_recipe = CreateMiningRecipe({c_miner = 30, c_adv_miner = 15})
 
 data.items.steelblock.name = "Steel Beams"
 data.items.steelblock.desc = "The Trusty I beam. A Pylon of Civilization"
@@ -336,7 +336,7 @@ data.items.ic_soul_angry = {
 }
 create_alt_recipe("ic_soul_angry", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, ic_soul_plasma = 50, phase_leaf = 10, ic_soul_happy = 5 }, 
+	{ic_cube_sphere = 1, ic_soul_plasma = 50, phase_leaf = 10, ic_soul_happy = 5 }, 
 	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
 	10,
 	{ic_cube_red = 1}),
