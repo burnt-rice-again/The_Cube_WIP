@@ -22,7 +22,7 @@ local function replace_cube(recipe, entity)
 		end
 		-- place anti cubes in output 
 		while anti_count > 0 do 
-			Place_Anti_Cube(entity, false, true)
+			Place_Anti_Cube(entity, false)
 			anti_count = anti_count - 1
 		end
 	end

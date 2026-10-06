@@ -181,7 +181,7 @@ data.codex.xc_cube_alt = {
         talkinghead = true,
         img = data.items.datakey_robot.texture,
         txt = [[
-        Catalyst have been discoverd as laternatives to known crafting recipes
+        Catalyst have been discoverd as alternatives to known crafting recipes
         These new recipes require more advanced materials but are faster processes
         
         <bl>Codex has been updated</>]]

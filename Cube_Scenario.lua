@@ -1,6 +1,6 @@
 
 --- ENABLE CHEATS HERE
-local Unlock_All_Technologies = true
+local Unlock_All_Technologies = false
 local Start_with_Observers = false
 
 local package = ...
@@ -325,6 +325,16 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- crafter:AddComponent("cc_cube_storage")
 	-- crafter:AddItem("ic_cube_sphere")
 	-- crafter:AddItem("phase_leaf", 20)
+	-- crafter:AddItem("blight_crystal", 20)
+	-- crafter:AddItem("ic_soul_angry", 20)
+	-- crafter:AddItem("reinforced_plate", 20)
+	-- crafter:Place(loc.x-5,loc.y-5)
+	-- crafter = Map.CreateEntity(faction, "f_building3x2b")
+	-- crafter:AddComponent("cc_manifest")
+	-- crafter:AddComponent("cc_cube_storage")
+	-- crafter:AddComponent("cc_pipe_output")
+	-- crafter:AddItem("ic_cube_red")
+	-- crafter:AddItem("ic_soul_plasma", 100)
 	-- crafter:AddItem("blight_crystal", 20)
 	-- crafter:AddItem("ic_soul_angry", 20)
 	-- crafter:AddItem("reinforced_plate", 20)
