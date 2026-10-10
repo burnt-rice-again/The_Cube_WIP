@@ -99,6 +99,8 @@ data.codex.xc_cube_power_1 = {
         Other Similiar Power Components 
         <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Crystal vaporization</> 
         <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+        <img id="cc_power_phase" width="50" height="50"/> <hl>Time Power</> 
+        <img id="cc_crystal_power_ultimate" width="50" height="50"/> <hl>Ultimate Power</> 
         
         <img image="The_Cube_WIP/textures/Codex_Images/Crystal_Power_s.png"/>
         ]],

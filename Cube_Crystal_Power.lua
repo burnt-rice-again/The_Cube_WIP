@@ -37,7 +37,8 @@ Power output is affected by component effciency boosts.]],
 	consume_list = {ic_cube_blue = 1, crystal = 1},
 	--output_list = {bug_carapace = 1},
 	cube_out = "ic_cube_blue",
-	charge_time = 240*5,--matches def tooltip
+	consume_item = "crystal", -- only shows up in tooltip
+	charge_time = 300*5,--matches def tooltip
 	drain_rate = 25,--matches def tooltip
 	power = 0,
 	rgb = {0,1,1},
@@ -71,7 +72,9 @@ function cc_crystal_power:on_update(comp, cause)
 		-- recharge now
         comp:FlagRegisterError(1,false)
         comp:FulfillProcess()
-        AddCubeThroughFixed(comp.owner,self.cube_out)
+		if self.cube_out ~= 0 then
+        	AddCubeThroughFixed(comp.owner,self.cube_out)
+		end
 		comp.extra_power = math.floor(self.drain_rate * (comp.effective_boost/100))
 		comp:SetRegister(2, { id = "v_power_production", num = comp.extra_power  * TICKS_PER_SECOND })
 		comp.light_color = {self.rgb[1],self.rgb[2],self.rgb[3], 3}
@@ -137,37 +140,68 @@ Power output is affected by component effciency boosts.]],
 	consume_list = {fused_electrodes = 1,ic_time_crystal = 1, ic_cube_red = 1},
 	--output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
+	consume_item = "fused_electrodes",
 	charge_time = 600*5,
 	drain_rate = 20000,
 	attachment_size = "Large",
 
 })
-
------------------------------------------------------------------------------
--- these ones dont need the cube so are just a copy of crystal power base game
-data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
+cc_crystal_power:RegisterComponent("cc_power_souls",{
 	name = "Soul Consumption", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
 	desc = [[<bl>By the Power of Frienship!</> 
 <img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Requires drastically less Cube time compared to crystal power]],
 	visual = "v_power_cell_01_s",
-	power_storage = 25000,
-	drain_rate = 250,
+	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1),
+	charge_time = 300*5,
+	drain_rate = 60,
 	consume_item = "ic_soul_plasma",
-	wait_ticks = 100,
-	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+	rgb = {0.9, 0, 1},
+	consume_list = {ic_soul_plasma = 1},
+	cube_out = 0,
 })
-data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
-	name = "Phase Fuel Generator", --"Crystal Power Extractor",
+cc_crystal_power:RegisterComponent("cc_power_phase",{
+	name = "Time Generator", --"Crystal Power Extractor",
 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
 	desc = [[Consumes Chrono Crystals for energy 
 <img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Less effcient but very portable]],
 	visual = "v_power_cell_01_s",
-	power_storage = 50000,
-	drain_rate = 1000,
+	charge_time = 600*5,
+	drain_rate = 250,
 	consume_item = "ic_time_crystal",
-	wait_ticks = 20,
-	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+	rgb = {0, 1, 1},
+	consume_list = {ic_time_crystal = 1},
+	cube_out = 0,
+	production_recipe = CreateProductionRecipe({ldframe = 1, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
 })
+
+-----------------------------------------------------------------------------
+-- these ones dont need the cube so are just a copy of crystal power base game
+	-- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
+	-- 	name = "Soul Consumption", --"Crystal Power Extractor",
+	-- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+	-- 	desc = [[<bl>By the Power of Frienship!</> 
+	-- <img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	-- Requires drastically less Cube time compared to crystal power]],
+	-- 	visual = "v_power_cell_01_s",
+	-- 	power_storage = 25000,
+	-- 	drain_rate = 250,
+	-- 	consume_item = "ic_soul_plasma",
+	-- 	wait_ticks = 100,
+	-- 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+	-- })
+-- data.components.c_crystal_power:RegisterComponent("cc_power_phase",{
+-- 	name = "Phase Fuel Generator", --"Crystal Power Extractor",
+-- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+-- 	desc = [[Consumes Chrono Crystals for energy 
+-- <img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+-- Less effcient but very portable]],
+-- 	visual = "v_power_cell_01_s",
+-- 	power_storage = 50000,
+-- 	drain_rate = 1000,
+-- 	consume_item = "ic_time_crystal",
+-- 	wait_ticks = 20,
+-- 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+-- })

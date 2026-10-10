@@ -40,7 +40,7 @@ local cc_explorable_fix_volcano = Comp:RegisterComponent("cc_explorable_fix_volc
 			comp:Destroy()
 		end)
 	end,
-	explorable_fix = "ic_cube_empty",
+	explorable_fix = "ic_cube_green",
 	slots = {cube = 1}
 })
 function cc_explorable_fix_volcano:on_update(comp, cause)
@@ -97,8 +97,8 @@ local function add_volcano(x,y)
 	volcano.extra_data.rewards = {ic_cube_red = 1}
 
 	local fix = volcano:AddComponent("cc_explorable_fix_volcano", "hidden")
-	fix.extra_data.explorable_fix = "ic_cube_empty"
-	volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_empty", num = 1 })
+	fix.extra_data.explorable_fix = "ic_cube_green"
+	volcano:SetRegister(FRAMEREG_SIGNAL, { id = "ic_cube_green", num = 1 })
     volcano.extra_data.auto_destroy = true
 	volcano:Place(x,y,math.random(4)-1)
 end

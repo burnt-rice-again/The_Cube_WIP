@@ -243,6 +243,9 @@ data.visuals.v_crystalpower_01_s.light_color = {0,0,1,0}
 --- add light to crystal power
 data.visuals.v_blightcrystalpower_01_m.light_radius = 2
 data.visuals.v_blightcrystalpower_01_m.light_color = {1,0.5,0,0}
+--- add light to crystal power
+data.visuals.v_power_cell_01_s.light_radius = 2
+data.visuals.v_power_cell_01_s.light_color = {0.9,0,1,0}
 --data.visuals.v_crystalpower_01_s.light_offset = {0,0,1}
 
 data.visuals.v_human_powerplant.sockets = nil

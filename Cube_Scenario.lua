@@ -356,7 +356,7 @@ function package:on_player_faction_spawn(faction, is_respawn)
 	-- -- testing visuals 
 	-- transport = Map.CreateEntity(faction, "f_building1x1a")
 	-- transport:AddComponent("cc_cube_storage")
-	-- transport:AddItem("ic_cube_ghost")
+	-- transport:AddItem("ic_cube_green")
 	-- transport:GetSlot(1):SetLockedItem()
 	-- transport:GetSlot(2):SetLockedItem()
 	-- transport.logistics_carrier = true
