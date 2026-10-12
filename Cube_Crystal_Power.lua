@@ -38,8 +38,8 @@ Power output is affected by component effciency boosts.]],
 	--output_list = {bug_carapace = 1},
 	cube_out = "ic_cube_blue",
 	consume_item = "crystal", -- only shows up in tooltip
-	charge_time = 300*5,--matches def tooltip
-	drain_rate = 25,--matches def tooltip
+	charge_time = 720*5,--matches def tooltip
+	drain_rate = 15,--matches def tooltip
 	power = 0,
 	rgb = {0,1,1},
 	-- battery
@@ -123,8 +123,7 @@ Power output is affected by component effciency boosts.]],
 	consume_list = {crystal_powder = 1,ic_soul_plasma = 1, ic_cube_red = 1},
 	output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
-	charge_time = 300*5,
-	drain_rate = 2000,
+	drain_rate = 2500,
 })
 cc_crystal_power:RegisterComponent("cc_crystal_power_ultimate",{
 	name = "Ultimate Cube Power", --"Crystal Power Extractor",
@@ -141,10 +140,8 @@ Power output is affected by component effciency boosts.]],
 	--output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
 	consume_item = "fused_electrodes",
-	charge_time = 600*5,
-	drain_rate = 20000,
+	drain_rate = 25000,
 	attachment_size = "Large",
-
 })
 cc_crystal_power:RegisterComponent("cc_power_souls",{
 	name = "Soul Consumption", --"Crystal Power Extractor",
@@ -154,8 +151,7 @@ cc_crystal_power:RegisterComponent("cc_power_souls",{
 Requires drastically less Cube time compared to crystal power]],
 	visual = "v_power_cell_01_s",
 	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1),
-	charge_time = 300*5,
-	drain_rate = 60,
+	drain_rate = 51,
 	consume_item = "ic_soul_plasma",
 	rgb = {0.9, 0, 1},
 	consume_list = {ic_soul_plasma = 1},
@@ -168,7 +164,6 @@ cc_crystal_power:RegisterComponent("cc_power_phase",{
 <img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 Less effcient but very portable]],
 	visual = "v_power_cell_01_s",
-	charge_time = 600*5,
 	drain_rate = 250,
 	consume_item = "ic_time_crystal",
 	rgb = {0, 1, 1},
