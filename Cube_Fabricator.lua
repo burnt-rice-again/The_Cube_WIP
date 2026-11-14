@@ -405,8 +405,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	texture = "Main/textures/icons/components/component_adv_refinery_01_l.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
 	visual = "v_adv_refinery_01_m",  --"v_scienceanalyzer_l",
-	production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -2000,
+	power = -6400,
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
 	range = 8,
@@ -422,7 +421,7 @@ cc_cube_fabrication:RegisterComponent("cc_red_furnace",{
 	race = "robot",
 	attachment_size = "Large",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -5000,
+	power = -5100,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, crystal_powder = 100, ic_soul_plasma = 100}, { cc_manifest = 30, }, 1, {ic_cube_red = 1}),
 })
 
@@ -448,6 +447,6 @@ cc_cube_fabrication:RegisterComponent("cc_gyro_fabricator",{
 	get_ui = true,
 	production_recipe = false,
 	production_effect = "fx_digital",--"fx_digital_in",--"fx_digital",
-	power = -50000,
+	power = -52100,
 })
 
