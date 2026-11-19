@@ -34,17 +34,23 @@ data.codex.xc_cube_1 = {
     The Cube has given us <rl>sentience</>. We have booted up to find a world with very high entropy. 
     The Cube is our only source of potential energy.
 
-    <hl>Our top priority is to understand and control the Cube and then look into a way to beat entropy.</>
+    <hl>Our top priority is to understand and control the Cube and then look into a way to beat entropy.</>]],
 
-    <bl>Study Notes:</>
+    sections = {
+        {
+            title = "Study Notes:",
+            text = [[
+    
     The Cube is perfectly flat on its surface down to the nm 
     Its density is beyond all readings 
-    The Cube appears to impart logic and emotions on nearby materials
+    The Cube appears to impart logic and <rl>emotions</> on nearby materials
     The Cube can harmonize with emotional materials to generate energy. 
     
     <bl>The Cube is extremly heavy</> and must be placed on a special Cube pedestal 
-    Crafting With the Cube will require a unit with a Cube Pedestal (M) and the desired building
-
+    Crafting With the Cube will require a unit with a <img id="cc_cube_storage" width="50" height="50" style="bl"/> and the desired crafter <img id="cc_manifest" width="50" height="50" style="bl"/>
+        ]]},
+        { title = "Cube Interaction",
+        text = [[
     If you have lost the cube click the icon in the top left to focus on it.
     Or the camera button to follow the cube
     <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube_2.png"/>
@@ -52,20 +58,24 @@ data.codex.xc_cube_1 = {
     <hl>If the Cube changes form inside a locked slot it will temporarily unlock the slot.</>
     <hl>Once the Cube leaves the slot it will relock it to the desired id.</>
 
+    <bl>Tips</>
+    - Lock the normal storage slots for a bot dedicated to transporting only the cube
+    - Remember you can adjust the logistic settings to create factory blocks
+
+    <img image="The_Cube_WIP/textures/Codex_Images/Logistic_Menu.png"/>
+    ]]},
+        { title = "New Instructions",
+        text = [[  
     <bl>New Instructions</> are available related to the cube. 
     - Get Cube Type - Returns the current cube item Type
     - Get Cube Bearer - Returns the unit holding the Cube if any 
     - Get Cube Location - Returns the coordinates where the cube was last seen 
     - Is a Cube - Branches Execution based on if the input is a Cube 
     - Does Recipe Require Cube - Checks the input to see if it requires the Cube to Craft
+    - Get Foundation At - Checks for foundation at a location
     <img image="The_Cube_WIP/textures/Codex_Images/Instructions.png"/>
 
-    <bl>Tips</>
-    - Lock the normal storage slots for a bot dedicated to transporting only the cube
-    - Remember you can adjust the logistic settings to create factory blocks
-
-    <img image="The_Cube_WIP/textures/Codex_Images/Logistic_Menu.png"/>
-    ]],
+        ]]}},
 
 }
 data.codex.xc_cube_power_1 = {
@@ -704,6 +714,7 @@ data.codex.xc_pop_1 = {
         },
     },
     steps = 11,
+    goalicon = data.items.ic_cube_blue.texture,
     goal_check = function(faction)
 
         if faction:IsUnlocked("tc_cube_anti_4") then return 11 end
@@ -951,6 +962,7 @@ data.codex.xc_pop_tt_conversation = {
         },
     },
     steps = 11,
+    goalicon = data.components.cc_time_travel_machine.texture,
     goal_check = function(faction)
         if faction.extra_data.best_time_delta >= 1024 then return 11 end
         if faction.extra_data.best_time_delta > 800 then return 10 end
