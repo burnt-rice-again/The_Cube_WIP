@@ -38,8 +38,8 @@ data.codex.xc_cube_1 = {
 
     sections = {
         {
-            title = "Study Notes:",
-            text = [[
+        title = "Study Notes:",
+        text = [[
     
     The Cube is perfectly flat on its surface down to the nm 
     Its density is beyond all readings 
@@ -47,10 +47,10 @@ data.codex.xc_cube_1 = {
     The Cube can harmonize with emotional materials to generate energy. 
     
     <bl>The Cube is extremly heavy</> and must be placed on a special Cube pedestal 
-    Crafting With the Cube will require a unit with a <img id="cc_cube_storage" width="50" height="50" style="bl"/> and the desired crafter <img id="cc_manifest" width="50" height="50" style="bl"/>
-        ]]},
+    Crafting With the Cube will require a unit with a <img id="cc_cube_storage" width="50" height="50" style="bl"/> and the desired crafter <img id="cc_manifest" width="50" height="50" style="bl"/>]]},
         { title = "Cube Interaction",
         text = [[
+
     If you have lost the cube click the icon in the top left to focus on it.
     Or the camera button to follow the cube
     <img image="The_Cube_WIP/textures/Codex_Images/UI_goto_cube_2.png"/>
@@ -63,9 +63,10 @@ data.codex.xc_cube_1 = {
     - Remember you can adjust the logistic settings to create factory blocks
 
     <img image="The_Cube_WIP/textures/Codex_Images/Logistic_Menu.png"/>
-    ]]},
+        ]]},
         { title = "New Instructions",
-        text = [[  
+        text = [[ 
+        
     <bl>New Instructions</> are available related to the cube. 
     - Get Cube Type - Returns the current cube item Type
     - Get Cube Bearer - Returns the unit holding the Cube if any 
@@ -74,7 +75,6 @@ data.codex.xc_cube_1 = {
     - Does Recipe Require Cube - Checks the input to see if it requires the Cube to Craft
     - Get Foundation At - Checks for foundation at a location
     <img image="The_Cube_WIP/textures/Codex_Images/Instructions.png"/>
-
         ]]}},
 
 }
@@ -89,7 +89,7 @@ data.codex.xc_cube_power_1 = {
         The Entropy of all other systems is too high to perform useful work
         Crafting with the cube consumes lots of power and will require a battery buffer
         
-        The blue Cube will provide <bl>1000</> power/second while placed on a pedestal
+        The Cube will provide <bl>1000</> power/second while placed on a pedestal
 
         <bl>Available Power Generation via crystal generator</>
         <img id="cc_crystal_power" width="50" height="50"/> <hl>Basic Crystal Power</> 
@@ -131,6 +131,42 @@ data.codex.xc_cube_pedestal = {
         <img image="The_Cube_WIP/textures/Codex_Images/Cube_Pedestal.png"/>
 ]],
 }
+data.codex.xc_cube_automation = {
+    category = "Codex",
+    index = 3,
+    title = [[<img width="18" height="18" id="ic_cube_blue"/>Cube Automation]],
+    text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Automation</>
+
+        The Cube can only be in 1 place at a time. 
+        There are several methods to request the cube]],
+    sections = {
+        {
+            title = "Locked Slots",
+            text = [[
+                Locking a slot to a particular cube will allow only that cube to enter.
+                If the Cube changes form inside the slot it will remain there until it leaves. 
+                When the cube leaves it will relock the slot to the desired cube form.
+
+                Locking Slots will allow the cube to move only when it has changed form. 
+                This can be very useful for simple movement with the store register. 
+                It can allow for a simple cube recharger and crafter setup. 
+                <img image="The_Cube_WIP/textures/Codex_Images/locked_slot_recharger.png"/>
+            ]]
+        },
+        {
+            title = "Network Channel",
+            text = [[
+                
+                You can build production blocks by removing supply/request items from the network settings. that way the building only transfers items through the use of the store register.
+            
+                It may be useful to use a seperate network channel for some cube recipes. 
+
+                For example all anti-cube haulers could be on a diffrent channel to prevent the cube hauler from moving them.
+                
+            ]]
+        }
+    }
+}
 data.codex.xc_cube_getting_started = {
     category = "Codex",
     index = 2,
@@ -139,7 +175,7 @@ data.codex.xc_cube_getting_started = {
 
         A quick guide to the first steps required to utilize the cube. 
 
-            1 - Begin Minning your metal and crystal resources. 
+            1 - Begin Minning your <img id="metalore" width="50" height="50" style="bl"/> and <img id="crystal" width="50" height="50" style="bl"/> resources. 
             2 - Expand <img id="metalplate" width="50" height="50" style="bl"/> Smelting
             3 - Craft an <img id="c_assembler" width="50" height="50" style="bl"/> to expand auxilury capabilites
             4 - Set up a <img id="cc_manifest" width="50" height="50" style="bl"/> to only craft <img id="datakey_robot" width="50" height="50" style="bl"/> when there is enough stored energy
@@ -161,8 +197,9 @@ data.codex.xc_cube_recharger = {
         The Cube Recharger can renergize the Cube.
         The Recharger will always result in a <bl>Blue Cube</>
 
-        Tip: The faster recipe will automatically be used when an electroplasma reciever <img id="cc_pipe_output" width="50" height="50"/> is also slotted on the same building. 
-
+        <hl>Tip:</> The faster recipe will automatically be used when an electroplasma reciever <img id="cc_pipe_output" width="50" height="50"/> is also slotted on the same building. 
+        <hl>Tip 2:</> Locking the cube slot to a <img id="ic_cube_empty" width="50" height="50" style="bl"/> will make it very easy to pass the cube between a recharger and production building.
+        
         <img image="The_Cube_WIP/textures/Codex_Images/cube_recharger_2.png"/>
 
         ]],
@@ -204,56 +241,79 @@ data.codex.xc_cube_green = {
     title = [[<img width="18" height="18" id="ic_cube_green"/>Restless Cube]],
     text = [[<img width="100" height="100" id="ic_cube_green"/><codex_title>Restless Cube</>
 
-        The Restless Cube is useful for farming and transportation
+        The Restless Cube is useful for <gl>farming</> and <bl>transportation</>
 
-        <bl>Bots holding the Restless Cube recieve a 80% move speed bonus instead.</>
-
+        ]],
+    sections = {
+        {
+            title = "Starting A Farm",
+            text = [[
         <bl>Seeds are dropped from destroyed flowers.</><img id="v_is_flower" width="50" height="50"/>
+        A Common <gl>weed</> can be found in the <hl>valleys</> 
+        An <gl>unstable flower</> can be found on the <hl>plataues</>
+
         Farming requires the <bl>Restless Cube</> to plant these new crops 
         A planter will request the Cube when it has a plantable position available in range
         
         <img image="The_Cube_WIP/textures/Codex_Images/Farm_walled.png" width="275" height="245"/>
+            ]]
+        },{
+            title = "Planting Crops",
+            text = [[
 
         To plant a crop there must be an unobstructed tile nearby
         There must be <hl>NO foundations</> on that tile
-
-        Crops will grow on their own.  The time it takes to grow is in the "grow time" register
+    
+        Crops will grow on their own.  The time it takes to grow is in the <gl>Growth time</> register
         <bl>Harvestable crops can be identified using the flower filter</>
         <img id="v_is_flower" width="50" height="50"/> <hl>Radar Flower Filter</>
         <img image="The_Cube_WIP/textures/Codex_Images/Radar_Flower.png"/>
-
+    
         Fully grown crops will drop the resource in their yield register when dismantled or destroyed. 
+            ]]
+        },{
+            title = "Genetic Selection",
+            text = [[
 
-        There is a 30% chance to also drop a new planter seed. 
-        The Yield and Growth Time may have mutated from the original seed.
+        There is a <bl>30%</> chance to also drop a new planter seed on harvest. 
+
+        The <gl>Yield</><img image="Main/skin/Icons/Common/32x32/Seed.png"/> and <gl>Growth Time</> may have <hl>mutated</> from the original seed.
+
         <hl>Select for better seeds to increase planter efciency.</>
+
         Unwanted planter seeds can be recycled in the assembler
+            ]]
+        },{
+            title = "Planter Registers",
+            text = [[
 
-        Planter Registers:
-        4 - Yield - How many resources will drop when the crop is harvested from this seed
-        3 - Seed Grow Time - How long the crop will take to grow when this seed is planted
-        2 - Missing Fertilizer - When the planter requires the Restless Cube or other items
-        1 - Target Location (None if there is not a plantable position in range)
+        <bl>Planter Registers:</>
+        4 - <gl>Yield</><img image="Main/skin/Icons/Common/32x32/Seed.png"/> - How many resources will drop when the crop is harvested from this seed
+        3 - <gl>Seed Grow Time</> - How long the crop will take to grow when this seed is planted
+        2 - <bl>Missing Fertilizer</> - When the planter requires the Restless Cube or other items
+        1 - <bl>Target Location</> (None if there is not a plantable position in range)
         <img image="The_Cube_WIP/textures/Codex_Images/Planter_Registers.png"/>  
-
+    
         A new instruction has been added to check for foundations
-
+    
         <img image="The_Cube_WIP/textures/Codex_Images/foundation.png"/>
-
+    
         <img image="The_Cube_WIP/textures/Codex_Images/Farm_Showing_Range.png"/>  
-        ]],
-        talkinghead = true,
-        img = data.items.ic_cube_green.texture,
-        txt = [[
-        Green objects move faster.
-        Or itleast the Green Cube does. 
+        ]]
+        }
+    },
+    talkinghead = true,
+    img = data.items.ic_cube_green.texture,
+    txt = [[
+    Green objects move faster.
+    Or itleast the Green Cube does. 
 
-        Its surface constanlty shifting and shimmering the cube is prepared. 
+    Its surface constanlty shifting and shimmering the cube is prepared. 
 
-        <hl>Bots holding the green cube will move faster by 80% instead of slower</>
+    <hl>Bots holding the green cube will move faster by 80% instead of slower</>
 
-        <bl>Codex has been updated</>
-        ]],
+    <bl>Codex has been updated</>
+    ]],
 }
 data.codex.xc_cube_red = {
     category = "Codex",
@@ -297,16 +357,16 @@ data.codex.xc_cube_plasma = {
     title = [[<img width="18" height="18" id="ic_soul_plasma"/>Ectoplasma Network]],
     text = [[<img width="100" height="100" id="ic_soul_plasma"/><codex_title>Ectoplasma Network</>
 
-        <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units and are occasionaly found at defended explroables
+        <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units
 
-        They can be converted into Ectoplasma at the soul refinery <img id="cc_soul_refinery" width="50" height="50"/>
+        They can be converted into <img id="ic_soul_plasma" width="50" height="50" style="bl"/> at the <img id="cc_soul_refinery" width="50" height="50" style="bl"/>
         
-        Ectoplasma is highly unstable and must be transfered through a seperate network<img id="fc_pipe" width="50" height="50"/>
-        The Soul refinery will automatically transfer to nearby Pylons. 
+        Ectoplasma is highly unstable and must be transfered through a seperate network<img id="fc_pipe" width="50" height="50" style="bl"/>
+        The <bl>Soul refinery</> will automatically transfer to nearby <bl>Relay Towers</>. 
 
         The pylons will then distribute plasma until all connected pylons are at an even level. 
 
-        <img id="cc_pipe_output" width="50" height="50"/>Plasma Coils can take Ectoplasma from nearby pylons to be used for crafting
+        <img id="cc_pipe_output" width="50" height="50" style="bl"/> can take Ectoplasma from nearby pylons to be used for crafting
         Bots carrying a plasma coil will slow down significantly due to its instability.
 
         <img image="The_Cube_WIP/textures/Codex_Images/Plasma_2.png"/>  
@@ -325,9 +385,9 @@ data.codex.xc_cube_anti = {
         The Cube has been split to reveal a terrible secret. 
         There is a <hl>sphere</> inside the Cube!
 
-        This anomalous sphere behaves in opposition to everything known about the cube. 
-        The Cube may only exist in 1 state.
-        The Anti-Cube can inhabit an infinate number of states simultaneously.
+        <hl>This anomalous sphere behaves in opposition to everything known about the cube. </>
+        The Cube may only exist in <bl>1</> state.
+        The Anti-Cube can inhabit an <bl>infinite</> number of states simultaneously.
         Interacting with the Anti-Cube causes its state to shift. 
         However it will now exist in both the new <bl>and</> previous state. 
 
@@ -338,7 +398,7 @@ data.codex.xc_cube_anti = {
         Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.  
 
         <bl>Anti-Cubes</> are highly unstable around the Cube. 
-        Placing them together in a frame to anhillate them. 
+        Placing them together in a frame to annihilate them. 
         <rl>WARNING - Explosion Expected</>
 
         ]],
@@ -737,10 +797,10 @@ local entry_090 = [[<img width="100" height="100" id="v_unsolved"/><codex_title>
 
         Hypothesis: There are more undiscovered states of the cube that are harder to achieve. 
 
-        The Introspection model has considerd the following clues. 
+        The Introspection model has considered the following clues. 
 
         - The Cube is our most priceless posession. Attempt to duplicate the Cube.
-        - It is time to move on from the Cube. Atttempt to destroy the Cube.
+        - It is time to move on from the Cube. Attempt to destroy the Cube.
         - Hypothetical Symmetry. Forge a Posi-Cube.
         - Stolen research from a 2^10 time. 
         ]]

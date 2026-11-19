@@ -273,4 +273,22 @@ function DeserializeItems(ent, data)
 	end 
 end 
 
-
+local race_foundations = {
+	robot = "f_human_foundation_basic",
+	human = "f_human_foundation_basic",
+}
+function CreateFoundationsForEntity(entity, x, y, rotation)
+	if entity.has_movement then return end
+	local def = entity.def
+	local foundation_id = race_foundations[def.race]
+	if not foundation_id or def.type or def.no_foundations then return end
+	local faction, size_x, size_y = entity.faction, entity:GetSizeAtRotation(rotation)
+	local l, r = x - 1, x + size_x
+	for y = y - 1, y + size_y do
+		for x = l, r do
+			if not Map.GetFoundationEntityAt(x, y) and faction:CanPlace(foundation_id, x, y) then
+				Map.CreateEntity(faction, foundation_id):Place(x, y)
+			end
+		end
+	end
+end
