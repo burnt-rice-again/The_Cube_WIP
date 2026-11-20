@@ -84,36 +84,45 @@ data.codex.xc_cube_power_1 = {
     title = [[<img width="18" height="18" image="Main/textures/icons/values/power.png"/>Cube Power]],
     text = [[<img width="100" height="100" image="Main/textures/icons/values/power.png"/><codex_title>Cube Power Production</>
 
-        The Cube is <hl>required</> for all power generation. 
-        
-        The Entropy of all other systems is too high to perform useful work
-        Crafting with the cube consumes lots of power and will require a battery buffer
-        
-        The Cube will provide <bl>1000</> power/second while placed on a pedestal
+    The Cube is <hl>required</> for all power generation. 
+    
+    The Entropy of all other systems is too high to perform useful work
+    Crafting with the cube consumes lots of power and will require a battery buffer
+    
+    The Cube will provide <bl>1000</> power/second while placed on a pedestal
+    ]],
+    sections = {
+        {
+            title = "Power Production",
+            text = [[
+            
 
-        <bl>Available Power Generation via crystal generator</>
-        <img id="cc_crystal_power" width="50" height="50"/> <hl>Basic Crystal Power</> 
-        Energy Recipe 
-		<img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+    <bl>Available Power Generation via crystal generator</>
+    <img id="cc_crystal_power" width="50" height="50"/> <hl>Basic Crystal Power</> 
+    Energy Recipe 
+    <img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 
-        Once crafted with the Cube and fuel the component will produce a constant power output while it works
-        The power output is affected by effciency.
-        The Cube is <bl>not locked</> during the crystal power's cooldown allowing it to be passed to another component.
+    Once crafted with the Cube and fuel the component will produce a constant power output while it works
+    The power output is affected by effciency.
+    The Cube is <bl>not locked</> during the crystal power's cooldown allowing it to be passed to another component.
 
-        The input register sets the battery level to request a recharge.
-        Input a number between 0 - 100 for the target battery percentage.
-        Ensure the building has a battery otherwise it will ignore the target percentage.
+    The input register sets the battery level to request a recharge.
+    Input a number between 0 - 100 for the target battery percentage.
+    Ensure the building has a battery otherwise it will ignore the target percentage.
 
-        <img image="The_Cube_WIP/textures/Codex_Images/Crystal_Power_Reg.png"/>
+    <img image="The_Cube_WIP/textures/Codex_Images/Crystal_Power_Reg.png"/>
 
-        Other Similiar Power Components 
-        <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Crystal vaporization</> 
-        <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
-        <img id="cc_power_phase" width="50" height="50"/> <hl>Time Power</> 
-        <img id="cc_crystal_power_ultimate" width="50" height="50"/> <hl>Ultimate Power</> 
-        
-        <img image="The_Cube_WIP/textures/Codex_Images/Crystal_Power_s.png"/>
-        ]],
+    Other Similiar Power Components 
+    <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Crystal vaporization</> 
+    <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+    <img id="cc_power_phase" width="50" height="50"/> <hl>Time Power</> 
+    <img id="cc_crystal_power_ultimate" width="50" height="50"/> <hl>Ultimate Power</> 
+    
+    <img image="The_Cube_WIP/textures/Codex_Images/Crystal_Power_s.png"/>
+            ]]
+        }
+    }
+
 }
 data.codex.xc_cube_pedestal = {
     category = "Codex",
@@ -126,14 +135,14 @@ data.codex.xc_cube_pedestal = {
 
         When a Cube is present is will slow the bots movement speed by <hl>80%</> and provide 1000 <img width="50" height="50" image="Main/textures/icons/values/power.png"/>
         
-        To Offset this reduction discover a <img id="ic_cube_green" width="50" height="50" style="bl"/> or research an <img id="engine" width="50" height="50" style="bl"/>.
+        To offset this reduction discover a <img id="ic_cube_green" width="50" height="50" style="bl"/> or research an <img id="engine" width="50" height="50" style="bl"/>.
         
         <img image="The_Cube_WIP/textures/Codex_Images/Cube_Pedestal.png"/>
 ]],
 }
 data.codex.xc_cube_automation = {
     category = "Codex",
-    index = 3,
+    index = 4,
     title = [[<img width="18" height="18" id="ic_cube_blue"/>Cube Automation]],
     text = [[<img width="100" height="100" id="ic_cube_blue"/><codex_title>Cube Automation</>
 
@@ -143,26 +152,36 @@ data.codex.xc_cube_automation = {
         {
             title = "Locked Slots",
             text = [[
-                Locking a slot to a particular cube will allow only that cube to enter.
-                If the Cube changes form inside the slot it will remain there until it leaves. 
-                When the cube leaves it will relock the slot to the desired cube form.
+                
+    <bl>Locking a slot</> to a particular cube will allow only that cube to enter.
+    If the Cube changes form inside the slot it will remain there until it leaves. 
+    When the cube leaves it will relock the slot to the desired cube form.
 
-                Locking Slots will allow the cube to move only when it has changed form. 
-                This can be very useful for simple movement with the store register. 
-                It can allow for a simple cube recharger and crafter setup. 
-                <img image="The_Cube_WIP/textures/Codex_Images/locked_slot_recharger.png"/>
+    Locking Slots will allow the cube to move only when it has changed form. 
+    This can be very useful for simple movement with the store register. 
+    It can allow for a <bl>simple cube recharger and crafter setup</>. 
+    <img image="The_Cube_WIP/textures/Codex_Images/locked_slot_recharger.png"/>
             ]]
         },
         {
             title = "Network Channel",
             text = [[
                 
-                You can build production blocks by removing supply/request items from the network settings. that way the building only transfers items through the use of the store register.
-            
-                It may be useful to use a seperate network channel for some cube recipes. 
+    You can build production blocks by removing supply/request items from the network settings. that way the building only transfers items through the use of the store register.
 
-                For example all anti-cube haulers could be on a diffrent channel to prevent the cube hauler from moving them.
+    It may be useful to use a seperate network channel for some cube recipes. 
+
+    For example all anti-cube haulers could be on a diffrent channel to prevent the cube hauler from moving them.
+            ]]
+        },
+        {
+            title = "Reccuring Requests",
+            text = [[
                 
+    You can set up <bl>self reccuring requests</> on buildings.
+    Click the order button and change it to a reoccuring request.
+
+    <img image="The_Cube_WIP/textures/Codex_Images/reoccuring_order.png"/>
             ]]
         }
     }
@@ -206,7 +225,7 @@ data.codex.xc_cube_recharger = {
 }
 data.codex.xc_cube_alt = {
     category = "Codex",
-    index = 5,
+    index = 6,
     title = [[<img width="18" height="18" id="v_color_yellow"/>Alternative Recipes]],
     text = [[<img width="100" height="100" id="v_color_yellow"/><codex_title>Alternative Recipes</>
 
@@ -237,7 +256,7 @@ data.codex.xc_cube_alt = {
 }
 data.codex.xc_cube_green = {
     category = "Codex",
-    index = 6,
+    index = 5,
     title = [[<img width="18" height="18" id="ic_cube_green"/>Restless Cube]],
     text = [[<img width="100" height="100" id="ic_cube_green"/><codex_title>Restless Cube</>
 
@@ -305,8 +324,8 @@ data.codex.xc_cube_green = {
     talkinghead = true,
     img = data.items.ic_cube_green.texture,
     txt = [[
-    Green objects move faster.
-    Or itleast the Green Cube does. 
+    <gl>Green</> objects move faster.
+    Or itleast the <gl>Green Cube</> does. 
 
     Its surface constanlty shifting and shimmering the cube is prepared. 
 
@@ -317,7 +336,7 @@ data.codex.xc_cube_green = {
 }
 data.codex.xc_cube_red = {
     category = "Codex",
-    index = 7,
+    index = 6,
     title = [[<img width="18" height="18" id="ic_cube_red"/>Fury Cube]],
     text = [[<img width="100" height="100" id="ic_cube_red"/><codex_title>Fury Cube</>
 
@@ -416,7 +435,7 @@ data.codex.xc_cube_time_crystal = {
         Chrono Crystal Deposits will form nearby. 
 
         Units Killed by the explosion will cause additonal blight crystals to appear. 
-        The average yield per anhillated <bl>Anti-Cube</> is 6 Chrono Crystals.
+        The average yield per anhillated <bl>Anti-Cube</> is 72 <img width="50" height="50" id="blight_crystal" style="hl"/>
 
         In additon the Cube will be transformed into another form. 
 
@@ -425,9 +444,11 @@ data.codex.xc_cube_time_crystal = {
         <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
         <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
 
-        Tip: For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once.
+        <hl>Tip:</> For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once.
             The Cube's form will not be changed due to the reaction happening twice
             The Explosion damage is the same as 1 anti-cube being destroyed.
+
+        There is another hidden way to destroy Anti-Cubes via intense heat.
 
         <img image="The_Cube_WIP/textures/Codex_Images/Anti_4.png"/>  
 
@@ -461,32 +482,52 @@ data.codex.xc_cube_time_travel = {
     text = [[<img width="100" height="100" id="cc_time_travel_machine"/><codex_title>Time Travel Expedition</>
 
         <img id="fused_electrodes" width="50" height="50"/>Superconductors are an impossible matieral not currently manufacturable. 
-        The earliest known superconductor are manufactured 1024 years into the future. 
+        The earliest known superconductors are manufactured <bl>1024 years</> into the future. 
+    ]],
+    sections = {
+        {
+            title = "Starting A Raid",
+            text = [[
+                
+        Using a <rl>time machine</> we can raid our <rl>future _self</> to obtain superconductors. 
+        Each <bl>expedition</> will require <bl>items, components, cubes and frames</> to proceed further. 
+        Provide these materials before the <bl>portal collapses</> to reset the timer and obtain a superconductor. 
 
-        Using a time machine we can raid our future selves to obtain this material. 
-        Each expedition will require items, components, cubes and frames to proceed further. 
-        Provide these materials before the portal collapses to reset the timer and obtain a superconductor. 
+        The expedition <bl>time delta</> will increase with each successful item supplied. 
+        As the the time delta increases our <rl>future _self's</> technology will become more dangerous but superconductors will be easier to obtain. 
+            ]]
+        },{
+            title = "Portal Collapse",
+            text = [[
 
-        When the portal closes it will give an opportunity for our future selves to attack us in retaliation. 
+        <hl>When the portal closes it will give an opportunity for our </><rl>future _self</><hl> to attack us in retaliation. </>
         <rl>These attacks can be deadly.</>
         Collapse the portal when the number of known defenders is managable. 
         This will change each time a material is supplied
         Check the time machines second register for the number of defenders. 
 
-        Defenders will drop souls ready for extraction.  
+        Higher threat levels will recieve <hl>effciency and health boosts</> due to their research advantage.
+    
+        Defenders will drop <img width="50" height="50" id="bug_carapace" style="bl"/> ready for extraction.  
+            ]]
+        },{
+            title = "Time Delta",
+            text = [[
 
         <bl>Time Machine Registers</>
-        Register 1: Material for next step 
-        Register 2: Number of defnders spawned on portal collapse
+        <bl>Register 1:</> Material for next step 
+        <bl>Register 2:</> Number of defenders spawned on portal collapse
         
-        As your raid gets closer to a time delta of 1024 years our future selves become far more advanced
-        The threat level shows the relative technology gap between us.
-        The yield of superconductors increases every 100 years.
-        After a time delta of 1024 years the superconductor yield increases significantly 
-
+        As your raid gets closer to a time delta of <bl>1024 years</> our <rl>future _self</> become far more advanced
+        The <hl>threat level</> shows the relative technology gap between us.
+        The <bl>yield</> of superconductors increases every <bl>100 years</>.
+        After a <bl>time delta of 1024 years</> the superconductor yield increases significantly 
+    
         <img image="The_Cube_WIP/textures/Codex_Images/Time_Travel_def.png"/>
+            ]]
+        },
+    }
         
-        ]]
 }
 data.codex.xc_gyroscope = {
     category = "Codex",
@@ -497,49 +538,70 @@ data.codex.xc_gyroscope = {
         There is little more we can learn from the <bl>CUBE</> in this universe
 
         It is now possible to make a new nested microuniverse,
-        Building plans have been added for an Anti Entropy Loom.
+        Building plans have been added for an <bl>Anti Entropy Loom</>.
 
         It will require an astronomical amount of resources to activate.
 
         To truly test your skill either build a factory to produce as many Micro Universes as possible.
 
         Or read the following instructions.
+]],
+    sections = {
+        {
+            title = "Starting The New Universe",
+            text = [[
 
         <rl>Warning this is new game plus</>
-
+    
         <hl>Include a bot in the Loom's garage to start new game plus</>
         Be sure to supply the chosen bot with items and componets for the journey ahead.
-
-        Once the micro universe is complete you can enter it by including a bot in the Loom's garage slot.
+    
+        Once the micro universe production is complete you can enter it by including a bot in the Loom's garage slot.
         There will be a confirmation message
         
         <img image="The_Cube_WIP/textures/Codex_Images/gyro_new_game_plus.png"/>
+            ]]
+        },
+        {
+            title = "New Game Plus",
+            text = [[
 
         <bl>A new world will begin with the following adjustments:</>
             1 - All techs will be unlocked 
-
-            2 - The bot in the garage will be sent to the new universe 
-                    - if the bot was powered down it will be powered on 
-                    - if the bot had a behviour it will be turned on 
+    
+            2 - <bl>The bot in the garage will be sent to the new universe </>
                     - items stored in the bot will be included 
                     - plant yield/growth time and time travel progress will be preserved for components on or stored in the bot
                     - register values will be preserved (links to entites will break)
-                        - goto register will be cleared 
+                    - goto register will be cleared 
                     - entities in garage slots will be excluded
-                    - the cube will be excluded 
-
+                    - if the bot was powered down it will be powered on 
+                    - if the bot had a behviour it will be turned on 
+    
             3 - your blueprint library will automatically be transferred
             4 - World generation settings will be identical to this world with a new random seed
             5 - Bug hostility will not be reset and start at its current level
             6 - Clicking the restart game button will restart with the new bot included
-
+            ]]
+        },
+        {
+            title = "The Challenge",
+            text = [[
+                
         Attempt to build and power the Universe Loom as fast as possible. 
         For an added challenge make a fully automated script starting only from the transfered bot.
 
+        Remeber to carefully select what componets and items you choose take with you. 
+        <gl>Seeds </>will keep their traits 
+        <hl>Time travel machines</> will keep their time delta
+        <bl>Cube Pedestal</> will keep their <yl>ERROR Information Redacted</>
+    
         Good luck travellers
         <img id="fc_gyro" width="150" height="150"/>
-
         ]]
+
+        },
+    }
 }
 data.codex.xc_new_game_plus = {
     category = "Codex",
@@ -692,7 +754,7 @@ data.codex.xc_pop_1 = {
 
     The research is conclusive.
     The Cube may only exist in 1 state.
-    The Anti-Cube can inhabit an infinate number of states simultaneously.
+    The Anti-Cube can inhabit an infinite number of states simultaneously.
     Interacting with the Anti-Cube causes its state to shift. 
     However it will now exist in both the new <bl>and</> previous state. 
 

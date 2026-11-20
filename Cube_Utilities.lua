@@ -272,7 +272,7 @@ function DeserializeItems(ent, data)
 		end
 	end 
 end 
-
+-- Need to overwrite base game function to change the table
 local race_foundations = {
 	robot = "f_human_foundation_basic",
 	human = "f_human_foundation_basic",

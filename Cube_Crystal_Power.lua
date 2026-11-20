@@ -39,7 +39,7 @@ Power output is affected by component effciency boosts.]],
 	cube_out = "ic_cube_blue",
 	consume_item = "crystal", -- only shows up in tooltip
 	charge_time = 720*5,--matches def tooltip
-	drain_rate = 15,--matches def tooltip
+	drain_rate = 10,--matches def tooltip
 	power = 0,
 	rgb = {0,1,1},
 	-- battery
@@ -125,6 +125,34 @@ Power output is affected by component effciency boosts.]],
 	cube_out = "ic_cube_empty",
 	drain_rate = 2500,
 })
+cc_crystal_power:RegisterComponent("cc_power_souls",{
+	name = "Soul Consumption", --"Crystal Power Extractor",
+	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+	desc = [[<bl>By the Power of Frienship!</> 
+	<img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	Requires drastically less Cube time compared to crystal power]],
+	visual = "v_power_cell_01_s",
+	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1),
+	drain_rate = 51,
+	consume_item = "ic_soul_plasma",
+	rgb = {0.9, 0, 1},
+	consume_list = {ic_soul_plasma = 1},
+	cube_out = 0,
+})
+cc_crystal_power:RegisterComponent("cc_power_phase",{
+	name = "Time Generator", --"Crystal Power Extractor",
+	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
+	desc = [[Consumes Chrono Crystals for energy 
+	<img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+	Less effcient but very portable]],
+	visual = "v_power_cell_01_s",
+	drain_rate = 250,
+	consume_item = "ic_time_crystal",
+	rgb = {0, 1, 1},
+	consume_list = {ic_time_crystal = 1},
+	cube_out = 0,
+	production_recipe = CreateProductionRecipe({ldframe = 1, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
+})
 cc_crystal_power:RegisterComponent("cc_crystal_power_ultimate",{
 	name = "Ultimate Cube Power", --"Crystal Power Extractor",
 	texture = "Main/textures/icons/human/Human_Building_2x2_PowerStation.png",
@@ -143,38 +171,10 @@ Power output is affected by component effciency boosts.]],
 	drain_rate = 25000,
 	attachment_size = "Large",
 })
-cc_crystal_power:RegisterComponent("cc_power_souls",{
-	name = "Soul Consumption", --"Crystal Power Extractor",
-	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
-	desc = [[<bl>By the Power of Frienship!</> 
-<img width="50" height="50" id="ic_soul_plasma"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-Requires drastically less Cube time compared to crystal power]],
-	visual = "v_power_cell_01_s",
-	production_recipe = CreateProductionRecipe({wire = 4, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1),
-	drain_rate = 51,
-	consume_item = "ic_soul_plasma",
-	rgb = {0.9, 0, 1},
-	consume_list = {ic_soul_plasma = 1},
-	cube_out = 0,
-})
-cc_crystal_power:RegisterComponent("cc_power_phase",{
-	name = "Time Generator", --"Crystal Power Extractor",
-	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
-	desc = [[Consumes Chrono Crystals for energy 
-<img width="50" height="50" id="ic_time_crystal"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
-Less effcient but very portable]],
-	visual = "v_power_cell_01_s",
-	drain_rate = 250,
-	consume_item = "ic_time_crystal",
-	rgb = {0, 1, 1},
-	consume_list = {ic_time_crystal = 1},
-	cube_out = 0,
-	production_recipe = CreateProductionRecipe({ldframe = 1, crystal_powder = 8, steelblock = 4},{c_assembler = 60}, 1)
-})
 
 -----------------------------------------------------------------------------
 -- these ones dont need the cube so are just a copy of crystal power base game
-	-- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
+-- data.components.c_crystal_power:RegisterComponent("cc_power_souls",{
 	-- 	name = "Soul Consumption", --"Crystal Power Extractor",
 	-- 	texture = 'Main/textures/icons/components/Component_PowerCell_01_S.png',
 	-- 	desc = [[<bl>By the Power of Frienship!</> 

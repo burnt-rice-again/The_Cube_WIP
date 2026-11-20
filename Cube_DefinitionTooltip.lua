@@ -251,6 +251,8 @@ local function ProductionBreakdownGraph(list, def_id, bp, ingredients, amount)
 				if sub_id:find('ic_cube') == nil then 
 					local recipe = data.all[sub_id].production_recipe
 					add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1, hl, recipe and recipe.ingredients, recipe and recipe.amount)
+				elseif sub_id == "ic_cube_sphere" then
+					add_ingredient(sub_id, sub_num * num / (amount or 1), lvl + 1, hl, nil , nil)
 				end
 			end
 			if bp_components then
