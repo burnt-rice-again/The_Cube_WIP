@@ -212,6 +212,7 @@ data.frames.f_explorable:RegisterFrame("fc_wire_weed", {
 	race = "alien",
 	minimap_color = data.values.v_color_green.color,
 	visibility_range = 1,
+	is_flower = true,
 	health_points = 500,
 	--power = -5, -- -20a
 	slots = {storage = 4, cube = 1 },
