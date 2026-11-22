@@ -513,7 +513,7 @@ data.techs.tc_robot_frames_3 = {
 data.techs.tc_robot_frames_4 = {
 	order = 1,
 	name = "Transportation Bots", -- recovered database etc.
-	desc = "Utilizing positive thoughts the cube can be made ever so lighter during delivery",
+	desc = "Utilizing positive thoughts the cube can be made lighter during delivery",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -526,7 +526,7 @@ data.techs.tc_robot_frames_4 = {
 }
 data.techs.tc_robot_frames_5 = {
 	order = 1,
-	name = "Next Generation Bots", -- recovered database etc.
+	name = "Next Generation Bots", 
 	desc = "Through the cube we can become stronger",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -540,7 +540,7 @@ data.techs.tc_robot_frames_5 = {
 }
 data.techs.tc_robot_frames_6 = {
 	order = 1,
-	name = "Heavy Bot", -- recovered database etc.
+	name = "Heavy Bot", 
 	desc = "The Rock",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
@@ -554,8 +554,8 @@ data.techs.tc_robot_frames_6 = {
 }
 data.techs.tc_robot_frames_7 = {
 	order = 1,
-	name = "Enlightened Robotics", -- recovered database etc.
-	desc = "Robots capable of self reflection gives lets them understand their critical role in supporting the cube\nThis Morale boost means they work faster",
+	name = "Enlightened Robotics",
+	desc = "Robots capable of self reflection lets them understand their critical role in supporting the cube\nThis Morale boost means they work faster",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -568,8 +568,8 @@ data.techs.tc_robot_frames_7 = {
 }
 data.techs.tc_robot_frames_8 = {
 	order = 1,
-	name = "Entry 039:\nAuxiliary Module reports construction of a 'Battleship'\nForged to do every single task and weighing as much as 3 Rocks\nIt is a moving base", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Battleship Robotics",
+	desc = "Entry 039:\nAuxiliary Module reports construction of a 'Battleship'\nForged to do every single task and weighing as much as 3 Rocks\nIt is a moving base", -- recovered database etc.
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -696,8 +696,8 @@ data.techs.tc_building8= {
 }
 data.techs.tc_robot_fly_1 = {
 	order = 1,
-	name = "Flying Robots I", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Flying Robots", -- recovered database etc.
+	desc = "For subroutines requireing extended range",
 	texture = data.frames.f_flyer_bot.texture,
 	unlocks = {
 		-- new resources
@@ -710,7 +710,7 @@ data.techs.tc_robot_fly_1 = {
 }
 data.techs.tc_robot_fly_2 = {
 	order = 1,
-	name = "Flying Robots II", -- recovered database etc.
+	name = "Primitive Drones", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_drone_comp.texture,
 	unlocks = {
@@ -724,7 +724,7 @@ data.techs.tc_robot_fly_2 = {
 }
 data.techs.tc_robot_fly_3 = {
 	order = 1,
-	name = "Flying Robots III", -- recovered database etc.
+	name = "Drone Delivery", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_drone_port.texture,
 	unlocks = {
@@ -738,7 +738,7 @@ data.techs.tc_robot_fly_3 = {
 }
 data.techs.tc_robot_fly_4 = {
 	order = 1,
-	name = "Flying Robots IV", -- recovered database etc.
+	name = "Drone Swarms", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_drone_launcher.texture,
 	unlocks = {
@@ -756,8 +756,8 @@ data.techs.tc_robot_fly_4 = {
 --- Networking
 data.techs.tc_network1 = {
 	order = 3,
-	name = "Improved Networking I", -- recovered database etc.
-	desc = "Start a linktin Profile",
+	name = "Power Fundamentals", -- recovered database etc.
+	desc = "Utilize refined crystal for core power functionality",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -770,8 +770,8 @@ data.techs.tc_network1 = {
 }
 data.techs.tc_network2 = {
 	order = 3,
-	name = "Improved Networking II", -- recovered database etc.
-	desc = "Start a linktin Profile",
+	name = "Power Transmission", -- recovered database etc.
+	desc = "Refined Crystal allows for lossless energy transmission and capture to a target inductor",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -784,8 +784,8 @@ data.techs.tc_network2 = {
 }
 data.techs.tc_network3 = {
 	order = 3,
-	name = "Improved Networking III", -- recovered database etc.
-	desc = "Start a linktin Profile",
+	name = "Power Capture", -- recovered database etc.
+	desc = "The wailing is an unfortunate side effect of soul pearls increadible power focus",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -798,8 +798,8 @@ data.techs.tc_network3 = {
 }
 data.techs.tc_network4 = {
 	order = 3,
-	name = "Improved Networking IV", -- recovered database etc.
-	desc = "Start a linktin Profile",
+	name = "Retroactive Energization", -- recovered database etc.
+	desc = "Entry 038: Why try and charge at a distance when with the power of time crystals. We can charge the bot from its previous location inside the network",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -909,8 +909,8 @@ data.techs.tc_weapons7 = {
 
 data.techs.tc_robot_storage1 = {
 	order = 4,
-	name = "Simple Storage I", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Simple Storage [S]", -- recovered database etc.
+	desc = "2^2",
 	texture = data.components.c_small_storage.texture,
 	unlocks = {
 		-- new resources
@@ -923,8 +923,8 @@ data.techs.tc_robot_storage1 = {
 }
 data.techs.tc_robot_storage2 = {
 	order = 4,
-	name = "Simple Storage II", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Simple Storage [I]", -- recovered database etc.
+	desc = "0^0 = 1",
 	texture = data.components.c_internal_storage.texture,
 	unlocks = {
 		-- new resources
@@ -937,8 +937,8 @@ data.techs.tc_robot_storage2 = {
 }
 data.techs.tc_robot_storage3 = {
 	order = 4,
-	name = "Simple Storage III", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Simple Storage [M]", -- recovered database etc.
+	desc = "3^2 Storage Slots",
 	texture = data.components.c_medium_storage.texture,
 	unlocks = {
 		-- new resources
@@ -951,8 +951,8 @@ data.techs.tc_robot_storage3 = {
 }
 data.techs.tc_robot_storage4 = {
 	order = 4,
-	name = "Simple Storage IV", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Simple Storage [L]", -- recovered database etc.
+	desc = "Cavernous Storage",
 	texture = data.components.c_large_storage.texture,
 	unlocks = {
 		-- new resources
@@ -1023,7 +1023,7 @@ data.techs.tc_robot_signals4 = {
 data.techs.tc_robot_floor_1 = {
 	order = floor_order,
 	name = "Foundations I", 
-	desc = "The Foundation tech for Foundations",
+	desc = "The Foundational tech for Foundations",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
 		"f_human_foundation1"
@@ -1035,8 +1035,8 @@ data.techs.tc_robot_floor_1 = {
 }
 data.techs.tc_robot_floor_2 = {
 	order = floor_order,
-	name = "Foundations II", 
-	desc = "BEEP BOOP",
+	name = "Foundation Markings", 
+	desc = "Painting it red makes it faster",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
 		"f_human_foundation2","f_human_foundation3","f_human_foundation4",
@@ -1049,7 +1049,7 @@ data.techs.tc_robot_floor_2 = {
 }
 data.techs.tc_robot_floor_3 = {
 	order = floor_order,
-	name = "Foundations III", 
+	name = "Foundations ", 
 	desc = "BEEP BOOP",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {

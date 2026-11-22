@@ -428,7 +428,8 @@ data.codex.xc_cube_anti = {
     <hl>Interaction with the Anti-Cube will cause it to duplicate</>
     Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
 
-    <hl>Available Cube pedestals will be filled first</>
+    The new anticubes will appear within <bl>range 5</> of the frame that destroyed or crafted with the anti cube. 
+    <hl>Free cube pedestals will be filled first</>
     Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.       
             ]]
         },
@@ -436,8 +437,9 @@ data.codex.xc_cube_anti = {
             title = "Anti-Cube Annihilation",
             text = [[
                 
-    <bl>Anti-Cubes</> are highly unstable around the Cube. 
-    Placing them together in a frame to annihilate them. 
+    <bl>Anti-Cubes</> is highly unstable around the Cube. 
+    Place the Cube and Anti-Cube them <bl>together</> in a frame to annihilate them. 
+
     <rl>WARNING - Explosion Expected</>
             ]]
         }
@@ -451,29 +453,45 @@ data.codex.xc_cube_time_crystal = {
 
         Placing the Cube and <bl>Anti-Cubes</> into the same frame will cause them to anhillate. 
 
-        The <bl>Anti-Cubes</> will explode dealing damage to units within range 10. 
+        The <bl>Anti-Cubes</> will explode dealing 300 damage to units within range 4. 
+]],
+    sections = {
+        {
+            title = "Chrono Crystals",
+            text = [[
+            
+    Chrono Crystal Deposits will form nearby. 
 
-        Chrono Crystal Deposits will form nearby. 
+    Units Killed by the explosion will cause additonal blight crystals to appear. 
+    The average yield per anhillated <bl>Anti-Cube</> is 72 <img width="50" height="50" id="blight_crystal" style="hl"/>
+            ]]
+        },
+        {
+            title = "Cube Form Shift",
+            text = [[
+                
+    In additon the Cube will be transformed into another form. 
 
-        Units Killed by the explosion will cause additonal blight crystals to appear. 
-        The average yield per anhillated <bl>Anti-Cube</> is 72 <img width="50" height="50" id="blight_crystal" style="hl"/>
+    <img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/>
+    <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/>
+    <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+    <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
 
-        In additon the Cube will be transformed into another form. 
+    <hl>Tip:</> For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once.
+        The Cube's form will not be changed due to the reaction happening twice
+        The Explosion damage is the same as 1 anti-cube being destroyed.
+            ]]
+        },        
+        {
+            title = "Anti-Cube Disposal",
+            text = [[
 
-        <img width="50" height="50" id="ic_cube_blue"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/>
-        <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/>
-        <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
-        <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
+    There is another hidden way to destroy Anti-Cubes via intense heat.
 
-        <hl>Tip:</> For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once.
-            The Cube's form will not be changed due to the reaction happening twice
-            The Explosion damage is the same as 1 anti-cube being destroyed.
-
-        There is another hidden way to destroy Anti-Cubes via intense heat.
-
-        <img image="The_Cube_WIP/textures/Codex_Images/Anti_4.png"/>  
-
-        ]],
+    <img image="The_Cube_WIP/textures/Codex_Images/Anti_4.png"/>  
+    ]]
+        }
+    }
 }
 -- <img id="cc_modulespeed_l" width="50" height="50"/><img id="ic_fuel" width="50" height="50"/>
 data.codex.xc_cube_boost = {
