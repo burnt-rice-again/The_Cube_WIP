@@ -184,6 +184,16 @@ data.codex.xc_cube_automation = {
     <img image="The_Cube_WIP/textures/Codex_Images/reoccuring_order.png"/>
             ]]
         }
+    },
+    mission_steps = {
+        {
+            img = data.items.blightcrystal.texture,
+            talkinghead = false, 
+            txt = [[
+
+            The Anti-Cube Explosion
+            ]],
+        },
     }
 }
 data.codex.xc_cube_getting_started = {
@@ -403,24 +413,35 @@ data.codex.xc_cube_anti = {
 
         The Cube has been split to reveal a terrible secret. 
         There is a <hl>sphere</> inside the Cube!
+    ]],
+    sections = {
+        {
+            title = "Anti-Cube Duplication",
+            text = [[
 
-        <hl>This anomalous sphere behaves in opposition to everything known about the cube. </>
-        The Cube may only exist in <bl>1</> state.
-        The Anti-Cube can inhabit an <bl>infinite</> number of states simultaneously.
-        Interacting with the Anti-Cube causes its state to shift. 
-        However it will now exist in both the new <bl>and</> previous state. 
+    <hl>This anomalous sphere behaves in opposition to everything known about the cube. </>
+    The Cube may only exist in <bl>1</> state.
+    The Anti-Cube can inhabit an <bl>infinite</> number of states simultaneously.
+    Interacting with the Anti-Cube causes its state to shift. 
+    However it will now exist in both the new <bl>and</> previous state. 
 
-        <hl>Interaction with the Anti-Cube will cause it to duplicate</>
-        Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
+    <hl>Interaction with the Anti-Cube will cause it to duplicate</>
+    Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
 
-        <hl>Available Cube pedestals will be filled first</>
-        Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.  
-
-        <bl>Anti-Cubes</> are highly unstable around the Cube. 
-        Placing them together in a frame to annihilate them. 
-        <rl>WARNING - Explosion Expected</>
-
-        ]],
+    <hl>Available Cube pedestals will be filled first</>
+    Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.       
+            ]]
+        },
+        {
+            title = "Anti-Cube Annihilation",
+            text = [[
+                
+    <bl>Anti-Cubes</> are highly unstable around the Cube. 
+    Placing them together in a frame to annihilate them. 
+    <rl>WARNING - Explosion Expected</>
+            ]]
+        }
+    }
 }
 data.codex.xc_cube_time_crystal = {
     category = "Codex",

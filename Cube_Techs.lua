@@ -340,7 +340,7 @@ data.techs.tc_cube_green_6 = {
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	order = 1,
 	name = "Anti Cube Annihilation", -- recovered database etc.
-	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal",
+	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal\n<hl>Find a way to annihilate the Anti-Cube to unlock this tech]]",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
 		"blight_crystal","xc_cube_time_crystal",
@@ -456,7 +456,7 @@ data.techs.tc_robot_metallurgy_3 = {
 data.techs.tc_robot_metallurgy_4 = {
 	order = 2,
 	name = "Utility Modules", -- recovered database etc.
-	desc = "",
+	desc = "Entry 045:\nAuxiliary Module has proposed a way to utilize empty sockets for additional armor and sensors",
 	texture = data.components.c_modulehealth.texture,
 	unlocks = {
 		-- new resources
@@ -500,7 +500,7 @@ data.techs.tc_robot_frames_2 = {
 data.techs.tc_robot_frames_3 = {
 	order = 1,
 	name = "Dual Robots", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Multiple systems can be integrated with new neurotic wire",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		"f_bot_2s","f_flyer_bot",
@@ -513,7 +513,7 @@ data.techs.tc_robot_frames_3 = {
 data.techs.tc_robot_frames_4 = {
 	order = 1,
 	name = "Transportation Bots", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Utilizing positive thoughts the cube can be made ever so lighter during delivery",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -527,7 +527,7 @@ data.techs.tc_robot_frames_4 = {
 data.techs.tc_robot_frames_5 = {
 	order = 1,
 	name = "Next Generation Bots", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Through the cube we can become stronger",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -541,7 +541,7 @@ data.techs.tc_robot_frames_5 = {
 data.techs.tc_robot_frames_6 = {
 	order = 1,
 	name = "Heavy Bot", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "The Rock",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -555,7 +555,7 @@ data.techs.tc_robot_frames_6 = {
 data.techs.tc_robot_frames_7 = {
 	order = 1,
 	name = "Enlightened Robotics", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Robots capable of self reflection gives lets them understand their critical role in supporting the cube\nThis Morale boost means they work faster",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
 		-- new resources
@@ -568,7 +568,7 @@ data.techs.tc_robot_frames_7 = {
 }
 data.techs.tc_robot_frames_8 = {
 	order = 1,
-	name = "Mobile Command Robotics", -- recovered database etc.
+	name = "Entry 039:\nAuxiliary Module reports construction of a 'Battleship'\nForged to do every single task and weighing as much as 3 Rocks\nIt is a moving base", -- recovered database etc.
 	desc = "BEEP BOOP",
 	texture = data.components.c_robotics_factory.texture,
 	unlocks = {
