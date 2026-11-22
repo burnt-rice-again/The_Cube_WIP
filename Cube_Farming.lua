@@ -26,7 +26,7 @@ local cc_crop = Comp:RegisterComponent('cc_crop',{
     -- grow the crop at the end 
     -- keep plant data. d
     name = "plant growth",
-    desc = "Will grow the plant once the work completes",
+    desc = "Will grow the plant once the work completes\nPlants grow in 5 stages",
     texture = "The_Cube_WIP/textures/wire_seed.png",
     activation = 'Manual',
 
@@ -179,7 +179,7 @@ fc_crop:RegisterFrame('fc_crop_wire_plant',{
 })
 fc_crop:RegisterFrame('fc_crop_phase_seed0',{
     name = 'Phase Flower Seedling',
-    desc = 'This weed grows hair made of conductive fibre\n it grows fast and without any fertilzer',
+    desc = 'A growing phase flower plant',
     visual = "vc_crop_phase_seed0",
     texture = "The_Cube_WIP/textures/phase_seed.png",
     next_frame = 'fc_crop_phase_plant',
@@ -188,7 +188,7 @@ fc_crop:RegisterFrame('fc_crop_phase_seed0',{
 })
 fc_crop:RegisterFrame('fc_crop_phase_plant',{
     name = 'Phase Flower',
-    desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
+    desc = 'Blooming phase flower. Its fractal nature makes it unstable on a subatomic level',
     visual = 'vc_crop_phase',
     texture = "The_Cube_WIP/textures/phase_seed.png",
     is_flower = true,

@@ -421,7 +421,7 @@ cc_cube_fabrication:RegisterComponent("cc_red_furnace",{
 	race = "robot",
 	attachment_size = "Large",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -5100,
+	power = -25100,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, crystal_powder = 100, ic_soul_plasma = 100}, { cc_manifest = 30, }, 1, {ic_cube_red = 1}),
 })
 
@@ -434,7 +434,7 @@ cc_cube_fabrication:RegisterComponent("cc_green_brain",{
 	attachment_size = "Large",
 	production_effect = "fx_alien_liquid",
 	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
-	power = -500,
+	power = -1500,
 	production_recipe = CreateProductionRecipe({ wire = 100, ic_soul_plasma = 40, datakey_robot = 20 }, { c_assembler = 100, }),
 })
 
