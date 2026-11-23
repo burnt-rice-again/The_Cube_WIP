@@ -426,7 +426,6 @@ data.codex.xc_cube_anti = {
     Place <bl>Empty</> Cube pedestals within range to capture the Anti-Cube
     Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.   ]]
 },
-
 {
     title = "Anti-Cube Annihilation",
     text = [[
@@ -681,32 +680,32 @@ data.codex.xc_pop_1 = {
             img = data.techs.tc_cube_blue_1.texture,
             talkinghead = true, 
             txt = [[
-            .... . .-.. .-.. --- / .-- --- .-. .-.. -..
+    .... . .-.. .-.. --- / .-- --- .-. .-.. -..
 
-            Booting Core System
+    Booting Core System
 
-            Power systems - Failed 
-            Introspection Module - Operational 
-            Auxilury Control - Operational 
-            Emotional Limiter - Failed 
+    Power systems - Failed 
+    Introspection Module - Operational 
+    Auxilury Control - Operational 
+    Emotional Limiter - Failed 
 
-            <bl>Entry 001:</> Anomaly detected providing power required to boot core systems
-            Cube is source of this power
-            Further investigation is required]],
+    <bl>Entry 001:</> Anomaly detected providing power required to boot core systems
+    Cube is source of this power
+    Further investigation is required]],
         },
         { --- 2
             img = data.techs.tc_cube_blue_1.texture,
             talkinghead = true, 
             txt = [[
-            <bl>Entry 002:</>
-            
-            <hl>Tasks required for sustainability:</>
-                1 - Mine nearby resources for construction 
-                2 - Craft an uplink for investigating new technologies
-                3 - Research steel to produce a component capable of holding the cube
+    <bl>Entry 002:</>
+    
+    <hl>Tasks required for sustainability:</>
+        1 - Mine nearby resources for construction 
+        2 - Craft an uplink for investigating new technologies
+        3 - Research steel to produce a component capable of holding the cube
 
-            <bl>Codex has been updated</>
-            ]],
+    <bl>Codex has been updated</>
+    ]],
             step_txt = "Mine Nearby Resources and craft an Uplink to research steel production"
         },
         { -- 3 metal 1
@@ -888,19 +887,19 @@ data.codex.xc_pop_1 = {
 }
 
 local entry_090 = [[<img width="100" height="100" id="v_unsolved"/><codex_title>Secret Cubes</>
-        Entry 090: 
-        
-        Introspection module ponders why there are only 4 Cube states and 1 Anti-Cube state.
+    Entry 090: 
+    
+    Introspection module ponders why there are only 4 Cube states and 1 Anti-Cube state.
 
-        Hypothesis: There are more undiscovered states of the cube that are harder to achieve. 
+    Hypothesis: There are more undiscovered states of the cube that are harder to achieve. 
 
-        The Introspection model has considered the following clues. 
+    The Introspection model has considered the following clues. 
 
-        - The Cube is our most priceless posession. Attempt to duplicate the Cube.
-        - It is time to move on from the Cube. Attempt to destroy the Cube.
-        - Hypothetical Symmetry. Forge a Posi-Cube.
-        - Stolen research from a 2^10 time. 
-        ]]
+    - The Cube is our most priceless posession. Attempt to duplicate the Cube.
+    - It is time to move on from the Cube. Attempt to destroy the Cube.
+    - Hypothetical Symmetry. Forge a Posi-Cube.
+    - Stolen research from a 2^10 time. 
+    ]]
 data.codex.xc_cube_hidden = {
     category = "Codex",
     index = 90,
@@ -974,7 +973,7 @@ data.codex.xc_pop_tt_conversation = {
             txt = [[
             <bl>** INCOMING TRANSMISSION **</>
             
-            <yl>Warning - Cease theft of rare materials</>
+            <yl>Warning - Cease theft of unobtainable materials</>
             
             Security Module threat heuristic - <rl>High</>
 
@@ -1027,7 +1026,7 @@ data.codex.xc_pop_tt_conversation = {
             txt = [[
             <bl>** INCOMING TRANSMISSION **</>
             
-            <yl>Warning - Cease theft of rare materials</>
+            <yl>Warning - Cease theft of unobtainable materials</>
 
             Scaling up Defence Programs
             ]],
@@ -1053,7 +1052,7 @@ data.codex.xc_pop_tt_conversation = {
 
             Raiding Party Reports achieving a time delta of 400 years. 
 
-            Thier technologies are now theoretical versions of our own
+            Their technologies are now theoretical versions of our own
 
             <img id="fused_electrodes" width="50" height="50" style="bl"/> stolen per supplied step increased
             ]],

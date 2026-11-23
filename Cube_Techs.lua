@@ -697,7 +697,7 @@ data.techs.tc_building8= {
 data.techs.tc_robot_fly_1 = {
 	order = 1,
 	name = "Flying Robots", -- recovered database etc.
-	desc = "For subroutines requireing extended range",
+	desc = "For subroutines requiring extended range",
 	texture = data.frames.f_flyer_bot.texture,
 	unlocks = {
 		-- new resources
@@ -711,7 +711,7 @@ data.techs.tc_robot_fly_1 = {
 data.techs.tc_robot_fly_2 = {
 	order = 1,
 	name = "Primitive Drones", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Multithreaded Ore Processing",
 	texture = data.components.c_drone_comp.texture,
 	unlocks = {
 		-- new resources
@@ -725,7 +725,7 @@ data.techs.tc_robot_fly_2 = {
 data.techs.tc_robot_fly_3 = {
 	order = 1,
 	name = "Drone Delivery", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Order now for next day delivery",
 	texture = data.components.c_drone_port.texture,
 	unlocks = {
 		-- new resources
@@ -739,7 +739,7 @@ data.techs.tc_robot_fly_3 = {
 data.techs.tc_robot_fly_4 = {
 	order = 1,
 	name = "Drone Swarms", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Blot out the sky",
 	texture = data.components.c_drone_launcher.texture,
 	unlocks = {
 		-- new resources
@@ -785,7 +785,7 @@ data.techs.tc_network2 = {
 data.techs.tc_network3 = {
 	order = 3,
 	name = "Power Capture", -- recovered database etc.
-	desc = "The wailing is an unfortunate side effect of soul pearls increadible power focus",
+	desc = "The constant wailing is an unfortunate side effect of soul pearls incredible power focus",
 	texture = data.components.c_power_relay.texture,
 	unlocks = {
 		-- new resources
@@ -814,8 +814,8 @@ data.techs.tc_network4 = {
 --- weapons 
 data.techs.tc_weapons1 = {
 	order = order_weapons_1,
-	name = "Adv Soul Capture Methods I", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Basic Soul Capture Methods", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		-- new resources
@@ -828,8 +828,8 @@ data.techs.tc_weapons1 = {
 }
 data.techs.tc_weapons2 = {
 	order = order_weapons_1,
-	name = "Adv Soul Capture Methods II", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Emotive Lasers", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_pulselasers","c_pulse_disrupter","c_repairport"
@@ -841,8 +841,8 @@ data.techs.tc_weapons2 = {
 }
 data.techs.tc_weapons3 = {
 	order = order_weapons_1,
-	name = "Adv Soul Capture Methods III", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Charging Coils", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_portable_turret_red","c_turret","c_repairer_small_aoe",
@@ -854,8 +854,8 @@ data.techs.tc_weapons3 = {
 }
 data.techs.tc_weapons4 = {
 	order = order_weapons_1,
-	name = "Adv Soul Capture Methods IV", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Stress Tested Barrels", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		 "c_twin_autocannons","c_human_missilelauncher",
@@ -865,11 +865,10 @@ data.techs.tc_weapons4 = {
 	uplink_recipe = CreateUplinkRecipe({  steelblock = 1, wire = 1, crystal_powder = 1, reinforced_plate = 1}, 50),
 	category = "Soul Harvesting",
 }
-
 data.techs.tc_weapons5 = {
 	order = order_weapons_2,
-	name = "Adv Soul Capture Methods V", -- recovered database etc.
-	desc = "The Cube must be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Furious Foci", -- recovered database etc.
+	desc = "The Cube must be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_plasma_turret","c_plasma_cannon",
@@ -881,8 +880,8 @@ data.techs.tc_weapons5 = {
 }
 data.techs.tc_weapons6 = {
 	order = order_weapons_2,
-	name = "Adv Soul Capture Methods VI", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Time Dilated Recoil", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_railgun","c_light_cannon",
@@ -894,8 +893,8 @@ data.techs.tc_weapons6 = {
 }
 data.techs.tc_weapons7 = {
 	order = order_weapons_2,
-	name = "Adv Soul Capture Methods VII", -- recovered database etc.
-	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe forge Needs Souls\nHARVEST THEM",
+	name = "Adv Soul Capture Methods", -- recovered database etc.
+	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
 	texture = data.components.c_adv_portable_turret.texture,
 	unlocks = {
 		"c_laser_turret","c_missile_turret",
@@ -910,7 +909,7 @@ data.techs.tc_weapons7 = {
 data.techs.tc_robot_storage1 = {
 	order = 4,
 	name = "Simple Storage [S]", -- recovered database etc.
-	desc = "2^2",
+	desc = "2^2 A Perfect Square",
 	texture = data.components.c_small_storage.texture,
 	unlocks = {
 		-- new resources
@@ -952,7 +951,7 @@ data.techs.tc_robot_storage3 = {
 data.techs.tc_robot_storage4 = {
 	order = 4,
 	name = "Simple Storage [L]", -- recovered database etc.
-	desc = "Cavernous Storage",
+	desc = "Cavernous Storage\nBut not a square",
 	texture = data.components.c_large_storage.texture,
 	unlocks = {
 		-- new resources
@@ -966,7 +965,7 @@ data.techs.tc_robot_storage4 = {
 data.techs.tc_robot_signals1 = {
 	order = 11,
 	name = "Telecomunications", -- recovered database etc.
-	desc = "BEEP BOOP",
+	desc = "Entry 74: Curiosity Module is detecting larger noise then expected\nA subspace echo of <rl>_SELF</> transmissions is detectable",
 	texture = data.components.c_radar.texture,
 	unlocks = {
 		-- new resources
@@ -979,8 +978,8 @@ data.techs.tc_robot_signals1 = {
 }
 data.techs.tc_robot_signals2 = {
 	order = 11,
-	name = "Wireless Action I", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Wireless Sensing", -- recovered database etc.
+	desc = "Utilizing stronger fields for sensors and deflectors",
 	texture = data.components.c_radar.texture,
 	unlocks = {
 		-- new resources
@@ -993,8 +992,8 @@ data.techs.tc_robot_signals2 = {
 }
 data.techs.tc_robot_signals3 = {
 	order = 11,
-	name = "Wireless Action II", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Signal Analysis Subroutines", -- recovered database etc.
+	desc = "Entry 75: Curiosity Module reports that the radio noise is identical to <rl>_SELF</> transmission but did not originate from <rl>_SELF</>",
 	texture = data.components.c_radar.texture,
 	unlocks = {
 		-- new resources
@@ -1007,8 +1006,8 @@ data.techs.tc_robot_signals3 = {
 }
 data.techs.tc_robot_signals4 = {
 	order = 11,
-	name = "Wireless Action III", -- recovered database etc.
-	desc = "BEEP BOOP",
+	name = "Anti-Fear Mentality", -- recovered database etc.
+	desc = "Reasoning attacks out of existance",
 	texture = data.components.c_radar.texture,
 	unlocks = {
 		-- new resources
@@ -1022,7 +1021,7 @@ data.techs.tc_robot_signals4 = {
 
 data.techs.tc_robot_floor_1 = {
 	order = floor_order,
-	name = "Foundations I", 
+	name = "Asphalt", 
 	desc = "The Foundational tech for Foundations",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
@@ -1049,8 +1048,8 @@ data.techs.tc_robot_floor_2 = {
 }
 data.techs.tc_robot_floor_3 = {
 	order = floor_order,
-	name = "Foundations ", 
-	desc = "BEEP BOOP",
+	name = "Chronological Foundations", 
+	desc = "Warping spacetime around passing bots allows for insane speeds to be reached.",
 	texture = data.frames.f_human_foundation1.texture,
 	unlocks = {
 		"f_human_foundation9","f_human_foundation8",
