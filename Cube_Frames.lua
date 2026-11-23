@@ -295,13 +295,18 @@ end
 
 
 data.frames.f_dropped_item.on_destroy = function(self, entity, damager_entity)
-
+	local faction = damager_entity.faction
 	for key,val in pairs(entity.slots) do 
+
 		if val.id and val.id:find('ic_cube') ~= nil and val.id ~= "ic_cube_ghost" then 
-			local faction = damager_entity.faction
-			Map.Defer(function() 
-				Map.DropItemAt(damager_entity,"ic_cube_red",1)
-			end)
+		
+			if val.id == "ic_cube_sphere" then 
+				Place_Anti_Cube(entity, true)
+			else 
+				Map.Defer(function() 
+					Map.DropItemAt(damager_entity,"ic_cube_red",1)
+				end)
+			end
 			if faction and not faction:IsUnlocked("ic_cube_ghost") then 
 				print(faction)
 				faction:Unlock("ic_cube_ghost")

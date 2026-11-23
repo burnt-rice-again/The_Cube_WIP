@@ -185,16 +185,6 @@ data.codex.xc_cube_automation = {
             ]]
         }
     },
-    mission_steps = {
-        {
-            img = data.items.blightcrystal.texture,
-            talkinghead = false, 
-            txt = [[
-
-            The Anti-Cube Explosion
-            ]],
-        },
-    }
 }
 data.codex.xc_cube_getting_started = {
     category = "Codex",
@@ -428,14 +418,22 @@ data.codex.xc_cube_anti = {
     <hl>Interaction with the Anti-Cube will cause it to duplicate</>
     Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
 
-    The new anticubes will appear within <bl>range 5</> of the frame that destroyed or crafted with the anti cube. 
-    <hl>Free cube pedestals will be filled first</>
+    ]]
+},      
+{
+    title = "Anti-Cube Capture",
+    text = [[
+        
+    The new anticubes will appear within <bl>range 5</> of the frame that destroyed or crafted with the anti cube.
+    Place <bl>Empty</> Cube pedestals within range to capture the Anti-Cube
     Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.       
             ]]
         },
+                
         {
             title = "Anti-Cube Annihilation",
             text = [[
+            
                 
     <bl>Anti-Cubes</> is highly unstable around the Cube. 
     Place the Cube and Anti-Cube them <bl>together</> in a frame to annihilate them. 
