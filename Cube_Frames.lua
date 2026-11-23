@@ -295,13 +295,15 @@ end
 
 
 data.frames.f_dropped_item.on_destroy = function(self, entity, damager_entity)
+	
+	if not damager_entity then return end 
 	local faction = damager_entity.faction
 	for key,val in pairs(entity.slots) do 
 
 		if val.id and val.id:find('ic_cube') ~= nil and val.id ~= "ic_cube_ghost" then 
 		
 			if val.id == "ic_cube_sphere" then 
-				Place_Anti_Cube(entity, true)
+				Place_Anti_Cube(damager_entity, true, false)
 			else 
 				Map.Defer(function() 
 					Map.DropItemAt(damager_entity,"ic_cube_red",1)

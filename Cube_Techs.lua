@@ -340,7 +340,7 @@ data.techs.tc_cube_green_6 = {
 data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	order = 1,
 	name = "Anti Cube Annihilation", -- recovered database etc.
-	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal\n<hl>Find a way to annihilate the Anti-Cube to unlock this tech]]",
+	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal\n<hl>Find a way to annihilate the Anti-Cube to unlock this tech</>",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
 		"blight_crystal","xc_cube_time_crystal",

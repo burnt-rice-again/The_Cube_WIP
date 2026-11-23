@@ -405,7 +405,7 @@ cc_cube_fabrication:RegisterComponent("cc_soul_refinery",{
 	activation = "OnFirstRegisterChange|OnComponentItemSlotChange",
 	texture = "Main/textures/icons/components/component_adv_refinery_01_l.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
 	visual = "v_adv_refinery_01_m",  --"v_scienceanalyzer_l",
-	power = -6400,
+	power = -2400,
 	production_recipe = CreateProductionRecipe({["steelblock"]=40,["concreteslab"]=10,["crystal_powder"]=10}, {["c_assembler"] = 150}, 1),
 	slots = {anomaly = 1},
 	range = 8,

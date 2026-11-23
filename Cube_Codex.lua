@@ -416,30 +416,28 @@ data.codex.xc_cube_anti = {
     However it will now exist in both the new <bl>and</> previous state. 
 
     <hl>Interaction with the Anti-Cube will cause it to duplicate</>
-    Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. 
-
-    ]]
+    Crafting, Dismantling or Destroying, <bl>Anti-Cubes</> will cause this duplication. ]]
 },      
 {
     title = "Anti-Cube Capture",
     text = [[
-        
+
     The new anticubes will appear within <bl>range 5</> of the frame that destroyed or crafted with the anti cube.
     Place <bl>Empty</> Cube pedestals within range to capture the Anti-Cube
-    Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.       
-            ]]
-        },
-                
-        {
-            title = "Anti-Cube Annihilation",
-            text = [[
-            
-                
+    Otherwise uncaptured <bl>Anti-Cubes</> will appear nearby.   ]]
+},
+
+{
+    title = "Anti-Cube Annihilation",
+    text = [[
+    
     <bl>Anti-Cubes</> is highly unstable around the Cube. 
     Place the Cube and Anti-Cube them <bl>together</> in a frame to annihilate them. 
-
+    
     <rl>WARNING - Explosion Expected</>
-            ]]
+
+    <img image="The_Cube_WIP/textures/Codex_Images/Anti_Cube_Shooting.png"/>
+    ]]
         }
     }
 }
