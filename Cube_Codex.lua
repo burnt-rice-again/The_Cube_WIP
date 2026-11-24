@@ -340,34 +340,34 @@ data.codex.xc_cube_red = {
     title = [[<img width="18" height="18" id="ic_cube_red"/>Fury Cube]],
     text = [[<img width="100" height="100" id="ic_cube_red"/><codex_title>Fury Cube</>
 
-        The <rl>Fury Cube</> is useful for smelting and power generation 
+    The <rl>Fury Cube</> is useful for smelting and power generation 
 
-        The <rl>Fury Cube</> can be created by melting a cube inside a blight volcano
-        <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="fc_volcano"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
-        There does exists two other methods for crafting a <rl>Fury Cube</>
+    The <rl>Fury Cube</> can be created by melting a cube inside a blight volcano
+    <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="fc_volcano"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+    There does exists two other methods for crafting a <rl>Fury Cube</>
 
-        The Cube will cooldown when used for crafting<img width="50" height="50" id="ic_cube_empty"/>
-        Alternativly the <rl>Fury Cube</> can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
+    The Cube will cooldown when used for crafting<img width="50" height="50" id="ic_cube_empty"/>
+    Alternativly the <rl>Fury Cube</> can be instantly cooled in the Cube Recharger<img width="50" height="50" id="cc_cube_recharger"/>
 
-        Available Power Generation via <rl>Fury Cube</>.
-        <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Basic Crystal Power</> 
-        Energy Recipe 
-		<img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
+    Available Power Generation via <rl>Fury Cube</>.
+    <img id="cc_crystal_power_red" width="50" height="50"/> <hl>Basic Crystal Power</> 
+    Energy Recipe 
+    <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="crystal_powder"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" image="Main/textures/icons/values/power.png"/>
 
-        Other Similiar Power Components 
-        <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
-        <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
-        ]],
-        talkinghead = true,
-        img = data.items.ic_cube_red.texture,
-        txt = [[
-        Deep in the earth the planet rages. 
-        A molten ocean of dreams forever trapped under a thin blanket of reality.
+    Other Similiar Power Components 
+    <img id="cc_crystal_power" width="50" height="50"/> <hl>Crystal Power</> 
+    <img id="cc_power_souls" width="50" height="50"/> <hl>Soul extraction</> 
+    ]],
+    talkinghead = true,
+    img = data.items.ic_cube_red.texture,
+    txt = [[
+    Deep in the earth the planet rages. 
+    A molten ocean of dreams forever trapped under a thin blanket of reality.
 
-        <hl>The Cube is Furious</>
+    <hl>The Cube is Furious</>
 
-        <bl>Codex has been updated</>
-        ]],
+    <bl>Codex has been updated</>
+    ]],
 }
 
 data.codex.xc_cube_plasma = {
@@ -471,15 +471,15 @@ data.codex.xc_cube_time_crystal = {
     <img width="50" height="50" id="ic_cube_empty"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/>
     <img width="50" height="50" id="ic_cube_green"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
     <img width="50" height="50" id="ic_cube_red"/><img width="50" height="50" id="ic_cube_sphere"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
-
+    ]]
+},        
+{
+    title = "Anti-Cube Disposal",
+    text = [[
+        
     <hl>Tip:</> For more effcient <bl>Anti-Cubes</> Disposal it is possible to anhillate multiple <bl>Anti-Cubes</> at once.
         The Cube's form will not be changed due to the reaction happening twice
         The Explosion damage is the same as 1 anti-cube being destroyed.
-            ]]
-        },        
-        {
-            title = "Anti-Cube Disposal",
-            text = [[
 
     There is another hidden way to destroy Anti-Cubes via intense heat.
 
@@ -498,7 +498,11 @@ data.codex.xc_cube_boost = {
         <bl>Stablizied Chrono Crystals have the power to create pockets of distorted time</>
         
         Effciency modules can be crafted for stable time dilation<img id="cc_moduleefficiency_l" width="50" height="50" style="bl"/>
-
+]],
+    sections = {
+        title = "Chrono Towers",
+        text = [[
+            
         <hl>Chrono Towers</><img id="fc_boost_tower" width="50" height="50"/>
         Chrono Towers will dilate time around another unit within their range. 
         Select a target unit with the first register. 
@@ -508,6 +512,7 @@ data.codex.xc_cube_boost = {
         
         Multiple chrono towers boosting the same unit will have diminshing returns.
         ]],
+    }
 }
 data.codex.xc_cube_time_travel = {
     category = "Codex",
