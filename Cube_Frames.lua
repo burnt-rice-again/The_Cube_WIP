@@ -156,8 +156,9 @@ local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
 	range = 3,
-	-- size = "Other",
-	-- no_foundations = true,
+	size = "Other",
+	no_foundations = true,
+	construction_recipe = CreateConstructionRecipe({ic_cube_sphere = 1},5)
 })
 -- on remove covers on_destroy as well + relocation
 function fc_cube_sphere:on_remove(frame)

@@ -159,7 +159,7 @@ data.techs.tc_cube_blue_3 = {
 	texture = data.items.ic_cube_sphere.texture,
 	unlocks = {
 		-- new resources
-		"ic_cube_sphere","reinforced_plate_alt","ldframe_alt"
+		"ic_cube_sphere","reinforced_plate_alt","ldframe_alt","fc_cube_sphere"
 	},
 	require_tech = { "tc_cube_blue_2" },
 	progress_count = 50,
@@ -343,7 +343,7 @@ data.techs.tc_cube_anti_0 = { -- will unlock when cube is anhillated
 	desc = "Entry 005 The Anti Cube Now carpets the entire factory\nThe Cube is our only hope for removal\n<hl>Find a way to annihilate the Anti-Cube to unlock this tech</>",
 	texture = data.frames.f_resourcenode_blightcrystal.texture,
 	unlocks = {
-		"blight_crystal","xc_cube_time_crystal",
+		"blight_crystal","xc_cube_time_crystal"
 	},
 	require_tech = { "tc_cube_blue_3", },
 	progress_count = 50,

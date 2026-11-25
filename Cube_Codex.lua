@@ -499,7 +499,7 @@ data.codex.xc_cube_boost = {
         
         Effciency modules can be crafted for stable time dilation<img id="cc_moduleefficiency_l" width="50" height="50" style="bl"/>
 ]],
-    sections = {
+    sections = {{
         title = "Chrono Towers",
         text = [[
             
@@ -512,6 +512,7 @@ data.codex.xc_cube_boost = {
         
         Multiple chrono towers boosting the same unit will have diminshing returns.
         ]],
+    }
     }
 }
 data.codex.xc_cube_time_travel = {
