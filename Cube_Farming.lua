@@ -173,7 +173,7 @@ fc_crop:RegisterFrame('fc_crop_wire_plant',{
     name = 'Wire Weed',
     desc = 'Conductive Reeds ready for winding onto a spool\nFilter by flower to find only harvestable crops',
     visual = 'vc_crop_wire',
-    texture = "The_Cube_WIP/textures/wire_seed.png",
+    texture = "The_Cube_WIP/textures/wire_weed.png",
     is_flower = true,
     on_remove = wake_up_planter,
 })
@@ -370,13 +370,17 @@ function cc_planter:on_update(comp, cause)
             --comp.owner:AddItem(self.output_cube)
             --place crop 
             local x, y = cord.x, cord.y
+            -- parameters to pass to next tick so no errors occur
+            local faction = comp.faction
+            local key = comp.owner.key
+            local extra_data = comp.extra_data or {}
             Map.Defer( function()
             --print('placing plant')
-            local plant = Map.CreateEntity(comp.faction, self.seed_id)
+            local plant = Map.CreateEntity(faction, self.seed_id)
             local crop = plant:AddComponent('cc_crop','hidden',{
-                key = comp.owner.key,
-                yield = math.max((comp.extra_data.yield or 1) + math.random(-1,1), 1),
-                growth_time =  math.max((comp.extra_data.growth_time or 100) + math.random(-5,5), 5),
+                key = key,
+                yield = math.max((extra_data.yield or 1) + math.random(-1,1), 1),
+                growth_time =  math.max((extra_data.growth_time or 100) + math.random(-5,5), 5),
                 next_visual = 1,
             })
 

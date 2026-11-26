@@ -586,7 +586,7 @@ local function Update_Cube_Effects(self, comp, cause)
 		anti_cube_explosion(comp) 
 		activate_other_comps(comp)
 		if stop_effects then comp:StopEffects() end
-		if comp.faction.extra_data.follow_cube == true then 
+		if comp.faction.extra_data.follow_cube == true and cube_id ~= "ic_cube_sphere" then 
 			comp.faction:RunUI(function(ent)
 				View.FollowEntity(ent)
 			end, owner)

@@ -376,24 +376,49 @@ data.codex.xc_cube_plasma = {
     title = [[<img width="18" height="18" id="ic_soul_plasma"/>Ectoplasma Network]],
     text = [[<img width="100" height="100" id="ic_soul_plasma"/><codex_title>Ectoplasma Network</>
 
-        <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units
+    <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units
 
-        They can be converted into <img id="ic_soul_plasma" width="50" height="50" style="bl"/> at the <img id="cc_soul_refinery" width="50" height="50" style="bl"/>
-        
-        Ectoplasma is highly unstable and must be transfered through a seperate network<img id="fc_pipe" width="50" height="50" style="bl"/>
-        The <bl>Soul refinery</> will automatically transfer to nearby <bl>Relay Towers</>. 
+    They can be converted into <img id="ic_soul_plasma" width="50" height="50" style="bl"/> at the <img id="cc_soul_refinery" width="50" height="50" style="bl"/>]],
+        sections = {
+            {
+                title = "Obtaining Souls",
+                text = [[
+                
+    <img id="bug_carapace" width="50" height="50"/>Souls are dropped by enemy units. Raid bug Hives for for a large amount. 
 
-        The pylons will then distribute plasma until all connected pylons are at an even level. 
+    For a renewable source of souls turn on <hl>Swarm Mode</> in the map settings and souls will come to you. 
+    Be prepared for the ensuing waves
+                ]]
+            },
+            {
+                title = "Ectoplasma Network",
+                text = [[
+                    
+    Ectoplasma is highly unstable and must be transfered through a seperate network<img id="fc_pipe" width="50" height="50" style="bl"/>
+    The <bl>Soul refinery</> will automatically transfer to nearby <bl>Relay Towers</>. 
 
-        <img id="cc_pipe_output" width="50" height="50" style="bl"/> can take Ectoplasma from nearby pylons to be used for crafting
-        Bots carrying a plasma coil will slow down significantly due to its instability.
+    The pylons will then distribute plasma until all connected pylons are at an even level. 
 
-        <img image="The_Cube_WIP/textures/Codex_Images/Plasma_2.png"/>  
+    <img id="cc_pipe_output" width="50" height="50" style="bl"/> can take Ectoplasma from nearby pylons to be used for crafting
+    Bots carrying a plasma coil will slow down significantly due to its instability.
 
-        The Cube recharger can use plasma to recharge extremly quickly. It will automatically use plasma if available from a plasma coil
+    <img image="The_Cube_WIP/textures/Codex_Images/Plasma_2.png"/>  
+            ]]
+        },
+        {
+            title = "Ectoplasma Applications",
+            text = [[
 
+    Ectoplasma is a very usefull crafting material for emotive products.
 
-        ]],
+    <hl>The Cube recharger can use plasma to recharge extremly quickly. It will automatically use plasma if available from a plasma coil</>
+
+    It is also an incredible source of power for both <img id="cc_power_souls" width="50" height="50" style="bl"/> and <img id="cc_crystal_power_red" width="50" height="50" style="bl"/>
+            
+    Always place an <img id="cc_pipe_output" width="50" height="50" style="bl"/> in the same building to recieve plasma from the network
+            ]]
+        }
+    }
 }
 data.codex.xc_cube_anti = {
     category = "Codex",
@@ -431,7 +456,7 @@ data.codex.xc_cube_anti = {
     text = [[
     
     <bl>Anti-Cubes</> is highly unstable around the Cube. 
-    Place the Cube and Anti-Cube them <bl>together</> in a frame to annihilate them. 
+    Place the Cube and Anti-Cube <bl>together</> in a frame to annihilate them. 
     
     <rl>WARNING - Explosion Expected</>
 
@@ -481,7 +506,7 @@ data.codex.xc_cube_time_crystal = {
         The Cube's form will not be changed due to the reaction happening twice
         The Explosion damage is the same as 1 anti-cube being destroyed.
 
-    There is another hidden way to destroy Anti-Cubes via intense heat.
+    There is another  way to destroy Anti-Cubes via <hl>intense heat</>.
 
     <img image="The_Cube_WIP/textures/Codex_Images/Anti_4.png"/>  
     ]]
@@ -512,7 +537,7 @@ data.codex.xc_cube_boost = {
         
         Multiple chrono towers boosting the same unit will have diminshing returns.
         ]],
-    }
+        }
     }
 }
 data.codex.xc_cube_time_travel = {
@@ -901,7 +926,7 @@ local entry_090 = [[<img width="100" height="100" id="v_unsolved"/><codex_title>
 
     The Introspection model has considered the following clues. 
 
-    - The Cube is our most priceless posession. Attempt to duplicate the Cube.
+    - The Cube is our most priceless posession. Bring the Cube to a new universe.
     - It is time to move on from the Cube. Attempt to destroy the Cube.
     - Hypothetical Symmetry. Forge a Posi-Cube.
     - Stolen research from a 2^10 time. 

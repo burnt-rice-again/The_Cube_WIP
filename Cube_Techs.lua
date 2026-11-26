@@ -486,7 +486,7 @@ data.techs.tc_robot_frames_2 = {
 	order = 1,
 	name = "Core Robotics", -- recovered database etc.
 	desc = "<hl>Expanaded core capacity complete. Preparing auxilary systems for development</>",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_1m_a.texture,
 	unlocks = {
 		-- new resoures
 		"f_bot_1m_a","f_bot_1s_b","xc_pop_tech_category_unlock_1"
@@ -501,7 +501,7 @@ data.techs.tc_robot_frames_3 = {
 	order = 1,
 	name = "Dual Robots", -- recovered database etc.
 	desc = "Multiple systems can be integrated with new neurotic wire",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_2s.texture,
 	unlocks = {
 		"f_bot_2s","f_flyer_bot",
 	},
@@ -514,7 +514,7 @@ data.techs.tc_robot_frames_4 = {
 	order = 1,
 	name = "Transportation Bots", -- recovered database etc.
 	desc = "Utilizing positive thoughts the cube can be made lighter during delivery",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_1m_b.texture,
 	unlocks = {
 		-- new resources
 		"f_transport_bot","f_bot_1m_b"
@@ -528,7 +528,7 @@ data.techs.tc_robot_frames_5 = {
 	order = 1,
 	name = "Next Generation Bots", 
 	desc = "Through the cube we can become stronger",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_1s_as.texture,
 	unlocks = {
 		-- new resources
 		"f_bot_1s_as","f_bot_1m1s",
@@ -542,7 +542,7 @@ data.techs.tc_robot_frames_6 = {
 	order = 1,
 	name = "Heavy Bot", 
 	desc = "The Rock",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_1l_a.texture,
 	unlocks = {
 		-- new resources
 		"f_bot_1l_a"
@@ -556,7 +556,7 @@ data.techs.tc_robot_frames_7 = {
 	order = 1,
 	name = "Enlightened Robotics",
 	desc = "Robots capable of self reflection lets them understand their critical role in supporting the cube\nThis Morale boost means they work faster",
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_1m_c.texture,
 	unlocks = {
 		-- new resources
 		"f_bot_1m_c","f_bot_1s_adw"
@@ -570,7 +570,7 @@ data.techs.tc_robot_frames_8 = {
 	order = 1,
 	name = "Battleship Robotics",
 	desc = "Entry 039:\nAuxiliary Module reports construction of a 'Battleship'\nForged to do every single task and weighing as much as 3 Rocks\nIt is a moving base", -- recovered database etc.
-	texture = data.components.c_robotics_factory.texture,
+	texture = data.frames.f_bot_2m_as.texture,
 	unlocks = {
 		-- new resources
 		"f_bot_2m_as",
@@ -585,7 +585,7 @@ data.techs.tc_building1 = {
 	order = 3,
 	name = "Flat Buildings", -- recovered database etc.
 	desc = "360 degree unobstructed view",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building1x1c.texture,
 	unlocks = {
 		-- new resources
 		"f_building1x1c","f_building1x1a",
@@ -613,7 +613,7 @@ data.techs.tc_building3= {
 	order = 30,
 	name = "Deep Foundations", -- recovered database etc.
 	desc = "Stone for supporting the ground below",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building2x1e.texture,
 	unlocks = {
 		-- new resources
 		"f_building1x1b","f_building2x1e","f_building1x1g",
@@ -628,7 +628,7 @@ data.techs.tc_building4= {
 	order = 30,
 	name = "Circuited Buildings", -- recovered database etc.
 	desc = "<hl>Despite our achievements the cube is still an anomaly.</>\n\n<hl>By being humble we will grow further still</>",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building2x2b.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x1b","f_building2x2b","xc_pop_tech_category_unlock_2"
@@ -642,7 +642,7 @@ data.techs.tc_building5= {
 	order = 30,
 	name = "Disaster Proofing", -- recovered database etc.
 	desc = "Entry 025 The wurms blasted through the steel panel in 3 hits\nFactor of safety needs to be increased to 5",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building2x2a.texture,
 	unlocks = {
 		-- new resources
 		"f_building1x1e","f_building2x2a","f_building1x1h","f_wall_bli"
@@ -656,7 +656,7 @@ data.techs.tc_building6= {
 	order = 30,
 	name = "Multipurpose buildings", -- recovered database etc.
 	desc = "A gadget for every item",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building3x2b.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x1d","f_building3x2b",
@@ -670,7 +670,7 @@ data.techs.tc_building7= {
 	order = 30,
 	name = "Time Dilated Construction", -- recovered database etc.
 	desc = "Chrono crystals can be used to fabricate the impossible",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building2x2c.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x2c","f_building2x2d","f_building2x1c",
@@ -684,7 +684,7 @@ data.techs.tc_building8= {
 	order = 30,
 	name = "Gigantic Buildings", -- recovered database etc.
 	desc = "For the grandest of ambitions",
-	texture = data.frames.f_building2x2f.texture,
+	texture = data.frames.f_building3x2a.texture,
 	unlocks = {
 		-- new resources
 		"f_building2x2e","f_building3x2a"
@@ -772,7 +772,7 @@ data.techs.tc_network2 = {
 	order = 3,
 	name = "Power Transmission", -- recovered database etc.
 	desc = "Refined Crystal allows for lossless energy transmission and capture to a target inductor",
-	texture = data.components.c_power_relay.texture,
+	texture = data.components.c_power_transmitter.texture,
 	unlocks = {
 		-- new resources
 		"c_power_transmitter"
@@ -786,7 +786,7 @@ data.techs.tc_network3 = {
 	order = 3,
 	name = "Power Capture", -- recovered database etc.
 	desc = "The constant wailing is an unfortunate side effect of soul pearls incredible power focus",
-	texture = data.components.c_power_relay.texture,
+	texture = data.components.c_large_power_relay.texture,
 	unlocks = {
 		-- new resources
 		"c_medium_capacitor","c_battery","c_large_power_relay"
@@ -800,7 +800,7 @@ data.techs.tc_network4 = {
 	order = 3,
 	name = "Retroactive Energization", -- recovered database etc.
 	desc = "Entry 038: Why try and charge at a distance when with the power of time crystals. We can charge the bot from its previous location inside the network",
-	texture = data.components.c_power_relay.texture,
+	texture = data.components.c_large_battery.texture,
 	unlocks = {
 		-- new resources
 		"c_large_battery","c_large_power_transmitter"
@@ -830,7 +830,7 @@ data.techs.tc_weapons2 = {
 	order = order_weapons_1,
 	name = "Emotive Lasers", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
-	texture = data.components.c_adv_portable_turret.texture,
+	texture = data.components.c_pulse_disrupter.texture,
 	unlocks = {
 		"c_pulselasers","c_pulse_disrupter","c_repairport"
 	},
@@ -843,7 +843,7 @@ data.techs.tc_weapons3 = {
 	order = order_weapons_1,
 	name = "Charging Coils", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
-	texture = data.components.c_adv_portable_turret.texture,
+	texture = data.components.c_turret.texture,
 	unlocks = {
 		"c_portable_turret_red","c_turret","c_repairer_small_aoe",
 	},
@@ -856,7 +856,7 @@ data.techs.tc_weapons4 = {
 	order = order_weapons_1,
 	name = "Stress Tested Barrels", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
-	texture = data.components.c_adv_portable_turret.texture,
+	texture = data.components.c_human_missilelauncher.texture,
 	unlocks = {
 		 "c_twin_autocannons","c_human_missilelauncher",
 	},
@@ -869,7 +869,7 @@ data.techs.tc_weapons5 = {
 	order = order_weapons_2,
 	name = "Furious Foci", -- recovered database etc.
 	desc = "The Cube must be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
-	texture = data.components.c_adv_portable_turret.texture,
+	texture = data.components.c_plasma_turret.texture,
 	unlocks = {
 		"c_plasma_turret","c_plasma_cannon",
 	},
@@ -882,7 +882,7 @@ data.techs.tc_weapons6 = {
 	order = order_weapons_2,
 	name = "Time Dilated Recoil", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
-	texture = data.components.c_adv_portable_turret.texture,
+	texture = data.components.c_railgun.texture,
 	unlocks = {
 		"c_railgun","c_light_cannon",
 	},
@@ -895,7 +895,7 @@ data.techs.tc_weapons7 = {
 	order = order_weapons_2,
 	name = "Adv Soul Capture Methods", -- recovered database etc.
 	desc = "The Cube needs to be studied\nThe Factory Needs Power\nThe Forge Needs Souls\nHARVEST THEM",
-	texture = data.components.c_adv_portable_turret.texture,
+	texture = data.components.c_laser_turret.texture,
 	unlocks = {
 		"c_laser_turret","c_missile_turret",
 	},
@@ -966,7 +966,7 @@ data.techs.tc_robot_signals1 = {
 	order = 11,
 	name = "Telecomunications", -- recovered database etc.
 	desc = "Entry 74: Curiosity Module is detecting larger noise then expected\nA subspace echo of <rl>_SELF</> transmissions is detectable",
-	texture = data.components.c_radar.texture,
+	texture = data.components.c_radio_transmitter.texture,
 	unlocks = {
 		-- new resources
 		"c_radio_transmitter","c_radio_receiver" 
@@ -980,7 +980,7 @@ data.techs.tc_robot_signals2 = {
 	order = 11,
 	name = "Wireless Sensing", -- recovered database etc.
 	desc = "Utilizing stronger fields for sensors and deflectors",
-	texture = data.components.c_radar.texture,
+	texture = data.components.c_small_radar.texture,
 	unlocks = {
 		-- new resources
 		"c_small_radar","c_shield_generator",
@@ -1008,7 +1008,7 @@ data.techs.tc_robot_signals4 = {
 	order = 11,
 	name = "Anti-Fear Mentality", -- recovered database etc.
 	desc = "Reasoning attacks out of existance",
-	texture = data.components.c_radar.texture,
+	texture = data.components.c_shield_generator3.texture,
 	unlocks = {
 		-- new resources
 		"c_shield_generator3",
@@ -1036,7 +1036,7 @@ data.techs.tc_robot_floor_2 = {
 	order = floor_order,
 	name = "Foundation Markings", 
 	desc = "Painting it red makes it faster",
-	texture = data.frames.f_human_foundation1.texture,
+	texture = data.frames.f_human_foundation2.texture,
 	unlocks = {
 		"f_human_foundation2","f_human_foundation3","f_human_foundation4",
 		"f_human_foundation5","f_human_foundation6","f_human_foundation7","f_foundation_adv",
@@ -1050,7 +1050,7 @@ data.techs.tc_robot_floor_3 = {
 	order = floor_order,
 	name = "Chronological Foundations", 
 	desc = "Warping spacetime around passing bots allows for insane speeds to be reached.",
-	texture = data.frames.f_human_foundation1.texture,
+	texture = data.frames.f_human_foundation9.texture,
 	unlocks = {
 		"f_human_foundation9","f_human_foundation8",
 	},
