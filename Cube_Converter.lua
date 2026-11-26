@@ -112,7 +112,11 @@ function cc_scrap_converter:get_ui(comp)
 					--h:Add(tostring(v.t).."s")
 					--display outputs
 					if v.cube_out ~= nil then 
-						h:Add("<Reg bg=item_default/>", { def_id = v.cube_out})
+						if v.limit_1 == true then 
+							h:Add("<Reg bg=item_default/>", { def_id = "v_destroyed"})
+						else
+							h:Add("<Reg bg=item_default/>", { def_id = v.cube_out})
+						end
 					end
 
 					for k2,v2 in pairs(v.to) do
@@ -143,9 +147,25 @@ function cc_scrap_converter:get_reg_error(comp)
 	end
 	return "Not enough room for output"
 end
-
+local update_cube_location = Update_cube_location_global
 function cc_scrap_converter:on_update(comp, cause)
 	local work_finished = (cause & CC_FINISH_WORK == CC_FINISH_WORK)
+
+	if self.id == 'cc_cube_melter' and cause & (CC_CHANGED_ITEMSLOT_ITEM | CC_CHANGED_ITEMSLOT_AMOUNT) then 
+		--print("changed cube location", comp.owner)	
+		local owner = comp.owner 
+		if owner:CountItem("ic_cube_red") > 0 then 
+			update_cube_location(owner,"ic_cube_red" )
+		elseif  owner:CountItem("ic_cube_blue") > 0 then 
+			update_cube_location(owner,"ic_cube_blue" )
+		elseif owner:CountItem("ic_cube_empty") > 0 then 
+			update_cube_location(owner,"ic_cube_empty" )
+		elseif owner:CountItem("ic_cube_green") > 0 then 
+			update_cube_location(owner,"ic_cube_green" )
+		end
+	end
+
+
 	if work_finished then
 		
 		local id = comp:GetRegisterId(1)

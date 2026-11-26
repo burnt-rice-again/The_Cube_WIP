@@ -390,6 +390,8 @@ data.codex.xc_cube_plasma = {
 
     For a renewable source of souls turn on <hl>Swarm Mode</> in the map settings and souls will come to you. 
     Be prepared for the ensuing waves
+
+    There is also a component late in the tech tree for making renewable lingering souls
                 ]]
             },
             {

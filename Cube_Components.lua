@@ -209,22 +209,22 @@ local function SumActiveModuleBoosts(owner, obj, remove_comp)
 			sum = sum + boost_comp.def.boost
 		end
 	end
-	-- hidden comps
-	for i=1,100 do
-		local boost_comp = owner:GetHiddenComponent(i)
-		--print(i,boost_comp,boost_comp.def.boost_id,boost_comp.extra_data.boost_active,boost_comp ~= remove_comp )
-		if boost_comp ~= nil then -- has comp at that socket
+	-- hidden comps now show up in owner.componets
+	-- for i=1,100 do
+	-- 	local boost_comp = owner:GetHiddenComponent(i)
+	-- 	--print(i,boost_comp,boost_comp.def.boost_id,boost_comp.extra_data.boost_active,boost_comp ~= remove_comp )
+	-- 	if boost_comp ~= nil then -- has comp at that socket
 
-			if boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
-			and (boost_comp.extra_data.boost_active == true or boost_comp.extra_data.boost_active == -1)-- is comp active
-			and boost_comp ~= remove_comp --not the comp being removed
-			then
-				sum = sum + boost_comp.def.boost
-			end
-		else 
-			break
-		end
-	end	
+	-- 		if boost_comp.def.boost_id == id -- check comp is a booster and is the correct boost type
+	-- 		and (boost_comp.extra_data.boost_active == true or boost_comp.extra_data.boost_active == -1)-- is comp active
+	-- 		and boost_comp ~= remove_comp --not the comp being removed
+	-- 		then
+	-- 			sum = sum + boost_comp.def.boost
+	-- 		end
+	-- 	else 
+	-- 		break
+	-- 	end
+	-- end	
 	--if remove_comp == false or remove_comp == nil then sum = sum + obj.boost end
 	return sum
 end
@@ -644,13 +644,13 @@ end
 ----- Boosting Tower Component -----------------------------------
 
 local cc_temp_boost = Comp:RegisterComponent("cc_temp_boost", {
-	desc = "Overclock Unit by 50%\n\nProvided By Boosting Tower",
+	desc = "Overclock Unit by 100%\n\nProvided By Boosting Tower",
 	attachment_size = "Hidden", race = "human", index = 1050, name = "Chrono Boost From Tower",
 	texture = data.components.c_moduleefficiency.texture,
 	get_ui = true,
 	-- new items 
 	activation = "Manual",
-	boost = 50,
+	boost = 100,
 	boost_id = "component_boost", -- or move_boost
 	wait_ticks = 1000,
 })
@@ -732,7 +732,7 @@ function cc_boost_tower:on_update(comp, cause)
 		-- check for fuel 
 		-- if you relocate the tower you can probably skip the wait time.
 		-- if they figure that out then good on them im not patching it
-		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel[1]]=1, [self.fuel[2]]=1},20)
+		local can_make, missing, no_space = comp:PrepareConsumeProcess({[self.fuel[1]]=1, [self.fuel[2]]=1},1)
 		if can_make then
 			comp:FulfillProcess()
 			comp:SetRegister(2)

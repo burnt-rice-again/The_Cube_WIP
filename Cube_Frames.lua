@@ -14,6 +14,7 @@ data.frames.f_bot_1m_b.production_recipe = CreateProductionRecipe({ ic_soul_happ
 -- lvl2 
 data.frames.f_bot_1s_as.production_recipe = CreateProductionRecipe({ reinforced_plate = 9, ic_soul_happy = 1, datakey_robot = 4 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1s_as.movement_speed = 6
+data.frames.f_bot_1s_as.component_boost = 20
 data.frames.f_bot_1m1s.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, wire = 16, reinforced_plate = 16 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1l_a.production_recipe = CreateProductionRecipe({ ic_soul_happy = 1, engine = 4, reinforced_plate = 32 }, { c_robotics_factory = 80 })
 data.frames.f_bot_1m_c.movement_speed = 6

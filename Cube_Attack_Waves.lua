@@ -336,7 +336,9 @@ local function new_order_id(comp)
     "ic_cube_green", "ic_cube_blue","ic_cube_red","ic_cube_empty",
     "c_adv_portable_turret","c_shield_generator2","c_shield_generator","c_radio_transmitter","c_radio_receiver",
     "ic_soul_angry","ic_soul_happy","phase_leaf","phase_leaf","ic_time_crystal","ic_time_crystal","ic_time_crystal","ldframe",
-    "f_bot_1s_b","f_bot_1m1s","f_flyer_m",
+    "c_pulselasers","c_pulse_disrupter","c_repairport","c_twin_autocannons","c_human_missilelauncher",
+    "c_radar","c_small_radar",
+    "f_bot_1s_b","f_bot_1m1s","f_bot_1s_as","f_bot_1l_a",
     }
     local new_id = req[math.random(1,#req)]
     -- make it so their is likely space for special CUBE
