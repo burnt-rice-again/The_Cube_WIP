@@ -154,7 +154,7 @@ Frame:RegisterFrame("f_resourcenode_concrete",  {
 -- Anti Cube 
 local fc_cube_sphere = Frame:RegisterFrame("fc_cube_sphere",{
 	name = "Anti-Cube",
-	desc = "<hl>An Uncaptured Anti-Cube</>\n\nWill Multiply On Interaction with regular Matter\n\nWhen Attacked duplicates will spawn at attackers position (range 4)\n\n<rl>DANGER: Highly Volatile When Around The Cube</>",
+	desc = "<hl>An Uncaptured Anti-Cube</>\n\nWill Multiply On Interaction with regular Matter\n\nWhen Attacked duplicates will spawn at attackers position (range 4)\n<bl>Empty Cube Pedestals in range will capture the Anti-Cube</>\n\n<rl>DANGER: Highly Volatile When Around The Cube</>",
 	visual = "vc_cube_sphere_frame",
 	texture = data.items.ic_cube_sphere.texture,
 	range = 4,

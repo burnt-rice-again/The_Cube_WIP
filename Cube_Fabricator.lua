@@ -420,7 +420,7 @@ cc_cube_fabrication:RegisterComponent("cc_red_furnace",{
 	visual = "v_explorable_blightanomaly_01",
 	race = "robot",
 	attachment_size = "Large",
-	--production_effect = "fx_assembler",--"fx_digital_in",--"fx_digital",
+	production_effect = "fx_alien_liquid",--"fx_digital_in",--"fx_digital",
 	power = -25100,
 	production_recipe = CreateProductionRecipeWithWaste({ ic_cube_red = 1, crystal_powder = 100, ic_soul_plasma = 100}, { cc_manifest = 30, }, 1, {ic_cube_red = 1}),
 })

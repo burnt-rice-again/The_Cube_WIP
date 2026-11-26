@@ -222,7 +222,9 @@ data.items.ic_cube_sphere = {
 	
 The Anti-Cube can exist in an infinate number of states simultaneously.
 
-<rl>WARNING: extremly unstable around the Cube</>]],
+<rl>WARNING: extremly unstable around the Cube</>
+
+Disposal Possible via Cube anhillation or extreme heat]],
 	tag = "cube",
 	slot_type = "cube",
 	stack_size = 1,
@@ -299,7 +301,7 @@ data.items.ic_soul_plasma = {
 	texture = "Main/textures/icons/items/anomaly_particle.png",
 	--visual = "v_scaramar1",
 	slot_type = "anomaly",
-	stack_size = 100,
+	stack_size = 200,
 	production_recipe = CreateProductionRecipeWithWaste(
 	{ic_cube_blue = 1, bug_carapace = 5, crystal_powder = 10 },
 	{ cc_soul_refinery = 100 },

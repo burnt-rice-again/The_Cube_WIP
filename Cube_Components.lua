@@ -516,7 +516,7 @@ local function anti_cube_explosion(comp)
 	end
 	-- add time crystals 
 	while anti_count > 0 do 
-		PlaceResourceNode(owner.location,"blight_crystal",math.random(16,128),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
+		PlaceResourceNode(owner.location,"blight_crystal",math.random(512,1024),"f_resourcenode_blightcrystal",blight_crystal_visuals[math.random(1,#blight_crystal_visuals)])
 		anti_count = anti_count - 1
 	end
 	-- add blight 
@@ -777,7 +777,7 @@ end
 local c_blight_magnifier = data.components.c_blight_magnifier
 c_blight_magnifier.name = "Cube Magnifier"
 c_blight_magnifier.activation = "OnAnyItemSlotChange"
-c_blight_magnifier.desc = "Adds 1000 resources to nodes below 1000\nRequires the Restless Cube"
+c_blight_magnifier.desc = "Adds <bl>1000</> resources to <bl>Metal</> and <bl>Crystal</> nodes below <bl>1000</>\nRequires the <gl>Restless Cube</>"
 c_blight_magnifier.registers = {{ read_only = true, tip = "Requires",},{read_only = true, tip = "Target Resource", ui_icon = "icon_target"}}
 c_blight_magnifier.magnify_time = 25
 c_blight_magnifier.get_ui = nil
@@ -816,7 +816,7 @@ c_blight_magnifier.on_update = function(self, comp, cause)
 	-- look for new resource
 	if ent == nil then 
 		ent = Map.FindClosestEntity(owner, self.range, function(e)
-			if e:GetRegisterNum(FRAMEREG_GOTO) < self.magnify_limit then
+			if e:GetRegisterNum(FRAMEREG_GOTO) < self.magnify_limit and e:GetRegisterId(FRAMEREG_GOTO) ~= "blight_crystal" then
 				--e:SetRegisterNum(FRAMEREG_STORE, 1) -- mark as magnified (see c_miner:on_update)	
 				return true 
 			end
