@@ -82,7 +82,7 @@ data.items.wire.texture = "The_Cube_WIP/textures/wire.png"
 --- AntiCube 
 data.items.ldframe.name = "AntiPhysics Frame"
 data.items.ldframe.desc = [[An AntiCube contained by other uniquely unstable materials
-<bl>This recipe consumes fewer Anti-Cubes</>]]
+<bl>This recipe produces fewer Anti-Cubes</>]]
 data.items.ldframe.race = "robot"
 data.items.ldframe.production_recipe = CreateProductionRecipe(
 { reinforced_plate = 4, phase_leaf = 8,ic_cube_sphere = 1, ic_soul_angry = 1, blight_crystal = 9}, { cc_manifest = 100 }, 2)
@@ -92,7 +92,7 @@ create_alt_recipe("ldframe",
 	{cc_manifest = 100},
 	1),
 	{desc = [[An AntiCube contained by large amounts of mentally stable materials
-<bl>This recipe is very ineffcient and consumes large amounts of Anti-Cubes</>]]}
+<bl>This recipe is very ineffcient and produces large amounts of Anti-Cubes</>]]}
 )
 
 --------------------------------------
@@ -387,7 +387,7 @@ data.items.ic_time_crystal = {
 	slot_type = 'storage',
 	visual = 'vc_time_crystal',
 	texture = "The_Cube_WIP/textures/TimeCrystal.png",
-	production_recipe = CreateProductionRecipe({ blight_crystal = 16, phase_leaf = 9,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
+	production_recipe = CreateProductionRecipe({ blight_crystal = 9, phase_leaf = 9,ic_soul_happy = 1, reinforced_plate = 2 }, { cc_green_brain = 25, cc_manifest = 70 }, 1),
 }
 create_alt_recipe("ic_time_crystal",
 	CreateProductionRecipeWithWaste(

@@ -43,7 +43,7 @@ data.frames.f_building1x1g.construction_recipe = CreateConstructionRecipe({ conc
 data.frames.f_building1x1e.construction_recipe = CreateConstructionRecipe({ concreteslab = 32, reinforced_plate = 9, datakey_robot = 2 }, 40)
 data.frames.f_building2x1c.construction_recipe = CreateConstructionRecipe({ concreteslab = 16, reinforced_plate = 6, ic_soul_happy = 4, ic_time_crystal = 1 }, 40)
 data.frames.f_building2x1c.component_boost = 50
---data.frames.f_building2x1c.components = {{"cc_moduleefficiency","hidden"}}
+data.frames.f_building2x1c.components = {}
 data.frames.f_building2x1d.construction_recipe = CreateConstructionRecipe({ concreteslab = 16, reinforced_plate = 6, ic_soul_happy = 2 }, 40)
 data.frames.f_building2x1d.component_boost = 50
 data.frames.f_wall_bli.construction_recipe = CreateConstructionRecipe({ reinforced_plate = 1, concreteslab = 4, wire = 2}, 20)
@@ -53,7 +53,7 @@ data.frames.f_building2x2b.construction_recipe = CreateConstructionRecipe({ conc
 data.frames.f_building2x2b.component_boost = 0
 data.frames.f_building3x2b.component_boost = 30
 data.frames.f_building3x2b.construction_recipe = CreateConstructionRecipe({ concreteslab = 40, reinforced_plate = 20, ic_soul_happy = 4 }, 40)
---data.frames.f_building3x2b.components = {{"cc_moduleefficiency_s","hidden"}}
+data.frames.f_building3x2b.components = {}
 data.frames.f_building2x2a.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, datakey_robot = 5 }, 40)
 data.frames.f_building2x2a.component_boost = 0
 data.frames.f_building2x2c.construction_recipe = CreateConstructionRecipe({ concreteslab = 30, reinforced_plate = 12, ic_time_crystal = 2 }, 40)
@@ -311,7 +311,6 @@ data.frames.f_dropped_item.on_destroy = function(self, entity, damager_entity)
 				end)
 			end
 			if faction and not faction:IsUnlocked("ic_cube_ghost") then 
-				print(faction)
 				faction:Unlock("ic_cube_ghost")
 				faction:Unlock("xc_cube_hidden")
 				faction:Unlock("xc_pop_hidden_2")
