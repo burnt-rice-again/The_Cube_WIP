@@ -129,7 +129,7 @@ function ec_wire_weed:GetRelevancy(x, y, info)
 	if info.elevation_delta > -0.02 then return 0.0 end
 	if info.blightness_delta > 0 then return 0.0 end
 
-	return 0.4
+	return 0.3
 end
 
 function ec_wire_weed:SpawnExplorable(x, y)

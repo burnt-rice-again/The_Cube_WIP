@@ -30,7 +30,7 @@ create_alt_recipe("crystal_powder",
 	CreateProductionRecipeWithWaste(
 	{ crystal = 80, ic_soul_angry = 1, phase_leaf = 20, blight_crystal = 10, ic_cube_blue = 1}, 
 	{cc_manifest = 25, cc_red_furnace = 5},
-	50, {ic_cube_empty = 1}),
+	60, {ic_cube_empty = 1}),
 	{desc = "Bulk Crystal Refraction"}
 )
 data.items.datakey_robot = {
@@ -60,9 +60,9 @@ data.items.reinforced_plate.production_recipe = CreateProductionRecipeWithWaste(
 {cc_manifest = 200, cc_red_furnace = 75}, 20, {ic_cube_empty = 1})
 create_alt_recipe("reinforced_plate",
 	CreateProductionRecipeWithWaste(
-	{ic_cube_red = 1, steelblock = 80, ic_soul_plasma = 5, wire = 40  }, 
+	{ic_cube_red = 1, steelblock = 100, ic_soul_plasma = 5, wire = 40  }, 
 	{cc_manifest = 25, cc_red_furnace = 5},
-	20, {ic_cube_empty = 1}),
+	40, {ic_cube_empty = 1}),
 	{desc = "Bulk Metal Smelting"}
 )
 --- Green cube 
@@ -294,7 +294,7 @@ data.items.bug_carapace = {
 }
 data.items.ic_soul_plasma = {
 	name = "Ectoplasma",
-	index = 1010,
+	index = 1011,
 	race = "robot",
 	desc = "Refined Soul Energy\nCan only be transferred through plasma relay towers",
 	tag = "advanced_material",
@@ -309,16 +309,16 @@ data.items.ic_soul_plasma = {
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, bug_carapace = 10, phase_leaf = 20 }, 
+	{ic_cube_blue = 1, bug_carapace = 15, phase_leaf = 20,  }, 
 	{cc_soul_refinery = 10,},
-	50,
+	100,
 	{ic_cube_empty = 1}),
 	{desc = "Alternative Soul Plasma Extraction"}
 )
 
 data.items.ic_soul_happy = {
 	name = "Enlightened Souls",
-	index = 1010,
+	index = 1012,
 	race = "robot",
 	desc = "Empowered, Fortified and Self Determined\n\nEnlightened Souls are capable of independant thought. Perfect for operations involving control and automation",
 	tag = "advanced_material",
@@ -332,7 +332,7 @@ data.items.ic_soul_happy = {
 }
 data.items.ic_soul_angry = {
 	name = "Soul Pearls",
-	index = 1011,
+	index = 1013,
 	race = "robot",
 	desc = "Residual emotinal baggage found at the bottom of the soul forge\n\nSoul pearls provide a strong focus for energy, allowing for destructive lasers and incredible power systems",
 	tag = "advanced_material",
@@ -403,7 +403,7 @@ data.items.blight_crystal.desc = "Unstable Chrono Crystal formed from the <rl>an
 ---- Final ITems 
 data.items.ic_broken_reality = {
 	name = 'Unstable Understanding',
-	index = 11,
+	index = 9501,
 	tag = 'hitech_material',
 	race = "blight",
 	desc = 'How to cook a Universe\nIngriedent 2 - Forget the laws of reality to surpass them',
@@ -415,7 +415,7 @@ data.items.ic_broken_reality = {
 }
 data.items.ic_proto_sent = {
 	name = 'Proto-Sentinece',
-	index = 11,
+	index = 9500,
 	tag = 'hitech_material',
 	race = "blight",
 	desc = 'How to cook a Universe\nIngriedent 1 - If a Universe is created and no one can witness it, does it exist?',
@@ -423,11 +423,11 @@ data.items.ic_proto_sent = {
 	slot_type = 'storage',
 	visual = data.items.anomaly_heart.visual,
 	texture = data.items.anomaly_heart.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 50 }, 4, {ic_cube_blue = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_soul_angry = 5, ic_soul_happy = 5, cc_green_brain = 1,  ic_soul_plasma = 10, ic_cube_blue = 1 },{ cc_green_brain = 50, cc_manifest = 120 }, 4, {ic_cube_blue = 1}),
 }
 data.items.ic_matter = {
 	name = 'Primordial Matter',
-	index = 11,
+	index = 9502,
 	tag = 'hitech_material',
 	race = "blight",
 	desc = 'How to cook a Universe\nIngriedent 3 - A Generous portion of matter',
@@ -435,7 +435,7 @@ data.items.ic_matter = {
 	slot_type = 'storage',
 	visual = data.items.obsidian.visual,
 	texture = data.items.obsidian.texture,
-	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 2, ldframe = 1,  reinforced_plate = 20, fused_electrodes = 10, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 4, {ic_cube_empty = 1}),
+	production_recipe = CreateProductionRecipeWithWaste({ ic_time_crystal = 4, ldframe = 2,  reinforced_plate = 40, fused_electrodes = 20, ic_cube_red = 1 }, { cc_red_furnace = 50, cc_manifest = 100 }, 8, {ic_cube_empty = 1}),
 }
 local item_num = 64 
 data.items.ic_micro_universe = {
