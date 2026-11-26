@@ -139,6 +139,10 @@ data.visuals.vc_chrono_tower = {
 	scale = {0.08,0.08,0.08},
 	mesh_sockets = { ["fx"] = {0,0,5470}, ["fx_2"] = {-100,-100,4050}},
 	--cull_ratio = CONTAINER_CULL_DIST
+	sockets = {
+		{ "", "Internal" },
+		{ "", "Internal" },
+	},
 }
 
 -- change other cubes cull distance 

@@ -103,6 +103,7 @@ data.frames.f_human_foundation7.construction_recipe = CreateConstructionRecipe({
 data.frames.f_flyer_bot.components = {{ "c_higrade_capacitor", "hidden" }}
 data.frames.f_flyer_m.components = {{ "c_higrade_capacitor", "hidden" }}
 
+data.frames.f_phase_plant.construction_recipe = CreateConstructionRecipe({ phase_leaf = 20, wire = 10, datakey_robot = 2},25)
 
 local function on_destroy_drop(self, entity, damager)
 	-- don't do anything unless killed or if this entity belongs to a player controlled faction

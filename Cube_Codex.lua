@@ -21,6 +21,8 @@ data.codex.x_freeplay_blight = {category = "Mission",}
 data.codex.x_goal_researchblight = {category = "Mission",}
 data.codex.x_freeplay_start = nil
 data.codex.x_freeplay_start = nil
+data.codex.x_goal_launch_satellite = nil
+
 
 
 data.codex.x_behaviors.category = "How to Play"

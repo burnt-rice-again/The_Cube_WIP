@@ -190,7 +190,7 @@ fc_crop:RegisterFrame('fc_crop_phase_plant',{
     name = 'Phase Flower',
     desc = 'Blooming phase flower. Its fractal nature makes it unstable on a subatomic level',
     visual = 'vc_crop_phase',
-    texture = "The_Cube_WIP/textures/phase_seed.png",
+    texture = "The_Cube_WIP/textures/plant_phase.png",
     is_flower = true,
     on_remove = wake_up_planter,
     drop = 'phase_leaf',
