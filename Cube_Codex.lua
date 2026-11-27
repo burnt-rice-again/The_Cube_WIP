@@ -558,53 +558,64 @@ data.codex.xc_cube_time_travel = {
             title = "Starting A Raid",
             text = [[
                 
-        Using a <rl>time machine</> we can raid our <rl>future _self</> to obtain superconductors. 
-        Each <bl>expedition</> will require <bl>items, components, cubes and frames</> to proceed further. 
-        Provide these materials before the <bl>portal collapses</> to reset the timer and obtain a superconductor. 
+    Using a <rl>time machine</> we can raid our <rl>future _self</> to obtain superconductors. 
+    Each <bl>expedition</> will require <bl>items, components, cubes and frames</> to proceed further. 
+    Provide these materials before the <bl>portal collapses</> to reset the timer and obtain a superconductor. 
 
-        The expedition <bl>time delta</> will increase with each successful item supplied. 
-        As the the time delta increases our <rl>future _self's</> technology will become more dangerous but superconductors will be easier to obtain. 
-            ]]
-        },{
-            title = "Portal Collapse",
-            text = [[
-
-        <hl>When the portal closes it will give an opportunity for our </><rl>future _self</><hl> to attack us in retaliation. </>
-        <rl>These attacks can be deadly.</>
-        Collapse the portal when the number of known defenders is managable. 
-        This will change each time a material is supplied
-        Check the time machines second register for the number of defenders. 
-
-        Higher threat levels will recieve <hl>effciency and health boosts</> due to their research advantage.
-    
-        Defenders will drop <img width="50" height="50" id="bug_carapace" style="bl"/> ready for extraction.  
-            ]]
+    The expedition <bl>time delta</> will increase with each successful item supplied. 
+    As the the time delta increases our <rl>future _self's</> technology will become more dangerous but superconductors will be easier to obtain. ]]
         },{
             title = "Time Delta",
             text = [[
-
-        <bl>Time Machine Registers</>
-        <bl>Register 1:</> Material for next step 
-        <bl>Register 2:</> Number of defenders spawned on portal collapse
-        
-        As your raid gets closer to a time delta of <bl>1024 years</> our <rl>future _self</> become far more advanced
-        The <hl>threat level</> shows the relative technology gap between us.
-        The <bl>yield</> of superconductors increases every <bl>100 years</>.
-        After a <bl>time delta of 1024 years</> the superconductor yield increases significantly 
     
+    <bl>Time Machine Registers</>
+    <bl>Register 1:</> Material for next step 
+    <bl>Register 2:</> Number of defenders spawned on portal collapse
+    
+    As your raid gets closer to a time delta of <bl>1024 years</> our <rl>future _self</> become far more advanced
+    The <hl>threat level</> shows the relative technology gap between us.
+    The <bl>yield</> of superconductors increases every <bl>100 years</>.
+    After a <bl>time delta of 1024 years</> the superconductor yield increases significantly ]]
+    },{
+    title = "Portal Collapse",
+    text = [[
+        
+    <hl>When the portal closes it will give an opportunity for our </><rl>future _self</><hl> to attack us in retaliation. </>
+    <rl>These attacks can be deadly.</>
+    Collapse the portal when the number of known defenders is managable. 
+    This will change each time a material is supplied
+    Check the time machines second register for the number of defenders. 
+    
+    Defenders will drop <img width="50" height="50" id="bug_carapace" style="bl"/> ready for extraction.  
+    
+    <hl>Tip:</> Unequip the machine to cause a portal collapse early for soul harvesting.
+    
+    <hl>Tip 2:</>Requip the Time Travel Machine to randomise the input requirement. 
+    At the cost of a portal collapse if the portal is open.]]
+},{
+    title = "Threat Level",
+    text = [[
+        
+    Higher threat levels will recieve <hl>effciency and health boosts</> due to their research advantage.
+
+    Per threat level attackers will receive 
+        <bl>+20%</> Effciency
+        <bl>+200</> Health 
+        <bl>+1</> Max unit in each spawn group (attackers will clump together instead of spreading out)
+
+    Attackers will also unlock new shields at a delta of 200, 400 and 600.]]
+    },{
+        title = "Cube Form Change",
+        text = [[
+            
+        When using the Cube in the time travel machine its form will be changed.
+        
+        <img width="50" height="50" id="ic_cube_blue"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
+        <img width="50" height="50" id="ic_cube_green"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/>
+        <img width="50" height="50" id="ic_cube_empty"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+        <img width="50" height="50" id="ic_cube_red"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_blue"/>
+        
         <img image="The_Cube_WIP/textures/Codex_Images/Time_Travel_def.png"/>
-            ]]
-        },
-        {
-            title = "Cube Form Change",
-            text = [[
-            
-    When using the Cube in the time travel machine its form will be changed.
-            
-    <img width="50" height="50" id="ic_cube_blue"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
-    <img width="50" height="50" id="ic_cube_green"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/>
-    <img width="50" height="50" id="ic_cube_empty"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
-    <img width="50" height="50" id="ic_cube_red"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
 ]]
         }
     }
@@ -1129,7 +1140,7 @@ data.codex.xc_pop_tt_conversation = {
 
             Intiating program to close paradox
 
-            No hard <rl>feelings</> past me. 
+            No hard <rl>feelings</> past <rl>_SELF</>. 
             ]],
         },
         {-- 10 Time Travvel Attack

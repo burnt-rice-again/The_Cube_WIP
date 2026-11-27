@@ -178,6 +178,10 @@ function cc_cube_fabrication:get_reg_error(comp)
 	elseif missing_id and (comp.owner:HaveFreeSpace(reg1_id) or product_def.data_name == "frames") then
 		if missing_id and missing_id:find("ic_soul_plasma") and comp.owner:CountComponents("cc_pipe_output") <= 0 then 
 			return L("Requires Ectoplasma Reciever")
+		elseif missing_id and missing_id:find("ic_cube") then
+			if comp.owner:CountComponents("cc_cube_storage") <= 0 then 
+				return L("Requires Cube Pedestal", missing_id);
+			end
 		end
 		return L("Missing production ingredient %s", (data.all[missing_id] and data.all[missing_id].name or missing_id))
 	elseif reg1_num and reg1_num == 0 then

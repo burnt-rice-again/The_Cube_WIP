@@ -229,7 +229,7 @@ end
 
 local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
 	name = "Time Travel Machine",
-	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to return items\n\nEnd the Expedition when the component finishes without the provided item\n\nPrepare for a defence response from currently visited timeline",
+	desc = "Steal Resources no longer obtanable in our time\n\nProvide resources and bots to an ongoing expedition to return superconductors\n\nPortal will collapse when the component finishes without the provided item\n\nPrepare for a defence response from currently visited timeline",
 	race = "robot",
 	attachment_size = "Large",
 	texture = "Main/textures/icons/components/Component_UnitTeleporter_01_L.png", -- "Main/textures/icons/components/component_ScienceAnalyzer_01_l.png",
@@ -251,8 +251,10 @@ local cc_time_travel_machine = Comp:RegisterComponent("cc_time_travel_machine",{
     wait_ticks = 60*5*2,--3min
     range = 10,
 })
-local function delta_to_output(delta)
-    return math.ceil(10 * delta/1024)
+local function delta_to_output(delta, skip_1024)
+    local density = math.ceil(10 * delta/1024)
+    if delta >= 1024 and skip_1024 ~= true then density = density * 2 end 
+    return density
 end
 
 function  cc_time_travel_machine:on_add(comp, cause)
@@ -275,10 +277,20 @@ local function spawn_robot_attack(comp, cost, options)
     local range = options.range or 20
     local cord = owner.location
     local i = 5
+    local group_size = 0
+    local max_group_size = delta_to_output(comp.extra_data.delta, true)
+    local delay = 5
     while cost > 0 do 
-        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot", bonus = delta_to_output(comp.extra_data.delta)-1})
+        Map.Delay("Place_random_bot", i, {faction = "time_bots", cord = cord, range = range, frame_filter = "f_bot", bonus = delta_to_output(comp.extra_data.delta, true)-1})
         cost = cost - 1
-        i = i + 5
+
+        delay = delay + 5
+        group_size = group_size + 1
+        if group_size >= max_group_size then 
+            group_size = 0
+            -- add an extra 20 ticks between each group
+            i = delay + 20
+        end
     end
 end
 function  cc_time_travel_machine:on_remove(comp, cause)
@@ -298,7 +310,7 @@ local replace_cube_with <const> = {
 }
 
 local function delta_to_warning_text(delta)
-    local delta_lvl = delta_to_output(delta)
+    local delta_lvl = delta_to_output(delta, true)
     if delta_lvl <= 1 then 
         return "Equivalent"
     elseif delta_lvl <= 2 then 
@@ -315,12 +327,12 @@ local function delta_to_warning_text(delta)
         return "Mythical"
     elseif delta_lvl <= 16 then  
         return "Impossible"
-    elseif delta_lvl <= 20 then  
+    else  
         return "Unfathomable"
     end
 end
 local function delta_to_warning_text_colour(delta)
-    local delta_lvl = delta_to_output(delta)
+    local delta_lvl = delta_to_output(delta, true)
 
     if delta_lvl <= 4 then  
         return "bl"
@@ -482,7 +494,7 @@ function cc_time_travel_machine:get_ui(comp)
             <Reg def_id="fused_electrodes" num={reward_num}/><Text text="   Superconductor Density" style = "hl"/>
         </HorizontalList>
         <HorizontalList> 
-            <Reg def_id="v_alert" num={reward_num}/><Text text="   Threat Level:" style = "hl"/><Text text={alert_text} style = {alert_style}/>
+            <Reg def_id="v_alert" num={threat_num}/><Text text="   Threat Level:" style = "hl"/><Text text={alert_text} style = {alert_style}/>
         </HorizontalList>
         <Text text = "Per alert level attackers get:"/>
         <Text text = "20% efficiency and 200 health"/>
@@ -508,11 +520,13 @@ function cc_time_travel_machine:get_ui(comp)
 		end,
         years = tostring(comp.extra_data.delta),
         reward_num =  delta_to_output(comp.extra_data.delta),
+        threat_num =  delta_to_output(comp.extra_data.delta, true),
         alert_text = delta_to_warning_text(comp.extra_data.delta),
         alert_style = delta_to_warning_text_colour(comp.extra_data.delta),
         update = function(w)
             w.years = tostring(comp.extra_data.delta)
             w.reward_num =  delta_to_output(comp.extra_data.delta)
+            w.threat_num =  delta_to_output(comp.extra_data.delta, true)
             w.alert_text = delta_to_warning_text(comp.extra_data.delta)
             w.alert_style = delta_to_warning_text_colour(comp.extra_data.delta)
             w.powerprogress.progress =  comp.extra_data.delta/1024

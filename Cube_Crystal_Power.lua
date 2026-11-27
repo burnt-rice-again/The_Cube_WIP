@@ -164,11 +164,11 @@ Power output is affected by component effciency boosts.]],
 	visual = 'v_human_powerplant',
 	production_recipe = CreateProductionRecipe({reinforced_plate = 20, concreteslab = 20, fused_electrodes = 6, ic_soul_angry = 4 },{c_assembler = 60}),
 	rgb = {1, 0.3, 0},
-	consume_list = {fused_electrodes = 1,ic_time_crystal = 1, ic_cube_red = 1},
+	consume_list = {fused_electrodes = 5,ic_time_crystal = 1, ic_cube_red = 1},
 	--output_list = {ic_soul_angry = 1},
 	cube_out = "ic_cube_empty",
 	consume_item = "fused_electrodes",
-	drain_rate = 25000,
+	drain_rate = 25000/2,
 	attachment_size = "Large",
 })
 

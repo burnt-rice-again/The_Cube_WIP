@@ -309,11 +309,11 @@ data.items.ic_soul_plasma = {
 }
 create_alt_recipe("ic_soul_plasma", 
 	CreateProductionRecipeWithWaste(
-	{ic_cube_blue = 1, bug_carapace = 15, phase_leaf = 20,  }, 
+	{ic_cube_blue = 1, bug_carapace = 25, phase_leaf = 20,  }, 
 	{cc_soul_refinery = 10,},
 	100,
 	{ic_cube_empty = 1}),
-	{desc = "Alternative Soul Plasma Extraction"}
+	{desc = "Bulk Soul Plasma Extraction\n\n"}
 )
 
 data.items.ic_soul_happy = {
@@ -351,7 +351,7 @@ create_alt_recipe("ic_soul_angry",
 	{cc_manifest = 50, cc_green_brain = 15, cc_red_furnace = 15},
 	10,
 	{ic_cube_red = 1}),
-	{desc = "Alternative Soul Plasma Extraction"}
+	{desc = "Bulk degeneration of enlightened souls\n\nEnlightenment requires struggle"}
 )
 -- data.items.ic_living_metal = {
 -- 	name = "Living Metal",

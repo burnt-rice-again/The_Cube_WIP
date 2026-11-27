@@ -292,3 +292,4 @@ function CreateFoundationsForEntity(entity, x, y, rotation)
 		end
 	end
 end
+

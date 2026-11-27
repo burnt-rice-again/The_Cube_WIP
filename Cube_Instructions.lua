@@ -329,3 +329,65 @@ data.instructions.lock_slots.func = function(comp, state, cause, c, item_in, num
         end
     end
 end
+
+-- attempt to make a wrapper function 
+
+-- local original_request_item_function = data.instructions.request_item.func
+
+-- data.instructions.request_item.func = function(comp, state, cause, c, item, channel)
+
+--     local id = GetId(comp, state, item)
+--     if id ~= nil then 
+--         local id_def = data.items[id]
+--         if id_def ~= nil and 
+--     end
+
+--     return original_request_item_function(comp, state, cause, c, item, channel)
+-- end
+
+data.instructions.request_item.func = function(comp, state, cause, c, item, channel)
+    local r = Get(comp, state, item)
+    local r_item_id, r_num = r.item_id, r.num
+    if not r_item_id then return end
+    if r_num == REG_INFINITE then r_num = 9999999 end
+    if c == 2 then
+        r_num = r_num - comp.owner:CountItem(r_item_id)
+    end
+    if r_num <= 0 then return end
+    channel = GetNum(comp, state, channel)
+    -- check for alt recipe
+    if r.def.alt_item ~= nil then r_item_id = r.def.alt_item end
+
+    comp:OrderItem(r_item_id, r_num, channel >= 1 and channel <= 4 and (1 << (channel-1)) or nil)
+end
+
+data.instructions.request_wait.func = function(comp, state, cause, c, item, channel)
+    local r = Get(comp, state, item)
+    local r_item_id, r_num = r.item_id, r.num
+    if not r_item_id then return end
+    -- check for alt recipe
+    if r.def.alt_item ~= nil then r_item_id = r.def.alt_item end
+
+    local have_amount = comp.owner:CountItem(r_item_id)
+    if c == 1 then -- wait for specified amount
+        local blocks = state.blocks
+        local block = blocks and blocks[#blocks]
+        local start_have_amount = block and block[2] == state.lastcounter and block[3]
+        r_num = r_num + (start_have_amount or have_amount) - have_amount
+        if not start_have_amount then -- first time, no block yet
+            if r_num <= 0 then return end -- can't wait for 0, negative or infinite
+            BeginBlock(comp, state, have_amount) -- remember have_amount at start of wait
+        elseif r_num <= 0 then -- continuing wait
+            blocks[#blocks] = nil -- end loop
+            return -- have the requested amount
+        end
+    else -- wait up to amount
+        r_num = r_num - have_amount
+        if r_num <= 0 then return end -- have the requested amount
+    end
+    channel = GetNum(comp, state, channel)
+    comp:OrderItem(r_item_id, r_num, channel >= 1 and channel <= 4 and (1 << (channel-1)) or nil)
+    state.counter = state.lastcounter
+    comp:SetStateSleep(1)
+    return true
+end
