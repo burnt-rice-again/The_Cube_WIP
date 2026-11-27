@@ -182,17 +182,7 @@ function SwitchAltIdForBase(id)
 	return id
 end
 
--- Rebinds SetLockSlot so it doesnt lock to alt recipes
-EntityAction:Unbind("SetSlotLock")
-EntityAction:Bind("SetSlotLock" ,function(entity, arg)
-	local slot = arg.slot
-	if not slot or not slot.exists or slot.owner ~= entity then return end
-	if type(arg.lock) == "boolean" then
-		slot.locked = arg.lock
-	else
-		slot:SetLockedItem(SwitchAltIdForBase(arg.item_id))
-	end
-end)
+
 
 --@ entity object Return its cube id if it has one. does not check for sphere
 function EntityHasCube(ent)
@@ -293,3 +283,73 @@ function CreateFoundationsForEntity(entity, x, y, rotation)
 	end
 end
 
+-- Rebinds SetLockSlot so it doesnt lock to alt recipes
+EntityAction:Unbind("SetSlotLock")
+EntityAction.SetSlotLock = function(entity, arg)
+	local slot = arg.slot
+	if not slot or not slot.exists or slot.owner ~= entity then return end
+	if type(arg.lock) == "boolean" then
+		slot.locked = arg.lock
+	else
+		slot:SetLockedItem(SwitchAltIdForBase(arg.item_id))
+	end
+end
+-- Rebinds Request Item so it doesnt lock to alt recipes
+EntityAction:Unbind("RequestItem")
+EntityAction.RequestItem = function(entity, arg)
+	local slot, id, num, channel = arg.slot, arg.id, arg.num, arg.channel
+	local def = data.items[id]
+	if def.alt_item ~= nil then id = def.alt_item end
+
+	if slot then
+		if slot.owner ~= entity then error("Invalid item slot") end
+		slot:OrderItem(id, num, 'AutoEquipComponent', channel and (1 << (channel-1)) or nil)
+	else
+		entity:OrderItem(id, num, (arg.recurring and "Recurring" or 'AutoEquipComponent'), channel and (1 << (channel-1)) or nil)
+	end
+end
+
+local function alt_string_to_true(alt_id)
+	local def = data.items[alt_id]
+	if def and def.alt_item ~= nil then return def.alt_item end
+	return alt_id
+end
+
+local function remove_alt_items_from_bp(bp)
+	if not bp then return end 
+	if bp.locks then 
+		for key, val in ipairs(bp.locks) do 
+			bp.locks[key] = alt_string_to_true(val)
+		end
+	end
+	if bp.recurring_orders then 
+		for key, val in ipairs(bp.recurring_orders) do 
+			bp.recurring_orders[key][1] = alt_string_to_true(val[1])
+		end
+	end
+	return bp
+end
+
+-- -- prevents a construction site from having alt recipes locked or as recieved items 
+-- data.frames.f_construction.on_placed = function(self, entity)
+-- 	Map.Defer(function() 
+-- 		if entity.has_extra_data then 
+-- 			local bp = entity.extra_data.custom_blueprint
+-- 			--print(bp) 
+-- 			bp = remove_alt_items_from_bp(bp)
+-- 			--print("Fixed Bp", bp)
+-- 			entity.extra_data.custom_blueprint = bp
+-- 		end 
+-- 	end)
+-- end
+
+local original_create_frame_or_blueprint =  CreateFrameOrBlueprint
+
+-- Stop any new entity from having 
+	-- locked slots to an alt item 
+	-- recurring orders to an alt item
+
+function CreateFrameOrBlueprint(faction, def, ...)
+	if def then def = remove_alt_items_from_bp(def) end
+	return original_create_frame_or_blueprint(faction, def, ...)
+end
