@@ -285,6 +285,7 @@ Alternative Input <img width="32" height="32" image="Main/skin/Icons/Common/32x3
 
 -- Faction get item amount doesnt work for alt items 
 -- need to alter this instruction to not lock with alt recipe 
+local switchAltIdForBase = SwitchAltIdForBase
 data.instructions.lock_slots.func = function(comp, state, cause, c, item_in, num)
     local slot_length = comp.owner.slot_count
     -- Beacon?
@@ -294,7 +295,7 @@ data.instructions.lock_slots.func = function(comp, state, cause, c, item_in, num
     local slots = comp.owner.slots
 
     local item_reg, owner = Get(comp, state, item_in), comp.owner
-    local item_id = SwitchAltIdForBase(item_reg.id)
+    local item_id = switchAltIdForBase(item_reg.id)
 
     if slots then
         local index = GetNum(comp, state, num)

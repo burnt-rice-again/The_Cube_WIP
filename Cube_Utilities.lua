@@ -283,6 +283,12 @@ function CreateFoundationsForEntity(entity, x, y, rotation)
 	end
 end
 
+local function alt_string_to_true(alt_id)
+	local def = data.items[alt_id]
+	if def and def.alt_item ~= nil then return def.alt_item end
+	return alt_id
+end
+
 -- Rebinds SetLockSlot so it doesnt lock to alt recipes
 EntityAction:Unbind("SetSlotLock")
 EntityAction.SetSlotLock = function(entity, arg)
@@ -291,16 +297,14 @@ EntityAction.SetSlotLock = function(entity, arg)
 	if type(arg.lock) == "boolean" then
 		slot.locked = arg.lock
 	else
-		slot:SetLockedItem(SwitchAltIdForBase(arg.item_id))
+		slot:SetLockedItem(alt_string_to_true(arg.item_id))
 	end
 end
 -- Rebinds Request Item so it doesnt lock to alt recipes
 EntityAction:Unbind("RequestItem")
 EntityAction.RequestItem = function(entity, arg)
 	local slot, id, num, channel = arg.slot, arg.id, arg.num, arg.channel
-	local def = data.items[id]
-	if def.alt_item ~= nil then id = def.alt_item end
-
+	id = alt_string_to_true(id)
 	if slot then
 		if slot.owner ~= entity then error("Invalid item slot") end
 		slot:OrderItem(id, num, 'AutoEquipComponent', channel and (1 << (channel-1)) or nil)
@@ -309,11 +313,7 @@ EntityAction.RequestItem = function(entity, arg)
 	end
 end
 
-local function alt_string_to_true(alt_id)
-	local def = data.items[alt_id]
-	if def and def.alt_item ~= nil then return def.alt_item end
-	return alt_id
-end
+
 
 local function remove_alt_items_from_bp(bp)
 	if not bp then return end 
