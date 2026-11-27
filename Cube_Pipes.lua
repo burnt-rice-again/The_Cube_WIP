@@ -131,8 +131,8 @@ local function recieve_only_plasma(self, comp, cause)
     local slot = comp:GetSlot(1)
     if slot.reserved_space <= 0 then 
         --no need to continue as it already has required items 
-        --only need to wake up if less then 100 otherwise activation trigger can handle it
-        if slot.stack < 100 then comp:SetStateSleep(25) end
+        --only need to wake up if less then 200 otherwise activation trigger can handle it
+        if slot.stack < slot.max_stack then comp:SetStateSleep(25) end
         return  
     end
     -- look for relay to take plasma from 

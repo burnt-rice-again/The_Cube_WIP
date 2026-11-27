@@ -487,7 +487,7 @@ data.codex.xc_cube_time_crystal = {
     Chrono Crystal Deposits will form nearby. 
 
     Units Killed by the explosion will cause additonal blight crystals to appear. 
-    The average yield per anhillated <bl>Anti-Cube</> is 72 <img width="50" height="50" id="blight_crystal" style="hl"/>
+    The average yield per anhillated <bl>Anti-Cube</> is 768 <img width="50" height="50" id="blight_crystal" style="hl"/>
             ]]
         },
         {
@@ -539,7 +539,7 @@ data.codex.xc_cube_boost = {
 
         Chrono towers will require <img id="ic_soul_plasma" width="50" height="50" style="bl"/> in additon to <img id="ic_time_crystal" width="50" height="50" style="bl"/>
         
-        Multiple chrono towers boosting the same unit will have diminshing returns.
+        Multiple chrono towers boosting the same unit will have diminshing returns. Each added boost causes the others to dissapear slightly faster
         ]],
         }
     }
@@ -595,6 +595,18 @@ data.codex.xc_cube_time_travel = {
         <img image="The_Cube_WIP/textures/Codex_Images/Time_Travel_def.png"/>
             ]]
         },
+        {
+            title = "Cube Form Change",
+            text = [[
+            
+    When using the Cube in the time travel machine its form will be changed.
+            
+    <img width="50" height="50" id="ic_cube_blue"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
+    <img width="50" height="50" id="ic_cube_green"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_empty"/>
+    <img width="50" height="50" id="ic_cube_empty"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_red"/>
+    <img width="50" height="50" id="ic_cube_red"/><img width="32" height="32" image="Main/skin/Icons/Common/32x32/Arrow.png"/><img width="50" height="50" id="ic_cube_green"/>
+]]
+        }
     }
         
 }

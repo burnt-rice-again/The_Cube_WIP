@@ -259,3 +259,4 @@ data.visuals.v_human_powerplant.scale = {0.5,0.5,0.5}
 
 
 data.visuals.v_explorable_blightanomaly_01.sockets = nil
+data.visuals.v_explorable_blightanomaly_01.scale = {0.7,0.7,0.7}

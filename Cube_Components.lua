@@ -607,7 +607,7 @@ local function Update_Cube_Effects(self, comp, cause)
 end
 -- Storage Comp for Cube 
 local cc_cube_storage = Comp:RegisterComponent("cc_cube_storage", {
-	name = "Cube Pedastal",
+	name = "Cube Pedestal",
 	attachment_size = "Medium",
 	texture = "The_Cube_WIP/textures/Cube_Storage.png",
 	desc = "Holds the <hl>CUBE</>but slows bots significantly <hl>-80%</>\n\nWill extract <hl>1000</> power while holding a CUBE",
